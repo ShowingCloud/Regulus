@@ -9,18 +9,28 @@
         <translation>RDSS 项目</translation>
     </message>
     <message>
-        <location filename="main.qml" line="46"/>
-        <location filename="main.qml" line="105"/>
+        <location filename="main.qml" line="32"/>
+        <source>Frequency Conversion Rack</source>
+        <translation>变频机柜</translation>
+    </message>
+    <message>
+        <location filename="main.qml" line="55"/>
+        <location filename="main.qml" line="262"/>
         <source>Switch</source>
         <oldsource>Switch2</oldsource>
         <translation>交换机</translation>
     </message>
     <message>
-        <location filename="main.qml" line="70"/>
-        <location filename="main.qml" line="129"/>
+        <location filename="main.qml" line="78"/>
+        <location filename="main.qml" line="285"/>
         <source>Serial</source>
         <oldsource>Serial2</oldsource>
         <translation>串转网</translation>
+    </message>
+    <message>
+        <location filename="main.qml" line="239"/>
+        <source>Amplification Rack</source>
+        <translation>功放机柜</translation>
     </message>
 </context>
 </TS>
