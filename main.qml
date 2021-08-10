@@ -291,38 +291,6 @@ Window {
                     width: 352
                     height: 79
                     border.width: 2
-            }
-
-            Rectangle {
-                    id: devSW1
-                    x: 409
-                    y: 727
-                    width: 352
-                    height: 79
-                    border.width: 2
-
-                    StatusIndicator {
-                            id: indSW1
-                            x: 10
-                            y: 10
-                    }
-
-                    Text {
-                            id: txtSW1Id
-                            x: 50
-                            y: 15
-                            text: qsTr("Switch") + " 1"
-                            font.pixelSize: 20
-                    }
-            }
-
-            Rectangle {
-                    id: devSerial1
-                    x: 409
-                    y: 588
-                    width: 352
-                    height: 79
-                    border.width: 2
 
                     StatusIndicator {
                             id: indSerial1
