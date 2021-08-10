@@ -30,6 +30,21 @@ Window {
                     width: 791
                     height: 30
                     text: qsTr("Frequency Conversion Rack")
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 20
+            }
+
+            Text {
+                    id: txtDownFreq1Id
+                    x: 30
+                    y: 60
+                    width: 30
+                    height: 146
+                    text: "C1" + qsTr("Down Frequency Conversion")
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                    wrapMode: Text.WrapAnywhere
                     horizontalAlignment: Text.AlignHCenter
                     font.pixelSize: 20
             }
@@ -62,6 +77,20 @@ Window {
                     border.width: 2
             }
 
+            Text {
+                    id: txtDownFreq2Id
+                    x: 410
+                    y: 60
+                    width: 30
+                    height: 146
+                    text: "C2" + qsTr("Down Frequency Conversion")
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                    wrapMode: Text.WrapAnywhere
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 20
+            }
+
             Rectangle {
                     id: devDownFreq2Master
                     x: 440
@@ -88,6 +117,20 @@ Window {
                             y: 10
                     }
                     border.width: 2
+            }
+
+            Text {
+                    id: txtUpFreq1Id
+                    x: 30
+                    y: 234
+                    width: 30
+                    height: 146
+                    text: "C1" + qsTr("Up Frequency Conversion")
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                    wrapMode: Text.WrapAnywhere
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 20
             }
 
             Rectangle {
@@ -118,6 +161,20 @@ Window {
                     border.width: 2
             }
 
+            Text {
+                    id: txtUpFreq2Id
+                    x: 410
+                    y: 234
+                    width: 30
+                    height: 146
+                    text: "C2" + qsTr("Up Frequency Conversion")
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                    wrapMode: Text.WrapAnywhere
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 20
+            }
+
             Rectangle {
                     id: devUpFreq2Master
                     x: 440
@@ -146,6 +203,20 @@ Window {
                     border.width: 2
             }
 
+            Text {
+                    id: txtMidFreq1Id
+                    x: 30
+                    y: 398
+                    width: 30
+                    height: 166
+                    text: qsTr("Middle Frequency Distribution") + "A"
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                    wrapMode: Text.WrapAnywhere
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 20
+            }
+
             Rectangle {
                     id: devMidFreq1
                     x: 60
@@ -160,6 +231,20 @@ Window {
                     border.width: 2
             }
 
+            Text {
+                    id: txtMidFreq2Id
+                    x: 410
+                    y: 398
+                    width: 30
+                    height: 166
+                    text: qsTr("Middle Frequency Distribution") + "B"
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                    wrapMode: Text.WrapAnywhere
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 20
+            }
+
             Rectangle {
                     id: devMidFreq2
                     x: 440
@@ -171,6 +256,40 @@ Window {
                             x: 10
                             y: 10
                     }
+                    border.width: 2
+            }
+
+            Rectangle {
+                    id: devSW1
+                    x: 409
+                    y: 727
+                    width: 352
+                    height: 79
+                    border.width: 2
+
+                    StatusIndicator {
+                            id: indSW1
+                            x: 10
+                            y: 10
+                    }
+
+                    Text {
+                            id: txtSW1Id
+                            x: 50
+                            y: 10
+                            height: 34
+                            text: qsTr("Switch") + " 1"
+                            verticalAlignment: Text.AlignVCenter
+                            font.pixelSize: 20
+                    }
+            }
+
+            Rectangle {
+                    id: devSerial1
+                    x: 409
+                    y: 588
+                    width: 352
+                    height: 79
                     border.width: 2
             }
 
@@ -214,8 +333,10 @@ Window {
                     Text {
                             id: txtSerial1Id
                             x: 50
-                            y: 15
+                            y: 10
+                            height: 34
                             text: qsTr("Serial") + " 1"
+                            verticalAlignment: Text.AlignVCenter
                             font.pixelSize: 20
                     }
             }
@@ -236,6 +357,21 @@ Window {
                     width: 791
                     height: 30
                     text: qsTr("Amplification Rack")
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 20
+            }
+
+            Text {
+                    id: txtAmpA1Id
+                    x: 30
+                    y: 60
+                    width: 30
+                    height: 234
+                    text: "C1" + qsTr("High Amplification") + "A"
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                    wrapMode: Text.WrapAnywhere
                     horizontalAlignment: Text.AlignHCenter
                     font.pixelSize: 20
             }
@@ -268,6 +404,20 @@ Window {
                     border.width: 2
             }
 
+            Text {
+                    id: txtAmpB1Id
+                    x: 410
+                    y: 60
+                    width: 30
+                    height: 234
+                    text: "C1" + qsTr("High Amplification") + "B"
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                    wrapMode: Text.WrapAnywhere
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 20
+            }
+
             Rectangle {
                     id: devAmpB1Master
                     x: 440
@@ -296,6 +446,20 @@ Window {
                     border.width: 2
             }
 
+            Text {
+                    id: txtAmpA2Id
+                    x: 30
+                    y: 322
+                    width: 30
+                    height: 234
+                    text: "C2" + qsTr("High Amplification") + "A"
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                    wrapMode: Text.WrapAnywhere
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 20
+            }
+
             Rectangle {
                     id: devAmpA2Master
                     x: 60
@@ -322,6 +486,20 @@ Window {
                             y: 10
                     }
                     border.width: 2
+            }
+
+            Text {
+                    id: txtAmpB2Id
+                    x: 410
+                    y: 322
+                    width: 30
+                    height: 234
+                    text: "C2" + qsTr("High Amplification") + "B"
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                    wrapMode: Text.WrapAnywhere
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 20
             }
 
             Rectangle {
@@ -369,8 +547,10 @@ Window {
                     Text {
                             id: txtSW2Id
                             x: 50
-                            y: 15
+                            y: 10
+                            height: 34
                             text: qsTr("Switch") + " 2"
+                            verticalAlignment: Text.AlignVCenter
                             font.pixelSize: 20
                     }
             }
@@ -392,8 +572,10 @@ Window {
                     Text {
                             id: txtSerial2Id
                             x: 50
-                            y: 15
+                            y: 10
+                            height: 34
                             text: qsTr("Serial") + " 2"
+                            verticalAlignment: Text.AlignVCenter
                             font.pixelSize: 20
                     }
             }
