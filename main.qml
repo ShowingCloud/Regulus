@@ -37,8 +37,8 @@ Window {
 
             Text {
                     id: txtDownFreq1Id
-                    x: 30
-                    y: 60
+                    anchors.top: devDownFreq1Master.top
+                    anchors.right: devDownFreq1Master.left
                     width: 30
                     height: 146
                     text: "C1" + qsTr("Down Frequency Conversion")
@@ -65,8 +65,9 @@ Window {
 
             Rectangle {
                     id: devDownFreq1Slave
-                    x: 60
-                    y: 131
+                    anchors.left: devDownFreq1Master.left
+                    anchors.top: devDownFreq1Master.bottom
+                    anchors.topMargin: -2
                     width: 320
                     height: 73
                     StatusIndicator {
@@ -79,8 +80,8 @@ Window {
 
             Text {
                     id: txtDownFreq2Id
-                    x: 410
-                    y: 60
+                    anchors.top: devDownFreq2Master.top
+                    anchors.right: devDownFreq2Master.left
                     width: 30
                     height: 146
                     text: "C2" + qsTr("Down Frequency Conversion")
@@ -93,8 +94,9 @@ Window {
 
             Rectangle {
                     id: devDownFreq2Master
-                    x: 440
-                    y: 60
+                    anchors.left: devDownFreq1Master.right
+                    anchors.leftMargin: 60
+                    anchors.top: devDownFreq1Master.top
                     width: 320
                     height: 73
                     StatusIndicator {
@@ -107,8 +109,9 @@ Window {
 
             Rectangle {
                     id: devDownFreq2Slave
-                    x: 440
-                    y: 131
+                    anchors.left: devDownFreq2Master.left
+                    anchors.top: devDownFreq2Master.bottom
+                    anchors.topMargin: -2
                     width: 320
                     height: 73
                     StatusIndicator {
@@ -121,8 +124,8 @@ Window {
 
             Text {
                     id: txtUpFreq1Id
-                    x: 30
-                    y: 234
+                    anchors.top: devUpFreq1Master.top
+                    anchors.right: devUpFreq1Master.left
                     width: 30
                     height: 146
                     text: "C1" + qsTr("Up Frequency Conversion")
@@ -135,8 +138,9 @@ Window {
 
             Rectangle {
                     id: devUpFreq1Master
-                    x: 60
-                    y: 234
+                    anchors.top: devDownFreq1Slave.bottom
+                    anchors.topMargin: 30
+                    anchors.left: devDownFreq1Slave.left
                     width: 320
                     height: 73
                     StatusIndicator {
@@ -149,8 +153,9 @@ Window {
 
             Rectangle {
                     id: devUpFreq1Slave
-                    x: 60
-                    y: 305
+                    anchors.left: devUpFreq1Master.left
+                    anchors.top: devUpFreq1Master.bottom
+                    anchors.topMargin: -2
                     width: 320
                     height: 73
                     StatusIndicator {
@@ -163,8 +168,8 @@ Window {
 
             Text {
                     id: txtUpFreq2Id
-                    x: 410
-                    y: 234
+                    anchors.top: devUpFreq2Master.top
+                    anchors.right: devUpFreq2Master.left
                     width: 30
                     height: 146
                     text: "C2" + qsTr("Up Frequency Conversion")
@@ -177,8 +182,9 @@ Window {
 
             Rectangle {
                     id: devUpFreq2Master
-                    x: 440
-                    y: 234
+                    anchors.left: devUpFreq1Master.right
+                    anchors.leftMargin: 60
+                    anchors.top: devUpFreq1Master.top
                     width: 320
                     height: 73
                     StatusIndicator {
@@ -191,8 +197,9 @@ Window {
 
             Rectangle {
                     id: devUpFreq2Slave
-                    x: 440
-                    y: 305
+                    anchors.left: devUpFreq2Master.left
+                    anchors.top: devUpFreq2Master.bottom
+                    anchors.topMargin: -2
                     width: 320
                     height: 73
                     StatusIndicator {
@@ -205,8 +212,9 @@ Window {
 
             Text {
                     id: txtMidFreq1Id
-                    x: 30
-                    y: 398
+                    anchors.top: devMidFreq1.top
+                    anchors.topMargin: -10
+                    anchors.right: devMidFreq1.left
                     width: 30
                     height: 166
                     text: qsTr("Middle Frequency Distribution") + "A"
@@ -219,8 +227,9 @@ Window {
 
             Rectangle {
                     id: devMidFreq1
-                    x: 60
-                    y: 408
+                    anchors.top: devUpFreq1Slave.bottom
+                    anchors.topMargin: 30
+                    anchors.left: devUpFreq1Slave.left
                     width: 320
                     height: 146
                     StatusIndicator {
@@ -233,8 +242,9 @@ Window {
 
             Text {
                     id: txtMidFreq2Id
-                    x: 410
-                    y: 398
+                    anchors.top: devMidFreq2.top
+                    anchors.topMargin: -10
+                    anchors.right: devMidFreq2.left
                     width: 30
                     height: 166
                     text: qsTr("Middle Frequency Distribution") + "B"
@@ -247,8 +257,9 @@ Window {
 
             Rectangle {
                     id: devMidFreq2
-                    x: 440
-                    y: 408
+                    anchors.left: devMidFreq1.right
+                    anchors.leftMargin: 60
+                    anchors.top: devMidFreq1.top
                     width: 320
                     height: 146
                     StatusIndicator {
@@ -261,8 +272,9 @@ Window {
 
             Rectangle {
                     id: devSW1
-                    x: 409
-                    y: 727
+                    anchors.left: devSerial1.left
+                    anchors.top: devSerial1.bottom
+                    anchors.topMargin: 60
                     width: 352
                     height: 79
                     border.width: 2
@@ -277,7 +289,7 @@ Window {
                             id: txtSW1Id
                             x: 50
                             y: 10
-                            height: 34
+                            height: indSW1.height
                             text: qsTr("Switch") + " 1"
                             verticalAlignment: Text.AlignVCenter
                             font.pixelSize: 20
@@ -286,8 +298,10 @@ Window {
 
             Rectangle {
                     id: devSerial1
-                    x: 409
-                    y: 588
+                    anchors.right: rackFreq.right
+                    anchors.rightMargin: 30
+                    anchors.bottom: rackFreq.bottom
+                    anchors.bottomMargin: 30
                     width: 352
                     height: 79
                     border.width: 2
@@ -302,7 +316,7 @@ Window {
                             id: txtSerial1Id
                             x: 50
                             y: 10
-                            height: 34
+                            height: indSerial1.height
                             text: qsTr("Serial") + " 1"
                             verticalAlignment: Text.AlignVCenter
                             font.pixelSize: 20
@@ -312,8 +326,9 @@ Window {
 
     Rectangle {
             id: rackAmp
-            x: 939
-            y: 71
+            anchors.top: rackFreq.top
+            anchors.left: rackFreq.right
+            anchors.leftMargin: 74
             width: 791
             height: 697
             border.width: 2
@@ -332,8 +347,8 @@ Window {
 
             Text {
                     id: txtAmpA1Id
-                    x: 30
-                    y: 60
+                    anchors.top: devAmpA1Master.top
+                    anchors.right: devAmpA1Master.left
                     width: 30
                     height: 234
                     text: "C1" + qsTr("High Amplification") + "A"
@@ -360,8 +375,9 @@ Window {
 
             Rectangle {
                     id: devAmpA1Slave
-                    x: 60
-                    y: 175
+                    anchors.left: devAmpA1Master.left
+                    anchors.top: devAmpA1Master.bottom
+                    anchors.topMargin: -2
                     width: 320
                     height: 117
                     StatusIndicator {
@@ -374,8 +390,8 @@ Window {
 
             Text {
                     id: txtAmpB1Id
-                    x: 410
-                    y: 60
+                    anchors.top: devAmpB1Master.top
+                    anchors.right: devAmpB1Master.left
                     width: 30
                     height: 234
                     text: "C1" + qsTr("High Amplification") + "B"
@@ -388,8 +404,9 @@ Window {
 
             Rectangle {
                     id: devAmpB1Master
-                    x: 440
-                    y: 60
+                    anchors.top: devAmpA1Master.top
+                    anchors.left: devAmpA1Master.right
+                    anchors.leftMargin: 60
                     width: 320
                     height: 117
                     StatusIndicator {
@@ -402,8 +419,9 @@ Window {
 
             Rectangle {
                     id: devAmpB1Slave
-                    x: 440
-                    y: 175
+                    anchors.left: devAmpB1Master.left
+                    anchors.top: devAmpB1Master.bottom
+                    anchors.topMargin: -2
                     width: 320
                     height: 117
                     StatusIndicator {
@@ -416,8 +434,8 @@ Window {
 
             Text {
                     id: txtAmpA2Id
-                    x: 30
-                    y: 322
+                    anchors.top: devAmpA2Master.top
+                    anchors.right: devAmpA2Master.left
                     width: 30
                     height: 234
                     text: "C2" + qsTr("High Amplification") + "A"
@@ -430,8 +448,9 @@ Window {
 
             Rectangle {
                     id: devAmpA2Master
-                    x: 60
-                    y: 322
+                    anchors.left: devAmpA1Slave.left
+                    anchors.top: devAmpA1Slave.bottom
+                    anchors.topMargin: 30
                     width: 320
                     height: 117
                     StatusIndicator {
@@ -444,8 +463,9 @@ Window {
 
             Rectangle {
                     id: devAmpA2Slave
-                    x: 60
-                    y: 437
+                    anchors.left: devAmpA2Master.left
+                    anchors.top: devAmpA2Master.bottom
+                    anchors.topMargin: -2
                     width: 320
                     height: 117
                     StatusIndicator {
@@ -458,8 +478,8 @@ Window {
 
             Text {
                     id: txtAmpB2Id
-                    x: 410
-                    y: 322
+                    anchors.top: devAmpB2Master.top
+                    anchors.right: devAmpB2Master.left
                     width: 30
                     height: 234
                     text: "C2" + qsTr("High Amplification") + "B"
@@ -472,8 +492,9 @@ Window {
 
             Rectangle {
                     id: devAmpB2Master
-                    x: 440
-                    y: 322
+                    anchors.top: devAmpA2Master.top
+                    anchors.left: devAmpA2Master.right
+                    anchors.leftMargin: 60
                     width: 320
                     height: 117
                     StatusIndicator {
@@ -486,8 +507,9 @@ Window {
 
             Rectangle {
                     id: devAmpB2Slave
-                    x: 440
-                    y: 437
+                    anchors.left: devAmpB2Master.left
+                    anchors.top: devAmpB2Master.bottom
+                    anchors.topMargin: -2
                     width: 320
                     height: 117
                     StatusIndicator {
@@ -500,8 +522,9 @@ Window {
 
             Rectangle {
                     id: devSW2
-                    x: 30
-                    y: 727
+                    anchors.left: devSerial2.left
+                    anchors.top: devSerial2.bottom
+                    anchors.topMargin: 60
                     width: 352
                     height: 79
                     border.width: 2
@@ -516,7 +539,7 @@ Window {
                             id: txtSW2Id
                             x: 50
                             y: 10
-                            height: 34
+                            height: indSW2.height
                             text: qsTr("Switch") + " 2"
                             verticalAlignment: Text.AlignVCenter
                             font.pixelSize: 20
@@ -525,8 +548,10 @@ Window {
 
             Rectangle {
                     id: devSerial2
-                    x: 30
-                    y: 588
+                    anchors.left: rackAmp.left
+                    anchors.leftMargin: 30
+                    anchors.bottom: rackAmp.bottom
+                    anchors.bottomMargin: 30
                     width: 352
                     height: 79
                     border.width: 2
@@ -541,11 +566,52 @@ Window {
                             id: txtSerial2Id
                             x: 50
                             y: 10
-                            height: 34
+                            height: indSerial2.height
                             text: qsTr("Serial") + " 2"
                             verticalAlignment: Text.AlignVCenter
                             font.pixelSize: 20
                     }
             }
+    }
+
+    Shape {
+        anchors.verticalCenter: rackFreq.bottom
+        anchors.horizontalCenter: rackFreq.right
+        anchors.horizontalCenterOffset: 37
+        width: 838
+        height: 218
+
+        ShapePath {
+            strokeWidth: 3
+            strokeColor: "black"
+            strokeStyle: ShapePath.DashLine
+            fillColor: "transparent"
+
+            startX: 176; startY: 79
+            PathLine { x: 176; y: 139 }
+            PathLine { x: 662; y: 79 }
+            PathLine { x: 662; y: 139 }
+            PathLine { x: 176; y: 79 }
+        }
+
+        ShapePath {
+            strokeWidth: 3
+            strokeColor: "black"
+            strokeStyle: ShapePath.DashLine
+            fillColor: "transparent"
+
+            startX: 352; startY: 174
+            PathLine { x: 486; y: 174 }
+        }
+
+        ShapePath {
+            strokeWidth: 3
+            strokeColor: "black"
+            strokeStyle: ShapePath.DashLine
+            fillColor: "transparent"
+
+            startX: 352; startY: 182
+            PathLine { x: 486; y: 182 }
+        }
     }
 }
