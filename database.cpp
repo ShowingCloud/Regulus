@@ -20,9 +20,12 @@ database::database(QObject *parent) : QObject(parent)
     {
         qDebug() << "Error: Failed to connect db." << this->db.lastError();
     }
+
+    this->dbModel = new QSqlTableModel(this, this->db);
 }
 
 database::~database()
 {
     this->db.close();
+    qDebug() << "Database closed.";
 }
