@@ -6,6 +6,9 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 
+#include "protocol.h"
+#include "alert.h"
+
 #define DB_FILENAME "history.db"
 #define DB_USERNAME "logusr"
 #define DB_PASSWORD "password"
@@ -22,9 +25,13 @@ public:
     explicit database(QObject *parent = nullptr);
     ~database();
 
-    int insertData();
-    int insertAlert();
-    int insertOperation();
+    database &operator<< (const msgAmp &msg);
+    database &operator<< (const msgFreq &msg);
+    database &operator<< (const msgDist &msg);
+    database &operator<< (const alert &alert);
+    database &operator<< (const msgCntlAmp &msg);
+    database &operator<< (const msgCntlFreq &msg);
+    database &operator<< (const msgCntlDist &msg);
 
 private:
     QSqlDatabase db;

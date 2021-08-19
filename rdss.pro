@@ -1,5 +1,5 @@
 QT += quick sql
-CONFIG += c++11
+CONFIG += c++1z
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -14,7 +14,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-    database.cpp
+    database.cpp \
+    protocol.cpp \
+    alert.cpp
 
 RESOURCES += qml.qrc \
     translate.qrc
@@ -36,4 +38,6 @@ DISTFILES += \
     zh_CN.ts
 
 HEADERS += \
-    database.h
+    database.h \
+    protocol.h \
+    alert.h
