@@ -1,4 +1,4 @@
-QT += quick sql
+QT += quick sql serialport
 CONFIG += c++1z
 
 # The following define makes your compiler emit warnings if you use
@@ -16,7 +16,8 @@ SOURCES += \
         main.cpp \
     database.cpp \
     protocol.cpp \
-    alert.cpp
+    alert.cpp \
+    serial.cpp
 
 RESOURCES += qml.qrc \
     translate.qrc
@@ -40,4 +41,5 @@ DISTFILES += \
 HEADERS += \
     database.h \
     protocol.h \
-    alert.h
+    alert.h \
+    serial.h

@@ -24,7 +24,12 @@ public:
         PROTO_DEFAULT, PROTO_UPLINK, PROTO_DOWNLINK, PROTO_AMP, PROTO_FREQ, PROTO_DIST,
         PROTO_QUERY, PROTO_CNTL_AMP, PROTO_CNTL_FREQ, PROTO_CNTL_DIST
     };
-    const int protoMaxLength = *std::max_element(protoLength.values().begin(), protoLength.values().end());
+
+
+    /* static inline int protoMaxLength()
+    {
+        return *std::max_element(protoLength.values().begin(), protoLength.values().end());
+    } */
 
 protected:
     const uint8_t head = 0xff;
@@ -33,11 +38,14 @@ protected:
     uint8_t serial;
 
     static const inline QHash<int, proto> idProto = {
-        {0, PROTO_DEFAULT},
+        {0x00, PROTO_FREQ}, {0x01, PROTO_FREQ}, {0x02, PROTO_FREQ}, {0x03, PROTO_FREQ},
+        {0x04, PROTO_FREQ}, {0x05, PROTO_FREQ}, {0x06, PROTO_FREQ}, {0x07, PROTO_FREQ},
+        {0x0A, PROTO_DIST}, {0x0B, PROTO_DIST},
+        {0x0C, PROTO_AMP}, {0x0D, PROTO_AMP}, {0x0E, PROTO_AMP}, {0x0F, PROTO_AMP}
     };
-    static const inline QHash<proto, int> protoLength = {
+    /* static const inline QHash<proto, int> protoLength = {
         {PROTO_DEFAULT, 2},
-    };
+    }; */
 
 signals:
 
