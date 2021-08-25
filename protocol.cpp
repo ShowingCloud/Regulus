@@ -19,7 +19,8 @@ msg::validateResult msg::validateProtocol(const QString input)
     if (idProto.contains(input.at(1).unicode()))
     {
         proto p = idProto[input.at(1).unicode()];
-        int length = protoLength[p];
+
+        /* int length = protoLength[p];
 
         if (input.length() == length)
         {
@@ -32,7 +33,7 @@ msg::validateResult msg::validateProtocol(const QString input)
         else // input.length() > length
         {
             return VAL_TOOLONG;
-        }
+        } */
     }
     else {
         return VAL_INVALIDID;

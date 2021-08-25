@@ -3,22 +3,29 @@
 
 #include <QObject>
 #include <QSerialPort>
+#include <QDateTime>
 
-#define SERIAL_BAUDRATE QSerialPort::Baud115200
-#define SERIAL_DATABITS QSerialPort::Data8
-#define SERIAL_PARITY QSerialPort::NoParity
-#define SERIAL_STOPBITS QSerialPort::OneStop
-#define SERIAL_FLOWCONTROL QSerialPort::NoFlowControl
+#define SERIAL_BAUDRATE     QSerialPort::Baud115200
+#define SERIAL_DATABITS     QSerialPort::Data8
+#define SERIAL_PARITY       QSerialPort::NoParity
+#define SERIAL_STOPBITS     QSerialPort::OneStop
+#define SERIAL_FLOWCONTROL  QSerialPort::NoFlowControl
+#define SERIAL_TIMEOUT      10
 
 class serial : public QObject
 {
     Q_OBJECT
 public:
-    explicit serial(QObject *parent = nullptr);
+    explicit serial(const QSerialPortInfo &serialportinfo, QObject *parent = nullptr);
     ~serial();
+    inline bool timedout()
+    {
+        return QDateTime::currentDateTime().secsTo(lastseen) < SERIAL_TIMEOUT;
+    }
 
 private:
     QSerialPort *serialport = new QSerialPort(this);
+    QDateTime lastseen;
 
 signals:
 

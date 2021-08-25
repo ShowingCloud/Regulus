@@ -1,9 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QTranslator>
+#include <QSerialPortInfo>
+#include <QTimer>
 //#include <iostream>
 
 #include <database.h>
+#include <serial.h>
 
 int main(int argc, char *argv[])
 {
@@ -21,6 +24,17 @@ int main(int argc, char *argv[])
         return -1;
 
     database db(&app);
+
+    QList<serial> seriallist;
+    for (const QSerialPortInfo &serialportinfo : QSerialPortInfo::availablePorts())
+    {
+        serial s = serial(serialportinfo);
+        seriallist << s;
+
+        QTimer *timer = new QTimer(&app);
+        QObject::connect(timer, &QTimer::timeout, s, &serial::readData);
+        timer->start(1000);
+    }
 
     return app.exec();
 }

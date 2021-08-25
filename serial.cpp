@@ -2,8 +2,9 @@
 
 #include "serial.h"
 
-serial::serial(QObject *parent) : QObject(parent)
+serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject(parent)
 {
+    this->serialport->setPort(serialportinfo);
     this->serialport->setBaudRate(SERIAL_BAUDRATE);
     this->serialport->setDataBits(SERIAL_DATABITS);
     this->serialport->setParity(SERIAL_PARITY);
@@ -29,6 +30,7 @@ serial::~serial()
 void serial::readData()
 {
     QByteArray data = serialport->readAll();
+    lastseen = QDateTime::currentDateTime();
 }
 
 void serial::writeData(const QByteArray &data)
