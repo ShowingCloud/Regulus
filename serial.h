@@ -20,7 +20,10 @@ class serial : public QObject
 public:
     explicit serial(const QSerialPortInfo &serialportinfo, QObject *parent = nullptr);
     ~serial();
-    void postProtocol(const protocol &p);
+    serial &operator<< (const protocol &p);
+    serial &operator>> (protocol &p) const;
+
+    void postProtocol(const protocol &p) const;
     inline bool timedout()
     {
         return QDateTime::currentDateTime().secsTo(lastseen) < SERIAL_TIMEOUT;
@@ -34,7 +37,7 @@ signals:
 
 public slots:
     void readData();
-    void writeData(const QByteArray &data);
+    void writeData(const QByteArray &data) const;
 };
 
 #endif // SERIAL_H

@@ -34,12 +34,20 @@ void serial::readData()
     lastseen = QDateTime::currentDateTime();
 }
 
-void serial::writeData(const QByteArray &data)
+void serial::writeData(const QByteArray &data) const
 {
     serialport->write(data);
 }
 
-void serial::postProtocol(const protocol &p)
+serial &serial::operator<< (const protocol &p)
 {
-    return;
+    this->postProtocol(p);
+    return *this;
+}
+
+void serial::postProtocol(const protocol &p) const
+{
+    QByteArray data;
+    p >> data;
+    this->writeData(data);
 }

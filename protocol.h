@@ -143,6 +143,9 @@ class protocol : public QObject
     Q_OBJECT
 public:
     explicit protocol(QObject *parent = nullptr);
+    protocol &operator>> (QByteArray &data) const;
+    protocol &operator<< (const QByteArray &data);
+
     static QList<protocol *> protocollist;
 
 private:
