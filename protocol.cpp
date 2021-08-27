@@ -1,4 +1,5 @@
 #include "protocol.h"
+#include "serial.h"
 
 msg::msg(QObject *parent) : QObject(parent)
 {
@@ -38,4 +39,11 @@ msg::validateResult msg::validateProtocol(const QString input)
     else {
         return VAL_INVALIDID;
     }
+}
+
+void protocol::createDownMsg(serial &s)
+{
+    protocol *p = new protocol();
+    protocol::protocollist << p;
+    s.postProtocol(*p);
 }

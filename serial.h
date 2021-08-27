@@ -12,12 +12,15 @@
 #define SERIAL_FLOWCONTROL  QSerialPort::NoFlowControl
 #define SERIAL_TIMEOUT      10
 
+class protocol;
+
 class serial : public QObject
 {
     Q_OBJECT
 public:
     explicit serial(const QSerialPortInfo &serialportinfo, QObject *parent = nullptr);
     ~serial();
+    void postProtocol(const protocol &p);
     inline bool timedout()
     {
         return QDateTime::currentDateTime().secsTo(lastseen) < SERIAL_TIMEOUT;

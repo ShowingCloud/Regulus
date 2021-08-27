@@ -17,7 +17,8 @@ SOURCES += \
     database.cpp \
     protocol.cpp \
     alert.cpp \
-    serial.cpp
+    serial.cpp \
+    device.cpp
 
 RESOURCES += qml.qrc \
     translate.qrc
@@ -42,4 +43,5 @@ HEADERS += \
     database.h \
     protocol.h \
     alert.h \
-    serial.h
+    serial.h \
+    device.h

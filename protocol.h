@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QList>
 
+class serial;
+
 class msg : public QObject
 {
     Q_OBJECT
@@ -141,6 +143,7 @@ class protocol : public QObject
     Q_OBJECT
 public:
     explicit protocol(QObject *parent = nullptr);
+    static QList<protocol *> protocollist;
 
 private:
     msgUplink uplink;
@@ -149,6 +152,7 @@ private:
 signals:
 
 public slots:
+    static void createDownMsg(serial &s);
 };
 
 #endif // PROTOCOL_H

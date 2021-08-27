@@ -7,6 +7,7 @@
 
 #include <database.h>
 #include <serial.h>
+#include <protocol.h>
 
 int main(int argc, char *argv[])
 {
@@ -25,14 +26,16 @@ int main(int argc, char *argv[])
 
     database db(&app);
 
-    QList<serial> seriallist;
+    QList<serial *> seriallist;
     for (const QSerialPortInfo &serialportinfo : QSerialPortInfo::availablePorts())
     {
-        serial s = serial(serialportinfo);
+        serial *s = new serial(serialportinfo);
         seriallist << s;
 
         QTimer *timer = new QTimer(&app);
-        QObject::connect(timer, &QTimer::timeout, s, &serial::readData);
+        QObject::connect(timer, &QTimer::timeout, [=]() {
+            protocol::createDownMsg(*s);
+        });
         timer->start(1000);
     }
 

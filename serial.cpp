@@ -1,6 +1,7 @@
 #include <QDebug>
 
 #include "serial.h"
+#include "protocol.h"
 
 serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject(parent)
 {
@@ -36,4 +37,9 @@ void serial::readData()
 void serial::writeData(const QByteArray &data)
 {
     serialport->write(data);
+}
+
+void serial::postProtocol(const protocol &p)
+{
+    return;
 }
