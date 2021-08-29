@@ -5,9 +5,10 @@
 #include <QTimer>
 //#include <iostream>
 
-#include <database.h>
-#include <serial.h>
-#include <protocol.h>
+#include "database.h"
+#include "serial.h"
+#include "protocol.h"
+#include "device.h"
 
 int main(int argc, char *argv[])
 {
@@ -27,7 +28,6 @@ int main(int argc, char *argv[])
     database db(&app);
 
     QList<serial *> seriallist;
-    //QList<protocol *> protocollist = {};
     for (const QSerialPortInfo &serialportinfo : QSerialPortInfo::availablePorts())
     {
         serial *s = new serial(serialportinfo);

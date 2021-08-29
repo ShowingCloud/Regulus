@@ -145,7 +145,7 @@ public:
     const protocol &operator>> (serial &s) const;
     protocol &operator<< (const serial &s);
 
-    static QList<protocol *> protocollist;
+    inline static QList<protocol *> protocollist = {};
 
 private:
     msgUplink uplink;

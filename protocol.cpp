@@ -3,7 +3,7 @@
 
 msg::msg(QObject *parent) : QObject(parent)
 {
-
+    return;
 }
 
 msg::msg(QObject *parent, QString input) : QObject(parent)
@@ -39,6 +39,11 @@ msg::validateResult msg::validateProtocol(const QString input)
     else {
         return VAL_INVALIDID;
     }
+}
+
+protocol::protocol(QObject *parent) : QObject(parent)
+{
+    return;
 }
 
 void protocol::createDownMsg(serial &s)
