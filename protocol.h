@@ -12,12 +12,11 @@ class msg : public QObject
 public:
     explicit msg(QObject *parent = nullptr);
     explicit msg(QObject *parent, const QString input);
-    ~msg();
 
     msg &operator= (const QString input);
     msg &operator()() const;
-    QDataStream &operator>> (const QDataStream input);
-    QDataStream &operator<< (QDataStream output);
+    const msg &operator>> (QByteArray &data) const;
+    msg &operator<< (const QByteArray &data);
 
     enum validateResult { VAL_PASS, VAL_TOOSHORT, VAL_TOOLONG, VAL_INVALIDID };
     static validateResult validateProtocol(const QString input);
@@ -143,8 +142,8 @@ class protocol : public QObject
     Q_OBJECT
 public:
     explicit protocol(QObject *parent = nullptr);
-    protocol &operator>> (QByteArray &data) const;
-    protocol &operator<< (const QByteArray &data);
+    const protocol &operator>> (serial &s) const;
+    protocol &operator<< (const serial &s);
 
     static QList<protocol *> protocollist;
 

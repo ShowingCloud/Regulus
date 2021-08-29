@@ -39,15 +39,15 @@ void serial::writeData(const QByteArray &data) const
     serialport->write(data);
 }
 
-serial &serial::operator<< (const protocol &p)
+serial &serial::operator<< (const msg &m)
 {
-    this->postProtocol(p);
+    QByteArray data;
+    m >> data;
+    this->writeData(data);
     return *this;
 }
 
-void serial::postProtocol(const protocol &p) const
+const serial &serial::operator>> (msg &m) const
 {
-    QByteArray data;
-    p >> data;
-    this->writeData(data);
+    return *this;
 }

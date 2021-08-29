@@ -45,15 +45,27 @@ void protocol::createDownMsg(serial &s)
 {
     protocol *p = new protocol();
     protocol::protocollist << p;
-    s << *p;
+    *p >> s;
 }
 
-protocol &protocol::operator>> (QByteArray &data) const
+const protocol &protocol::operator>> (serial &s) const
 {
-
+    s << this->downlink;
+    return *this;
 }
 
-protocol &protocol::operator<< (const QByteArray &data)
+protocol &protocol::operator<< (const serial &s)
 {
+    s >> this->uplink;
+    return *this;
+}
 
+const msg &msg::operator>> (QByteArray &data) const
+{
+    return *this;
+}
+
+msg &msg::operator<< (const QByteArray &data)
+{
+    return *this;
 }
