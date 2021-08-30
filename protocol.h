@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QDateTime>
 
 class serial;
 
@@ -11,21 +12,22 @@ class msg : public QObject
     Q_OBJECT
 public:
     explicit msg(QObject *parent = nullptr);
-    explicit msg(QObject *parent, const QString input);
 
-    msg &operator= (const QString input);
+    msg &operator= (const QByteArray input);
     msg &operator()() const;
     const msg &operator>> (QByteArray &data) const;
     msg &operator<< (const QByteArray &data);
 
-    enum validateResult { VAL_PASS, VAL_TOOSHORT, VAL_TOOLONG, VAL_INVALIDID };
-    static validateResult validateProtocol(const QString input);
+    enum validateResult { VAL_PASS, VAL_TOOSHORT, VAL_TOOLONG, VAL_INVALIDID, VAL_REMAINS, VAL_USEINPUT };
+    static validateResult validateProtocol(QByteArray buffer, const QByteArray input);
 
     enum proto {
         PROTO_DEFAULT, PROTO_UPLINK, PROTO_DOWNLINK, PROTO_AMP, PROTO_FREQ, PROTO_DIST,
         PROTO_QUERY, PROTO_CNTL_AMP, PROTO_CNTL_FREQ, PROTO_CNTL_DIST
     };
 
+    inline const static int header = 0xff;
+    inline const static int tailer = 0xaa;
 
     /* static inline int protoMaxLength()
     {
@@ -33,10 +35,11 @@ public:
     } */
 
 protected:
-    const uint8_t head = 0xff;
-    const uint8_t tail = 0xaa;
+    const uint8_t head = msg::header;
+    const uint8_t tail = msg::tailer;
     uint8_t device;
     uint8_t serial;
+    QDateTime time;
 
     static const inline QHash<int, proto> idProto = {
         {0x00, PROTO_FREQ}, {0x01, PROTO_FREQ}, {0x02, PROTO_FREQ}, {0x03, PROTO_FREQ},
@@ -55,16 +58,34 @@ public slots:
 
 class msgUplink : public msg
 {
+    Q_OBJECT
+public:
+    explicit msgUplink(QObject *parent = nullptr);
+    const msgUplink &operator>> (QByteArray &data) const;
+    msgUplink &operator<< (const QByteArray &data);
 
+    inline const static int mlen = 19;
+    inline const static int posDevice = 15;
+    inline const static int posSerial = 17;
 };
 
 class msgDownlink : public msg
 {
-
+    Q_OBJECT
+public:
+    explicit msgDownlink(QObject *parent = nullptr);
+    const msgDownlink &operator>> (QByteArray &data) const;
+    msgDownlink &operator<< (const QByteArray &data);
 };
 
 class msgAmp : public msgUplink
 {
+    Q_OBJECT
+public:
+    explicit msgAmp(QObject *parent = nullptr);
+    const msgAmp &operator>> (QByteArray &data) const;
+    msgAmp &operator<< (const QByteArray &data);
+
 protected:
     uint16_t power;
     uint16_t gain;
@@ -78,6 +99,12 @@ protected:
 
 class msgFreq : public msgUplink
 {
+    Q_OBJECT
+public:
+    explicit msgFreq(QObject *parent = nullptr);
+    const msgFreq &operator>> (QByteArray &data) const;
+    msgFreq &operator<< (const QByteArray &data);
+
 protected:
     uint8_t atten;
     uint8_t voltage;
@@ -97,6 +124,12 @@ protected:
 
 class msgDist : public msgUplink
 {
+    Q_OBJECT
+public:
+    explicit msgDist(QObject *parent = nullptr);
+    const msgDist &operator>> (QByteArray &data) const;
+    msgDist &operator<< (const QByteArray &data);
+
 protected:
     uint8_t ref_10;
     uint8_t ref_16;
@@ -107,6 +140,12 @@ protected:
 
 class msgQuery : public msgDownlink
 {
+    Q_OBJECT
+public:
+    explicit msgQuery(QObject *parent = nullptr);
+    const msgQuery &operator>> (QByteArray &data) const;
+    msgQuery &operator<< (const QByteArray &data);
+
 protected:
     uint8_t identify;
     uint8_t instruction;
@@ -114,6 +153,12 @@ protected:
 
 class msgCntlAmp : public msgDownlink
 {
+    Q_OBJECT
+public:
+    explicit msgCntlAmp(QObject *parent = nullptr);
+    const msgCntlAmp &operator>> (QByteArray &data) const;
+    msgCntlAmp &operator<< (const QByteArray &data);
+
 protected:
     uint8_t atten_mode;
     uint8_t atten;
@@ -123,6 +168,12 @@ protected:
 
 class msgCntlFreq : public msgDownlink
 {
+    Q_OBJECT
+public:
+    explicit msgCntlFreq(QObject *parent = nullptr);
+    const msgCntlFreq &operator>> (QByteArray &data) const;
+    msgCntlFreq &operator<< (const QByteArray &data);
+
 protected:
     uint8_t atten;
     uint8_t ref_10_a;
@@ -131,6 +182,12 @@ protected:
 
 class msgCntlDist : public msgDownlink
 {
+    Q_OBJECT
+public:
+    explicit msgCntlDist(QObject *parent = nullptr);
+    const msgCntlDist &operator>> (QByteArray &data) const;
+    msgCntlDist &operator<< (const QByteArray &data);
+
 protected:
     uint8_t ref_10;
     uint8_t ref_16;
@@ -148,8 +205,8 @@ public:
     inline static QList<protocol *> protocollist = {};
 
 private:
-    msgUplink uplink;
-    msgDownlink downlink;
+    msgUplink uplink = msgUplink();
+    msgDownlink downlink = msgDownlink();
 
 signals:
 

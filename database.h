@@ -9,17 +9,15 @@
 #include "protocol.h"
 #include "alert.h"
 
-#define DB_FILENAME "history.db"
-#define DB_USERNAME "logusr"
-#define DB_PASSWORD "password"
-
 class database : public QObject
 {
     Q_OBJECT
 
     enum { DB_TBL_AMP_DATA, DB_TBL_AMP_ALERT, DB_TBL_AMP_OPER,
          DB_TBL_FREQ_DATA, DB_TBL_FREQ_ALERT, DB_TBL_FREQ_OPER,
-         DB_TBL_DIST_DATA, DB_TBL_DIST_ALERT, DB_TBL_DIST_OPER };
+         DB_TBL_DIST_DATA, DB_TBL_DIST_ALERT, DB_TBL_DIST_OPER,
+         DB_TBL_MSG_ALERT };
+    enum DB_RET { DB_RET_SUCCESS };
 
 public:
     explicit database(QObject *parent = nullptr);
@@ -33,13 +31,19 @@ public:
     database &operator<< (const msgCntlFreq &msg);
     database &operator<< (const msgCntlDist &msg);
 
+    DB_RET insert_msg_alert(const QString err, const QByteArray data);
+
 private:
     QSqlDatabase db;
     QSqlTableModel *dbModel;
 
+    inline const static QString filename = "history.db";
+    inline const static QString username = "logusr";
+    inline const static QString password = "password";
     QList<QString> dbTables = { "amp_data", "amp_alert", "amp_oper",
-                               "freq_data", "freq_alert", "freq_oper",
-                               "dist_data", "dist_alert", "dist_oper" };
+                                "freq_data", "freq_alert", "freq_oper",
+                                "dist_data", "dist_alert", "dist_oper",
+                                "msg_alert" };
 
 signals:
 

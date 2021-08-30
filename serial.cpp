@@ -6,11 +6,11 @@
 serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject(parent)
 {
     this->serialport->setPort(serialportinfo);
-    this->serialport->setBaudRate(SERIAL_BAUDRATE);
-    this->serialport->setDataBits(SERIAL_DATABITS);
-    this->serialport->setParity(SERIAL_PARITY);
-    this->serialport->setStopBits(SERIAL_STOPBITS);
-    this->serialport->setFlowControl(SERIAL_FLOWCONTROL);
+    this->serialport->setBaudRate(serial::baudrate);
+    this->serialport->setDataBits(serial::databits);
+    this->serialport->setParity(serial::parity);
+    this->serialport->setStopBits(serial::stopbits);
+    this->serialport->setFlowControl(serial::flowcontrol);
 
     if(serialport->open(QIODevice::ReadWrite)) {
         qDebug() << "Serial port opened.";
@@ -31,7 +31,9 @@ serial::~serial()
 void serial::readData()
 {
     QByteArray data = serialport->readAll();
+    this->buffer += data;
     lastseen = QDateTime::currentDateTime();
+    msg::validateProtocol(this->buffer, data);
 }
 
 void serial::writeData(const QByteArray &data) const

@@ -11,9 +11,9 @@ database::database(QObject *parent) : QObject(parent)
     else
     {
         this->db = QSqlDatabase::addDatabase("QSQLITE");
-        this->db.setDatabaseName(DB_FILENAME);
-        this->db.setUserName(DB_USERNAME);
-        this->db.setPassword(DB_PASSWORD);
+        this->db.setDatabaseName(database::filename);
+        this->db.setUserName(database::username);
+        this->db.setPassword(database::password);
     }
 
     if (!this->db.open())

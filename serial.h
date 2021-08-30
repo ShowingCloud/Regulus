@@ -5,13 +5,6 @@
 #include <QSerialPort>
 #include <QDateTime>
 
-#define SERIAL_BAUDRATE     QSerialPort::Baud115200
-#define SERIAL_DATABITS     QSerialPort::Data8
-#define SERIAL_PARITY       QSerialPort::NoParity
-#define SERIAL_STOPBITS     QSerialPort::OneStop
-#define SERIAL_FLOWCONTROL  QSerialPort::NoFlowControl
-#define SERIAL_TIMEOUT      10
-
 class msg;
 
 class serial : public QObject
@@ -25,12 +18,20 @@ public:
 
     inline bool timedout()
     {
-        return QDateTime::currentDateTime().secsTo(lastseen) < SERIAL_TIMEOUT;
+        return QDateTime::currentDateTime().secsTo(lastseen) < serial::timeout;
     }
+
+    inline const static enum QSerialPort::BaudRate baudrate = QSerialPort::Baud115200;
+    inline const static enum QSerialPort::DataBits databits = QSerialPort::Data8;
+    inline const static enum QSerialPort::Parity parity = QSerialPort::NoParity;
+    inline const static enum QSerialPort::StopBits stopbits = QSerialPort::OneStop;
+    inline const static enum QSerialPort::FlowControl flowcontrol = QSerialPort::NoFlowControl;
 
 private:
     QSerialPort *serialport = new QSerialPort(this);
     QDateTime lastseen;
+    QByteArray buffer = "";
+    inline const static int timeout = 10;
 
 signals:
 
