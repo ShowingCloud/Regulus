@@ -37,28 +37,43 @@ msg::validateResult msg::validateProtocol(QByteArray buffer, const QByteArray in
     do {
         head = buffer.indexOf(static_cast<char>(msg::header), head);
         if (buffer.at(head + msgUplink::mlen) == static_cast<char>(msg::tailer)) {
+            msg *m = new msg();
             if (buffer.length() == msgUplink::mlen) {
-                msg *m = new msg();
                 *m << buffer;
                 buffer = "";
                 return VAL_PASS;
             } else {
-                msg *m = new msg();
                 *m << buffer.mid(head, msgUplink::mlen);
                 buffer.remove(head, msgUplink::mlen);
+                // TODO: log
                 return VAL_REMAINS;
             }
         } else {
             tail = head + 1;
             do {
                 tail = buffer.indexOf(static_cast<char>(msg::tailer), tail);
+                if (tail - head < msgUplink::mlen) {
+                    // TODO: log
+                    return VAL_TOOSHORT;
+                } else if (tail - head > msgUplink::mlen) {
+                    // TODO: log
+                    return VAL_TOOLONG;
+                }
             } while (tail != -1 and tail - head < msgUplink::mlen);
         }
     } while (head != -1);
 
     if (head == -1) {
-        return VAL_USEINPUT;
+        // TODO: log buffer
+        head = input.indexOf(static_cast<char>(msg::header), head);
+        if (input.at(head + msgUplink::mlen) == static_cast<char>(msg::tailer)) {
+            msg *m = new msg();
+            *m << input.mid(head, msgUplink::mlen);
+            return VAL_USEINPUT;
+        }
     }
+
+    return VAL_FAILED;
     /*
     if (idProto.contains(input.at(1).unicode()))
     {
@@ -133,21 +148,34 @@ msg &msg::operator<< (const QByteArray &data)
 msgUplink &msgUplink::operator<< (const QByteArray &data)
 {
     this->device = static_cast<uint8_t>(data.at(msgUplink::posDevice));
-    this->serial = static_cast<uint8_t>(data.at(msgUplink::posSerial));
     return *this;
 }
 
 msgFreq &msgFreq::operator<< (const QByteArray &data)
 {
+    QDataStream(data) >> this->holder8 /* header */ >> this->atten >> this->voltage
+                      >> this->current >> this->radio_stat >> this->mid_stat >> this->lock_a1
+                      >> this->lock_a2 >> this->lock_b1 >> this->lock_b2 >> this->ref_10_1
+                      >> this->ref_10_2 >> this->ref_3 >> this->ref_4 >> this->holder8 /* device */
+                      >> this->handshake >> this->serial >> this->holder8 >> this->holder8 /* tailer */;
     return *this;
 }
 
 msgDist &msgDist::operator<< (const QByteArray &data)
 {
+    QDataStream(data) >> this->holder8 /* header */ >> this->ref_10 >> this->ref_16 >> this->voltage
+                      >> this->current >> this->power >> this->holder8 >> this->holder8 /* device */
+                      >> this->holder8 >> this->holder8 >> this->holder8 >> this->holder8
+                      >> this->holder8 >> this->holder8 >> this->serial >> this->holder8 >> this->holder8
+                      >> this->holder8 >> this->holder8 /* tailer */;
     return *this;
 }
 
 msgAmp &msgAmp::operator<< (const QByteArray &data)
 {
+    QDataStream(data) >> this->holder8 /* header */ >> this->power >> this->gain >> this->atten
+                      >> this->loss >> this->temp >> this->stat >> this->load_temp
+                      >> this->holder8 /* device */ >> this->holder8 >> this->serial
+                      >> this->handshake >> this->holder8 /* tailer */;
     return *this;
 }

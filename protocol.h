@@ -18,7 +18,7 @@ public:
     const msg &operator>> (QByteArray &data) const;
     msg &operator<< (const QByteArray &data);
 
-    enum validateResult { VAL_PASS, VAL_TOOSHORT, VAL_TOOLONG, VAL_INVALIDID, VAL_REMAINS, VAL_USEINPUT };
+    enum validateResult { VAL_PASS, VAL_TOOSHORT, VAL_TOOLONG, VAL_INVALIDID, VAL_REMAINS, VAL_USEINPUT, VAL_FAILED };
     static validateResult validateProtocol(QByteArray buffer, const QByteArray input);
 
     enum proto {
@@ -39,6 +39,7 @@ protected:
     const uint8_t tail = msg::tailer;
     uint8_t device;
     uint8_t serial;
+    uint8_t holder8;
     QDateTime time;
 
     static const inline QHash<int, proto> idProto = {
@@ -66,7 +67,6 @@ public:
 
     inline const static int mlen = 19;
     inline const static int posDevice = 15;
-    inline const static int posSerial = 17;
 };
 
 class msgDownlink : public msg
