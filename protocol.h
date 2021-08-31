@@ -205,8 +205,8 @@ public:
     inline static QList<protocol *> protocollist = {};
 
 private:
-    msgUplink uplink = msgUplink();
-    msgDownlink downlink = msgDownlink();
+    msgUplink uplink;
+    msgDownlink downlink;
 
 signals:
 
