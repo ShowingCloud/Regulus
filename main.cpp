@@ -1,5 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QQuickWindow>
 #include <QTranslator>
 #include <QSerialPortInfo>
 #include <QTimer>
@@ -24,6 +26,13 @@ int main(int argc, char *argv[])
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
+
+    //QQmlComponent componentMain(&engine, QUrl(QStringLiteral("qrc:/main.qml")));
+    //QQuickWindow *winMain = qobject_cast<QQuickWindow *>(componentMain.create());
+
+    //QQmlComponent componentFreq(&engine, QUrl(QStringLiteral("qrc:/freq.qml")));
+    //QQuickWindow *winFreq = qobject_cast<QQuickWindow *>(componentFreq.create());
+    //winFreq->hide();
 
     database db(&app);
 

@@ -1,12 +1,12 @@
 import QtQuick 2.9
-import QtQuick.Window 2.2
+import QtQuick.Window 2.9
 import QtQuick.Extras 1.4
 import QtQuick.Scene2D 2.9
 import QtQuick.Scene3D 2.0
 import QtQuick.Shapes 1.11
 import QtQuick.Controls 1.6
 import QtQuick.Controls.Styles.Desktop 1.0
-import QtQuick.Layouts 1.3
+import QtQuick.Layouts 1.11
 import QtGraphicalEffects 1.0
 
 Window {
@@ -24,10 +24,17 @@ Window {
         readonly property int marginIndicators: 10
         readonly property int defaultLabelFontSize: 20
 
+        id: winMain
         visible: true
         width: 1800
         height: 900
         title: qsTr("RDSS Project")
+
+        Component.onCompleted: {
+            var component = Qt.createComponent("qrc:/freq.qml");
+            var object = component.createObject(winMain);
+            object.setVisible(true);
+        }
 
         Rectangle {
                 id: rackFreq

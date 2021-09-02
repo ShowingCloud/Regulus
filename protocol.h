@@ -9,7 +9,6 @@ class serial;
 
 class msg : public QObject
 {
-    Q_OBJECT
 public:
     explicit msg(QObject *parent = nullptr);
 
@@ -59,7 +58,6 @@ public slots:
 
 class msgUplink : public msg
 {
-    Q_OBJECT
 public:
     explicit msgUplink(QObject *parent = nullptr);
     const msgUplink &operator>> (QByteArray &data) const;
@@ -71,7 +69,6 @@ public:
 
 class msgDownlink : public msg
 {
-    Q_OBJECT
 public:
     explicit msgDownlink(QObject *parent = nullptr);
     const msgDownlink &operator>> (QByteArray &data) const;
@@ -80,7 +77,6 @@ public:
 
 class msgAmp : public msgUplink
 {
-    Q_OBJECT
 public:
     explicit msgAmp(QObject *parent = nullptr);
     const msgAmp &operator>> (QByteArray &data) const;
@@ -99,7 +95,6 @@ protected:
 
 class msgFreq : public msgUplink
 {
-    Q_OBJECT
 public:
     explicit msgFreq(QObject *parent = nullptr);
     const msgFreq &operator>> (QByteArray &data) const;
@@ -124,7 +119,6 @@ protected:
 
 class msgDist : public msgUplink
 {
-    Q_OBJECT
 public:
     explicit msgDist(QObject *parent = nullptr);
     const msgDist &operator>> (QByteArray &data) const;
@@ -140,7 +134,6 @@ protected:
 
 class msgQuery : public msgDownlink
 {
-    Q_OBJECT
 public:
     explicit msgQuery(QObject *parent = nullptr);
     const msgQuery &operator>> (QByteArray &data) const;
@@ -153,7 +146,6 @@ protected:
 
 class msgCntlAmp : public msgDownlink
 {
-    Q_OBJECT
 public:
     explicit msgCntlAmp(QObject *parent = nullptr);
     const msgCntlAmp &operator>> (QByteArray &data) const;
@@ -168,7 +160,6 @@ protected:
 
 class msgCntlFreq : public msgDownlink
 {
-    Q_OBJECT
 public:
     explicit msgCntlFreq(QObject *parent = nullptr);
     const msgCntlFreq &operator>> (QByteArray &data) const;
@@ -182,7 +173,6 @@ protected:
 
 class msgCntlDist : public msgDownlink
 {
-    Q_OBJECT
 public:
     explicit msgCntlDist(QObject *parent = nullptr);
     const msgCntlDist &operator>> (QByteArray &data) const;
