@@ -4,10 +4,10 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.9
 
 Window {
-    id: winFreq
+    id: winDist
     visible: false
-    flags: Qt.WindowStaysOnTopHint | Qt.Tool
+    flags: Qt.WindowStaysOnTopHint
     width: 900
     height: 900
-    title: qsTr("Frequency Conversion Device")
+    title: qsTr("Frequency Distribution Device")
 }

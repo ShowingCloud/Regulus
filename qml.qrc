@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>freq.qml</file>
+        <file>dist.qml</file>
+        <file>amp.qml</file>
     </qresource>
 </RCC>

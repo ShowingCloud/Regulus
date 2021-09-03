@@ -24,6 +24,10 @@ Window {
         readonly property int marginIndicators: 10
         readonly property int defaultLabelFontSize: 20
 
+        property QtObject objWinFreq;
+        property QtObject objWinDist;
+        property QtObject objWinAmp;
+
         id: winMain
         visible: true
         width: 1800
@@ -31,9 +35,9 @@ Window {
         title: qsTr("RDSS Project")
 
         Component.onCompleted: {
-            var component = Qt.createComponent("qrc:/freq.qml");
-            var object = component.createObject(winMain);
-            object.setVisible(true);
+            objWinFreq = Qt.createComponent("qrc:/freq.qml").createObject(winMain);
+            objWinDist = Qt.createComponent("qrc:/dist.qml").createObject(winMain);
+            objWinAmp = Qt.createComponent("qrc:/amp.qml").createObject(winMain);
         }
 
         Rectangle {
@@ -68,6 +72,14 @@ Window {
                         wrapMode: Text.WrapAnywhere
                         horizontalAlignment: Text.AlignHCenter
                         font.pixelSize: defaultLabelFontSize
+
+                        MouseArea {
+                            id: mouseDownFreqId
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinFreq.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -82,6 +94,16 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseDownFreq1Master
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinFreq.setVisible(true);
+                                objWinFreq.requestActivate();
+                                objWinFreq.raise();
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -97,6 +119,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseDownFreq1Slave
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinFreq.setVisible(true);
+                            }
+                        }
                 }
 
                 Text {
@@ -111,6 +141,14 @@ Window {
                         wrapMode: Text.WrapAnywhere
                         horizontalAlignment: Text.AlignHCenter
                         font.pixelSize: defaultLabelFontSize
+
+                        MouseArea {
+                            id: mouseDownFreq2Id
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinFreq.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -126,6 +164,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseDownFreq2Master
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinFreq.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -141,6 +187,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseDownFreq2Slave
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinFreq.setVisible(true);
+                            }
+                        }
                 }
 
                 Text {
@@ -155,6 +209,14 @@ Window {
                         wrapMode: Text.WrapAnywhere
                         horizontalAlignment: Text.AlignHCenter
                         font.pixelSize: defaultLabelFontSize
+
+                        MouseArea {
+                            id: mouseUpFreq1Id
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinFreq.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -170,6 +232,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseUpFreq1Master
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinFreq.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -185,6 +255,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseUpFreq1Slave
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinFreq.setVisible(true);
+                            }
+                        }
                 }
 
                 Text {
@@ -199,6 +277,14 @@ Window {
                         wrapMode: Text.WrapAnywhere
                         horizontalAlignment: Text.AlignHCenter
                         font.pixelSize: defaultLabelFontSize
+
+                        MouseArea {
+                            id: mouseUpFreq2Id
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinFreq.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -214,6 +300,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseUpFreq2Master
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinFreq.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -229,6 +323,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseUpFreq2Slave
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinFreq.setVisible(true);
+                            }
+                        }
                 }
 
                 Text {
@@ -244,6 +346,14 @@ Window {
                         wrapMode: Text.WrapAnywhere
                         horizontalAlignment: Text.AlignHCenter
                         font.pixelSize: defaultLabelFontSize
+
+                        MouseArea {
+                            id: mouseMidFreq1Id
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinDist.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -259,6 +369,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseMidFreq1
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinDist.setVisible(true);
+                            }
+                        }
                 }
 
                 Text {
@@ -274,6 +392,14 @@ Window {
                         wrapMode: Text.WrapAnywhere
                         horizontalAlignment: Text.AlignHCenter
                         font.pixelSize: defaultLabelFontSize
+
+                        MouseArea {
+                            id: mouseMidFreq2Id
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinDist.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -289,6 +415,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseMidFreq2
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinDist.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -378,6 +512,14 @@ Window {
                         wrapMode: Text.WrapAnywhere
                         horizontalAlignment: Text.AlignHCenter
                         font.pixelSize: defaultLabelFontSize
+
+                        MouseArea {
+                            id: mouseAmpA1Id
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinAmp.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -392,6 +534,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseAmpA1Master
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinAmp.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -407,6 +557,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseAmpA1Slave
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinAmp.setVisible(true);
+                            }
+                        }
                 }
 
                 Text {
@@ -421,6 +579,14 @@ Window {
                         wrapMode: Text.WrapAnywhere
                         horizontalAlignment: Text.AlignHCenter
                         font.pixelSize: defaultLabelFontSize
+
+                        MouseArea {
+                            id: mouseAmpB1Id
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinAmp.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -436,6 +602,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseAmpB1Master
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinAmp.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -451,6 +625,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseAmpB1Slave
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinAmp.setVisible(true);
+                            }
+                        }
                 }
 
                 Text {
@@ -465,6 +647,14 @@ Window {
                         wrapMode: Text.WrapAnywhere
                         horizontalAlignment: Text.AlignHCenter
                         font.pixelSize: defaultLabelFontSize
+
+                        MouseArea {
+                            id: mouseAmpA2Id
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinAmp.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -480,6 +670,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseAmpA2Master
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinAmp.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -495,6 +693,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseAmpA2Slave
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinAmp.setVisible(true);
+                            }
+                        }
                 }
 
                 Text {
@@ -509,6 +715,14 @@ Window {
                         wrapMode: Text.WrapAnywhere
                         horizontalAlignment: Text.AlignHCenter
                         font.pixelSize: defaultLabelFontSize
+
+                        MouseArea {
+                            id: mouseAmpB2Id
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinAmp.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -524,6 +738,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseAmpB2Master
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinAmp.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
@@ -539,6 +761,14 @@ Window {
                                 y: marginIndicators
                         }
                         border.width: defaultBorderWidth
+
+                        MouseArea {
+                            id: mouseAmpB2Slave
+                            anchors.fill: parent
+                            onClicked: {
+                                objWinAmp.setVisible(true);
+                            }
+                        }
                 }
 
                 Rectangle {
