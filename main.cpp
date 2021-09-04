@@ -1,7 +1,5 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QQmlComponent>
-#include <QQuickWindow>
 #include <QTranslator>
 #include <QSerialPortInfo>
 #include <QTimer>
@@ -34,13 +32,17 @@ int main(int argc, char *argv[])
     //QQuickWindow *winFreq = qobject_cast<QQuickWindow *>(componentFreq.create());
     //winFreq->hide();
 
+    QList<devFreq *> devFreqList = QList<devFreq *>();
+    QList<devDist *> devDistList = QList<devDist *>();
+    QList<devAmp *> devAmpList = QList<devAmp *>();
+
     database db(&app);
 
-    QList<serial *> seriallist;
+    QList<serial *> serialList;
     for (const QSerialPortInfo &serialportinfo : QSerialPortInfo::availablePorts())
     {
         serial *s = new serial(serialportinfo);
-        seriallist << s;
+        serialList << s;
 
         QTimer *timer = new QTimer(&app);
         QObject::connect(timer, &QTimer::timeout, [=]() {
