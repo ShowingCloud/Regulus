@@ -20,6 +20,10 @@ int main(int argc, char *argv[])
     translator.load(":/zh_CN");
     app.installTranslator(&translator);
 
+    qmlRegisterType<devFreq>("rdss.device", 1, 0, "DevFreq");
+    qmlRegisterType<devDist>("rdss.device", 1, 0, "DevDist");
+    qmlRegisterType<devAmp>("rdss.device", 1, 0, "DevAmp");
+
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
@@ -32,9 +36,9 @@ int main(int argc, char *argv[])
     //QQuickWindow *winFreq = qobject_cast<QQuickWindow *>(componentFreq.create());
     //winFreq->hide();
 
-    QList<devFreq *> devFreqList = QList<devFreq *>();
-    QList<devDist *> devDistList = QList<devDist *>();
-    QList<devAmp *> devAmpList = QList<devAmp *>();
+    //QList<devFreq *> devFreqList = QList<devFreq *>();
+    //QList<devDist *> devDistList = QList<devDist *>();
+    //QList<devAmp *> devAmpList = QList<devAmp *>();
 
     database db(&app);
 
