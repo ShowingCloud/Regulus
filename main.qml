@@ -64,11 +64,11 @@ Window {
 
         DevFreq {
             id: devFreqDownFreq1Master
-            Component.onCompleted: dId = 0x04
+            dId: 0x04
         }
         DevFreq {
             id: devFreqDownFreq1Slave
-            Component.onCompleted: dId = 0x05
+            dId: 0x05
         }
 
         Text {
@@ -142,11 +142,11 @@ Window {
 
         DevFreq {
             id: devFreqDownFreq2Master
-            Component.onCompleted: dId = 0x06
+            dId: 0x06
         }
         DevFreq {
             id: devFreqDownFreq2Slave
-            Component.onCompleted: dId = 0x07
+            dId: 0x07
         }
 
         Text {
@@ -219,11 +219,11 @@ Window {
 
         DevFreq {
             id: devFreqUpFreq1Master
-            Component.onCompleted: dId = 0x00
+            dId: 0x00
         }
         DevFreq {
             id: devFreqUpFreq1Slave
-            Component.onCompleted: dId = 0x01
+            dId: 0x01
         }
 
         Text {
@@ -296,11 +296,11 @@ Window {
 
         DevFreq {
             id: devFreqUpFreq2Master
-            Component.onCompleted: dId = 0x02
+            dId: 0x02
         }
         DevFreq {
             id: devFreqUpFreq2Slave
-            Component.onCompleted: dId = 0x03
+            dId: 0x03
         }
 
         Text {
@@ -373,7 +373,7 @@ Window {
 
         DevDist {
             id: devDistMidFreq1
-            Component.onCompleted: dId = 0x0A
+            dId: 0x0A
         }
 
         Text {
@@ -424,7 +424,7 @@ Window {
 
         DevDist {
             id: devDistMidFreq2
-            Component.onCompleted: dId = 0x0B
+            dId: 0x0B
         }
 
         Text {
@@ -550,11 +550,11 @@ Window {
 
         DevAmp {
             id: devAmpAmpA1Master
-            Component.onCompleted: dId = 0x0C
+            dId: 0x0C
         }
         DevAmp {
             id: devAmpAmpA1Slave
-            Component.onCompleted: dId = 0x0D
+            dId: 0x0D
         }
 
         Text {
@@ -626,11 +626,11 @@ Window {
 
         DevAmp {
             id: devAmpAmpB1Master
-            Component.onCompleted: dId = 0x0E
+            dId: 0x0E
         }
         DevAmp {
             id: devAmpAmpB2Slave
-            Component.onCompleted: dId = 0x0F
+            dId: 0x0F
         }
 
         Text {

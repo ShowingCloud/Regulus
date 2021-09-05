@@ -104,8 +104,8 @@ protected:
     uint8_t atten;
     uint8_t voltage;
     uint16_t current;
-    uint8_t radio_stat;
-    uint8_t mid_stat;
+    uint8_t output_stat;
+    uint8_t input_stat;
     uint8_t lock_a1;
     uint8_t lock_a2;
     uint8_t lock_b1;

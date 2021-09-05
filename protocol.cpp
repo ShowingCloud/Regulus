@@ -157,7 +157,7 @@ msgFreq &msgFreq::operator<< (const QByteArray &data)
         return *this;
 
     QDataStream(data) >> this->holder8 /* header */ >> this->atten >> this->voltage
-                      >> this->current >> this->radio_stat >> this->mid_stat >> this->lock_a1
+                      >> this->current >> this->output_stat >> this->input_stat >> this->lock_a1
                       >> this->lock_a2 >> this->lock_b1 >> this->lock_b2 >> this->ref_10_1
                       >> this->ref_10_2 >> this->ref_3 >> this->ref_4 >> this->holder8 /* device */
                       >> this->handshake >> this->serial >> this->holder8 >> this->holder8 /* tailer */;

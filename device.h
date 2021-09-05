@@ -8,21 +8,25 @@
 class device : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int dId MEMBER dId NOTIFY idChanged)
-    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+    Q_PROPERTY(int dId MEMBER dId NOTIFY idSet)
+    Q_PROPERTY(QString name READ name NOTIFY idSet)
 public:
     explicit device(QObject *parent = nullptr);
 
+    inline QString trConcat(const QList<std::string> str) const
+    {
+        return std::accumulate(begin(str), end(str), QString(), [](QString ret, const std::string s)
+                -> QString { return ret += tr(s.c_str()); });
+    }
+
 signals:
-    void idChanged();
-    void nameChanged();
+    void idSet();
+    void gotData();
 
 public slots:
     inline QString name() const
     {
-        QList<std::string> str = device::idName[this->dId];
-        return std::accumulate(begin(str), end(str), QString(), [](QString ret, const std::string s)
-                -> QString { return ret += tr(s.c_str()); });
+        return this->trConcat(device::idName[this->dId]);
     }
 
 protected:
@@ -50,17 +54,20 @@ private:
 class devFreq : public device
 {
     Q_OBJECT
+    Q_PROPERTY(int atten MEMBER atten NOTIFY gotData)
+    Q_PROPERTY(int volage MEMBER voltage NOTIFY gotData)
+    Q_PROPERTY(int current MEMBER current NOTIFY gotData)
 public:
     explicit devFreq(QObject *parent = nullptr);
 
-protected:
+private:
     int atten;
     int ch_a;
     int ch_b;
     int voltage;
     int current;
-    int radio_stat;
-    int mid_stat;
+    int output_stat;
+    int input_stat;
     int lock_a1;
     int lock_a2;
     int lock_b1;
