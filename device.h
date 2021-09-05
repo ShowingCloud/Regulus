@@ -23,11 +23,8 @@ public slots:
     inline QString name() const
     {
         QList<std::string> str = device::idName[this->id];
-        QString ret;
-        for (std::string s : str) {
-            ret += tr(s.c_str());
-        }
-        return ret;
+        return std::accumulate(begin(str), end(str), QString(), [](QString ret, const std::string s)
+                -> QString { return ret += tr(s.c_str()); });
     }
 
 protected:
