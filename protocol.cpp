@@ -59,7 +59,7 @@ msg::validateResult msg::validateProtocol(QByteArray buffer, const QByteArray in
                     // TODO: log
                     return VAL_TOOLONG;
                 }
-            } while (tail != -1 and tail - head < msgUplink::mlen);
+            } while (tail != -1 && tail - head < msgUplink::mlen);
         }
     } while (head != -1);
 

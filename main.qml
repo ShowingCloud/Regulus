@@ -64,14 +64,11 @@ Window {
 
         DevFreq {
             id: devFreqDownFreq1Master
-            Component.onCompleted: {
-                setId(0x04);
-                txtDownFreq1Id.text = name();
-            }
+            Component.onCompleted: dId = 0x04
         }
         DevFreq {
             id: devFreqDownFreq1Slave
-            Component.onCompleted: setId(0x05)
+            Component.onCompleted: dId = 0x05
         }
 
         Text {
@@ -80,6 +77,7 @@ Window {
             anchors.right: devDownFreq1Master.left
             width: defaultMarginAndTextWidthHeight
             height: 2 * rackFreqBoxHeight
+            text: devFreqDownFreq1Master.name
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
@@ -144,14 +142,11 @@ Window {
 
         DevFreq {
             id: devFreqDownFreq2Master
-            Component.onCompleted: {
-                setId(0x06);
-                txtDownFreq2Id.text = name();
-            }
+            Component.onCompleted: dId = 0x06
         }
         DevFreq {
             id: devFreqDownFreq2Slave
-            Component.onCompleted: setId(0x07)
+            Component.onCompleted: dId = 0x07
         }
 
         Text {
@@ -160,6 +155,7 @@ Window {
             anchors.right: devDownFreq2Master.left
             width: defaultMarginAndTextWidthHeight
             height: 2 * rackFreqBoxHeight
+            text: devFreqDownFreq2Master.name
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
@@ -223,14 +219,11 @@ Window {
 
         DevFreq {
             id: devFreqUpFreq1Master
-            Component.onCompleted: {
-                setId(0x00);
-                txtUpFreq1Id.text = name();
-            }
+            Component.onCompleted: dId = 0x00
         }
         DevFreq {
             id: devFreqUpFreq1Slave
-            Component.onCompleted: setId(0x01)
+            Component.onCompleted: dId = 0x01
         }
 
         Text {
@@ -239,6 +232,7 @@ Window {
             anchors.right: devUpFreq1Master.left
             width: defaultMarginAndTextWidthHeight
             height: 2 * rackFreqBoxHeight
+            text: devFreqUpFreq1Master.name
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
@@ -302,14 +296,11 @@ Window {
 
         DevFreq {
             id: devFreqUpFreq2Master
-            Component.onCompleted: {
-                setId(0x02);
-                txtUpFreq2Id.text = name();
-            }
+            Component.onCompleted: dId = 0x02
         }
         DevFreq {
             id: devFreqUpFreq2Slave
-            Component.onCompleted: setId(0x03)
+            Component.onCompleted: dId = 0x03
         }
 
         Text {
@@ -318,6 +309,7 @@ Window {
             anchors.right: devUpFreq2Master.left
             width: defaultMarginAndTextWidthHeight
             height: 2 * rackFreqBoxHeight
+            text: devFreqUpFreq2Master.name
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
@@ -381,10 +373,7 @@ Window {
 
         DevDist {
             id: devDistMidFreq1
-            Component.onCompleted: {
-                setId(0x0A);
-                txtMidFreq1Id.text = name();
-            }
+            Component.onCompleted: dId = 0x0A
         }
 
         Text {
@@ -394,6 +383,7 @@ Window {
             anchors.right: devMidFreq1.left
             width: defaultMarginAndTextWidthHeight
             height: 2 * rackFreqBoxHeight + 20
+            text: devDistMidFreq1.name
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
@@ -434,10 +424,7 @@ Window {
 
         DevDist {
             id: devDistMidFreq2
-            Component.onCompleted: {
-                setId(0x0B);
-                txtMidFreq2Id.text = name();
-            }
+            Component.onCompleted: dId = 0x0B
         }
 
         Text {
@@ -447,6 +434,7 @@ Window {
             anchors.right: devMidFreq2.left
             width: defaultMarginAndTextWidthHeight
             height: 2 * rackFreqBoxHeight + 20
+            text: devDistMidFreq2.name
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
@@ -562,14 +550,11 @@ Window {
 
         DevAmp {
             id: devAmpAmpA1Master
-            Component.onCompleted: {
-                setId(0x0C);
-                txtAmpA1Id.text = name();
-            }
+            Component.onCompleted: dId = 0x0C
         }
         DevAmp {
             id: devAmpAmpA1Slave
-            Component.onCompleted: setId(0x0D)
+            Component.onCompleted: dId = 0x0D
         }
 
         Text {
@@ -578,6 +563,7 @@ Window {
             anchors.right: devAmpA1Master.left
             width: defaultMarginAndTextWidthHeight
             height: 2 * rackAmpBoxHeight
+            text: devAmpAmpA1Master.name
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
@@ -640,14 +626,11 @@ Window {
 
         DevAmp {
             id: devAmpAmpB1Master
-            Component.onCompleted: {
-                setId(0x0E);
-                txtAmpB1Id.text = name();
-            }
+            Component.onCompleted: dId = 0x0E
         }
         DevAmp {
             id: devAmpAmpB2Slave
-            Component.onCompleted: setId(0x0F)
+            Component.onCompleted: dId = 0x0F
         }
 
         Text {
@@ -656,6 +639,7 @@ Window {
             anchors.right: devAmpB1Master.left
             width: defaultMarginAndTextWidthHeight
             height: 2 * rackAmpBoxHeight
+            text: devAmpAmpB1Master.name
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere

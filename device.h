@@ -8,21 +8,19 @@
 class device : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(int dId MEMBER dId NOTIFY idChanged)
+    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
 public:
     explicit device(QObject *parent = nullptr);
-    int id;
 
 signals:
+    void idChanged();
+    void nameChanged();
 
 public slots:
-    inline void setId(const int id)
-    {
-        this->id = id;
-    }
-
     inline QString name() const
     {
-        QList<std::string> str = device::idName[this->id];
+        QList<std::string> str = device::idName[this->dId];
         return std::accumulate(begin(str), end(str), QString(), [](QString ret, const std::string s)
                 -> QString { return ret += tr(s.c_str()); });
     }
@@ -44,6 +42,9 @@ protected:
         {0x0E, {"C2", QT_TR_NOOP("High Amplification"), "A"}},
         {0x0F, {"C2", QT_TR_NOOP("High Amplification"), "B"}}
     };
+
+private:
+    int dId;
 };
 
 class devFreq : public device
