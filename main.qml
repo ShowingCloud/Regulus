@@ -64,7 +64,10 @@ Window {
 
         DevFreq {
             id: devFreqDownFreq1Master
-            Component.onCompleted: setId(0x04)
+            Component.onCompleted: {
+                setId(0x04);
+                txtDownFreq1Id.text = name();
+            }
         }
         DevFreq {
             id: devFreqDownFreq1Slave
@@ -77,7 +80,6 @@ Window {
             anchors.right: devDownFreq1Master.left
             width: defaultMarginAndTextWidthHeight
             height: 2 * rackFreqBoxHeight
-            text: devFreqDownFreq1Master.name()
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
@@ -221,7 +223,10 @@ Window {
 
         DevFreq {
             id: devFreqUpFreq1Master
-            Component.onCompleted: setId(0x00)
+            Component.onCompleted: {
+                setId(0x00);
+                txtUpFreq1Id.text = name();
+            }
         }
         DevFreq {
             id: devFreqUpFreq1Slave
@@ -234,7 +239,6 @@ Window {
             anchors.right: devUpFreq1Master.left
             width: defaultMarginAndTextWidthHeight
             height: 2 * rackFreqBoxHeight
-            text: devFreqUpFreq1Master.name()
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
@@ -298,7 +302,10 @@ Window {
 
         DevFreq {
             id: devFreqUpFreq2Master
-            Component.onCompleted: setId(0x02)
+            Component.onCompleted: {
+                setId(0x02);
+                txtUpFreq2Id.text = name();
+            }
         }
         DevFreq {
             id: devFreqUpFreq2Slave
@@ -311,7 +318,6 @@ Window {
             anchors.right: devUpFreq2Master.left
             width: defaultMarginAndTextWidthHeight
             height: 2 * rackFreqBoxHeight
-            text: devFreqUpFreq2Master.name()
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
@@ -375,7 +381,10 @@ Window {
 
         DevDist {
             id: devDistMidFreq1
-            Component.onCompleted: setId(0x0A)
+            Component.onCompleted: {
+                setId(0x0A);
+                txtMidFreq1Id.text = name();
+            }
         }
 
         Text {
@@ -385,7 +394,6 @@ Window {
             anchors.right: devMidFreq1.left
             width: defaultMarginAndTextWidthHeight
             height: 2 * rackFreqBoxHeight + 20
-            text: devDistMidFreq1.name()
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
@@ -426,7 +434,10 @@ Window {
 
         DevDist {
             id: devDistMidFreq2
-            Component.onCompleted: setId(0x0B)
+            Component.onCompleted: {
+                setId(0x0B);
+                txtMidFreq2Id.text = name();
+            }
         }
 
         Text {
@@ -436,7 +447,6 @@ Window {
             anchors.right: devMidFreq2.left
             width: defaultMarginAndTextWidthHeight
             height: 2 * rackFreqBoxHeight + 20
-            text: devDistMidFreq2.name()
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
@@ -550,13 +560,24 @@ Window {
             font.pixelSize: defaultLabelFontSize
         }
 
+        DevAmp {
+            id: devAmpAmpA1Master
+            Component.onCompleted: {
+                setId(0x0C);
+                txtAmpA1Id.text = name();
+            }
+        }
+        DevAmp {
+            id: devAmpAmpA1Slave
+            Component.onCompleted: setId(0x0D)
+        }
+
         Text {
             id: txtAmpA1Id
             anchors.top: devAmpA1Master.top
             anchors.right: devAmpA1Master.left
             width: defaultMarginAndTextWidthHeight
             height: 2 * rackAmpBoxHeight
-            text: "C1" + qsTr("High Amplification") + "A"
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
@@ -617,13 +638,24 @@ Window {
             }
         }
 
+        DevAmp {
+            id: devAmpAmpB1Master
+            Component.onCompleted: {
+                setId(0x0E);
+                txtAmpB1Id.text = name();
+            }
+        }
+        DevAmp {
+            id: devAmpAmpB2Slave
+            Component.onCompleted: setId(0x0F)
+        }
+
         Text {
             id: txtAmpB1Id
             anchors.top: devAmpB1Master.top
             anchors.right: devAmpB1Master.left
             width: defaultMarginAndTextWidthHeight
             height: 2 * rackAmpBoxHeight
-            text: "C1" + qsTr("High Amplification") + "B"
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
