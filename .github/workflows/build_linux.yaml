@@ -41,7 +41,6 @@ jobs:
         with:
           fetch-depth: 1
       - name: Build
-        shell: cmd
         run: |
           qmake
           make
