@@ -38,21 +38,21 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
-        with:
+        uses: jurplel/install-qt-action@v2.14.0
+        #with:
           # Version of Qt to install
-          version: ${{ matrix.qt_ver }}
+        #  version: ${{ matrix.qt_ver }}
           # Target platform for build
-          target: ${{ matrix.qt_target }}
+        #  target: ${{ matrix.qt_target }}
           # Architecture for Windows/Android
-          arch: ${{ matrix.qt_arch }}
+        #  arch: ${{ matrix.qt_arch }}
       - uses: actions/checkout@v1
         with:
           fetch-depth: 1
       - name: build-msvc
         shell: cmd
-        env:
-          vc_arch: ${{ matrix.msvc_arch }}
+        #env:
+        #  vc_arch: ${{ matrix.msvc_arch }}
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
           qmake
