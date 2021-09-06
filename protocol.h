@@ -19,7 +19,7 @@ public:
     msg &operator<< (const QByteArray &data);
 
     enum validateResult { VAL_PASS, VAL_TOOSHORT, VAL_TOOLONG, VAL_INVALIDID, VAL_REMAINS, VAL_USEINPUT, VAL_FAILED };
-    static validateResult validateProtocol(QByteArray buffer, const QByteArray input);
+    static validateResult validateProtocol(QByteArray &buffer, const QByteArray input);
 
     enum proto {
         PROTO_DEFAULT, PROTO_UPLINK, PROTO_DOWNLINK, PROTO_AMP, PROTO_FREQ, PROTO_DIST,
@@ -64,7 +64,7 @@ public:
     const msgUplink &operator>> (QByteArray &data) const;
     msgUplink &operator<< (const QByteArray &data);
 
-    inline const static int mlen = 19;
+    inline const static int mlen = 20;
     inline const static int posDevice = 15;
 };
 

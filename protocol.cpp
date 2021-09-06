@@ -11,6 +11,7 @@ msg::msg(QObject *parent) : QObject(parent)
 msg &msg::operator= (const QByteArray input)
 {
     *this << input;
+    qDebug() << "here";
     *static_cast<msgUplink *>(this) << input;
 
     switch (idProto[this->device]) {
@@ -26,24 +27,28 @@ msg &msg::operator= (const QByteArray input)
     default:
         break;
     }
+    qDebug() << "here";
 
+    //qDebug() << "Got data: " << idProto[this->device] << input.toHex() << this;
     return *this;
 }
 
-msg::validateResult msg::validateProtocol(QByteArray buffer, const QByteArray input)
+msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray input)
 {
     int head = 0, tail = 0;
     const char msg_header = static_cast<char>(msg::header), msg_tailer = static_cast<char>(msg::tailer);
     do {
         head = buffer.indexOf(msg_header, head);
-        if (buffer.at(head + msgUplink::mlen) == msg_tailer) {
+        if (buffer.length() >= head + msgUplink::mlen && buffer.at(head + msgUplink::mlen - 1) == msg_tailer) {
             msg *m = new msg();
             if (buffer.length() == msgUplink::mlen) {
-                *m << buffer;
-                buffer = "";
+                qDebug() << "pass";
+                *m = buffer;
+                buffer = QByteArray();
                 return VAL_PASS;
             } else {
-                *m << buffer.mid(head, msgUplink::mlen);
+                qDebug() << "remains";
+                *m = buffer.mid(head, msgUplink::mlen);
                 buffer.remove(head, msgUplink::mlen);
                 // TODO: log
                 return VAL_REMAINS;
@@ -70,7 +75,7 @@ msg::validateResult msg::validateProtocol(QByteArray buffer, const QByteArray in
         head = input.indexOf(msg_header, head);
         if (input.at(head + msgUplink::mlen) == msg_tailer) {
             msg *m = new msg();
-            *m << input.mid(head, msgUplink::mlen);
+            *m = input.mid(head, msgUplink::mlen);
             return VAL_USEINPUT;
         }
     }
@@ -170,6 +175,7 @@ msgFreq &msgFreq::operator<< (const QByteArray &data)
 {
     if (data.length() != msgUplink::mlen)
         return *this;
+    qDebug() << "Got Msg Freq";
 
     QDataStream(data) >> this->holder8 /* header */ >> this->atten >> this->voltage
                       >> this->current >> this->output_stat >> this->input_stat >> this->lock_a1
@@ -183,6 +189,7 @@ msgDist &msgDist::operator<< (const QByteArray &data)
 {
     if (data.length() != msgUplink::mlen)
         return *this;
+    qDebug() << "Got Msg Dist";
 
     QDataStream(data) >> this->holder8 /* header */ >> this->ref_10 >> this->ref_16 >> this->voltage
                       >> this->current >> this->power >> this->holder8 >> this->holder8 /* device */
@@ -196,6 +203,7 @@ msgAmp &msgAmp::operator<< (const QByteArray &data)
 {
     if (data.length() != msgUplink::mlen)
         return *this;
+    qDebug() << "Got Msg Amp";
 
     QDataStream(data) >> this->holder8 /* header */ >> this->power >> this->gain >> this->atten
                       >> this->loss >> this->temp >> this->stat >> this->load_temp

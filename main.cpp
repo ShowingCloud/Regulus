@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
         QTimer *timer = new QTimer(&app);
         QObject::connect(timer, &QTimer::timeout, [=]() {
             protocol::createQueryMsg(*s);
+            s->readFakeData();
         });
         timer->start(1000);
     }

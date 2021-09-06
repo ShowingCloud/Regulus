@@ -10,4 +10,8 @@ Window {
     width: 900
     height: 900
     title: qsTr("Frequency Conversion Device")
+
+    onClosing: {
+        close.accepted = false;
+    }
 }

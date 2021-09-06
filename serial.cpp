@@ -36,6 +36,14 @@ void serial::readData()
     msg::validateProtocol(this->buffer, data);
 }
 
+void serial::readFakeData()
+{
+    QByteArray data = QByteArray::fromHex("ff000000000000000000000000000000000000aa");
+    this->buffer += data;
+    lastseen = QDateTime::currentDateTime();
+    qDebug() << msg::validateProtocol(this->buffer, data);
+}
+
 void serial::writeData(const QByteArray &data) const
 {
     serialport->write(data);
@@ -48,7 +56,7 @@ serial &serial::operator<< (const msgQuery &m)
 
     const char s = static_cast<char>(serialno++);
     data.replace(msgQuery::posSerial, 1, &s, 1);
-    qDebug() << "Serial writing data: " << data.length() << data.toHex();
+    //qDebug() << "Serial writing data: " << data.length() << data.toHex();
     this->writeData(data);
     return *this;
 }

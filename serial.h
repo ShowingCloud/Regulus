@@ -47,6 +47,7 @@ signals:
 
 public slots:
     void readData();
+    void readFakeData();
     void writeData(const QByteArray &data) const;
 };
 
