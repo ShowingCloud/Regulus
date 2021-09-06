@@ -45,6 +45,7 @@ serial &serial::operator<< (const msg &m)
 {
     QByteArray data;
     m >> data;
+    // m.setSerial(this->serialno++);
     this->writeData(data);
     return *this;
 }

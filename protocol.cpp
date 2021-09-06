@@ -110,16 +110,26 @@ msgDownlink::msgDownlink(QObject *parent) : msg(parent)
     return;
 }
 
+void msgQuery::createQuery()
+{
+    this->device = 0;
+    this->serial = 0;
+    return;
+}
+
 protocol::protocol(QObject *parent) : QObject(parent)
 {
     return;
 }
 
-void protocol::createDownMsg(serial &s)
+void protocol::createQueryMsg(serial &s)
 {
     protocol *p = new protocol();
     protocol::protocollist << p;
-    *p >> s;
+
+    msgQuery *query = static_cast<msgQuery *>(&p->downlink);
+    query->createQuery();
+    s << *query;
 }
 
 const protocol &protocol::operator>> (serial &s) const
@@ -186,5 +196,33 @@ msgAmp &msgAmp::operator<< (const QByteArray &data)
                       >> this->loss >> this->temp >> this->stat >> this->load_temp
                       >> this->holder8 /* device */ >> this->holder8 >> this->serial
                       >> this->handshake >> this->holder8 /* tailer */;
+    return *this;
+}
+
+const msgQuery &msgQuery::operator>> (QByteArray &data) const
+{
+    QDataStream(data) << this->header << this->identify << this->instruction << this->device
+                      << this->serial << this->tailer;
+    return *this;
+}
+
+const msgCntlFreq &msgCntlFreq::operator>> (QByteArray &data) const
+{
+    QDataStream(data) << this->header << this->atten << this->ref_10_a << this->ref_10_b << this->holder8
+                      << this->device << this->serial << this->holder8 << this->holder8 << this->tailer;
+    return *this;
+}
+
+const msgCntlDist &msgCntlDist::operator>> (QByteArray &data) const
+{
+    QDataStream(data) << this->header << this->ref_10 << this->ref_16 << this->device << this->serial
+                      << this->holder8 << this->holder8 << this->holder8 << this->holder8 << this->tailer;
+    return *this;
+}
+
+const msgCntlAmp &msgCntlAmp::operator>> (QByteArray &data) const
+{
+    QDataStream(data) <<  this->header << this->atten_mode << this->atten << this->power << this->gain
+                       << this->device << this->serial << this->tailer;
     return *this;
 }

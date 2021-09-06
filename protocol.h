@@ -28,6 +28,10 @@ public:
     inline const static int header = 0xff;
     inline const static int tailer = 0xaa;
 
+    inline void setSerial(const int serial)
+    {
+        this->serial = static_cast<uint8_t>(serial); // ignoring type conversion loss
+    }
     /* static inline int protoMaxLength()
     {
         return *std::max_element(protoLength.values().begin(), protoLength.values().end());
@@ -38,7 +42,7 @@ protected:
     const uint8_t tail = msg::tailer;
     uint8_t device;
     uint8_t serial;
-    uint8_t holder8;
+    uint8_t holder8 = 0x00;
     QDateTime time;
 
     static const inline QHash<int, proto> idProto = {
@@ -139,9 +143,11 @@ public:
     const msgQuery &operator>> (QByteArray &data) const;
     msgQuery &operator<< (const QByteArray &data);
 
+    void createQuery();
+
 protected:
-    uint8_t identify;
-    uint8_t instruction;
+    uint8_t identify = 0x02;
+    uint8_t instruction = 0x01;
 };
 
 class msgCntlAmp : public msgDownlink
@@ -201,7 +207,7 @@ private:
 signals:
 
 public slots:
-    static void createDownMsg(serial &s);
+    static void createQueryMsg(serial &s);
 };
 
 #endif // PROTOCOL_H

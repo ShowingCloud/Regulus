@@ -5,6 +5,9 @@
 #include <QList>
 #include <numeric>
 
+class msg;
+class protocol;
+
 class device : public QObject
 {
     Q_OBJECT
@@ -49,6 +52,16 @@ protected:
 
 private:
     int dId;
+
+    protocol *query;
+    protocol *rntl;
+
+    inline static QList<device *> deviceList = {};
+
+    inline static void push(device *dev)
+    {
+        device::deviceList << dev;
+    }
 };
 
 class devFreq : public device

@@ -32,6 +32,7 @@ private:
     QDateTime lastseen;
     QByteArray buffer = "";
     inline const static int timeout = 10;
+    int serialno = 0;
 
 signals:
 

@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 
         QTimer *timer = new QTimer(&app);
         QObject::connect(timer, &QTimer::timeout, [=]() {
-            protocol::createDownMsg(*s);
+            protocol::createQueryMsg(*s);
         });
         timer->start(1000);
     }
