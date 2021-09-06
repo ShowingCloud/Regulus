@@ -72,6 +72,7 @@ jobs:
           qmake
           lrelease zh_CN.ts
           nmake
+          windeployqt release/rdss.exe
       - name: Upload compile output
         uses: actions/upload-artifact@v2
         with:
