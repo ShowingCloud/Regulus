@@ -41,11 +41,58 @@ void serial::writeData(const QByteArray &data) const
     serialport->write(data);
 }
 
+serial &serial::operator<< (const msgQuery &m)
+{
+    QByteArray data;
+    m >> data;
+
+    const char s = static_cast<char>(serialno++);
+    data.replace(msgQuery::posSerial, 1, &s, 1);
+    qDebug() << "Serial writing data: " << data.length() << data.toHex();
+    this->writeData(data);
+    return *this;
+}
+
+serial &serial::operator<< (const msgCntlFreq &m)
+{
+    QByteArray data;
+    m >> data;
+
+    const char s = static_cast<char>(serialno++);
+    data.replace(msgCntlFreq::posSerial, 1, &s, 1);
+    qDebug() << "Serial writing data: " << data.length() << data.toHex();
+    this->writeData(data);
+    return *this;
+}
+
+serial &serial::operator<< (const msgCntlDist &m)
+{
+    QByteArray data;
+    m >> data;
+
+    const char s = static_cast<char>(serialno++);
+    data.replace(msgCntlDist::posSerial, 1, &s, 1);
+    qDebug() << "Serial writing data: " << data.length() << data.toHex();
+    this->writeData(data);
+    return *this;
+}
+
+serial &serial::operator<< (const msgCntlAmp &m)
+{
+    QByteArray data;
+    m >> data;
+
+    const char s = static_cast<char>(serialno++);
+    data.replace(msgCntlAmp::posSerial, 1, &s, 1);
+    qDebug() << "Serial writing data: " << data.length() << data.toHex();
+    this->writeData(data);
+    return *this;
+}
+
 serial &serial::operator<< (const msg &m)
 {
     QByteArray data;
     m >> data;
-    // m.setSerial(this->serialno++);
     this->writeData(data);
     return *this;
 }

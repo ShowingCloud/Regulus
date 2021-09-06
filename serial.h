@@ -6,6 +6,10 @@
 #include <QDateTime>
 
 class msg;
+class msgQuery;
+class msgCntlFreq;
+class msgCntlDist;
+class msgCntlAmp;
 
 class serial : public QObject
 {
@@ -13,7 +17,12 @@ class serial : public QObject
 public:
     explicit serial(const QSerialPortInfo &serialportinfo, QObject *parent = nullptr);
     ~serial();
+
     serial &operator<< (const msg &m);
+    serial &operator<< (const msgQuery &m);
+    serial &operator<< (const msgCntlFreq &m);
+    serial &operator<< (const msgCntlDist &m);
+    serial &operator<< (const msgCntlAmp &m);
     const serial &operator>> (msg &m) const;
 
     inline bool timedout()

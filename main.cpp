@@ -4,6 +4,7 @@
 #include <QSerialPortInfo>
 #include <QTimer>
 //#include <iostream>
+#include <QDebug>
 
 #include "database.h"
 #include "serial.h"
@@ -54,6 +55,7 @@ int main(int argc, char *argv[])
         });
         timer->start(1000);
     }
+    qDebug() << "Serial List: " << serialList;
 
     return app.exec();
 }

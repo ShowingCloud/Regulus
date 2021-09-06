@@ -29,21 +29,17 @@ public:
     inline const static int header = 0xff;
     inline const static int tailer = 0xaa;
 
-    inline void setSerial(const int serial)
-    {
-        this->serial = static_cast<uint8_t>(serial); // ignoring type conversion loss
-    }
     /* static inline int protoMaxLength()
     {
         return *std::max_element(protoLength.values().begin(), protoLength.values().end());
     } */
 
 protected:
-    const uint8_t head = msg::header;
-    const uint8_t tail = msg::tailer;
-    uint8_t device;
-    uint8_t serial;
-    uint8_t holder8 = 0x00;
+    const quint8 head = msg::header;
+    const quint8 tail = msg::tailer;
+    quint8 device;
+    quint8 serial;
+    quint8 holder8 = 0x00;
     QDateTime time;
 
     static const inline QHash<int, proto> idProto = {
@@ -87,15 +83,17 @@ public:
     const msgAmp &operator>> (QByteArray &data) const;
     msgAmp &operator<< (const QByteArray &data);
 
+    inline const static int posSerial = 17;
+
 protected:
-    uint16_t power;
-    uint16_t gain;
-    uint16_t atten;
-    uint16_t loss;
-    uint16_t temp;
-    uint16_t stat;
-    uint16_t load_temp;
-    uint8_t handshake;
+    quint16 power;
+    quint16 gain;
+    quint16 atten;
+    quint16 loss;
+    quint16 temp;
+    quint16 stat;
+    quint16 load_temp;
+    quint8 handshake;
 };
 
 class msgFreq : public msgUplink
@@ -105,21 +103,23 @@ public:
     const msgFreq &operator>> (QByteArray &data) const;
     msgFreq &operator<< (const QByteArray &data);
 
+    inline const static int posSerial = 17;
+
 protected:
-    uint8_t atten;
-    uint8_t voltage;
-    uint16_t current;
-    uint8_t output_stat;
-    uint8_t input_stat;
-    uint8_t lock_a1;
-    uint8_t lock_a2;
-    uint8_t lock_b1;
-    uint8_t lock_b2;
-    uint8_t ref_10_1;
-    uint8_t ref_10_2;
-    uint8_t ref_3;
-    uint8_t ref_4;
-    uint8_t handshake;
+    quint8 atten;
+    quint8 voltage;
+    quint16 current;
+    quint8 output_stat;
+    quint8 input_stat;
+    quint8 lock_a1;
+    quint8 lock_a2;
+    quint8 lock_b1;
+    quint8 lock_b2;
+    quint8 ref_10_1;
+    quint8 ref_10_2;
+    quint8 ref_3;
+    quint8 ref_4;
+    quint8 handshake;
 };
 
 class msgDist : public msgUplink
@@ -129,12 +129,15 @@ public:
     const msgDist &operator>> (QByteArray &data) const;
     msgDist &operator<< (const QByteArray &data);
 
+    inline const static int posSerial = 8;
+
 protected:
-    uint8_t ref_10;
-    uint8_t ref_16;
-    uint8_t voltage;
-    uint16_t current;
-    uint8_t power;
+    quint8 ref_10;
+    quint8 ref_16;
+    quint8 voltage;
+    quint16 current;
+    quint8 power;
+
 };
 
 class msgQuery : public msgDownlink
@@ -146,9 +149,11 @@ public:
 
     void createQuery();
 
+    inline const static int posSerial = 4;
+
 protected:
-    uint8_t identify = 0x02;
-    uint8_t instruction = 0x01;
+    quint8 identify = 0x00;
+    quint8 instruction = 0x01;
 };
 
 class msgCntlAmp : public msgDownlink
@@ -158,11 +163,13 @@ public:
     const msgCntlAmp &operator>> (QByteArray &data) const;
     msgCntlAmp &operator<< (const QByteArray &data);
 
+    inline const static int posSerial = 8;
+
 protected:
-    uint8_t atten_mode;
-    uint8_t atten;
-    uint16_t power;
-    uint16_t gain;
+    quint8 atten_mode;
+    quint8 atten;
+    quint16 power;
+    quint16 gain;
 };
 
 class msgCntlFreq : public msgDownlink
@@ -172,10 +179,12 @@ public:
     const msgCntlFreq &operator>> (QByteArray &data) const;
     msgCntlFreq &operator<< (const QByteArray &data);
 
+    inline const static int posSerial = 6;
+
 protected:
-    uint8_t atten;
-    uint8_t ref_10_a;
-    uint8_t ref_10_b;
+    quint8 atten;
+    quint8 ref_10_a;
+    quint8 ref_10_b;
 };
 
 class msgCntlDist : public msgDownlink
@@ -185,9 +194,11 @@ public:
     const msgCntlDist &operator>> (QByteArray &data) const;
     msgCntlDist &operator<< (const QByteArray &data);
 
+    inline const static int posSerial = 4;
+
 protected:
-    uint8_t ref_10;
-    uint8_t ref_16;
+    quint8 ref_10;
+    quint8 ref_16;
 };
 
 

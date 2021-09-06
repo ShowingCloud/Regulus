@@ -1,3 +1,5 @@
+#include <QDebug>
+
 #include "protocol.h"
 #include "serial.h"
 
@@ -112,6 +114,8 @@ msgDownlink::msgDownlink(QObject *parent) : msg(parent)
 
 void msgQuery::createQuery()
 {
+    this->identify = 0x00;
+    this->instruction = 0x01;
     this->device = 0;
     this->serial = 0;
     return;
@@ -129,6 +133,7 @@ void protocol::createQueryMsg(serial &s)
 
     msgQuery *query = static_cast<msgQuery *>(&p->downlink);
     query->createQuery();
+    qDebug() << "Query Created: " << query;
     s << *query;
 }
 
@@ -201,28 +206,30 @@ msgAmp &msgAmp::operator<< (const QByteArray &data)
 
 const msgQuery &msgQuery::operator>> (QByteArray &data) const
 {
-    QDataStream(data) << this->header << this->identify << this->instruction << this->device
-                      << this->serial << this->tailer;
+    QDataStream(&data, QIODevice::WriteOnly) << this->head << this->identify << this->instruction
+                                             << this->device << this->serial << this->tail;
     return *this;
 }
 
 const msgCntlFreq &msgCntlFreq::operator>> (QByteArray &data) const
 {
-    QDataStream(data) << this->header << this->atten << this->ref_10_a << this->ref_10_b << this->holder8
-                      << this->device << this->serial << this->holder8 << this->holder8 << this->tailer;
+    QDataStream(&data, QIODevice::WriteOnly) << this->head << this->atten << this->ref_10_a << this->ref_10_b
+                                             << this->holder8 << this->device << this->serial << this->holder8
+                                             << this->holder8 << this->tail;
     return *this;
 }
 
 const msgCntlDist &msgCntlDist::operator>> (QByteArray &data) const
 {
-    QDataStream(data) << this->header << this->ref_10 << this->ref_16 << this->device << this->serial
-                      << this->holder8 << this->holder8 << this->holder8 << this->holder8 << this->tailer;
+    QDataStream(&data, QIODevice::WriteOnly) << this->head << this->ref_10 << this->ref_16 << this->device
+                                             << this->serial << this->holder8 << this->holder8 << this->holder8
+                                             << this->holder8 << this->tail;
     return *this;
 }
 
 const msgCntlAmp &msgCntlAmp::operator>> (QByteArray &data) const
 {
-    QDataStream(data) <<  this->header << this->atten_mode << this->atten << this->power << this->gain
-                       << this->device << this->serial << this->tailer;
+    QDataStream(&data, QIODevice::WriteOnly) << this->head << this->atten_mode << this->atten << this->power
+                                              << this->gain << this->device << this->serial << this->tail;
     return *this;
 }
