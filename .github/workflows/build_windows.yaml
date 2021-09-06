@@ -75,4 +75,5 @@ jobs:
       - name: Upload compile output
         uses: actions/upload-artifact@v2
         with:
+          name: ${{ runner.os }} ${{ matrix.qt_ver }} ${{ maxtrix.qt_arch }}
           path: release
