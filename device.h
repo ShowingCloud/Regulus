@@ -118,7 +118,7 @@ protected:
     int gain;
     int atten;
     int loss;
-    int temp;
+    int amp_temp;
     int stat;
     int load_temp;
     int handshake;

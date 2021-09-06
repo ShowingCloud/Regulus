@@ -11,25 +11,24 @@ msg::msg(QObject *parent) : QObject(parent)
 msg &msg::operator= (const QByteArray input)
 {
     *this << input;
-    qDebug() << "here";
-    *static_cast<msgUplink *>(this) << input;
+    static_cast<msgUplink>(this) << input;
 
     switch (idProto[this->device]) {
     case PROTO_FREQ:
-        *static_cast<msgFreq *>(this) << input;
+        static_cast<msgFreq>(this) << input;
         break;
     case PROTO_DIST:
-        *static_cast<msgDist *>(this) << input;
+        static_cast<msgDist>(this) << input;
         break;
     case PROTO_AMP:
-        *static_cast<msgAmp *>(this) << input;
+        static_cast<msgAmp>(this) << input;
         break;
     default:
+        qDebug() << "unknown device id";
         break;
     }
-    qDebug() << "here";
 
-    //qDebug() << "Got data: " << idProto[this->device] << input.toHex() << this;
+    qDebug() << "Got data: " << idProto[this->device] << input.toHex() << this;
     return *this;
 }
 
@@ -44,11 +43,13 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray i
             if (buffer.length() == msgUplink::mlen) {
                 qDebug() << "pass";
                 *m = buffer;
+                msg::unknownmsglist << m;
                 buffer = QByteArray();
                 return VAL_PASS;
             } else {
                 qDebug() << "remains";
                 *m = buffer.mid(head, msgUplink::mlen);
+                msg::unknownmsglist << m;
                 buffer.remove(head, msgUplink::mlen);
                 // TODO: log
                 return VAL_REMAINS;
@@ -76,11 +77,13 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray i
         if (input.at(head + msgUplink::mlen) == msg_tailer) {
             msg *m = new msg();
             *m = input.mid(head, msgUplink::mlen);
+            msg::unknownmsglist << m;
             return VAL_USEINPUT;
         }
     }
 
     return VAL_FAILED;
+
     /*
     if (idProto.contains(input.at(1).unicode()))
     {
@@ -113,6 +116,21 @@ msgUplink::msgUplink(QObject *parent) : msg(parent)
 }
 
 msgDownlink::msgDownlink(QObject *parent) : msg(parent)
+{
+    return;
+}
+
+msgFreq::msgFreq(QObject *parent) : msgUplink(parent)
+{
+    return;
+}
+
+msgDist::msgDist(QObject *parent) : msgUplink(parent)
+{
+    return;
+}
+
+msgAmp::msgAmp(QObject *parent) : msgUplink(parent)
 {
     return;
 }
@@ -174,7 +192,10 @@ msgUplink &msgUplink::operator<< (const QByteArray &data)
 msgFreq &msgFreq::operator<< (const QByteArray &data)
 {
     if (data.length() != msgUplink::mlen)
+    {
+        qDebug() << "Mulformed message";
         return *this;
+    }
     qDebug() << "Got Msg Freq";
 
     QDataStream(data) >> this->holder8 /* header */ >> this->atten >> this->voltage
@@ -188,7 +209,10 @@ msgFreq &msgFreq::operator<< (const QByteArray &data)
 msgDist &msgDist::operator<< (const QByteArray &data)
 {
     if (data.length() != msgUplink::mlen)
+    {
+        qDebug() << "Mulformed message";
         return *this;
+    }
     qDebug() << "Got Msg Dist";
 
     QDataStream(data) >> this->holder8 /* header */ >> this->ref_10 >> this->ref_16 >> this->voltage
@@ -202,7 +226,10 @@ msgDist &msgDist::operator<< (const QByteArray &data)
 msgAmp &msgAmp::operator<< (const QByteArray &data)
 {
     if (data.length() != msgUplink::mlen)
+    {
+        qDebug() << "Mulformed message";
         return *this;
+    }
     qDebug() << "Got Msg Amp";
 
     QDataStream(data) >> this->holder8 /* header */ >> this->power >> this->gain >> this->atten

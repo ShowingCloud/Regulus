@@ -29,6 +29,7 @@ public:
     inline const static int header = 0xff;
     inline const static int tailer = 0xaa;
 
+    inline static QList<msg *> unknownmsglist = {};
     /* static inline int protoMaxLength()
     {
         return *std::max_element(protoLength.values().begin(), protoLength.values().end());

@@ -1,13 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Window 2.9
 import QtQuick.Extras 1.4
-import QtQuick.Scene2D 2.9
-import QtQuick.Scene3D 2.0
 import QtQuick.Shapes 1.11
-import QtQuick.Controls 1.6
-import QtQuick.Controls.Styles.Desktop 1.0
-import QtQuick.Layouts 1.11
-import QtGraphicalEffects 1.0
 
 import rdss.device 1.0
 
