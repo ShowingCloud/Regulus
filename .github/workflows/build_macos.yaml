@@ -49,3 +49,8 @@ jobs:
         with:
           name: ${{ runner.os }} ${{ matrix.qt_ver }}
           path: rdss.app
+      - name: Upload compile output
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ runner.os }} ${{ matrix.qt_ver }} DIDNT_PACK
+          path: rdss.app/Contents/MacOS/rdss

@@ -78,3 +78,8 @@ jobs:
         with:
           name: ${{ runner.os }} ${{ matrix.qt_ver }} ${{ matrix.qt_arch }}
           path: release
+      - name: Upload compile output
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ runner.os }} ${{ matrix.qt_ver }} ${{ matrix.qt_arch }} DIDNT_PACK
+          path: release/rdss.exe
