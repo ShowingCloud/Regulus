@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QList>
 #include <QDateTime>
+#include <QDataStream>
 
 class serial;
 
