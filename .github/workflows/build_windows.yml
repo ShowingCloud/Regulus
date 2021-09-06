@@ -38,15 +38,19 @@ jobs:
   
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt
+          key: ${{ runner.os }}-QtCache
       - name: Install Qt
         uses: jurplel/install-qt-action@v2.14.0
-        #with:
-          # Version of Qt to install
+        with:
         #  version: ${{ matrix.qt_ver }}
-          # Target platform for build
         #  target: ${{ matrix.qt_target }}
-          # Architecture for Windows/Android
-        #  arch: ${{ matrix.qt_arch }}
+          arch: ${{ matrix.qt_arch }}
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
       - uses: actions/checkout@v1
         with:
           fetch-depth: 1
