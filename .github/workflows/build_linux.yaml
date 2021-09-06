@@ -44,7 +44,7 @@ jobs:
         shell: cmd
         run: |
           qmake
-          nmake
+          make
       - name: Upload compile output
         uses: actions/upload-artifact@v2
         with:
