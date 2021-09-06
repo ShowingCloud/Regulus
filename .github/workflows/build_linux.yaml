@@ -43,6 +43,7 @@ jobs:
       - name: Build
         run: |
           qmake
+          lrelease zh_CN.ts
           make
       - name: Upload compile output
         uses: actions/upload-artifact@v2

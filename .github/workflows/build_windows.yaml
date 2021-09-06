@@ -59,7 +59,7 @@ jobs:
           version: ${{ matrix.qt_ver }}
           target: ${{ matrix.qt_target }}
           arch: ${{ matrix.qt_arch }}
-          #cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
       - uses: actions/checkout@v1
         with:
           fetch-depth: 1
@@ -75,4 +75,4 @@ jobs:
       - name: Upload compile output
         uses: actions/upload-artifact@v2
         with:
-          path: rdss
+          path: rdss.exe
