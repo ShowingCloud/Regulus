@@ -12,6 +12,7 @@ Window {
     title: qsTr("Frequency Distribution Device")
 
     onClosing: {
-        close.accepted = false;
+        close.accepted = false
+        this.hide()
     }
 }

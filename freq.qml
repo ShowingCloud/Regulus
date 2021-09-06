@@ -12,6 +12,7 @@ Window {
     title: qsTr("Frequency Conversion Device")
 
     onClosing: {
-        close.accepted = false;
+        close.accepted = false
+        this.hide()
     }
 }

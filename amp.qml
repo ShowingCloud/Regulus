@@ -13,6 +13,7 @@ Window {
     title: qsTr("Amplification Device")
 
     onClosing: {
-        close.accepted = false;
+        close.accepted = fals
+        this.hide()
     }
 }
