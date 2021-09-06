@@ -43,6 +43,7 @@ jobs:
           qmake
           lrelease zh_CN.ts
           make
+          macdeployqt rdss.app -dmg
       - name: Upload compile output
         uses: actions/upload-artifact@v2
         with:
