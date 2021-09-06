@@ -4,28 +4,28 @@ import QtQuick.Extras 1.4
 import rdss.device 1.0
 
 Item {
-    id: blockDevFreq
+    id: blockDevAmp
     property int posLeft : 0
     property int posTop : 0
     property int posRight : devMaster.x + devMaster.width
     property int posBottom: devSlave.y + devSlave.height
 
-    DevFreq {
-        id: devFreqMaster
+    DevAmp {
+        id: devAmpMaster
     }
-    DevFreq {
-        id: devFreqSlave
+    DevAmp {
+        id: devAmpSlave
     }
-    property alias masterId : devFreqMaster.dId
-    property alias slaveId : devFreqSlave.dId
+    property alias masterId : devAmpMaster.dId
+    property alias slaveId : devAmpSlave.dId
 
     Text {
         id: txtId
         anchors.top: devMaster.top
         anchors.right: devMaster.left
         width: defaultMarginAndTextWidthHeight
-        height: 2 * rackFreqBoxHeight
-        text: devFreqMaster.name
+        height: 2 * rackAmpBoxHeight
+        text: devAmpMaster.name
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         wrapMode: Text.WrapAnywhere
@@ -36,9 +36,9 @@ Item {
             id: mouseId
             anchors.fill: parent
             onClicked: {
-                objWinFreq.setVisible(true);
-                objWinFreq.requestActivate();
-                objWinFreq.raise();
+                objWinAmp.setVisible(true);
+                objWinAmp.requestActivate();
+                objWinAmp.raise();
             }
         }
     }
@@ -47,8 +47,8 @@ Item {
         id: devMaster
         x: posLeft + 2 * defaultMarginAndTextWidthHeight
         y: posTop + defaultMarginAndTextWidthHeight
-        width: rackFreqBoxWidth
-        height: rackFreqBoxHeight
+        width: rackAmpBoxWidth
+        height: rackAmpBoxHeight
         StatusIndicator {
             id: indMaster
             x: marginIndicators
@@ -60,9 +60,9 @@ Item {
             id: mouseMaster
             anchors.fill: parent
             onClicked: {
-                objWinFreq.setVisible(true);
-                objWinFreq.requestActivate();
-                objWinFreq.raise();
+                objWinAmp.setVisible(true);
+                objWinAmp.requestActivate();
+                objWinAmp.raise();
             }
         }
     }
@@ -72,8 +72,8 @@ Item {
         anchors.left: devMaster.left
         anchors.top: devMaster.bottom
         anchors.topMargin: -defaultBorderWidth
-        width: rackFreqBoxWidth
-        height: rackFreqBoxHeight
+        width: rackAmpBoxWidth
+        height: rackAmpBoxHeight
         StatusIndicator {
             id: indSlave
             x: marginIndicators
@@ -85,9 +85,9 @@ Item {
             id: mouseSlave
             anchors.fill: parent
             onClicked: {
-                objWinFreq.setVisible(true);
-                objWinFreq.requestActivate();
-                objWinFreq.raise();
+                objWinAmp.setVisible(true);
+                objWinAmp.requestActivate();
+                objWinAmp.raise();
             }
         }
     }

@@ -5,5 +5,7 @@
         <file>dist.qml</file>
         <file>amp.qml</file>
         <file>BlockDevFreq.qml</file>
+        <file>BlockDevDist.qml</file>
+        <file>BlockDevAmp.qml</file>
     </qresource>
 </RCC>

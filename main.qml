@@ -66,7 +66,7 @@ Window {
             id: blkFreqDownFreq1
             masterId: 0x04
             slaveId: 0x05
-            posTop: 0
+            posTop: txtRackFreqId.height
             posLeft: 0
         }
 
@@ -74,7 +74,7 @@ Window {
             id: blkFreqDownFreq2
             masterId: 0x06
             slaveId: 0x07
-            posTop: 0
+            posTop: txtRackFreqId.height
             posLeft: blkFreqDownFreq1.posRight
         }
 
@@ -94,109 +94,20 @@ Window {
             posLeft: blkFreqUpFreq1.posRight
         }
 
-        /*
-        DevDist {
-            id: devDistMidFreq1
-            dId: 0x0A
+        BlockDevDist {
+            id: blkDistMidFreq1
+            deviceId: 0x0A
+            posTop: blkFreqUpFreq1.posBottom
+            posLeft: 0
         }
 
-        Text {
-            id: txtMidFreq1Id
-            anchors.top: devMidFreq1.top
-            anchors.topMargin: -10
-            anchors.right: devMidFreq1.left
-            width: defaultMarginAndTextWidthHeight
-            height: 2 * rackFreqBoxHeight + 20
-            text: devDistMidFreq1.name
-            verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideRight
-            wrapMode: Text.WrapAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
-
-            MouseArea {
-                id: mouseMidFreq1Id
-                anchors.fill: parent
-                onClicked: {
-                    objWinDist.setVisible(true);
-                }
-            }
+        BlockDevDist {
+            id: blkDistMidFreq2
+            deviceId: 0x0B
+            posTop: blkFreqUpFreq1.posBottom
+            posLeft: blkDistMidFreq1.posRight
         }
 
-        Rectangle {
-            id: devMidFreq1
-            anchors.top: devUpFreq1Slave.bottom
-            anchors.topMargin: defaultMarginAndTextWidthHeight
-            anchors.left: devUpFreq1Slave.left
-            width: rackFreqBoxWidth
-            height: 2 * rackFreqBoxHeight
-            StatusIndicator {
-                id: indMidFreq1
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseMidFreq1
-                anchors.fill: parent
-                onClicked: {
-                    objWinDist.setVisible(true);
-                }
-            }
-        }
-
-        DevDist {
-            id: devDistMidFreq2
-            dId: 0x0B
-        }
-
-        Text {
-            id: txtMidFreq2Id
-            anchors.top: devMidFreq2.top
-            anchors.topMargin: -10
-            anchors.right: devMidFreq2.left
-            width: defaultMarginAndTextWidthHeight
-            height: 2 * rackFreqBoxHeight + 20
-            text: devDistMidFreq2.name
-            verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideRight
-            wrapMode: Text.WrapAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
-
-            MouseArea {
-                id: mouseMidFreq2Id
-                anchors.fill: parent
-                onClicked: {
-                    objWinDist.setVisible(true);
-                }
-            }
-        }
-
-        Rectangle {
-            id: devMidFreq2
-            anchors.left: devMidFreq1.right
-            anchors.leftMargin: 2 * defaultMarginAndTextWidthHeight
-            anchors.top: devMidFreq1.top
-            width: rackFreqBoxWidth
-            height: 2 * rackFreqBoxHeight
-            StatusIndicator {
-                id: indMidFreq2
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseMidFreq2
-                anchors.fill: parent
-                onClicked: {
-                    objWinDist.setVisible(true);
-                }
-            }
-        }
-*/
         Rectangle {
             id: devSW1
             anchors.left: devSerial1.left
@@ -272,157 +183,20 @@ Window {
             font.pixelSize: defaultLabelFontSize
         }
 
-        DevAmp {
-            id: devAmpAmpA1Master
-            dId: 0x0C
-        }
-        DevAmp {
-            id: devAmpAmpA1Slave
-            dId: 0x0D
-        }
-
-        Text {
-            id: txtAmpA1Id
-            anchors.top: devAmpA1Master.top
-            anchors.right: devAmpA1Master.left
-            width: defaultMarginAndTextWidthHeight
-            height: 2 * rackAmpBoxHeight
-            text: devAmpAmpA1Master.name
-            verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideRight
-            wrapMode: Text.WrapAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
-
-            MouseArea {
-                id: mouseAmpA1Id
-                anchors.fill: parent
-                onClicked: {
-                    objWinAmp.setVisible(true);
-                }
-            }
+        BlockDevAmp {
+            id: blkAmpAmpA1
+            masterId: 0x0C
+            slaveId: 0x0D
+            posTop: txtRackAmpId.height
+            posLeft: 0
         }
 
-        Rectangle {
-            id: devAmpA1Master
-            x: 2 * defaultMarginAndTextWidthHeight
-            y: 2 * defaultMarginAndTextWidthHeight
-            width: rackAmpBoxWidth
-            height: rackAmpBoxHeight
-            StatusIndicator {
-                id: indAmpA1Master
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseAmpA1Master
-                anchors.fill: parent
-                onClicked: {
-                    objWinAmp.setVisible(true);
-                }
-            }
-        }
-
-        Rectangle {
-            id: devAmpA1Slave
-            anchors.left: devAmpA1Master.left
-            anchors.top: devAmpA1Master.bottom
-            anchors.topMargin: -defaultBorderWidth
-            width: rackAmpBoxWidth
-            height: rackAmpBoxHeight
-            StatusIndicator {
-                id: indAmpA1Slave
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseAmpA1Slave
-                anchors.fill: parent
-                onClicked: {
-                    objWinAmp.setVisible(true);
-                }
-            }
-        }
-
-        DevAmp {
-            id: devAmpAmpB1Master
-            dId: 0x0E
-        }
-        DevAmp {
-            id: devAmpAmpB2Slave
-            dId: 0x0F
-        }
-
-        Text {
-            id: txtAmpB1Id
-            anchors.top: devAmpB1Master.top
-            anchors.right: devAmpB1Master.left
-            width: defaultMarginAndTextWidthHeight
-            height: 2 * rackAmpBoxHeight
-            text: devAmpAmpB1Master.name
-            verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideRight
-            wrapMode: Text.WrapAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
-
-            MouseArea {
-                id: mouseAmpB1Id
-                anchors.fill: parent
-                onClicked: {
-                    objWinAmp.setVisible(true);
-                }
-            }
-        }
-
-        Rectangle {
-            id: devAmpB1Master
-            anchors.top: devAmpA1Master.top
-            anchors.left: devAmpA1Master.right
-            anchors.leftMargin: 2 * defaultMarginAndTextWidthHeight
-            width: rackAmpBoxWidth
-            height: rackAmpBoxHeight
-            StatusIndicator {
-                id: indAmpB1Master
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseAmpB1Master
-                anchors.fill: parent
-                onClicked: {
-                    objWinAmp.setVisible(true);
-                }
-            }
-        }
-
-        Rectangle {
-            id: devAmpB1Slave
-            anchors.left: devAmpB1Master.left
-            anchors.top: devAmpB1Master.bottom
-            anchors.topMargin: -defaultBorderWidth
-            width: rackAmpBoxWidth
-            height: rackAmpBoxHeight
-            StatusIndicator {
-                id: indAmpB1Slave
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseAmpB1Slave
-                anchors.fill: parent
-                onClicked: {
-                    objWinAmp.setVisible(true);
-                }
-            }
+        BlockDevAmp {
+            id: blkAmpAmpB1
+            masterId: 0x0E
+            slaveId: 0x0F
+            posTop: txtRackAmpId.height
+            posLeft: blkAmpAmpA1.posRight
         }
 
         Text {
