@@ -37,8 +37,6 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinFreq.setVisible(true);
-                objWinFreq.requestActivate();
-                objWinFreq.raise();
             }
         }
     }
@@ -61,8 +59,6 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinFreq.setVisible(true);
-                objWinFreq.requestActivate();
-                objWinFreq.raise();
             }
         }
     }
@@ -86,8 +82,6 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinFreq.setVisible(true);
-                objWinFreq.requestActivate();
-                objWinFreq.raise();
             }
         }
     }

@@ -34,8 +34,6 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinDist.setVisible(true);
-                objWinDist.requestActivate();
-                objWinDist.raise();
             }
         }
     }
@@ -58,8 +56,6 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinDist.setVisible(true);
-                objWinDist.requestActivate();
-                objWinDist.raise();
             }
         }
     }

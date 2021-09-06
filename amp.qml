@@ -6,7 +6,7 @@ import QtQuick.Window 2.9
 Window {
     id: winAmp
     visible: false
-    flags: Qt.WindowStaysOnTopHint
+    modality: Qt.ApplicationModal
     width: 900
     height: 900
     title: qsTr("Amplification Device")

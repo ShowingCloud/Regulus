@@ -37,8 +37,6 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinAmp.setVisible(true);
-                objWinAmp.requestActivate();
-                objWinAmp.raise();
             }
         }
     }
@@ -61,8 +59,6 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinAmp.setVisible(true);
-                objWinAmp.requestActivate();
-                objWinAmp.raise();
             }
         }
     }
@@ -86,8 +82,6 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinAmp.setVisible(true);
-                objWinAmp.requestActivate();
-                objWinAmp.raise();
             }
         }
     }

@@ -6,7 +6,7 @@ import QtQuick.Window 2.9
 Window {
     id: winDist
     visible: false
-    flags: Qt.WindowStaysOnTopHint
+    modality: Qt.ApplicationModal
     width: 900
     height: 900
     title: qsTr("Frequency Distribution Device")
