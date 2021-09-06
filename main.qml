@@ -223,9 +223,8 @@ Window {
 
         Rectangle {
             id: devAmpA2Master
-            anchors.left: devAmpA1Slave.left
-            anchors.top: devAmpA1Slave.bottom
-            anchors.topMargin: defaultMarginAndTextWidthHeight
+            x: 2 * defaultMarginAndTextWidthHeight
+            y: blkAmpAmpA1.posBottom + defaultMarginAndTextWidthHeight
             width: rackAmpBoxWidth
             height: rackAmpBoxHeight
             StatusIndicator {
