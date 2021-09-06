@@ -25,22 +25,22 @@ jobs:
         qt_ver: [5.15.2]
         qt_target: [desktop]
         #qt_arch: [win64_msvc2019_64, win32_msvc2019, win64_msvc2017_64, win32_msvc2017, win64_mingw81, win32_mingw81]
-        qt_arch: [win64_msvc2017_64, win32_msvc2017]
+        qt_arch: [win64_mingw81, win32_mingw81]
         #exclude: 
           # - qt_ver: 5.9.8
           #   qt_arch: win32_mingw73
           # - qt_ver: 5.12.6
           #   qt_arch: win32_mingw53
         include:
-          - qt_arch: win64_msvc2017_64
+          - qt_arch: win64_msvc2019_64
             msvc_arch: x64
-          - qt_arch: win32_msvc2017
+          - qt_arch: win32_msvc2019
             msvc_arch: x86
   
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2.14.0
+        uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_ver }}
           target: ${{ matrix.qt_target }}
@@ -53,7 +53,7 @@ jobs:
         env:
           vc_arch: ${{ matrix.msvc_arch }}
         run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
           qmake
           lrelease zh_CN.ts
           nmake
