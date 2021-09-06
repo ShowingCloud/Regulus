@@ -62,315 +62,39 @@ Window {
             font.pixelSize: defaultLabelFontSize
         }
 
-        DevFreq {
-            id: devFreqDownFreq1Master
-            dId: 0x04
-        }
-        DevFreq {
-            id: devFreqDownFreq1Slave
-            dId: 0x05
-        }
-
-        Text {
-            id: txtDownFreq1Id
-            anchors.top: devDownFreq1Master.top
-            anchors.right: devDownFreq1Master.left
-            width: defaultMarginAndTextWidthHeight
-            height: 2 * rackFreqBoxHeight
-            text: devFreqDownFreq1Master.name
-            verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideRight
-            wrapMode: Text.WrapAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
-
-            MouseArea {
-                id: mouseDownFreqId
-                anchors.fill: parent
-                onClicked: {
-                    objWinFreq.setVisible(true);
-                }
-            }
+        BlockDevFreq {
+            id: blkFreqDownFreq1
+            masterId: 0x04
+            slaveId: 0x05
+            posTop: 0
+            posLeft: 0
         }
 
-        Rectangle {
-            id: devDownFreq1Master
-            x: 2 * defaultMarginAndTextWidthHeight
-            y: 2 * defaultMarginAndTextWidthHeight
-            width: rackFreqBoxWidth
-            height: rackFreqBoxHeight
-            StatusIndicator {
-                id: indDownFreq1Master
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseDownFreq1Master
-                anchors.fill: parent
-                onClicked: {
-                    objWinFreq.setVisible(true);
-                    objWinFreq.requestActivate();
-                    objWinFreq.raise();
-                }
-            }
+        BlockDevFreq {
+            id: blkFreqDownFreq2
+            masterId: 0x06
+            slaveId: 0x07
+            posTop: 0
+            posLeft: blkFreqDownFreq1.posRight
         }
 
-        Rectangle {
-            id: devDownFreq1Slave
-            anchors.left: devDownFreq1Master.left
-            anchors.top: devDownFreq1Master.bottom
-            anchors.topMargin: -defaultBorderWidth
-            width: rackFreqBoxWidth
-            height: rackFreqBoxHeight
-            StatusIndicator {
-                id: indDownFreq1Slave
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseDownFreq1Slave
-                anchors.fill: parent
-                onClicked: {
-                    objWinFreq.setVisible(true);
-                }
-            }
+        BlockDevFreq {
+            id: blkFreqUpFreq1
+            masterId: 0x00
+            slaveId: 0x01
+            posTop: blkFreqDownFreq1.posBottom
+            posLeft: 0
         }
 
-        DevFreq {
-            id: devFreqDownFreq2Master
-            dId: 0x06
-        }
-        DevFreq {
-            id: devFreqDownFreq2Slave
-            dId: 0x07
-        }
-
-        Text {
-            id: txtDownFreq2Id
-            anchors.top: devDownFreq2Master.top
-            anchors.right: devDownFreq2Master.left
-            width: defaultMarginAndTextWidthHeight
-            height: 2 * rackFreqBoxHeight
-            text: devFreqDownFreq2Master.name
-            verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideRight
-            wrapMode: Text.WrapAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
-
-            MouseArea {
-                id: mouseDownFreq2Id
-                anchors.fill: parent
-                onClicked: {
-                    objWinFreq.setVisible(true);
-                }
-            }
+        BlockDevFreq {
+            id: blkFreqUpFreq2
+            masterId: 0x02
+            slaveId: 0x03
+            posTop: blkFreqDownFreq1.posBottom
+            posLeft: blkFreqUpFreq1.posRight
         }
 
-        Rectangle {
-            id: devDownFreq2Master
-            anchors.left: devDownFreq1Master.right
-            anchors.leftMargin: 2 * defaultMarginAndTextWidthHeight
-            anchors.top: devDownFreq1Master.top
-            width: rackFreqBoxWidth
-            height: rackFreqBoxHeight
-            StatusIndicator {
-                id: indDownFreq2Master
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseDownFreq2Master
-                anchors.fill: parent
-                onClicked: {
-                    objWinFreq.setVisible(true);
-                }
-            }
-        }
-
-        Rectangle {
-            id: devDownFreq2Slave
-            anchors.left: devDownFreq2Master.left
-            anchors.top: devDownFreq2Master.bottom
-            anchors.topMargin: -defaultBorderWidth
-            width: rackFreqBoxWidth
-            height: rackFreqBoxHeight
-            StatusIndicator {
-                id: indDownFreq2Slave
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseDownFreq2Slave
-                anchors.fill: parent
-                onClicked: {
-                    objWinFreq.setVisible(true);
-                }
-            }
-        }
-
-        DevFreq {
-            id: devFreqUpFreq1Master
-            dId: 0x00
-        }
-        DevFreq {
-            id: devFreqUpFreq1Slave
-            dId: 0x01
-        }
-
-        Text {
-            id: txtUpFreq1Id
-            anchors.top: devUpFreq1Master.top
-            anchors.right: devUpFreq1Master.left
-            width: defaultMarginAndTextWidthHeight
-            height: 2 * rackFreqBoxHeight
-            text: devFreqUpFreq1Master.name
-            verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideRight
-            wrapMode: Text.WrapAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
-
-            MouseArea {
-                id: mouseUpFreq1Id
-                anchors.fill: parent
-                onClicked: {
-                    objWinFreq.setVisible(true);
-                }
-            }
-        }
-
-        Rectangle {
-            id: devUpFreq1Master
-            anchors.top: devDownFreq1Slave.bottom
-            anchors.topMargin: defaultMarginAndTextWidthHeight
-            anchors.left: devDownFreq1Slave.left
-            width: rackFreqBoxWidth
-            height: rackFreqBoxHeight
-            StatusIndicator {
-                id: indUpFreq1Master
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseUpFreq1Master
-                anchors.fill: parent
-                onClicked: {
-                    objWinFreq.setVisible(true);
-                }
-            }
-        }
-
-        Rectangle {
-            id: devUpFreq1Slave
-            anchors.left: devUpFreq1Master.left
-            anchors.top: devUpFreq1Master.bottom
-            anchors.topMargin: -defaultBorderWidth
-            width: rackFreqBoxWidth
-            height: rackFreqBoxHeight
-            StatusIndicator {
-                id: indUpFreq1Slave
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseUpFreq1Slave
-                anchors.fill: parent
-                onClicked: {
-                    objWinFreq.setVisible(true);
-                }
-            }
-        }
-
-        DevFreq {
-            id: devFreqUpFreq2Master
-            dId: 0x02
-        }
-        DevFreq {
-            id: devFreqUpFreq2Slave
-            dId: 0x03
-        }
-
-        Text {
-            id: txtUpFreq2Id
-            anchors.top: devUpFreq2Master.top
-            anchors.right: devUpFreq2Master.left
-            width: defaultMarginAndTextWidthHeight
-            height: 2 * rackFreqBoxHeight
-            text: devFreqUpFreq2Master.name
-            verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideRight
-            wrapMode: Text.WrapAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
-
-            MouseArea {
-                id: mouseUpFreq2Id
-                anchors.fill: parent
-                onClicked: {
-                    objWinFreq.setVisible(true);
-                }
-            }
-        }
-
-        Rectangle {
-            id: devUpFreq2Master
-            anchors.left: devUpFreq1Master.right
-            anchors.leftMargin: 2 * defaultMarginAndTextWidthHeight
-            anchors.top: devUpFreq1Master.top
-            width: rackFreqBoxWidth
-            height: rackFreqBoxHeight
-            StatusIndicator {
-                id: indUpFreq2Master
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseUpFreq2Master
-                anchors.fill: parent
-                onClicked: {
-                    objWinFreq.setVisible(true);
-                }
-            }
-        }
-
-        Rectangle {
-            id: devUpFreq2Slave
-            anchors.left: devUpFreq2Master.left
-            anchors.top: devUpFreq2Master.bottom
-            anchors.topMargin: -defaultBorderWidth
-            width: rackFreqBoxWidth
-            height: rackFreqBoxHeight
-            StatusIndicator {
-                id: indUpFreq2Slave
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseUpFreq2Slave
-                anchors.fill: parent
-                onClicked: {
-                    objWinFreq.setVisible(true);
-                }
-            }
-        }
-
+        /*
         DevDist {
             id: devDistMidFreq1
             dId: 0x0A
@@ -472,7 +196,7 @@ Window {
                 }
             }
         }
-
+*/
         Rectangle {
             id: devSW1
             anchors.left: devSerial1.left

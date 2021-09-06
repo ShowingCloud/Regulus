@@ -4,5 +4,6 @@
         <file>freq.qml</file>
         <file>dist.qml</file>
         <file>amp.qml</file>
+        <file>BlockDevFreq.qml</file>
     </qresource>
 </RCC>
