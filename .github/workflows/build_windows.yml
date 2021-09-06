@@ -59,11 +59,11 @@ jobs:
           version: ${{ matrix.qt_ver }}
           target: ${{ matrix.qt_target }}
           arch: ${{ matrix.qt_arch }}
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          #cached: ${{ steps.cache-qt.outputs.cache-hit }}
       - uses: actions/checkout@v1
         with:
           fetch-depth: 1
-      - name: build-msvc
+      - name: Build on MSVC
         shell: cmd
         env:
           vc_arch: ${{ matrix.msvc_arch }}
@@ -72,3 +72,7 @@ jobs:
           qmake
           lrelease zh_CN.ts
           nmake
+      - name: Upload compile output
+        uses: actions/upload-artifact@v2
+        with:
+          path: rdss
