@@ -26,12 +26,12 @@ public:
                 -> QString { return ret += tr(s.c_str()); });
     }
 
-    static void updateDevice(const msgFreq &m);
-    static void updateDevice(const msgDist &m);
-    static void updateDevice(const msgAmp &m);
-    void findAndUpdate(const msgFreq &m);
-    void findAndUpdate(const msgDist &m);
-    void findAndUpdate(const msgAmp &m);
+    static void updateDevice(const msgFreq *m);
+    static void updateDevice(const msgDist *m);
+    static void updateDevice(const msgAmp *m);
+    void findAndUpdate(const msgFreq *m);
+    void findAndUpdate(const msgDist *m);
+    void findAndUpdate(const msgAmp *m);
 
 signals:
     void idSet();
