@@ -53,26 +53,31 @@ void device::findAndUpdate(const msgFreq *m)
     if (this->dId == m->device)
     {
         devFreq dev = static_cast<devFreq>(this);
-        dev.str = m->origin;
-        dev.atten = m->atten;
-        dev.ch_a = m;
-        dev.ch_b = m;
-        dev.voltage = m->voltage;
-        dev.current = m->current;
-        dev.output_stat = m->output_stat;
-        dev.input_stat = m->input_stat;
-        dev.lock_a1 = m->lock_a1;
-        dev.lock_a2 = m->lock_a2
-        dev.lock_b1 = m->lock_b1;
-        dev.lock_b2 = m->lock_b2;
-        dev.ref_10_1 = m->ref_10_1;
-        dev.ref_10_2 = m->ref_10_2;
-        dev.ref_3 = m->ref_3;
-        dev.ref_4 = m->ref_4;
-        dev.handshake = m->handshake;
-
-        emit dev.gotData();
+        dev.findAndUpdate(m);
     }
+}
+
+void devFreq::findAndUpdate(const msgFreq *m)
+{
+    this->str = m->origin;
+    this->atten = m->atten;
+    this->ch_a = m;
+    this->ch_b = m;
+    this->voltage = m->voltage;
+    this->current = m->current;
+    this->output_stat = m->output_stat;
+    this->input_stat = m->input_stat;
+    this->lock_a1 = m->lock_a1;
+    this->lock_a2 = m->lock_a2;
+    this->lock_b1 = m->lock_b1;
+    this->lock_b2 = m->lock_b2;
+    this->ref_10_1 = m->ref_10_1;
+    this->ref_10_2 = m->ref_10_2;
+    this->ref_3 = m->ref_3;
+    this->ref_4 = m->ref_4;
+    this->handshake = m->handshake;
+
+    emit this->gotData();
 }
 
 void device::findAndUpdate(const msgDist *m)
@@ -80,15 +85,19 @@ void device::findAndUpdate(const msgDist *m)
     if (this->dId == m->device)
     {
         devDist dev = static_cast<devDist>(this);
-        dev.str = m->origin;
-        dev.ref_10 = m->ref_10;
-        dev.ref_16 = m->ref_16;
-        dev.voltage = m->voltage;
-        dev.current = m->current;
-        dev.power = m->power;
-
-        emit dev.gotData();
+        dev.findAndUpdate(m);
     }
+}
+
+void devDist::findAndUpdate(const msgDist *m)
+    this->str = m->origin;
+    this->ref_10 = m->ref_10;
+    this->ref_16 = m->ref_16;
+    this->voltage = m->voltage;
+    this->current = m->current;
+    this->power = m->power;
+
+    emit this->gotData();
 }
 
 void device::findAndUpdate(const msgAmp *m)
@@ -96,16 +105,21 @@ void device::findAndUpdate(const msgAmp *m)
     if (this->dId == m->device)
     {
         devAmp dev = static_cast<devAmp>(this);
-        dev.str = m->origin;
-        dev.power = m->power;
-        dev.gain = m->gain;
-        dev.atten = m->atten;
-        dev.loss = m->loss;
-        dev.amp_temp = m->temp;
-        dev.stat = m->stat;
-        dev.load_temp = m->load_temp;
-        dev.handshake = m->handshake;
-
-        emit dev.gotData();
+        dev.findAndUpdate(m);
     }
+}
+
+void devAmp::findAndUpdate(const msgAmp *m)
+{
+    this->str = m->origin;
+    this->power = m->power;
+    this->gain = m->gain;
+    this->atten = m->atten;
+    this->loss = m->loss;
+    this->amp_temp = m->temp;
+    this->stat = m->stat;
+    this->load_temp = m->load_temp;
+    this->handshake = m->handshake;
+
+    emit this->gotData();
 }

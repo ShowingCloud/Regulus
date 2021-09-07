@@ -88,6 +88,7 @@ public:
     msgAmp &operator<< (const QByteArray &data);
 
     friend void device::findAndUpdate(const msgAmp *m);
+    friend void devAmp::findAndUpdate(const msgAmp *m);
 
     inline const static int posSerial = 17;
 
@@ -110,6 +111,7 @@ public:
     msgFreq &operator<< (const QByteArray &data);
 
     friend void device::findAndUpdate(const msgFreq *m);
+    friend void devFreq::findAndUpdate(const msgFreq *m);
 
     inline const static int posSerial = 17;
 
@@ -138,6 +140,7 @@ public:
     msgDist &operator<< (const QByteArray &data);
 
     friend void device::findAndUpdate(const msgDist *m);
+    friend void devDist::findAndUpdate(const msgDist *m);
 
     inline const static int posSerial = 8;
 

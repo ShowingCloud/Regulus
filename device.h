@@ -86,6 +86,8 @@ class devFreq : public device
 public:
     explicit devFreq(QObject *parent = nullptr);
 
+    void findAndUpdate(const msgFreq *m);
+
 private:
     int atten;
     int ch_a;
@@ -108,8 +110,13 @@ private:
 class devDist : public device
 {
     Q_OBJECT
+    Q_PROPERTY(int voltage MEMBER voltage NOTIFY gotData)
+    Q_PROPERTY(int current MEMBER voltage NOTIFY gotData)
+    Q_PROPERTY(int power MEMBER voltage NOTIFY gotData)
 public:
     explicit devDist(QObject *parent = nullptr);
+
+    void findAndUpdate(const msgDist *m);
 
 protected:
     int ref_10;
@@ -122,8 +129,16 @@ protected:
 class devAmp : public device
 {
     Q_OBJECT
+    Q_PROPERTY(int power MEMBER power NOTIFY gotData)
+    Q_PROPERTY(int gain MEMBER gain NOTIFY gotData)
+    Q_PROPERTY(int atten MEMBER atten NOTIFY gotData)
+    Q_PROPERTY(int loss MEMBER loss NOTIFY gotData)
+    Q_PROPERTY(int amp_temp MEMBER amp_temp NOTIFY gotData)
+    Q_PROPERTY(int load_temp MEMBER load_temp NOTIFY gotData)
 public:
     explicit devAmp(QObject *parent = nullptr);
+
+    void findAndUpdate(const msgAmp *m);
 
 protected:
     int power;
