@@ -6,7 +6,7 @@
 #include <QDateTime>
 #include <QDataStream>
 
-#include "friend.h"
+#include "device.h"
 
 class serial;
 
