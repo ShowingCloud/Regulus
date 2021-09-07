@@ -14,14 +14,20 @@ class device : public QObject
     Q_OBJECT
     Q_PROPERTY(int dId MEMBER dId NOTIFY idSet)
     Q_PROPERTY(QString name READ name NOTIFY idSet)
+    Q_PROPERTY(QString str MEMBER str NOTIFY gotData)
 public:
     explicit device(QObject *parent = nullptr);
+
+    inline static QList<device *> deviceList = {};
 
     inline QString trConcat(const QList<std::string> str) const
     {
         return std::accumulate(begin(str), end(str), QString(), [](QString ret, const std::string s)
                 -> QString { return ret += tr(s.c_str()); });
     }
+
+    static void updateDevice(const int dev, const QString str);
+    void find_and_set(const int dev, const QString str);
 
 signals:
     void idSet();
@@ -53,11 +59,10 @@ protected:
 
 private:
     int dId;
+    QString str;
 
     protocol *query;
     protocol *rntl;
-
-    inline static QList<device *> deviceList = {};
 
     inline static void push(device *dev)
     {

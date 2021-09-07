@@ -85,4 +85,22 @@ Item {
             }
         }
     }
+
+    Text {
+        id: txtMasterStr
+        anchors.top: devMaster.top
+        anchors.left: devMaster.left
+        height: defaultMarginAndTextWidthHeight
+        width: 2 * rackAmpBoxWidth
+        text: devAmpMaster.str
+    }
+
+    Text {
+        id: txtSlaveStr
+        anchors.top: devSlave.top
+        anchors.left: devSlave.left
+        height: defaultMarginAndTextWidthHeight
+        width: 2 * rackAmpBoxWidth
+        text: devAmpSlave.str
+    }
 }

@@ -2,6 +2,7 @@
 
 #include "protocol.h"
 #include "serial.h"
+#include "device.h"
 
 msg::msg(QObject *parent) : QObject(parent)
 {
@@ -180,6 +181,7 @@ const msg &msg::operator>> (QByteArray &data) const
 msg &msg::operator<< (const QByteArray &data)
 {
     this->time = QDateTime::currentDateTime();
+    this->origin = data;
     return *this;
 }
 
@@ -203,6 +205,7 @@ msgFreq &msgFreq::operator<< (const QByteArray &data)
                       >> this->lock_a2 >> this->lock_b1 >> this->lock_b2 >> this->ref_10_1
                       >> this->ref_10_2 >> this->ref_3 >> this->ref_4 >> this->holder8 /* device */
                       >> this->handshake >> this->serial >> this->holder8 >> this->holder8 /* tailer */;
+    device::updateDevice(this->device, data.toHex());
     return *this;
 }
 
@@ -220,6 +223,7 @@ msgDist &msgDist::operator<< (const QByteArray &data)
                       >> this->holder8 >> this->holder8 >> this->holder8 >> this->holder8
                       >> this->holder8 >> this->holder8 >> this->serial >> this->holder8 >> this->holder8
                       >> this->holder8 >> this->holder8 /* tailer */;
+    device::updateDevice(this->device, data.toHex());
     return *this;
 }
 
@@ -236,6 +240,7 @@ msgAmp &msgAmp::operator<< (const QByteArray &data)
                       >> this->loss >> this->temp >> this->stat >> this->load_temp
                       >> this->holder8 /* device */ >> this->holder8 >> this->serial
                       >> this->handshake >> this->holder8 /* tailer */;
+    device::updateDevice(this->device, data.toHex());
     return *this;
 }
 

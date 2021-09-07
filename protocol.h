@@ -42,6 +42,7 @@ protected:
     quint8 serial;
     quint8 holder8 = 0x00;
     QDateTime time;
+    QString origin;
 
     static const inline QHash<int, proto> idProto = {
         {0x00, PROTO_FREQ}, {0x01, PROTO_FREQ}, {0x02, PROTO_FREQ}, {0x03, PROTO_FREQ},
