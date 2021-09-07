@@ -7,6 +7,7 @@
 #include <QDataStream>
 
 class serial;
+class device;
 
 class msg : public QObject
 {
