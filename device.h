@@ -7,6 +7,9 @@
 #include <numeric>
 
 class msg;
+class msgFreq;
+class msgDist;
+class msgAmp;
 class protocol;
 
 class device : public QObject
