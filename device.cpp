@@ -23,7 +23,7 @@ devAmp::devAmp(QObject *parent) : device(parent)
 
 }
 
-void device::updateDevice(const msgFreq m)
+void device::updateDevice(const msgFreq &m)
 {
     for (device *d : device::deviceList)
     {
@@ -31,7 +31,7 @@ void device::updateDevice(const msgFreq m)
     }
 }
 
-void device::updateDevice(const msgDist m)
+void device::updateDevice(const msgDist &m)
 {
     for (device *d : device::deviceList)
     {
@@ -39,7 +39,7 @@ void device::updateDevice(const msgDist m)
     }
 }
 
-void device::updateDevice(const msgAmp m)
+void device::updateDevice(const msgAmp &m)
 {
     for (device *d : device::deviceList)
     {
@@ -47,7 +47,7 @@ void device::updateDevice(const msgAmp m)
     }
 }
 
-void device::findAndUpdate(const msgFreq m)
+void device::findAndUpdate(const msgFreq &m)
 {
     if (this->dId == m.device)
     {
@@ -57,7 +57,7 @@ void device::findAndUpdate(const msgFreq m)
     }
 }
 
-void device::findAndUpdate(const msgDist m)
+void device::findAndUpdate(const msgDist &m)
 {
     if (this->dId == m.device)
     {
@@ -67,7 +67,7 @@ void device::findAndUpdate(const msgDist m)
     }
 }
 
-void device::findAndUpdate(const msgAmp m)
+void device::findAndUpdate(const msgAmp &m)
 {
     if (this->dId == m.device)
     {
