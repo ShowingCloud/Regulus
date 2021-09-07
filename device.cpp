@@ -53,16 +53,16 @@ void device::findAndUpdate(const msgFreq *m)
     if (this->dId == m->device)
     {
         devFreq dev = static_cast<devFreq>(this);
+        this->str = m->origin;
         dev.findAndUpdate(m);
     }
 }
 
 void devFreq::findAndUpdate(const msgFreq *m)
 {
-    this->str = m->origin;
     this->atten = m->atten;
-    this->ch_a = m;
-    this->ch_b = m;
+    //this->ch_a = m;
+    //this->ch_b = m;
     this->voltage = m->voltage;
     this->current = m->current;
     this->output_stat = m->output_stat;
@@ -85,12 +85,13 @@ void device::findAndUpdate(const msgDist *m)
     if (this->dId == m->device)
     {
         devDist dev = static_cast<devDist>(this);
+        this->str = m->origin;
         dev.findAndUpdate(m);
     }
 }
 
 void devDist::findAndUpdate(const msgDist *m)
-    this->str = m->origin;
+{
     this->ref_10 = m->ref_10;
     this->ref_16 = m->ref_16;
     this->voltage = m->voltage;
@@ -105,13 +106,13 @@ void device::findAndUpdate(const msgAmp *m)
     if (this->dId == m->device)
     {
         devAmp dev = static_cast<devAmp>(this);
+        this->str = m->origin;
         dev.findAndUpdate(m);
     }
 }
 
 void devAmp::findAndUpdate(const msgAmp *m)
 {
-    this->str = m->origin;
     this->power = m->power;
     this->gain = m->gain;
     this->atten = m->atten;
