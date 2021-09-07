@@ -34,15 +34,15 @@ public:
     {
         return *std::max_element(protoLength.values().begin(), protoLength.values().end());
     } */
-    quint8 device;
-    QString origin;
 
 protected:
     const quint8 head = msg::header;
     const quint8 tail = msg::tailer;
     quint8 serial;
+    quint8 device;
     quint8 holder8 = 0x00;
     QDateTime time;
+    QString origin;
 
     static const inline QHash<int, proto> idProto = {
         {0x00, PROTO_FREQ}, {0x01, PROTO_FREQ}, {0x02, PROTO_FREQ}, {0x03, PROTO_FREQ},
@@ -85,6 +85,8 @@ public:
     const msgAmp &operator>> (QByteArray &data) const;
     msgAmp &operator<< (const QByteArray &data);
 
+    friend void device::findAndUpdate(const msgAmp *m);
+
     inline const static int posSerial = 17;
 
 protected:
@@ -104,6 +106,8 @@ public:
     explicit msgFreq(QObject *parent = nullptr);
     const msgFreq &operator>> (QByteArray &data) const;
     msgFreq &operator<< (const QByteArray &data);
+
+    friend void device::findAndUpdate(const msgFreq *m);
 
     inline const static int posSerial = 17;
 
@@ -130,6 +134,8 @@ public:
     explicit msgDist(QObject *parent = nullptr);
     const msgDist &operator>> (QByteArray &data) const;
     msgDist &operator<< (const QByteArray &data);
+
+    friend void device::findAndUpdate(const msgDist *m);
 
     inline const static int posSerial = 8;
 
