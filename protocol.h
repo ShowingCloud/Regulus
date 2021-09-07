@@ -86,9 +86,8 @@ public:
     explicit msgAmp(QObject *parent = nullptr);
     const msgAmp &operator>> (QByteArray &data) const;
     msgAmp &operator<< (const QByteArray &data);
-
-    friend void device::findAndUpdate(const msgAmp *m);
-    friend void devAmp::findAndUpdate(const msgAmp *m);
+    friend device &device::operator<< (const msgAmp &m);
+    friend devAmp &devAmp::operator<< (const msgAmp &m);
 
     inline const static int posSerial = 17;
 
@@ -109,9 +108,8 @@ public:
     explicit msgFreq(QObject *parent = nullptr);
     const msgFreq &operator>> (QByteArray &data) const;
     msgFreq &operator<< (const QByteArray &data);
-
-    friend void device::findAndUpdate(const msgFreq *m);
-    friend void devFreq::findAndUpdate(const msgFreq *m);
+    friend device &device::operator<< (const msgFreq &m);
+    friend devFreq &devFreq::operator<< (const msgFreq &m);
 
     inline const static int posSerial = 17;
 
@@ -138,9 +136,8 @@ public:
     explicit msgDist(QObject *parent = nullptr);
     const msgDist &operator>> (QByteArray &data) const;
     msgDist &operator<< (const QByteArray &data);
-
-    friend void device::findAndUpdate(const msgDist *m);
-    friend void devDist::findAndUpdate(const msgDist *m);
+    friend device &device::operator<< (const msgDist &m);
+    friend devDist &devDist::operator<< (const msgDist &m);
 
     inline const static int posSerial = 8;
 

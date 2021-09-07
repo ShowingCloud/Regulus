@@ -29,12 +29,12 @@ public:
                 -> QString { return ret += tr(s.c_str()); });
     }
 
-    static void updateDevice(const msgFreq *m);
-    static void updateDevice(const msgDist *m);
-    static void updateDevice(const msgAmp *m);
-    void findAndUpdate(const msgFreq *m);
-    void findAndUpdate(const msgDist *m);
-    void findAndUpdate(const msgAmp *m);
+    static void updateDevice(const msgFreq &m);
+    static void updateDevice(const msgDist &m);
+    static void updateDevice(const msgAmp &m);
+    device &operator<< (const msgFreq &m);
+    device &operator<< (const msgDist &m);
+    device &operator<< (const msgAmp &m);
 
 signals:
     void idSet();
@@ -85,8 +85,7 @@ class devFreq : public device
     Q_PROPERTY(int current MEMBER current NOTIFY gotData)
 public:
     explicit devFreq(QObject *parent = nullptr);
-
-    void findAndUpdate(const msgFreq *m);
+    devFreq &operator<< (const msgFreq &m);
 
 private:
     int atten;
@@ -115,8 +114,7 @@ class devDist : public device
     Q_PROPERTY(int power MEMBER voltage NOTIFY gotData)
 public:
     explicit devDist(QObject *parent = nullptr);
-
-    void findAndUpdate(const msgDist *m);
+    devDist &operator<< (const msgDist &m);
 
 protected:
     int ref_10;
@@ -137,8 +135,7 @@ class devAmp : public device
     Q_PROPERTY(int load_temp MEMBER load_temp NOTIFY gotData)
 public:
     explicit devAmp(QObject *parent = nullptr);
-
-    void findAndUpdate(const msgAmp *m);
+    devAmp &operator<< (const msgAmp &m);
 
 protected:
     int power;
