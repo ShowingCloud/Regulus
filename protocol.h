@@ -6,8 +6,9 @@
 #include <QDateTime>
 #include <QDataStream>
 
+#include "friend.h"
+
 class serial;
-class device;
 
 class msg : public QObject
 {
