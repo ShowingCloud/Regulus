@@ -18,12 +18,12 @@ public:
     explicit serial(const QSerialPortInfo &serialportinfo, QObject *parent = nullptr);
     ~serial();
 
-    serial &operator<< (const msg &m);
-    serial &operator<< (const msgQuery &m);
-    serial &operator<< (const msgCntlFreq &m);
-    serial &operator<< (const msgCntlDist &m);
-    serial &operator<< (const msgCntlAmp &m);
-    const serial &operator>> (msg &m) const;
+    friend serial &operator<< (serial &s, const msg &m);
+    friend serial &operator<< (serial &s, const msgQuery &m);
+    friend serial &operator<< (serial &s, const msgCntlFreq &m);
+    friend serial &operator<< (serial &s, const msgCntlDist &m);
+    friend serial &operator<< (serial &s, const msgCntlAmp &m);
+    friend const serial &operator>> (const serial &s, msg &m);
 
     inline bool timedout()
     {

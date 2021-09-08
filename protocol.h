@@ -15,13 +15,13 @@ class msg : public QObject
 public:
     explicit msg(QObject *parent = nullptr);
 
-    msg &operator= (const QByteArray input);
+    msg &operator= (const QByteArray &input);
     msg &operator()() const;
-    const msg &operator>> (QByteArray &data) const;
-    msg &operator<< (const QByteArray &data);
+    friend const msg &operator>> (const msg &m, QByteArray &data);
+    friend msg &operator<< (msg &m, const QByteArray &data);
 
     enum validateResult { VAL_PASS, VAL_TOOSHORT, VAL_TOOLONG, VAL_INVALIDID, VAL_REMAINS, VAL_USEINPUT, VAL_FAILED };
-    static validateResult validateProtocol(QByteArray &buffer, const QByteArray input);
+    static validateResult validateProtocol(QByteArray &buffer, const QByteArray &input);
 
     enum proto {
         PROTO_DEFAULT, PROTO_UPLINK, PROTO_DOWNLINK, PROTO_AMP, PROTO_FREQ, PROTO_DIST,
@@ -65,8 +65,8 @@ class msgUplink : public msg
 {
 public:
     explicit msgUplink(QObject *parent = nullptr);
-    const msgUplink &operator>> (QByteArray &data) const;
-    msgUplink &operator<< (const QByteArray &data);
+    friend const msgUplink &operator>> (const msgUplink &m, QByteArray &data);
+    friend msgUplink &operator<< (msgUplink &m, const QByteArray &data);
 
     inline const static int mlen = 20;
     inline const static int posDevice = 15;
@@ -76,40 +76,18 @@ class msgDownlink : public msg
 {
 public:
     explicit msgDownlink(QObject *parent = nullptr);
-    const msgDownlink &operator>> (QByteArray &data) const;
-    msgDownlink &operator<< (const QByteArray &data);
-};
-
-class msgAmp : public msgUplink
-{
-public:
-    explicit msgAmp(QObject *parent = nullptr);
-    const msgAmp &operator>> (QByteArray &data) const;
-    msgAmp &operator<< (const QByteArray &data);
-    friend device &device::operator<< (const msgAmp &m);
-    friend devAmp &devAmp::operator<< (const msgAmp &m);
-
-    inline const static int posSerial = 17;
-
-protected:
-    quint16 power = quint16();
-    quint16 gain = quint16();
-    quint16 atten = quint16();
-    quint16 loss = quint16();
-    quint16 temp = quint16();
-    quint16 stat = quint16();
-    quint16 load_temp = quint16();
-    quint8 handshake = quint8();
+    friend const msgDownlink &operator>> (const msgDownlink &m, QByteArray &data);
+    friend msgDownlink &operator<< (msgDownlink &m, const QByteArray &data);
 };
 
 class msgFreq : public msgUplink
 {
 public:
     explicit msgFreq(QObject *parent = nullptr);
-    const msgFreq &operator>> (QByteArray &data) const;
-    msgFreq &operator<< (const QByteArray &data);
-    friend device &device::operator<< (const msgFreq &m);
-    friend devFreq &devFreq::operator<< (const msgFreq &m);
+    friend const msgFreq &operator>> (const msgFreq &m, QByteArray &data);
+    friend msgFreq &operator<< (msgFreq &m, const QByteArray &data);
+    friend device &operator<< (device &dev, const msgFreq &m);
+    friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
 
     inline const static int posSerial = 17;
 
@@ -134,10 +112,10 @@ class msgDist : public msgUplink
 {
 public:
     explicit msgDist(QObject *parent = nullptr);
-    const msgDist &operator>> (QByteArray &data) const;
-    msgDist &operator<< (const QByteArray &data);
-    friend device &device::operator<< (const msgDist &m);
-    friend devDist &devDist::operator<< (const msgDist &m);
+    friend const msgDist &operator>> (const msgDist &m, QByteArray &data);
+    friend msgDist &operator<< (msgDist &m, const QByteArray &data);
+    friend device &operator<< (device &dev, const msgDist &m);
+    friend devDist &operator<< (devDist &dev, const msgDist &m);
 
     inline const static int posSerial = 8;
 
@@ -150,12 +128,34 @@ protected:
 
 };
 
+class msgAmp : public msgUplink
+{
+public:
+    explicit msgAmp(QObject *parent = nullptr);
+    friend const msgAmp &operator>> (const msgAmp &m, QByteArray &data);
+    friend msgAmp &operator<< (msgAmp &m, const QByteArray &data);
+    friend device &operator<< (device &dev, const msgAmp &m);
+    friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
+
+    inline const static int posSerial = 17;
+
+protected:
+    quint16 power = quint16();
+    quint16 gain = quint16();
+    quint16 atten = quint16();
+    quint16 loss = quint16();
+    quint16 temp = quint16();
+    quint16 stat = quint16();
+    quint16 load_temp = quint16();
+    quint8 handshake = quint8();
+};
+
 class msgQuery : public msgDownlink
 {
 public:
     explicit msgQuery(QObject *parent = nullptr);
-    const msgQuery &operator>> (QByteArray &data) const;
-    msgQuery &operator<< (const QByteArray &data);
+    friend const msgQuery &operator>> (const msgQuery &m, QByteArray &data);
+    friend msgQuery &operator<< (msgQuery &m, const QByteArray &data);
 
     void createQuery();
 
@@ -170,8 +170,8 @@ class msgCntlAmp : public msgDownlink
 {
 public:
     explicit msgCntlAmp(QObject *parent = nullptr);
-    const msgCntlAmp &operator>> (QByteArray &data) const;
-    msgCntlAmp &operator<< (const QByteArray &data);
+    friend const msgCntlAmp &operator>> (const msgCntlAmp &m, QByteArray &data);
+    friend msgCntlAmp &operator<< (msgCntlAmp &m, const QByteArray &data);
 
     inline const static int posSerial = 8;
 
@@ -186,8 +186,8 @@ class msgCntlFreq : public msgDownlink
 {
 public:
     explicit msgCntlFreq(QObject *parent = nullptr);
-    const msgCntlFreq &operator>> (QByteArray &data) const;
-    msgCntlFreq &operator<< (const QByteArray &data);
+    friend const msgCntlFreq &operator>> (const msgCntlFreq &m, QByteArray &data);
+    friend msgCntlFreq &operator<< (msgCntlFreq &m, const QByteArray &data);
 
     inline const static int posSerial = 6;
 
@@ -201,8 +201,8 @@ class msgCntlDist : public msgDownlink
 {
 public:
     explicit msgCntlDist(QObject *parent = nullptr);
-    const msgCntlDist &operator>> (QByteArray &data) const;
-    msgCntlDist &operator<< (const QByteArray &data);
+    friend const msgCntlDist &operator>> (const msgCntlDist &m, QByteArray &data);
+    friend msgCntlDist &operator<< (msgCntlDist &m, const QByteArray &data);
 
     inline const static int posSerial = 4;
 
@@ -217,14 +217,14 @@ class protocol : public QObject
     Q_OBJECT
 public:
     explicit protocol(QObject *parent = nullptr);
-    const protocol &operator>> (serial &s) const;
-    protocol &operator<< (const serial &s);
+    friend const protocol &operator>> (const protocol &p, serial &s);
+    friend protocol &operator<< (protocol &p, const serial &s);
 
     inline static QList<protocol *> protocollist = {};
 
 private:
-    msgUplink uplink = msgUplink();
-    msgDownlink downlink = msgDownlink();
+    msgUplink *uplink;
+    msgDownlink *downlink;
 
 signals:
 

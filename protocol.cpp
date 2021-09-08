@@ -9,33 +9,7 @@ msg::msg(QObject *parent) : QObject(parent)
     return;
 }
 
-msg &msg::operator= (const QByteArray input)
-{
-    *this << input;
-    *static_cast<msgUplink *>(this) << input;
-
-    switch (idProto[this->deviceId]) {
-    case PROTO_FREQ:
-        *static_cast<msgFreq *>(this) << input;
-        break;
-
-    case PROTO_DIST:
-        *static_cast<msgDist *>(this) << input;
-        break;
-
-    case PROTO_AMP:
-        *static_cast<msgAmp *>(this) << input;
-        break;
-
-    default:
-        qDebug() << "unknown device id";
-        break;
-    }
-
-    return *this;
-}
-
-msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray input)
+msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &input)
 {
     int head = 0, tail = 0;
     const char msg_header = static_cast<char>(msg::header), msg_tailer = static_cast<char>(msg::tailer);
@@ -44,12 +18,12 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray i
         if (buffer.length() >= head + msgUplink::mlen && buffer.at(head + msgUplink::mlen - 1) == msg_tailer) {
             msg *m = new msg();
             if (buffer.length() == msgUplink::mlen) {
-                *m = buffer;
+                *m << buffer;
                 msg::unknownmsglist << m;
                 buffer = QByteArray();
                 return VAL_PASS;
             } else {
-                *m = buffer.mid(head, msgUplink::mlen);
+                *m << buffer.mid(head, msgUplink::mlen);
                 msg::unknownmsglist << m;
                 buffer.remove(head, msgUplink::mlen);
                 // TODO: log
@@ -77,7 +51,7 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray i
         head = input.indexOf(msg_header, head);
         if (input.at(head + msgUplink::mlen) == msg_tailer) {
             msg *m = new msg();
-            *m = input.mid(head, msgUplink::mlen);
+            *m << input.mid(head, msgUplink::mlen);
             msg::unknownmsglist << m;
             return VAL_USEINPUT;
         }
@@ -136,6 +110,11 @@ msgAmp::msgAmp(QObject *parent) : msgUplink(parent)
     return;
 }
 
+msgQuery::msgQuery(QObject *parent) : msgDownlink(parent)
+{
+    return;
+}
+
 void msgQuery::createQuery()
 {
     this->identify = 0x00;
@@ -155,123 +134,149 @@ void protocol::createQueryMsg(serial &s)
     protocol *p = new protocol();
     protocol::protocollist << p;
 
-    msgQuery *query = static_cast<msgQuery *>(&p->downlink);
-    query->createQuery();
-    s << *query;
+    msgQuery *q = new msgQuery(new msgDownlink());
+    p->downlink = q;
+    q->createQuery();
+    s << *q;
 }
 
-const protocol &protocol::operator>> (serial &s) const
+const protocol &operator>> (const protocol &p, serial &s)
 {
-    s << this->downlink;
-    return *this;
+    s << *p.downlink;
+    return p;
 }
 
-protocol &protocol::operator<< (const serial &s)
+protocol &operator<< (protocol &p, const serial &s)
 {
-    s >> this->uplink;
-    return *this;
+    s >> *p.uplink;
+    return p;
 }
 
-const msg &msg::operator>> (QByteArray &data) const
+const msg &operator>> (const msg &m, QByteArray &data)
 {
-    return *this;
+    return m;
 }
 
-msg &msg::operator<< (const QByteArray &data)
+msg &operator<< (msg &m, const QByteArray &data)
 {
-    this->time = QDateTime::currentDateTime();
-    this->origin = data;
-    return *this;
+    m.time = QDateTime::currentDateTime();
+    m.origin = data;
+
+    msgUplink *u = new msgUplink(&m);
+    *u << data;
+
+    switch (msg::idProto[m.deviceId]) {
+    case msg::PROTO_FREQ: {
+        msgFreq *m = new msgFreq(u);
+        *m << data;
+    } break;
+
+    case msg::PROTO_DIST: {
+        msgDist *m = new msgDist(u);
+        *m << data;
+    } break;
+
+    case msg::PROTO_AMP: {
+        msgAmp *m = new msgAmp(u);
+        *m << data;
+    } break;
+
+    default:
+        qDebug() << "unknown device id";
+        break;
+    }
+
+    return m;
 }
 
-msgUplink &msgUplink::operator<< (const QByteArray &data)
+msgUplink &operator<< (msgUplink &m, const QByteArray &data)
 {
-    QDataStream(data.mid(msgUplink::posDevice, 1)) >> this->deviceId;
-    return *this;
+    QDataStream(data.mid(msgUplink::posDevice, 1)) >> m.deviceId;
+    return m;
 }
 
-msgFreq &msgFreq::operator<< (const QByteArray &data)
+msgFreq &operator<< (msgFreq &m, const QByteArray &data)
 {
     if (data.length() != msgUplink::mlen)
     {
         qDebug() << "Mulformed message";
-        return *this;
+        return m;
     }
-    qDebug() << "Got Msg Freq" << this->deviceId << this->origin;
+    qDebug() << "Got Msg Freq" << m.deviceId << m.origin;
 
-    QDataStream(data) >> this->holder8 /* header */ >> this->atten >> this->voltage
-                      >> this->current >> this->output_stat >> this->input_stat >> this->lock_a1
-                      >> this->lock_a2 >> this->lock_b1 >> this->lock_b2 >> this->ref_10_1
-                      >> this->ref_10_2 >> this->ref_3 >> this->ref_4 >> this->holder8 /* device */
-                      >> this->handshake >> this->serialId >> this->holder8 >> this->holder8 /* tailer */;
-    this->origin = data;
-    device::updateDevice(*this);
-    return *this;
+    QDataStream(data) >> m.holder8 /* header */ >> m.atten >> m.voltage
+                      >> m.current >> m.output_stat >> m.input_stat >> m.lock_a1
+                      >> m.lock_a2 >> m.lock_b1 >> m.lock_b2 >> m.ref_10_1
+                      >> m.ref_10_2 >> m.ref_3 >> m.ref_4 >> m.holder8 /* device */
+                      >> m.handshake >> m.serialId >> m.holder8 >> m.holder8 /* tailer */;
+    m.origin = data;
+    device::updateDevice(m);
+    return m;
 }
 
-msgDist &msgDist::operator<< (const QByteArray &data)
+msgDist &operator<< (msgDist &m, const QByteArray &data)
 {
     if (data.length() != msgUplink::mlen)
     {
         qDebug() << "Mulformed message";
-        return *this;
+        return m;
     }
-    qDebug() << "Got Msg Dist" << this->deviceId << this->origin;
+    qDebug() << "Got Msg Dist" << m.deviceId << m.origin;
 
-    QDataStream(data) >> this->holder8 /* header */ >> this->ref_10 >> this->ref_16 >> this->voltage
-                      >> this->current >> this->power >> this->holder8 >> this->holder8 /* device */
-                      >> this->holder8 >> this->holder8 >> this->holder8 >> this->holder8
-                      >> this->holder8 >> this->holder8 >> this->serialId >> this->holder8 >> this->holder8
-                      >> this->holder8 >> this->holder8 /* tailer */;
-    this->origin = data;
-    device::updateDevice(*this);
-    return *this;
+    QDataStream(data) >> m.holder8 /* header */ >> m.ref_10 >> m.ref_16 >> m.voltage
+                      >> m.current >> m.power >> m.holder8 >> m.holder8 /* device */
+                      >> m.holder8 >> m.holder8 >> m.holder8 >> m.holder8
+                      >> m.holder8 >> m.holder8 >> m.serialId >> m.holder8 >> m.holder8
+                      >> m.holder8 >> m.holder8 /* tailer */;
+    m.origin = data;
+    device::updateDevice(m);
+    return m;
 }
 
-msgAmp &msgAmp::operator<< (const QByteArray &data)
+msgAmp &operator<< (msgAmp &m, const QByteArray &data)
 {
     if (data.length() != msgUplink::mlen)
     {
         qDebug() << "Mulformed message";
-        return *this;
+        return m;
     }
-    qDebug() << "Got Msg Amp" << this->deviceId << this->origin;
+    qDebug() << "Got Msg Amp" << m.deviceId << m.origin;
 
-    QDataStream(data) >> this->holder8 /* header */ >> this->power >> this->gain >> this->atten
-                      >> this->loss >> this->temp >> this->stat >> this->load_temp
-                      >> this->holder8 /* device */ >> this->holder8 >> this->serialId
-                      >> this->handshake >> this->holder8 /* tailer */;
-    this->origin = data;
-    device::updateDevice(*this);
-    return *this;
+    QDataStream(data) >> m.holder8 /* header */ >> m.power >> m.gain >> m.atten
+                      >> m.loss >> m.temp >> m.stat >> m.load_temp
+                      >> m.holder8 /* device */ >> m.holder8 >> m.serialId
+                      >> m.handshake >> m.holder8 /* tailer */;
+    m.origin = data;
+    device::updateDevice(m);
+    return m;
 }
 
-const msgQuery &msgQuery::operator>> (QByteArray &data) const
+const msgQuery &operator>> (const msgQuery &m, QByteArray &data)
 {
-    QDataStream(&data, QIODevice::WriteOnly) << this->head << this->identify << this->instruction
-                                             << this->deviceId << this->serialId << this->tail;
-    return *this;
+    QDataStream(&data, QIODevice::WriteOnly) << m.head << m.identify << m.instruction
+                                             << m.deviceId << m.serialId << m.tail;
+    return m;
 }
 
-const msgCntlFreq &msgCntlFreq::operator>> (QByteArray &data) const
+const msgCntlFreq &operator>> (const msgCntlFreq &m, QByteArray &data)
 {
-    QDataStream(&data, QIODevice::WriteOnly) << this->head << this->atten << this->ref_10_a << this->ref_10_b
-                                             << this->holder8 << this->deviceId << this->serialId << this->holder8
-                                             << this->holder8 << this->tail;
-    return *this;
+    QDataStream(&data, QIODevice::WriteOnly) << m.head << m.atten << m.ref_10_a << m.ref_10_b
+                                             << m.holder8 << m.deviceId << m.serialId << m.holder8
+                                             << m.holder8 << m.tail;
+    return m;
 }
 
-const msgCntlDist &msgCntlDist::operator>> (QByteArray &data) const
+const msgCntlDist &operator>> (const msgCntlDist &m, QByteArray &data)
 {
-    QDataStream(&data, QIODevice::WriteOnly) << this->head << this->ref_10 << this->ref_16 << this->deviceId
-                                             << this->serialId << this->holder8 << this->holder8 << this->holder8
-                                             << this->holder8 << this->tail;
-    return *this;
+    QDataStream(&data, QIODevice::WriteOnly) << m.head << m.ref_10 << m.ref_16 << m.deviceId
+                                             << m.serialId << m.holder8 << m.holder8 << m.holder8
+                                             << m.holder8 << m.tail;
+    return m;
 }
 
-const msgCntlAmp &msgCntlAmp::operator>> (QByteArray &data) const
+const msgCntlAmp &operator>> (const msgCntlAmp &m, QByteArray &data)
 {
-    QDataStream(&data, QIODevice::WriteOnly) << this->head << this->atten_mode << this->atten << this->power
-                                              << this->gain << this->deviceId << this->serialId << this->tail;
-    return *this;
+    QDataStream(&data, QIODevice::WriteOnly) << m.head << m.atten_mode << m.atten << m.power
+                                             << m.gain << m.deviceId << m.serialId << m.tail;
+    return m;
 }

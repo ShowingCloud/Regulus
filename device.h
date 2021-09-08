@@ -32,9 +32,9 @@ public:
     static void updateDevice(const msgFreq &m);
     static void updateDevice(const msgDist &m);
     static void updateDevice(const msgAmp &m);
-    device &operator<< (const msgFreq &m);
-    device &operator<< (const msgDist &m);
-    device &operator<< (const msgAmp &m);
+    friend device &operator<< (device &dev, const msgFreq &m);
+    friend device &operator<< (device &dev, const msgDist &m);
+    friend device &operator<< (device &dev, const msgAmp &m);
 
 signals:
     void idSet();
@@ -95,7 +95,7 @@ class devFreq : public device
     Q_PROPERTY(bool ref_4 MEMBER ref_4 NOTIFY gotData)
 public:
     explicit devFreq(QObject *parent = nullptr);
-    devFreq &operator<< (const msgFreq &m);
+    friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
 
 private:
     int atten = int();
@@ -124,7 +124,7 @@ class devDist : public device
     Q_PROPERTY(int power MEMBER voltage NOTIFY gotData)
 public:
     explicit devDist(QObject *parent = nullptr);
-    devDist &operator<< (const msgDist &m);
+    friend devDist &operator<< (devDist &dev, const msgDist &m);
 
 protected:
     int ref_10 = int();
@@ -145,7 +145,7 @@ class devAmp : public device
     Q_PROPERTY(int load_temp MEMBER load_temp NOTIFY gotData)
 public:
     explicit devAmp(QObject *parent = nullptr);
-    devAmp &operator<< (const msgAmp &m);
+    friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
 
 protected:
     int power = int();

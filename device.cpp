@@ -48,85 +48,85 @@ void device::updateDevice(const msgAmp &m)
     }
 }
 
-device &device::operator<< (const msgFreq &m)
+device &operator<< (device &d, const msgFreq &m)
 {
-    if (this->dId == m.deviceId)
+    if (d.dId == m.deviceId)
     {
-        devFreq *dev = static_cast<devFreq *>(this);
-        dev->str = m.origin;
-        *dev << m;
+        devFreq &dev = dynamic_cast<devFreq &>(d);
+        dev.str = m.origin;
+        dev << m;
     }
-    return *this;
+    return d;
 }
 
-devFreq &devFreq::operator<< (const msgFreq &m)
+devFreq &operator<< (devFreq &dev, const msgFreq &m)
 {
-    this->atten = m.atten;
+    dev.atten = m.atten;
     //this->ch_a = m;
     //this->ch_b = m;
-    this->voltage = m.voltage;
-    this->current = m.current;
-    this->output_stat = m.output_stat;
-    this->input_stat = m.input_stat;
-    this->lock_a1 = m.lock_a1;
-    this->lock_a2 = m.lock_a2;
-    this->lock_b1 = m.lock_b1;
-    this->lock_b2 = m.lock_b2;
-    this->ref_10_1 = m.ref_10_1;
-    this->ref_10_2 = m.ref_10_2;
-    this->ref_3 = m.ref_3;
-    this->ref_4 = m.ref_4;
-    this->handshake = m.handshake;
+    dev.voltage = m.voltage;
+    dev.current = m.current;
+    dev.output_stat = m.output_stat;
+    dev.input_stat = m.input_stat;
+    dev.lock_a1 = m.lock_a1;
+    dev.lock_a2 = m.lock_a2;
+    dev.lock_b1 = m.lock_b1;
+    dev.lock_b2 = m.lock_b2;
+    dev.ref_10_1 = m.ref_10_1;
+    dev.ref_10_2 = m.ref_10_2;
+    dev.ref_3 = m.ref_3;
+    dev.ref_4 = m.ref_4;
+    dev.handshake = m.handshake;
 
-    emit this->gotData();
-    return *this;
+    emit dev.gotData();
+    return dev;
 }
 
-device &device::operator<< (const msgDist &m)
+device &operator<< (device &d, const msgDist &m)
 {
-    if (this->dId == m.deviceId)
+    if (d.dId == m.deviceId)
     {
-        devDist *dev = static_cast<devDist *>(this);
-        dev->str = m.origin;
-        *dev << m;
+        devDist &dev = dynamic_cast<devDist &>(d);
+        dev.str = m.origin;
+        dev << m;
     }
-    return *this;
+    return d;
 }
 
-devDist &devDist::operator<< (const msgDist &m)
+devDist &operator<< (devDist &dev, const msgDist &m)
 {
-    this->ref_10 = m.ref_10;
-    this->ref_16 = m.ref_16;
-    this->voltage = m.voltage;
-    this->current = m.current;
-    this->power = m.power;
+    dev.ref_10 = m.ref_10;
+    dev.ref_16 = m.ref_16;
+    dev.voltage = m.voltage;
+    dev.current = m.current;
+    dev.power = m.power;
 
-    emit this->gotData();
-    return *this;
+    emit dev.gotData();
+    return dev;
 }
 
-device &device::operator<< (const msgAmp &m)
+device &operator<< (device &d, const msgAmp &m)
 {
-    if (this->dId == m.deviceId)
+    if (d.dId == m.deviceId)
     {
-        devAmp *dev = static_cast<devAmp *>(this);
-        dev->str = m.origin;
-        *dev << m;
+        devAmp &dev = dynamic_cast<devAmp &>(d);
+        dev.str = m.origin;
+        dev << m;
     }
-    return *this;
+    return d;
 }
 
-devAmp &devAmp::operator<< (const msgAmp &m)
+devAmp &operator<< (devAmp &dev, const msgAmp &m)
 {
-    this->power = m.power;
-    this->gain = m.gain;
-    this->atten = m.atten;
-    this->loss = m.loss;
-    this->amp_temp = m.temp;
-    this->stat = m.stat;
-    this->load_temp = m.load_temp;
-    this->handshake = m.handshake;
+    dev.power = m.power;
+    dev.gain = m.gain;
+    dev.atten = m.atten;
+    dev.loss = m.loss;
+    dev.amp_temp = m.temp;
+    dev.stat = m.stat;
+    dev.load_temp = m.load_temp;
+    dev.handshake = m.handshake;
 
-    emit this->gotData();
-    return *this;
+    emit dev.gotData();
+    return dev;
 }
