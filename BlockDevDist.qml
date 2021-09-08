@@ -18,10 +18,10 @@ Item {
     Text {
         id: txtId
         anchors.top: dev.top
-        anchors.topMargin: -10
+        anchors.topMargin: -25
         anchors.right: dev.left
         width: defaultMarginAndTextWidthHeight
-        height: 2 * rackFreqBoxHeight + 20
+        height: rackFreqBoxDistHeight + 50
         text: devDist.name
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -43,7 +43,7 @@ Item {
         x: posLeft + 2 * defaultMarginAndTextWidthHeight
         y: posTop + defaultMarginAndTextWidthHeight
         width: rackFreqBoxWidth
-        height: 2 * rackFreqBoxHeight
+        height: rackFreqBoxDistHeight
         StatusIndicator {
             id: ind
             x: marginIndicators

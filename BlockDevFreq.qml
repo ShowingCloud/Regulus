@@ -24,7 +24,7 @@ Item {
         anchors.top: devMaster.top
         anchors.right: devMaster.left
         width: defaultMarginAndTextWidthHeight
-        height: 2 * rackFreqBoxHeight
+        height: 2 * rackFreqBoxFreqHeight
         text: devFreqMaster.name
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -46,7 +46,7 @@ Item {
         x: posLeft + 2 * defaultMarginAndTextWidthHeight
         y: posTop + defaultMarginAndTextWidthHeight
         width: rackFreqBoxWidth
-        height: rackFreqBoxHeight
+        height: rackFreqBoxFreqHeight
         StatusIndicator {
             id: indMaster
             x: marginIndicators
@@ -69,7 +69,7 @@ Item {
         anchors.top: devMaster.bottom
         anchors.topMargin: -defaultBorderWidth
         width: rackFreqBoxWidth
-        height: rackFreqBoxHeight
+        height: rackFreqBoxFreqHeight
         StatusIndicator {
             id: indSlave
             x: marginIndicators

@@ -6,19 +6,21 @@ import QtQuick.Shapes 1.11
 import rdss.device 1.0
 
 Window {
-    readonly property int rackWidth: 791
-    readonly property int rackHeight: 692
+    readonly property int rackWidth: 691
+    readonly property int rackHeight: 646
     readonly property int defaultBorderWidth: 2
-    readonly property int rackFreqBoxWidth: 320
-    readonly property int rackFreqBoxHeight: 73
-    readonly property int rackAmpBoxWidth: 320
+    readonly property int rackFreqBoxWidth: 270
+    readonly property int rackFreqBoxFreqHeight: 73
+    readonly property int rackFreqBoxDistHeight: 106
+    readonly property int rackAmpBoxWidth: 270
     readonly property int rackAmpBoxHeight: 117
     readonly property int serialSWWidth: 352
-    readonly property int serialSWHeight: 79
+    readonly property int serialSWHeight: 64
     readonly property int defaultMarginAndTextWidthHeight: 30
-    readonly property int marginRacks: 74
+    readonly property int marginHeightRackAmp: 144
+    readonly property int marginRacks: 54
     readonly property int marginIndicators: 10
-    readonly property int defaultLabelFontSize: 20
+    readonly property int defaultLabelFontSize: 22
 
     property QtObject objWinFreq;
     property QtObject objWinDist;
@@ -26,8 +28,8 @@ Window {
 
     id: winMain
     visible: true
-    width: 1800
-    height: 900
+    width: 1550
+    height: 800
     title: qsTr("RDSS Project")
 
     Component.onCompleted: {
@@ -39,7 +41,7 @@ Window {
     Rectangle {
         id: rackFreq
         x: marginRacks
-        y: 71
+        y: defaultMarginAndTextWidthHeight
         width: rackWidth
         height: rackHeight
         border.width: defaultBorderWidth
@@ -181,7 +183,7 @@ Window {
             id: blkAmpAmpA1
             masterId: 0x0C
             slaveId: 0x0D
-            posTop: txtRackAmpId.height
+            posTop: txtRackAmpId.height + marginHeightRackAmp
             posLeft: 0
         }
 
@@ -189,143 +191,8 @@ Window {
             id: blkAmpAmpB1
             masterId: 0x0E
             slaveId: 0x0F
-            posTop: txtRackAmpId.height
+            posTop: txtRackAmpId.height + marginHeightRackAmp
             posLeft: blkAmpAmpA1.posRight
-        }
-
-        Text {
-            id: txtAmpA2Id
-            anchors.top: devAmpA2Master.top
-            anchors.right: devAmpA2Master.left
-            width: defaultMarginAndTextWidthHeight
-            height: 2 * rackAmpBoxHeight
-            text: "C2" + qsTr("High Amplification") + "A"
-            verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideRight
-            wrapMode: Text.WrapAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
-
-            MouseArea {
-                id: mouseAmpA2Id
-                anchors.fill: parent
-                onClicked: {
-                    objWinAmp.setVisible(true);
-                }
-            }
-        }
-
-        Rectangle {
-            id: devAmpA2Master
-            x: 2 * defaultMarginAndTextWidthHeight
-            y: blkAmpAmpA1.posBottom + defaultMarginAndTextWidthHeight
-            width: rackAmpBoxWidth
-            height: rackAmpBoxHeight
-            StatusIndicator {
-                id: indAmpA2Master
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseAmpA2Master
-                anchors.fill: parent
-                onClicked: {
-                    objWinAmp.setVisible(true);
-                }
-            }
-        }
-
-        Rectangle {
-            id: devAmpA2Slave
-            anchors.left: devAmpA2Master.left
-            anchors.top: devAmpA2Master.bottom
-            anchors.topMargin: -defaultBorderWidth
-            width: rackAmpBoxWidth
-            height: rackAmpBoxHeight
-            StatusIndicator {
-                id: indAmpA2Slave
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseAmpA2Slave
-                anchors.fill: parent
-                onClicked: {
-                    objWinAmp.setVisible(true);
-                }
-            }
-        }
-
-        Text {
-            id: txtAmpB2Id
-            anchors.top: devAmpB2Master.top
-            anchors.right: devAmpB2Master.left
-            width: defaultMarginAndTextWidthHeight
-            height: 2 * rackAmpBoxHeight
-            text: "C2" + qsTr("High Amplification") + "B"
-            verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideRight
-            wrapMode: Text.WrapAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
-
-            MouseArea {
-                id: mouseAmpB2Id
-                anchors.fill: parent
-                onClicked: {
-                    objWinAmp.setVisible(true);
-                }
-            }
-        }
-
-        Rectangle {
-            id: devAmpB2Master
-            anchors.top: devAmpA2Master.top
-            anchors.left: devAmpA2Master.right
-            anchors.leftMargin: 2 * defaultMarginAndTextWidthHeight
-            width: rackAmpBoxWidth
-            height: rackAmpBoxHeight
-            StatusIndicator {
-                id: indAmpB2Master
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseAmpB2Master
-                anchors.fill: parent
-                onClicked: {
-                    objWinAmp.setVisible(true);
-                }
-            }
-        }
-
-        Rectangle {
-            id: devAmpB2Slave
-            anchors.left: devAmpB2Master.left
-            anchors.top: devAmpB2Master.bottom
-            anchors.topMargin: -defaultBorderWidth
-            width: rackAmpBoxWidth
-            height: rackAmpBoxHeight
-            StatusIndicator {
-                id: indAmpB2Slave
-                x: marginIndicators
-                y: marginIndicators
-            }
-            border.width: defaultBorderWidth
-
-            MouseArea {
-                id: mouseAmpB2Slave
-                anchors.fill: parent
-                onClicked: {
-                    objWinAmp.setVisible(true);
-                }
-            }
         }
 
         Rectangle {
@@ -401,17 +268,19 @@ Window {
                 x: serialSWWidth / 2
                 y: serialSWHeight + 2 * defaultMarginAndTextWidthHeight
             }
-            PathLine {
-                x: serialSWWidth + 2 * defaultMarginAndTextWidthHeight + marginRacks + serialSWWidth / 2
-                y: serialSWHeight
-            }
+        }
+
+        ShapePath {
+            strokeWidth: 3
+            strokeColor: "black"
+            strokeStyle: ShapePath.DashLine
+            fillColor: "transparent"
+
+            startX: serialSWWidth + 2 * defaultMarginAndTextWidthHeight + marginRacks + serialSWWidth / 2
+            startY: serialSWHeight
             PathLine {
                 x: serialSWWidth + 2 * defaultMarginAndTextWidthHeight + marginRacks + serialSWWidth / 2
                 y: serialSWHeight + 2 * defaultMarginAndTextWidthHeight
-            }
-            PathLine {
-                x: serialSWWidth / 2
-                y: serialSWHeight
             }
         }
 
