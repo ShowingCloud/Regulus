@@ -111,16 +111,16 @@ device &device::operator<< (const msgAmp &m)
     }
 }
 
-void devAmp::findAndUpdate(const msgAmp *m)
+devAmp &devAmp::operator<< (const msgAmp &m)
 {
-    this->power = m->power;
-    this->gain = m->gain;
-    this->atten = m->atten;
-    this->loss = m->loss;
-    this->amp_temp = m->temp;
-    this->stat = m->stat;
-    this->load_temp = m->load_temp;
-    this->handshake = m->handshake;
+    this->power = m.power;
+    this->gain = m.gain;
+    this->atten = m.atten;
+    this->loss = m.loss;
+    this->amp_temp = m.temp;
+    this->stat = m.stat;
+    this->load_temp = m.load_temp;
+    this->handshake = m.handshake;
 
     emit this->gotData();
 }
