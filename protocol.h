@@ -40,11 +40,11 @@ public:
 protected:
     const quint8 head = msg::header;
     const quint8 tail = msg::tailer;
-    quint8 serial;
-    quint8 device;
+    quint8 serialId = quint8();
+    quint8 deviceId = quint8();
     quint8 holder8 = 0x00;
-    QDateTime time;
-    QString origin;
+    QDateTime time = QDateTime();
+    QString origin = QString();
 
     static const inline QHash<int, proto> idProto = {
         {0x00, PROTO_FREQ}, {0x01, PROTO_FREQ}, {0x02, PROTO_FREQ}, {0x03, PROTO_FREQ},
@@ -86,20 +86,20 @@ public:
     explicit msgAmp(QObject *parent = nullptr);
     const msgAmp &operator>> (QByteArray &data) const;
     msgAmp &operator<< (const QByteArray &data);
-    friend class device &device::operator<< (const msgAmp &m);
+    friend device &device::operator<< (const msgAmp &m);
     friend devAmp &devAmp::operator<< (const msgAmp &m);
 
     inline const static int posSerial = 17;
 
 protected:
-    quint16 power;
-    quint16 gain;
-    quint16 atten;
-    quint16 loss;
-    quint16 temp;
-    quint16 stat;
-    quint16 load_temp;
-    quint8 handshake;
+    quint16 power = quint16();
+    quint16 gain = quint16();
+    quint16 atten = quint16();
+    quint16 loss = quint16();
+    quint16 temp = quint16();
+    quint16 stat = quint16();
+    quint16 load_temp = quint16();
+    quint8 handshake = quint8();
 };
 
 class msgFreq : public msgUplink
@@ -108,26 +108,26 @@ public:
     explicit msgFreq(QObject *parent = nullptr);
     const msgFreq &operator>> (QByteArray &data) const;
     msgFreq &operator<< (const QByteArray &data);
-    friend class device &device::operator<< (const msgFreq &m);
+    friend device &device::operator<< (const msgFreq &m);
     friend devFreq &devFreq::operator<< (const msgFreq &m);
 
     inline const static int posSerial = 17;
 
 protected:
-    quint8 atten;
-    quint8 voltage;
-    quint16 current;
-    quint8 output_stat;
-    quint8 input_stat;
-    quint8 lock_a1;
-    quint8 lock_a2;
-    quint8 lock_b1;
-    quint8 lock_b2;
-    quint8 ref_10_1;
-    quint8 ref_10_2;
-    quint8 ref_3;
-    quint8 ref_4;
-    quint8 handshake;
+    quint8 atten = quint8();
+    quint8 voltage = quint8();
+    quint16 current = quint16();
+    quint8 output_stat = quint8();
+    quint8 input_stat = quint8();
+    quint8 lock_a1 = quint8();
+    quint8 lock_a2 = quint8();
+    quint8 lock_b1 = quint8();
+    quint8 lock_b2 = quint8();
+    quint8 ref_10_1 = quint8();
+    quint8 ref_10_2 = quint8();
+    quint8 ref_3 = quint8();
+    quint8 ref_4 = quint8();
+    quint8 handshake = quint8();
 };
 
 class msgDist : public msgUplink
@@ -136,17 +136,17 @@ public:
     explicit msgDist(QObject *parent = nullptr);
     const msgDist &operator>> (QByteArray &data) const;
     msgDist &operator<< (const QByteArray &data);
-    friend class device &device::operator<< (const msgDist &m);
+    friend device &device::operator<< (const msgDist &m);
     friend devDist &devDist::operator<< (const msgDist &m);
 
     inline const static int posSerial = 8;
 
 protected:
-    quint8 ref_10;
-    quint8 ref_16;
-    quint8 voltage;
-    quint16 current;
-    quint8 power;
+    quint8 ref_10 = quint8();
+    quint8 ref_16 = quint8();
+    quint8 voltage = quint8();
+    quint16 current = quint16();
+    quint8 power = quint8();
 
 };
 
@@ -176,10 +176,10 @@ public:
     inline const static int posSerial = 8;
 
 protected:
-    quint8 atten_mode;
-    quint8 atten;
-    quint16 power;
-    quint16 gain;
+    quint8 atten_mode = quint8();
+    quint8 atten = quint8();
+    quint16 power = quint16();
+    quint16 gain = quint16();
 };
 
 class msgCntlFreq : public msgDownlink
@@ -192,9 +192,9 @@ public:
     inline const static int posSerial = 6;
 
 protected:
-    quint8 atten;
-    quint8 ref_10_a;
-    quint8 ref_10_b;
+    quint8 atten = quint8();
+    quint8 ref_10_a = quint8();
+    quint8 ref_10_b = quint8();
 };
 
 class msgCntlDist : public msgDownlink
@@ -207,8 +207,8 @@ public:
     inline const static int posSerial = 4;
 
 protected:
-    quint8 ref_10;
-    quint8 ref_16;
+    quint8 ref_10 = quint8();
+    quint8 ref_16 = quint8();
 };
 
 
@@ -223,8 +223,8 @@ public:
     inline static QList<protocol *> protocollist = {};
 
 private:
-    msgUplink uplink;
-    msgDownlink downlink;
+    msgUplink uplink = msgUplink();
+    msgDownlink downlink = msgDownlink();
 
 signals:
 

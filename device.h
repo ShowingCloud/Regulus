@@ -65,8 +65,8 @@ protected:
     };
 
 private:
-    int dId;
-    QString str;
+    int dId = 0;
+    QString str = QString();
 
     protocol *query;
     protocol *rntl;
@@ -81,29 +81,39 @@ class devFreq : public device
 {
     Q_OBJECT
     Q_PROPERTY(int atten MEMBER atten NOTIFY gotData)
-    Q_PROPERTY(int volage MEMBER voltage NOTIFY gotData)
+    Q_PROPERTY(int voltage MEMBER voltage NOTIFY gotData)
     Q_PROPERTY(int current MEMBER current NOTIFY gotData)
+    Q_PROPERTY(bool output_stat MEMBER output_stat NOTIFY gotData)
+    Q_PROPERTY(bool input_stat MEMBER input_stat NOTIFY gotData)
+    Q_PROPERTY(int lock_a1 MEMBER lock_a1 NOTIFY gotData)
+    Q_PROPERTY(int lock_a2 MEMBER lock_a2 NOTIFY gotData)
+    Q_PROPERTY(int lock_b1 MEMBER lock_b1 NOTIFY gotData)
+    Q_PROPERTY(int lock_b2 MEMBER lock_b2 NOTIFY gotData)
+    Q_PROPERTY(bool ref_10_1 MEMBER ref_10_1 NOTIFY gotData)
+    Q_PROPERTY(bool ref_10_2 MEMBER ref_10_2 NOTIFY gotData)
+    Q_PROPERTY(bool ref_3 MEMBER ref_3 NOTIFY gotData)
+    Q_PROPERTY(bool ref_4 MEMBER ref_4 NOTIFY gotData)
 public:
     explicit devFreq(QObject *parent = nullptr);
     devFreq &operator<< (const msgFreq &m);
 
 private:
-    int atten;
-    int ch_a;
-    int ch_b;
-    int voltage;
-    int current;
-    int output_stat;
-    int input_stat;
-    int lock_a1;
-    int lock_a2;
-    int lock_b1;
-    int lock_b2;
-    int ref_10_1;
-    int ref_10_2;
-    int ref_3;
-    int ref_4;
-    int handshake;
+    int atten = int();
+    int ch_a = int();
+    int ch_b = int();
+    int voltage = int();
+    int current = int();
+    bool output_stat = true;
+    bool input_stat = true;
+    int lock_a1 = int();
+    int lock_a2 = int();
+    int lock_b1 = int();
+    int lock_b2 = int();
+    bool ref_10_1 = true;
+    bool ref_10_2 = true;
+    bool ref_3 = true;
+    bool ref_4 = true;
+    int handshake = int();
 };
 
 class devDist : public device
@@ -117,11 +127,11 @@ public:
     devDist &operator<< (const msgDist &m);
 
 protected:
-    int ref_10;
-    int ref_16;
-    int voltage;
-    int current;
-    int power;
+    int ref_10 = int();
+    int ref_16 = int();
+    int voltage = int();
+    int current = int();
+    int power = int();
 };
 
 class devAmp : public device
@@ -138,14 +148,14 @@ public:
     devAmp &operator<< (const msgAmp &m);
 
 protected:
-    int power;
-    int gain;
-    int atten;
-    int loss;
-    int amp_temp;
-    int stat;
-    int load_temp;
-    int handshake;
+    int power = int();
+    int gain = int();
+    int atten = int();
+    int loss = int();
+    int amp_temp = int();
+    int stat = int();
+    int load_temp = int();
+    int handshake = int();
 };
 
 #endif // DEVICE_H

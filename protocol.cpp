@@ -12,24 +12,26 @@ msg::msg(QObject *parent) : QObject(parent)
 msg &msg::operator= (const QByteArray input)
 {
     *this << input;
-    static_cast<msgUplink>(this) << input;
+    *static_cast<msgUplink *>(this) << input;
 
-    switch (idProto[this->device]) {
+    switch (idProto[this->deviceId]) {
     case PROTO_FREQ:
-        static_cast<msgFreq>(this) << input;
+        *static_cast<msgFreq *>(this) << input;
         break;
+
     case PROTO_DIST:
-        static_cast<msgDist>(this) << input;
+        *static_cast<msgDist *>(this) << input;
         break;
+
     case PROTO_AMP:
-        static_cast<msgAmp>(this) << input;
+        *static_cast<msgAmp *>(this) << input;
         break;
+
     default:
         qDebug() << "unknown device id";
         break;
     }
 
-    qDebug() << "Got data: " << idProto[this->device] << input.toHex() << this;
     return *this;
 }
 
@@ -42,13 +44,11 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray i
         if (buffer.length() >= head + msgUplink::mlen && buffer.at(head + msgUplink::mlen - 1) == msg_tailer) {
             msg *m = new msg();
             if (buffer.length() == msgUplink::mlen) {
-                qDebug() << "pass";
                 *m = buffer;
                 msg::unknownmsglist << m;
                 buffer = QByteArray();
                 return VAL_PASS;
             } else {
-                qDebug() << "remains";
                 *m = buffer.mid(head, msgUplink::mlen);
                 msg::unknownmsglist << m;
                 buffer.remove(head, msgUplink::mlen);
@@ -140,8 +140,8 @@ void msgQuery::createQuery()
 {
     this->identify = 0x00;
     this->instruction = 0x01;
-    this->device = 0;
-    this->serial = 0;
+    this->deviceId = 0;
+    this->serialId = 0;
     return;
 }
 
@@ -157,7 +157,6 @@ void protocol::createQueryMsg(serial &s)
 
     msgQuery *query = static_cast<msgQuery *>(&p->downlink);
     query->createQuery();
-    qDebug() << "Query Created: " << query;
     s << *query;
 }
 
@@ -187,7 +186,7 @@ msg &msg::operator<< (const QByteArray &data)
 
 msgUplink &msgUplink::operator<< (const QByteArray &data)
 {
-    QDataStream(data.mid(msgUplink::posDevice, 1)) >> this->device;
+    QDataStream(data.mid(msgUplink::posDevice, 1)) >> this->deviceId;
     return *this;
 }
 
@@ -198,13 +197,14 @@ msgFreq &msgFreq::operator<< (const QByteArray &data)
         qDebug() << "Mulformed message";
         return *this;
     }
-    qDebug() << "Got Msg Freq";
+    qDebug() << "Got Msg Freq" << this->deviceId << this->origin;
 
     QDataStream(data) >> this->holder8 /* header */ >> this->atten >> this->voltage
                       >> this->current >> this->output_stat >> this->input_stat >> this->lock_a1
                       >> this->lock_a2 >> this->lock_b1 >> this->lock_b2 >> this->ref_10_1
                       >> this->ref_10_2 >> this->ref_3 >> this->ref_4 >> this->holder8 /* device */
-                      >> this->handshake >> this->serial >> this->holder8 >> this->holder8 /* tailer */;
+                      >> this->handshake >> this->serialId >> this->holder8 >> this->holder8 /* tailer */;
+    this->origin = data;
     device::updateDevice(*this);
     return *this;
 }
@@ -216,13 +216,14 @@ msgDist &msgDist::operator<< (const QByteArray &data)
         qDebug() << "Mulformed message";
         return *this;
     }
-    qDebug() << "Got Msg Dist";
+    qDebug() << "Got Msg Dist" << this->deviceId << this->origin;
 
     QDataStream(data) >> this->holder8 /* header */ >> this->ref_10 >> this->ref_16 >> this->voltage
                       >> this->current >> this->power >> this->holder8 >> this->holder8 /* device */
                       >> this->holder8 >> this->holder8 >> this->holder8 >> this->holder8
-                      >> this->holder8 >> this->holder8 >> this->serial >> this->holder8 >> this->holder8
+                      >> this->holder8 >> this->holder8 >> this->serialId >> this->holder8 >> this->holder8
                       >> this->holder8 >> this->holder8 /* tailer */;
+    this->origin = data;
     device::updateDevice(*this);
     return *this;
 }
@@ -234,12 +235,13 @@ msgAmp &msgAmp::operator<< (const QByteArray &data)
         qDebug() << "Mulformed message";
         return *this;
     }
-    qDebug() << "Got Msg Amp";
+    qDebug() << "Got Msg Amp" << this->deviceId << this->origin;
 
     QDataStream(data) >> this->holder8 /* header */ >> this->power >> this->gain >> this->atten
                       >> this->loss >> this->temp >> this->stat >> this->load_temp
-                      >> this->holder8 /* device */ >> this->holder8 >> this->serial
+                      >> this->holder8 /* device */ >> this->holder8 >> this->serialId
                       >> this->handshake >> this->holder8 /* tailer */;
+    this->origin = data;
     device::updateDevice(*this);
     return *this;
 }
@@ -247,22 +249,22 @@ msgAmp &msgAmp::operator<< (const QByteArray &data)
 const msgQuery &msgQuery::operator>> (QByteArray &data) const
 {
     QDataStream(&data, QIODevice::WriteOnly) << this->head << this->identify << this->instruction
-                                             << this->device << this->serial << this->tail;
+                                             << this->deviceId << this->serialId << this->tail;
     return *this;
 }
 
 const msgCntlFreq &msgCntlFreq::operator>> (QByteArray &data) const
 {
     QDataStream(&data, QIODevice::WriteOnly) << this->head << this->atten << this->ref_10_a << this->ref_10_b
-                                             << this->holder8 << this->device << this->serial << this->holder8
+                                             << this->holder8 << this->deviceId << this->serialId << this->holder8
                                              << this->holder8 << this->tail;
     return *this;
 }
 
 const msgCntlDist &msgCntlDist::operator>> (QByteArray &data) const
 {
-    QDataStream(&data, QIODevice::WriteOnly) << this->head << this->ref_10 << this->ref_16 << this->device
-                                             << this->serial << this->holder8 << this->holder8 << this->holder8
+    QDataStream(&data, QIODevice::WriteOnly) << this->head << this->ref_10 << this->ref_16 << this->deviceId
+                                             << this->serialId << this->holder8 << this->holder8 << this->holder8
                                              << this->holder8 << this->tail;
     return *this;
 }
@@ -270,6 +272,6 @@ const msgCntlDist &msgCntlDist::operator>> (QByteArray &data) const
 const msgCntlAmp &msgCntlAmp::operator>> (QByteArray &data) const
 {
     QDataStream(&data, QIODevice::WriteOnly) << this->head << this->atten_mode << this->atten << this->power
-                                              << this->gain << this->device << this->serial << this->tail;
+                                              << this->gain << this->deviceId << this->serialId << this->tail;
     return *this;
 }

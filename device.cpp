@@ -50,11 +50,11 @@ void device::updateDevice(const msgAmp &m)
 
 device &device::operator<< (const msgFreq &m)
 {
-    if (this->dId == m.device)
+    if (this->dId == m.deviceId)
     {
-        devFreq dev = static_cast<devFreq>(this);
-        this->str = m.origin;
-        dev << m;
+        devFreq *dev = static_cast<devFreq *>(this);
+        dev->str = m.origin;
+        *dev << m;
     }
     return *this;
 }
@@ -84,11 +84,11 @@ devFreq &devFreq::operator<< (const msgFreq &m)
 
 device &device::operator<< (const msgDist &m)
 {
-    if (this->dId == m.device)
+    if (this->dId == m.deviceId)
     {
-        devDist dev = static_cast<devDist>(this);
-        this->str = m.origin;
-        dev << m;
+        devDist *dev = static_cast<devDist *>(this);
+        dev->str = m.origin;
+        *dev << m;
     }
     return *this;
 }
@@ -107,11 +107,11 @@ devDist &devDist::operator<< (const msgDist &m)
 
 device &device::operator<< (const msgAmp &m)
 {
-    if (this->dId == m.device)
+    if (this->dId == m.deviceId)
     {
-        devAmp dev = static_cast<devAmp>(this);
-        this->str = m.origin;
-        dev << m;
+        devAmp *dev = static_cast<devAmp *>(this);
+        dev->str = m.origin;
+        *dev << m;
     }
     return *this;
 }

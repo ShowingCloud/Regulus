@@ -21,9 +21,34 @@
     </message>
 </context>
 <context>
+    <name>RectDevFreq</name>
+    <message>
+        <location filename="RectDevFreq.qml" line="60"/>
+        <source>radio</source>
+        <translation>射频</translation>
+    </message>
+    <message>
+        <location filename="RectDevFreq.qml" line="60"/>
+        <location filename="RectDevFreq.qml" line="74"/>
+        <source>normal</source>
+        <translation>正常</translation>
+    </message>
+    <message>
+        <location filename="RectDevFreq.qml" line="60"/>
+        <location filename="RectDevFreq.qml" line="74"/>
+        <source>abnormal</source>
+        <translation>异常</translation>
+    </message>
+    <message>
+        <location filename="RectDevFreq.qml" line="74"/>
+        <source>mid freq</source>
+        <translation>中频</translation>
+    </message>
+</context>
+<context>
     <name>amp</name>
     <message>
-        <location filename="amp.qml" line="12"/>
+        <location filename="amp.qml" line="13"/>
         <source>Amplification Device</source>
         <translation>功放设备</translation>
     </message>
@@ -31,32 +56,32 @@
 <context>
     <name>device</name>
     <message>
-        <location filename="device.h" line="34"/>
-        <location filename="device.h" line="35"/>
-        <location filename="device.h" line="36"/>
-        <location filename="device.h" line="37"/>
+        <location filename="device.h" line="51"/>
+        <location filename="device.h" line="52"/>
+        <location filename="device.h" line="53"/>
+        <location filename="device.h" line="54"/>
         <source>Down Frequency Conversion</source>
         <translation>下变频</translation>
     </message>
     <message>
-        <location filename="device.h" line="38"/>
-        <location filename="device.h" line="39"/>
-        <location filename="device.h" line="40"/>
-        <location filename="device.h" line="41"/>
+        <location filename="device.h" line="55"/>
+        <location filename="device.h" line="56"/>
+        <location filename="device.h" line="57"/>
+        <location filename="device.h" line="58"/>
         <source>Up Frequency Conversion</source>
         <translation>上变频</translation>
     </message>
     <message>
-        <location filename="device.h" line="42"/>
-        <location filename="device.h" line="43"/>
+        <location filename="device.h" line="59"/>
+        <location filename="device.h" line="60"/>
         <source>Middle Frequency Distribution</source>
         <translation>中频分配</translation>
     </message>
     <message>
-        <location filename="device.h" line="44"/>
-        <location filename="device.h" line="45"/>
-        <location filename="device.h" line="46"/>
-        <location filename="device.h" line="47"/>
+        <location filename="device.h" line="61"/>
+        <location filename="device.h" line="62"/>
+        <location filename="device.h" line="63"/>
+        <location filename="device.h" line="64"/>
         <source>High Amplification</source>
         <translation>高功放</translation>
     </message>
@@ -84,12 +109,12 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="main.qml" line="37"/>
+        <location filename="main.qml" line="35"/>
         <source>RDSS Project</source>
         <translation>RDSS 项目</translation>
     </message>
     <message>
-        <location filename="main.qml" line="59"/>
+        <location filename="main.qml" line="57"/>
         <source>Frequency Conversion Rack</source>
         <translation>变频机柜</translation>
     </message>
@@ -107,29 +132,27 @@
         <translation type="vanished">中频分配</translation>
     </message>
     <message>
-        <location filename="main.qml" line="508"/>
-        <location filename="main.qml" line="876"/>
+        <location filename="main.qml" line="129"/>
+        <location filename="main.qml" line="220"/>
         <source>Switch</source>
         <oldsource>Switch2</oldsource>
         <translation>交换机</translation>
     </message>
     <message>
-        <location filename="main.qml" line="535"/>
-        <location filename="main.qml" line="903"/>
+        <location filename="main.qml" line="156"/>
+        <location filename="main.qml" line="247"/>
         <source>Serial</source>
         <oldsource>Serial2</oldsource>
         <translation>串转网</translation>
     </message>
     <message>
-        <location filename="main.qml" line="557"/>
+        <location filename="main.qml" line="178"/>
         <source>Amplification Rack</source>
         <translation>功放机柜</translation>
     </message>
     <message>
-        <location filename="main.qml" line="726"/>
-        <location filename="main.qml" line="794"/>
         <source>High Amplification</source>
-        <translation>高功放</translation>
+        <translation type="vanished">高功放</translation>
     </message>
 </context>
 </TS>

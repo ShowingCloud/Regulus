@@ -34,7 +34,7 @@ public:
     DB_RET insert_msg_alert(const QString err, const QByteArray data);
 
 private:
-    QSqlDatabase db;
+    QSqlDatabase db = QSqlDatabase();
     QSqlTableModel *dbModel;
 
     inline const static QString filename = "history.db";

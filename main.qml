@@ -21,6 +21,8 @@ Window {
     readonly property int marginRacks: 54
     readonly property int marginIndicators: 10
     readonly property int defaultLabelFontSize: 20
+    readonly property int rectBigFontSize: 17
+    readonly property int rectSmallFontSize: 8
 
     property QtObject objWinFreq;
     property QtObject objWinDist;

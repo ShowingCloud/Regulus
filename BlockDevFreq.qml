@@ -47,11 +47,6 @@ Item {
         y: posTop + defaultMarginAndTextWidthHeight
         width: rackFreqBoxWidth
         height: rackFreqBoxFreqHeight
-        StatusIndicator {
-            id: indMaster
-            x: marginIndicators
-            y: marginIndicators
-        }
         border.width: defaultBorderWidth
 
         MouseArea {
@@ -60,6 +55,10 @@ Item {
             onClicked: {
                 objWinFreq.setVisible(true);
             }
+        }
+
+        RectDevFreq {
+            devFreq: devFreqMaster
         }
     }
 
@@ -70,11 +69,6 @@ Item {
         anchors.topMargin: -defaultBorderWidth
         width: rackFreqBoxWidth
         height: rackFreqBoxFreqHeight
-        StatusIndicator {
-            id: indSlave
-            x: marginIndicators
-            y: marginIndicators
-        }
         border.width: defaultBorderWidth
 
         MouseArea {
@@ -84,23 +78,9 @@ Item {
                 objWinFreq.setVisible(true);
             }
         }
-    }
 
-    Text {
-        id: txtMasterStr
-        anchors.top: devMaster.top
-        anchors.left: indMaster
-        height: defaultMarginAndTextWidthHeight
-        width: 2 * rackFreqBoxWidth
-        text: devFreqMaster.str
-    }
-
-    Text {
-        id: txtSlaveStr
-        anchors.top: devSlave.top
-        anchors.left: devSlave.left
-        height: defaultMarginAndTextWidthHeight
-        width: 2 * rackFreqBoxWidth
-        text: devFreqSlave.str
+        RectDevFreq {
+            devFreq: devFreqSlave
+        }
     }
 }

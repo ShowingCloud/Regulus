@@ -7,5 +7,6 @@
         <file>BlockDevFreq.qml</file>
         <file>BlockDevDist.qml</file>
         <file>BlockDevAmp.qml</file>
+        <file>RectDevFreq.qml</file>
     </qresource>
 </RCC>
