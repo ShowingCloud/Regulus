@@ -56,6 +56,7 @@ device &device::operator<< (const msgFreq &m)
         this->str = m.origin;
         dev << m;
     }
+    return *this;
 }
 
 devFreq &devFreq::operator<< (const msgFreq &m)
@@ -78,6 +79,7 @@ devFreq &devFreq::operator<< (const msgFreq &m)
     this->handshake = m.handshake;
 
     emit this->gotData();
+    return *this;
 }
 
 device &device::operator<< (const msgDist &m)
@@ -88,6 +90,7 @@ device &device::operator<< (const msgDist &m)
         this->str = m.origin;
         dev << m;
     }
+    return *this;
 }
 
 devDist &devDist::operator<< (const msgDist &m)
@@ -99,6 +102,7 @@ devDist &devDist::operator<< (const msgDist &m)
     this->power = m.power;
 
     emit this->gotData();
+    return *this;
 }
 
 device &device::operator<< (const msgAmp &m)
@@ -109,6 +113,7 @@ device &device::operator<< (const msgAmp &m)
         this->str = m.origin;
         dev << m;
     }
+    return *this;
 }
 
 devAmp &devAmp::operator<< (const msgAmp &m)
@@ -123,4 +128,5 @@ devAmp &devAmp::operator<< (const msgAmp &m)
     this->handshake = m.handshake;
 
     emit this->gotData();
+    return *this;
 }

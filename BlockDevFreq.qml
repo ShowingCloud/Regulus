@@ -89,7 +89,7 @@ Item {
     Text {
         id: txtMasterStr
         anchors.top: devMaster.top
-        anchors.left: devMaster.left
+        anchors.left: indMaster
         height: defaultMarginAndTextWidthHeight
         width: 2 * rackFreqBoxWidth
         text: devFreqMaster.str

@@ -20,7 +20,7 @@ Window {
     readonly property int marginHeightRackAmp: 144
     readonly property int marginRacks: 54
     readonly property int marginIndicators: 10
-    readonly property int defaultLabelFontSize: 22
+    readonly property int defaultLabelFontSize: 20
 
     property QtObject objWinFreq;
     property QtObject objWinDist;
