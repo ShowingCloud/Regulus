@@ -9,50 +9,33 @@ device::device(QObject *parent) : QObject(parent)
     device::push(this);
 }
 
-devFreq::devFreq(QObject *parent) : device(parent)
-{
-
-}
-
-devDist::devDist(QObject *parent) : device(parent)
-{
-
-}
-
-devAmp::devAmp(QObject *parent) : device(parent)
-{
-
-}
-
-void device::updateDevice(const msgFreq &m)
-{
-    for (device *d : device::deviceList)
-    {
-        *d << m;
-    }
-}
-
-void device::updateDevice(const msgDist &m)
-{
-    for (device *d : device::deviceList)
-    {
-        *d << m;
-    }
-}
-
-void device::updateDevice(const msgAmp &m)
-{
-    for (device *d : device::deviceList)
-    {
-        *d << m;
-    }
-}
-
 device &operator<< (device &d, const msgFreq &m)
 {
     if (d.dId == m.deviceId)
     {
         devFreq &dev = dynamic_cast<devFreq &>(d);
+        dev.str = m.origin;
+        dev << m;
+    }
+    return d;
+}
+
+device &operator<< (device &d, const msgDist &m)
+{
+    if (d.dId == m.deviceId)
+    {
+        devDist &dev = dynamic_cast<devDist &>(d);
+        dev.str = m.origin;
+        dev << m;
+    }
+    return d;
+}
+
+device &operator<< (device &d, const msgAmp &m)
+{
+    if (d.dId == m.deviceId)
+    {
+        devAmp &dev = dynamic_cast<devAmp &>(d);
         dev.str = m.origin;
         dev << m;
     }
@@ -82,17 +65,6 @@ devFreq &operator<< (devFreq &dev, const msgFreq &m)
     return dev;
 }
 
-device &operator<< (device &d, const msgDist &m)
-{
-    if (d.dId == m.deviceId)
-    {
-        devDist &dev = dynamic_cast<devDist &>(d);
-        dev.str = m.origin;
-        dev << m;
-    }
-    return d;
-}
-
 devDist &operator<< (devDist &dev, const msgDist &m)
 {
     dev.ref_10 = m.ref_10;
@@ -103,17 +75,6 @@ devDist &operator<< (devDist &dev, const msgDist &m)
 
     emit dev.gotData();
     return dev;
-}
-
-device &operator<< (device &d, const msgAmp &m)
-{
-    if (d.dId == m.deviceId)
-    {
-        devAmp &dev = dynamic_cast<devAmp &>(d);
-        dev.str = m.origin;
-        dev << m;
-    }
-    return d;
 }
 
 devAmp &operator<< (devAmp &dev, const msgAmp &m)

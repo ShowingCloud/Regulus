@@ -56,7 +56,7 @@ serial &operator<< (serial &s, const msgQuery &m)
 
     const char sn = static_cast<char>(s.serialno++);
     data.replace(msgQuery::posSerial, 1, &sn, 1);
-    qDebug() << "Serial writing data: " << data.length() << data.toHex();
+    qDebug() << "Serial writing data <msgQuery>: " << data.length() << data.toHex();
     s.writeData(data);
     return s;
 }
@@ -68,7 +68,7 @@ serial &operator<< (serial &s, const msgCntlFreq &m)
 
     const char sn = static_cast<char>(s.serialno++);
     data.replace(msgCntlFreq::posSerial, 1, &sn, 1);
-    qDebug() << "Serial writing data: " << data.length() << data.toHex();
+    qDebug() << "Serial writing data <msgCntlFreq>: " << data.length() << data.toHex();
     s.writeData(data);
     return s;
 }
@@ -80,7 +80,7 @@ serial &operator<< (serial &s, const msgCntlDist &m)
 
     const char sn = static_cast<char>(s.serialno++);
     data.replace(msgCntlDist::posSerial, 1, &sn, 1);
-    qDebug() << "Serial writing data: " << data.length() << data.toHex();
+    qDebug() << "Serial writing data <msgCntlDist>: " << data.length() << data.toHex();
     s.writeData(data);
     return s;
 }
@@ -92,7 +92,7 @@ serial &operator<< (serial &s, const msgCntlAmp &m)
 
     const char sn = static_cast<char>(s.serialno++);
     data.replace(msgCntlAmp::posSerial, 1, &sn, 1);
-    qDebug() << "Serial writing data: " << data.length() << data.toHex();
+    qDebug() << "Serial writing data <msgCntlAmp>: " << data.length() << data.toHex();
     s.writeData(data);
     return s;
 }

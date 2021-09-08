@@ -29,9 +29,7 @@ public:
                 -> QString { return ret += tr(s.c_str()); });
     }
 
-    static void updateDevice(const msgFreq &m);
-    static void updateDevice(const msgDist &m);
-    static void updateDevice(const msgAmp &m);
+    template <class T> static void updateDevice(const T &m);
     friend device &operator<< (device &dev, const msgFreq &m);
     friend device &operator<< (device &dev, const msgDist &m);
     friend device &operator<< (device &dev, const msgAmp &m);
@@ -77,6 +75,14 @@ private:
     }
 };
 
+template <class T> void device::updateDevice(const T &m)
+{
+    for (device *d : device::deviceList)
+    {
+        *d << m;
+    }
+}
+
 class devFreq : public device
 {
     Q_OBJECT
@@ -94,7 +100,7 @@ class devFreq : public device
     Q_PROPERTY(bool ref_3 MEMBER ref_3 NOTIFY gotData)
     Q_PROPERTY(bool ref_4 MEMBER ref_4 NOTIFY gotData)
 public:
-    explicit devFreq(QObject *parent = nullptr);
+    explicit devFreq(device *parent = nullptr) : device(parent) {}
     friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
 
 private:
@@ -123,7 +129,7 @@ class devDist : public device
     Q_PROPERTY(int current MEMBER voltage NOTIFY gotData)
     Q_PROPERTY(int power MEMBER voltage NOTIFY gotData)
 public:
-    explicit devDist(QObject *parent = nullptr);
+    explicit devDist(device *parent = nullptr) : device(parent) {}
     friend devDist &operator<< (devDist &dev, const msgDist &m);
 
 protected:
@@ -144,7 +150,7 @@ class devAmp : public device
     Q_PROPERTY(int amp_temp MEMBER amp_temp NOTIFY gotData)
     Q_PROPERTY(int load_temp MEMBER load_temp NOTIFY gotData)
 public:
-    explicit devAmp(QObject *parent = nullptr);
+    explicit devAmp(device *parent = nullptr) : device(parent) {}
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
 
 protected:

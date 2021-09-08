@@ -4,11 +4,6 @@
 #include "serial.h"
 #include "device.h"
 
-msg::msg(QObject *parent) : QObject(parent)
-{
-    return;
-}
-
 msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &input)
 {
     int head = 0, tail = 0;
@@ -85,36 +80,6 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &
     */
 }
 
-msgUplink::msgUplink(QObject *parent) : msg(parent)
-{
-    return;
-}
-
-msgDownlink::msgDownlink(QObject *parent) : msg(parent)
-{
-    return;
-}
-
-msgFreq::msgFreq(QObject *parent) : msgUplink(parent)
-{
-    return;
-}
-
-msgDist::msgDist(QObject *parent) : msgUplink(parent)
-{
-    return;
-}
-
-msgAmp::msgAmp(QObject *parent) : msgUplink(parent)
-{
-    return;
-}
-
-msgQuery::msgQuery(QObject *parent) : msgDownlink(parent)
-{
-    return;
-}
-
 void msgQuery::createQuery()
 {
     this->identify = 0x00;
@@ -124,20 +89,18 @@ void msgQuery::createQuery()
     return;
 }
 
-protocol::protocol(QObject *parent) : QObject(parent)
-{
-    return;
-}
-
 void protocol::createQueryMsg(serial &s)
 {
     protocol *p = new protocol();
     protocol::protocollist << p;
 
-    msgQuery *q = new msgQuery(new msgDownlink());
+    msgQuery *q = new msgQuery();
     p->downlink = q;
     q->createQuery();
     s << *q;
+
+    //msgCntlAmp *r = new msgCntlAmp();
+    //s << *r;
 }
 
 const protocol &operator>> (const protocol &p, serial &s)
@@ -154,6 +117,7 @@ protocol &operator<< (protocol &p, const serial &s)
 
 const msg &operator>> (const msg &m, QByteArray &data)
 {
+    qDebug() << "nothing processed";
     return m;
 }
 
@@ -165,20 +129,23 @@ msg &operator<< (msg &m, const QByteArray &data)
     msgUplink *u = new msgUplink(&m);
     *u << data;
 
-    switch (msg::idProto[m.deviceId]) {
+    switch (msg::idProto[u->deviceId]) {
     case msg::PROTO_FREQ: {
-        msgFreq *m = new msgFreq(u);
-        *m << data;
+        msgFreq *s = new msgFreq(u);
+        *s << data;
+        return *s;
     } break;
 
     case msg::PROTO_DIST: {
-        msgDist *m = new msgDist(u);
-        *m << data;
+        msgDist *s = new msgDist(u);
+        *s << data;
+        return *s;
     } break;
 
     case msg::PROTO_AMP: {
-        msgAmp *m = new msgAmp(u);
-        *m << data;
+        msgAmp *s = new msgAmp(u);
+        *s << data;
+        return *s;
     } break;
 
     default:
@@ -186,7 +153,7 @@ msg &operator<< (msg &m, const QByteArray &data)
         break;
     }
 
-    return m;
+    return *u;
 }
 
 msgUplink &operator<< (msgUplink &m, const QByteArray &data)
@@ -209,7 +176,6 @@ msgFreq &operator<< (msgFreq &m, const QByteArray &data)
                       >> m.lock_a2 >> m.lock_b1 >> m.lock_b2 >> m.ref_10_1
                       >> m.ref_10_2 >> m.ref_3 >> m.ref_4 >> m.holder8 /* device */
                       >> m.handshake >> m.serialId >> m.holder8 >> m.holder8 /* tailer */;
-    m.origin = data;
     device::updateDevice(m);
     return m;
 }
@@ -228,7 +194,6 @@ msgDist &operator<< (msgDist &m, const QByteArray &data)
                       >> m.holder8 >> m.holder8 >> m.holder8 >> m.holder8
                       >> m.holder8 >> m.holder8 >> m.serialId >> m.holder8 >> m.holder8
                       >> m.holder8 >> m.holder8 /* tailer */;
-    m.origin = data;
     device::updateDevice(m);
     return m;
 }
@@ -246,7 +211,6 @@ msgAmp &operator<< (msgAmp &m, const QByteArray &data)
                       >> m.loss >> m.temp >> m.stat >> m.load_temp
                       >> m.holder8 /* device */ >> m.holder8 >> m.serialId
                       >> m.handshake >> m.holder8 /* tailer */;
-    m.origin = data;
     device::updateDevice(m);
     return m;
 }
