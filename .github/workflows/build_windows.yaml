@@ -83,15 +83,23 @@ jobs:
         with:
           name: ${{ runner.os }} ${{ matrix.qt_ver }} ${{ matrix.qt_arch }} DIDNT_PACK
           path: release/rdss.exe
-      - name: Commit and push
-        uses: github-actions-x/commit@v2.6
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          push-branch: 'master'
-          commit-message: 'PDF compiled'
-          force-add: 'true'
-          files: ｜
-            ${{ runner.os }} ${{ matrix.qt_ver }} ${{ matrix.qt_arch }}
-            ${{ runner.os }} ${{ matrix.qt_ver }} ${{ matrix.qt_arch }} DIDNT_PACK
-          name: WANG Guoqin
-          email: wangguoqin1001@gmail.com 
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ runner.os }} ${{ matrix.qt_ver }} ${{ matrix.qt_arch }}
+          asset_name: ${{ runner.os }} ${{ matrix.qt_ver }} ${{ matrix.qt_arch }}
+          asset_content_type: application/zip
