@@ -17,12 +17,22 @@ class msgCntlAmp;
 class protocol;
 class serial;
 
+#include "alert.h"
+
 class device : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int dId MEMBER dId NOTIFY idSet)
-    Q_PROPERTY(QString name READ name NOTIFY idSet)
-    Q_PROPERTY(QString str MEMBER str NOTIFY gotData)
+    Q_ENUM(alert::P_NOR)
+    Q_ENUM(alert::P_LOCK)
+    Q_ENUM(alert::P_MS)
+    Q_ENUM(alert::P_HSK)
+    Q_ENUM(alert::P_ATTEN)
+    Q_ENUM(alert::P_STAT)
+    Q_ENUM(alert::P_CH)
+    Q_PROPERTY(int          dId         MEMBER  dId      NOTIFY idSet)
+    Q_PROPERTY(QString      name        READ    name     NOTIFY idSet)
+    Q_PROPERTY(QString      str         MEMBER  str      NOTIFY gotData)
+    Q_PROPERTY(QDateTime    lastseen    MEMBER  lastseen NOTIFY gotData)
 public:
     explicit device(QObject *parent = nullptr);
 
@@ -95,19 +105,24 @@ template <class T> void device::updateDevice(const T &m)
 class devFreq : public device
 {
     Q_OBJECT
-    Q_PROPERTY(int atten MEMBER atten NOTIFY gotData)
-    Q_PROPERTY(int voltage MEMBER voltage NOTIFY gotData)
-    Q_PROPERTY(int current MEMBER current NOTIFY gotData)
-    Q_PROPERTY(bool output_stat MEMBER output_stat NOTIFY gotData)
-    Q_PROPERTY(bool input_stat MEMBER input_stat NOTIFY gotData)
-    Q_PROPERTY(int lock_a1 MEMBER lock_a1 NOTIFY gotData)
-    Q_PROPERTY(int lock_a2 MEMBER lock_a2 NOTIFY gotData)
-    Q_PROPERTY(int lock_b1 MEMBER lock_b1 NOTIFY gotData)
-    Q_PROPERTY(int lock_b2 MEMBER lock_b2 NOTIFY gotData)
-    Q_PROPERTY(bool ref_10_1 MEMBER ref_10_1 NOTIFY gotData)
-    Q_PROPERTY(bool ref_10_2 MEMBER ref_10_2 NOTIFY gotData)
-    Q_PROPERTY(bool ref_3 MEMBER ref_3 NOTIFY gotData)
-    Q_PROPERTY(bool ref_4 MEMBER ref_4 NOTIFY gotData)
+    Q_PROPERTY(float            atten           MEMBER atten        NOTIFY gotData)
+    Q_PROPERTY(alert::P_CH      ch_a            MEMBER ch_a         NOTIFY gotData)
+    Q_PROPERTY(alert::P_CH      ch_b            MEMBER ch_b         NOTIFY gotData)
+    Q_PROPERTY(int              voltage         MEMBER voltage      NOTIFY gotData)
+    Q_PROPERTY(int              current         MEMBER current      NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR     output_stat     MEMBER output_stat  NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR     input_stat      MEMBER input_stat   NOTIFY gotData)
+    Q_PROPERTY(alert::P_LOCK    lock_a1         MEMBER lock_a1      NOTIFY gotData)
+    Q_PROPERTY(alert::P_LOCK    lock_a2         MEMBER lock_a2      NOTIFY gotData)
+    Q_PROPERTY(alert::P_LOCK    lock_b1         MEMBER lock_b1      NOTIFY gotData)
+    Q_PROPERTY(alert::P_LOCK    lock_b2         MEMBER lock_b2      NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR     ref_10_1        MEMBER ref_10_1     NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR     ref_10_2        MEMBER ref_10_2     NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR     ref_10_inner    MEMBER ref_10_2     NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR     ref_3           MEMBER ref_3        NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR     ref_4           MEMBER ref_4        NOTIFY gotData)
+    Q_PROPERTY(alert::P_HSK     handshake       MEMBER handshake    NOTIFY gotData)
+    Q_PROPERTY(alert::P_MS      masterslave     MEMBER masterslave  NOTIFY gotData)
 public:
     explicit devFreq(device *parent = nullptr) : device(parent) {}
     friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
@@ -117,30 +132,37 @@ public slots:
     void createCntlMsg();
 
 private:
-    int atten = int();
-    int ch_a = int();
-    int ch_b = int();
-    int voltage = int();
-    int current = int();
-    bool output_stat = true;
-    bool input_stat = true;
-    int lock_a1 = int();
-    int lock_a2 = int();
-    int lock_b1 = int();
-    int lock_b2 = int();
-    bool ref_10_1 = true;
-    bool ref_10_2 = true;
-    bool ref_3 = true;
-    bool ref_4 = true;
-    int handshake = int();
+    float           atten           = float();
+    alert::P_CH     ch_a            = alert::P_CH();
+    alert::P_CH     ch_b            = alert::P_CH();
+    int             voltage         = int();
+    int             current         = int();
+    alert::P_NOR    output_stat     = alert::P_NOR();
+    alert::P_NOR    input_stat      = alert::P_NOR();
+    alert::P_LOCK   lock_a1         = alert::P_LOCK();
+    alert::P_LOCK   lock_a2         = alert::P_LOCK();
+    alert::P_LOCK   lock_b1         = alert::P_LOCK();
+    alert::P_LOCK   lock_b2         = alert::P_LOCK();
+    alert::P_NOR    ref_10_1        = alert::P_NOR();
+    alert::P_NOR    ref_10_2        = alert::P_NOR();
+    alert::P_NOR    ref_10_inner    = alert::P_NOR();
+    alert::P_NOR    ref_3           = alert::P_NOR();
+    alert::P_NOR    ref_4           = alert::P_NOR();
+    alert::P_HSK    handshake       = alert::P_HSK();
+    alert::P_MS     masterslave     = alert::P_MS();
 };
 
 class devDist : public device
 {
     Q_OBJECT
-    Q_PROPERTY(int voltage MEMBER voltage NOTIFY gotData)
-    Q_PROPERTY(int current MEMBER voltage NOTIFY gotData)
-    Q_PROPERTY(int power MEMBER voltage NOTIFY gotData)
+    Q_PROPERTY(alert::P_CH  ref_10      MEMBER ref_10   NOTIFY gotData)
+    Q_PROPERTY(alert::P_CH  ref_16      MEMBER ref_16   NOTIFY gotData)
+    Q_PROPERTY(int          voltage     MEMBER voltage  NOTIFY gotData)
+    Q_PROPERTY(int          current     MEMBER voltage  NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR lock_10_1   MEMBER lock_10_1 NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR lock_10_2   MEMBER lock_10_2 NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR lock_16_1   MEMBER lock_16_1 NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR lock_16_2   MEMBER lock_16_2 NOTIFY gotData)
 public:
     explicit devDist(device *parent = nullptr) : device(parent) {}
     friend devDist &operator<< (devDist &dev, const msgDist &m);
@@ -150,22 +172,33 @@ public slots:
     void createCntlMsg();
 
 protected:
-    int ref_10 = int();
-    int ref_16 = int();
-    int voltage = int();
-    int current = int();
-    int power = int();
+    alert::P_CH     ref_10      = alert::P_CH();
+    alert::P_CH     ref_16      = alert::P_CH();
+    int             voltage     = int();
+    int             current     = int();
+    alert::P_NOR    lock_10_1   = alert::P_NOR();
+    alert::P_NOR    lock_10_2   = alert::P_NOR();
+    alert::P_NOR    lock_16_1   = alert::P_NOR();
+    alert::P_NOR    lock_16_2   = alert::P_NOR();
 };
 
 class devAmp : public device
 {
     Q_OBJECT
-    Q_PROPERTY(int power MEMBER power NOTIFY gotData)
-    Q_PROPERTY(int gain MEMBER gain NOTIFY gotData)
-    Q_PROPERTY(int atten MEMBER atten NOTIFY gotData)
-    Q_PROPERTY(int loss MEMBER loss NOTIFY gotData)
-    Q_PROPERTY(int amp_temp MEMBER amp_temp NOTIFY gotData)
-    Q_PROPERTY(int load_temp MEMBER load_temp NOTIFY gotData)
+    Q_PROPERTY(int              power           MEMBER power        NOTIFY gotData)
+    Q_PROPERTY(int              gain            MEMBER gain         NOTIFY gotData)
+    Q_PROPERTY(float            atten_in        MEMBER atten_in     NOTIFY gotData)
+    Q_PROPERTY(int              atten_out       MEMBER atten_out    NOTIFY gotData)
+    Q_PROPERTY(int              loss            MEMBER loss         NOTIFY gotData)
+    Q_PROPERTY(int              amp_temp        MEMBER amp_temp     NOTIFY gotData)
+    Q_PROPERTY(alert::P_STAT    s_stand_wave    MEMBER s_stand_wave NOTIFY gotData)
+    Q_PROPERTY(alert::P_STAT    s_temp          MEMBER s_temp       NOTIFY gotData)
+    Q_PROPERTY(alert::P_STAT    s_current       MEMBER s_current    NOTIFY gotData)
+    Q_PROPERTY(alert::P_STAT    s_voltage       MEMBER s_voltage    NOTIFY gotData)
+    Q_PROPERTY(alert::P_STAT    s_power         MEMBER s_power      NOTIFY gotData)
+    Q_PROPERTY(int              load_temp       MEMBER load_temp    NOTIFY gotData)
+    Q_PROPERTY(alert::P_HSK     handshake       MEMBER handshake    NOTIFY gotData)
+    Q_PROPERTY(alert::P_ATTEN   atten_mode      MEMBER atten_mode   NOTIFY gotData)
 public:
     explicit devAmp(device *parent = nullptr) : device(parent) {}
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
@@ -175,15 +208,20 @@ public slots:
     void createCntlMsg();
 
 protected:
-    int power = int();
-    int gain = int();
-    int atten = int();
-    int loss = int();
-    int amp_temp = int();
-    int stat = int();
-    int load_temp = int();
-    int handshake = int();
-    int atten_mode = int();
+    int             power           = int();
+    int             gain            = int();
+    float           atten_in        = float();
+    int             atten_out       = int();
+    int             loss            = int();
+    int             amp_temp        = int();
+    alert::P_STAT   s_stand_wave    = alert::P_STAT();
+    alert::P_STAT   s_temp          = alert::P_STAT();
+    alert::P_STAT   s_current       = alert::P_STAT();
+    alert::P_STAT   s_voltage       = alert::P_STAT();
+    alert::P_STAT   s_power         = alert::P_STAT();
+    int             load_temp       = int();
+    alert::P_HSK    handshake       = alert::P_HSK();
+    alert::P_ATTEN  atten_mode      = alert::P_ATTEN();
 };
 
 #endif // DEVICE_H

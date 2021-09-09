@@ -58,19 +58,19 @@ devFreq &operator<< (devFreq &dev, const msgFreq &m)
     dev.atten = m.atten;
     //this->ch_a = m;
     //this->ch_b = m;
-    dev.voltage = m.voltage;
+    dev.voltage = static_cast<alert::P_NOR>(m.voltage);
     dev.current = m.current;
-    dev.output_stat = m.output_stat;
-    dev.input_stat = m.input_stat;
-    dev.lock_a1 = m.lock_a1;
-    dev.lock_a2 = m.lock_a2;
-    dev.lock_b1 = m.lock_b1;
-    dev.lock_b2 = m.lock_b2;
-    dev.ref_10_1 = m.ref_10_1;
-    dev.ref_10_2 = m.ref_10_2;
-    dev.ref_3 = m.ref_3;
-    dev.ref_4 = m.ref_4;
-    dev.handshake = m.handshake;
+    dev.output_stat = static_cast<alert::P_NOR>(m.output_stat);
+    dev.input_stat = static_cast<alert::P_NOR>(m.input_stat);
+    dev.lock_a1 = static_cast<alert::P_LOCK>(m.lock_a1);
+    dev.lock_a2 = static_cast<alert::P_LOCK>(m.lock_a2);
+    dev.lock_b1 = static_cast<alert::P_LOCK>(m.lock_b1);
+    dev.lock_b2 = static_cast<alert::P_LOCK>(m.lock_b2);
+    dev.ref_10_1 = static_cast<alert::P_NOR>(m.ref_10_1);
+    dev.ref_10_2 = static_cast<alert::P_NOR>(m.ref_10_2);
+    dev.ref_3 = static_cast<alert::P_NOR>(m.ref_3);
+    dev.ref_4 = static_cast<alert::P_NOR>(m.ref_4);
+    dev.handshake = static_cast<alert::P_HSK>(m.handshake);
 
     emit dev.gotData();
     return dev;
@@ -78,11 +78,10 @@ devFreq &operator<< (devFreq &dev, const msgFreq &m)
 
 devDist &operator<< (devDist &dev, const msgDist &m)
 {
-    dev.ref_10 = m.ref_10;
-    dev.ref_16 = m.ref_16;
+    dev.ref_10 = static_cast<alert::P_CH>(m.ref_10);
+    dev.ref_16 = static_cast<alert::P_CH>(m.ref_16);
     dev.voltage = m.voltage;
     dev.current = m.current;
-    dev.power = m.power;
 
     emit dev.gotData();
     return dev;
@@ -92,12 +91,11 @@ devAmp &operator<< (devAmp &dev, const msgAmp &m)
 {
     dev.power = m.power;
     dev.gain = m.gain;
-    dev.atten = m.atten;
+    dev.atten_out = m.atten;
     dev.loss = m.loss;
     dev.amp_temp = m.temp;
-    dev.stat = m.stat;
     dev.load_temp = m.load_temp;
-    dev.handshake = m.handshake;
+    dev.handshake = static_cast<alert::P_HSK>(m.handshake);
 
     emit dev.gotData();
     return dev;
@@ -123,7 +121,7 @@ const devDist &operator>> (const devDist &dev, msgCntlDist &m)
 const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m)
 {
     m.atten_mode = static_cast<quint8>(dev.atten_mode);
-    m.atten = static_cast<quint8>(dev.atten);
+    m.atten = static_cast<quint8>(dev.atten_in);
     m.power = static_cast<quint16>(dev.power);
     m.gain = static_cast<quint16>(dev.gain);
 

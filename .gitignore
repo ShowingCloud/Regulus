@@ -73,3 +73,6 @@ Thumbs.db
 
 # Executable
 rdss
+
+# Local history
+history.db

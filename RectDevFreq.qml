@@ -17,7 +17,7 @@ Item {
         anchors.leftMargin: marginIndicators
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 3
-        text: devFreq.atten
+        text: devFreq.atten + " dB"
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -30,7 +30,7 @@ Item {
         anchors.left: txtPower.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 3
-        text: devFreq.voltage
+        text: devFreq.voltage + " V"
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -43,7 +43,7 @@ Item {
         anchors.left: txtVoltage.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 3
-        text: devFreq.current
+        text: devFreq.current + " mA"
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
