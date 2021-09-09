@@ -27,7 +27,7 @@ jobs:
       with:
         tag_name: ${{ steps.short-sha.outputs.sha }}
         release_name: Release ${{ steps.short-sha.outputs.sha }}
-        draft: true
+        draft: false
         prerelease: false
 
   build-windows:
@@ -182,12 +182,6 @@ jobs:
           lrelease zh_CN.ts
           make
           macdeployqt rdss.app -dmg
-      - name: Archive Release
-        uses: thedoctor0/zip-release@master
-        with:
-          type: 'zip'
-          filename: 'rdss.app.zip'
-          path: rdss.app/
       - name: Upload Release Asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
@@ -195,9 +189,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.upload_url }}
-          asset_path: ./rdss.app.zip
-          asset_name: rdss.app-${{ runner.os }}-${{ matrix.qt_ver }}.zip
-          asset_content_type: application/x-elf
+          asset_path: ./rdss.dmg
+          asset_name: rdss-${{ runner.os }}-${{ matrix.qt_ver }}.dmg
+          asset_content_type: application/x-apple-diskimage
       - name: Upload Release Asset
         id: upload-release-asset-exe
         uses: actions/upload-release-asset@v1
