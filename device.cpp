@@ -2,6 +2,7 @@
 #include "protocol.h"
 #include "serial.h"
 
+#include <QDateTime>
 #include <QDebug>
 
 device::device(QObject *parent) : QObject(parent)
@@ -17,6 +18,9 @@ device &operator<< (device &d, const msgFreq &m)
         devFreq &dev = dynamic_cast<devFreq &>(d);
         dev.str = m.origin;
         dev << m;
+
+        dev.lastseen = QDateTime::currentDateTime();
+        dev.lastSerial = m.serialport;
     }
     return d;
 }
@@ -28,6 +32,9 @@ device &operator<< (device &d, const msgDist &m)
         devDist &dev = dynamic_cast<devDist &>(d);
         dev.str = m.origin;
         dev << m;
+
+        dev.lastseen = QDateTime::currentDateTime();
+        dev.lastSerial = m.serialport;
     }
     return d;
 }
@@ -39,6 +46,9 @@ device &operator<< (device &d, const msgAmp &m)
         devAmp &dev = dynamic_cast<devAmp &>(d);
         dev.str = m.origin;
         dev << m;
+
+        dev.lastseen = QDateTime::currentDateTime();
+        dev.lastSerial = m.serialport;
     }
     return d;
 }
@@ -93,16 +103,89 @@ devAmp &operator<< (devAmp &dev, const msgAmp &m)
     return dev;
 }
 
-void device::createCntlMsg(const QString &msg)
+const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m)
+{
+    m.atten = static_cast<quint8>(dev.atten);
+    m.ref_10_a = static_cast<quint8>(dev.ref_10_1);
+    m.ref_10_b = static_cast<quint8>(dev.ref_10_2);
+
+    return dev;
+}
+
+const devDist &operator>> (const devDist &dev, msgCntlDist &m)
+{
+    m.ref_10 = static_cast<quint8>(dev.ref_10);
+    m.ref_16 = static_cast<quint8>(dev.ref_16);
+
+    return dev;
+}
+
+const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m)
+{
+    m.atten_mode = static_cast<quint8>(dev.atten_mode);
+    m.atten = static_cast<quint8>(dev.atten);
+    m.power = static_cast<quint16>(dev.power);
+    m.gain = static_cast<quint16>(dev.gain);
+
+    return dev;
+}
+
+void devFreq::createCntlMsg()
 {
     protocol *p = new protocol();
     protocol::protocolList << p;
 
     msgCntlFreq *q = new msgCntlFreq();
-    q->createFakeCntl(this->dId, msg);
+    *this >> *q;
 
-    for (serial *s : serial::serialList)
-    {
-        *s << *q;
+    if (this->lastSerial and QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
+        qDebug() << "create msg: sending one";
+        *this->lastSerial << *q;
+    } else {
+        qDebug() << "create msg: sending all";
+        for (serial *s : serial::serialList)
+        {
+            *s << *q;
+        }
+    }
+}
+
+void devDist::createCntlMsg()
+{
+    protocol *p = new protocol();
+    protocol::protocolList << p;
+
+    msgCntlDist *q = new msgCntlDist();
+    *this >> *q;
+
+    if (this->lastSerial and QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
+        qDebug() << "create msg: sending one";
+        *this->lastSerial << *q;
+    } else {
+        qDebug() << "create msg: sending all";
+        for (serial *s : serial::serialList)
+        {
+            *s << *q;
+        }
+    }
+}
+
+void devAmp::createCntlMsg()
+{
+    protocol *p = new protocol();
+    protocol::protocolList << p;
+
+    msgCntlAmp *q = new msgCntlAmp();
+    *this >> *q;
+
+    if (this->lastSerial and QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
+        qDebug() << "create msg: sending one";
+        *this->lastSerial << *q;
+    } else {
+        qDebug() << "create msg: sending all";
+        for (serial *s : serial::serialList)
+        {
+            *s << *q;
+        }
     }
 }

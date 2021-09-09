@@ -33,7 +33,7 @@ void serial::readData()
     QByteArray data = serialport->readAll();
     this->buffer += data;
     lastseen = QDateTime::currentDateTime();
-    msg::validateProtocol(this->buffer, data);
+    msg::validateProtocol(this->buffer, data, this);
 }
 
 void serial::readFakeData()
@@ -42,7 +42,7 @@ void serial::readFakeData()
     data.replace(2, 9, QDateTime::currentDateTime().toString("ss:mm:hh").toLatin1(), 9);
     this->buffer += data;
     lastseen = QDateTime::currentDateTime();
-    msg::validateProtocol(this->buffer, data);
+    msg::validateProtocol(this->buffer, data, this);
 }
 
 void serial::writeData(const QByteArray &data) const

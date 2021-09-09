@@ -3,7 +3,6 @@
 #include <QTranslator>
 #include <QSerialPortInfo>
 #include <QTimer>
-//#include <iostream>
 #include <QDebug>
 
 #include "database.h"

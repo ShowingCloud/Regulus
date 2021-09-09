@@ -4,7 +4,7 @@
 #include "serial.h"
 #include "device.h"
 
-msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &input)
+msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &input, serial *s)
 {
     int head = 0, tail = 0;
     const char msg_header = static_cast<char>(msg::header), msg_tailer = static_cast<char>(msg::tailer);
@@ -12,6 +12,7 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &
         head = buffer.indexOf(msg_header, head);
         if (buffer.length() >= head + msgUplink::mlen && buffer.at(head + msgUplink::mlen - 1) == msg_tailer) {
             msg *m = new msg();
+            m->serialport = s;
             if (buffer.length() == msgUplink::mlen) {
                 *m << buffer;
                 msg::unknownmsgList << m;
@@ -46,6 +47,7 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &
         head = input.indexOf(msg_header, head);
         if (input.at(head + msgUplink::mlen) == msg_tailer) {
             msg *m = new msg();
+            m->serialport = s;
             *m << input.mid(head, msgUplink::mlen);
             msg::unknownmsgList << m;
             return VAL_USEINPUT;
@@ -85,13 +87,6 @@ void msgQuery::createQuery()
     this->identify = 0x00;
     this->instruction = 0x01;
     return;
-}
-
-void msgCntlFreq::createFakeCntl(const int deviceId, const QString &msg)
-{
-    QByteArray b = QByteArray::fromHex(msg.toLatin1());
-    *this << b;
-    this->deviceId = static_cast<quint8>(deviceId);
 }
 
 void protocol::createQueryMsg(serial &s)

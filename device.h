@@ -4,13 +4,18 @@
 #include <QObject>
 #include <QList>
 #include <QHash>
+#include <QDateTime>
 #include <numeric>
 
 class msg;
 class msgFreq;
 class msgDist;
 class msgAmp;
+class msgCntlFreq;
+class msgCntlDist;
+class msgCntlAmp;
 class protocol;
+class serial;
 
 class device : public QObject
 {
@@ -43,32 +48,35 @@ public slots:
     {
         return this->trConcat(device::idName[this->dId]);
     }
-    void createCntlMsg(const QString &msg);
 
 protected:
     static const inline QHash<int, QList<std::string>> idName = {
-        {0x04, {"C1", QT_TR_NOOP("Down Frequency Conversion")}},
-        {0x05, {"C1", QT_TR_NOOP("Down Frequency Conversion")}},
-        {0x06, {"C2", QT_TR_NOOP("Down Frequency Conversion")}},
-        {0x07, {"C2", QT_TR_NOOP("Down Frequency Conversion")}},
-        {0x00, {"C1", QT_TR_NOOP("Up Frequency Conversion")}},
-        {0x01, {"C1", QT_TR_NOOP("Up Frequency Conversion")}},
-        {0x02, {"C2", QT_TR_NOOP("Up Frequency Conversion")}},
-        {0x03, {"C2", QT_TR_NOOP("Up Frequency Conversion")}},
-        {0x0A, {QT_TR_NOOP("Middle Frequency Distribution"), "A"}},
-        {0x0B, {QT_TR_NOOP("Middle Frequency Distribution"), "B"}},
-        {0x0C, {"C1", QT_TR_NOOP("High Amplification"), "A"}},
-        {0x0D, {"C1", QT_TR_NOOP("High Amplification"), "B"}},
-        {0x0E, {"C2", QT_TR_NOOP("High Amplification"), "A"}},
-        {0x0F, {"C2", QT_TR_NOOP("High Amplification"), "B"}}
+        {0x04, {"C1 ", QT_TR_NOOP("Down Frequency Conversion")}},
+        {0x05, {"C1 ", QT_TR_NOOP("Down Frequency Conversion")}},
+        {0x06, {"C2 ", QT_TR_NOOP("Down Frequency Conversion")}},
+        {0x07, {"C2 ", QT_TR_NOOP("Down Frequency Conversion")}},
+        {0x00, {"C1 ", QT_TR_NOOP("Up Frequency Conversion")}},
+        {0x01, {"C1 ", QT_TR_NOOP("Up Frequency Conversion")}},
+        {0x02, {"C2 ", QT_TR_NOOP("Up Frequency Conversion")}},
+        {0x03, {"C2 ", QT_TR_NOOP("Up Frequency Conversion")}},
+        {0x0A, {QT_TR_NOOP("Middle Frequency Distribution"), " A"}},
+        {0x0B, {QT_TR_NOOP("Middle Frequency Distribution"), " B"}},
+        {0x0C, {"C1 ", QT_TR_NOOP("High Amplification"), " A"}},
+        {0x0D, {"C1 ", QT_TR_NOOP("High Amplification"), " B"}},
+        {0x0E, {"C2 ", QT_TR_NOOP("High Amplification"), " A"}},
+        {0x0F, {"C2 ", QT_TR_NOOP("High Amplification"), " B"}}
     };
+
+protected:
+    serial *lastSerial;
+    QDateTime lastseen;
 
 private:
     int dId = 0;
     QString str = QString();
 
     protocol *query;
-    protocol *rntl;
+    protocol *cntl;
 
     inline static void push(device *dev)
     {
@@ -103,6 +111,10 @@ class devFreq : public device
 public:
     explicit devFreq(device *parent = nullptr) : device(parent) {}
     friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
+    friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
+
+public slots:
+    void createCntlMsg();
 
 private:
     int atten = int();
@@ -132,6 +144,10 @@ class devDist : public device
 public:
     explicit devDist(device *parent = nullptr) : device(parent) {}
     friend devDist &operator<< (devDist &dev, const msgDist &m);
+    friend const devDist &operator>> (const devDist &dev, msgCntlDist &m);
+
+public slots:
+    void createCntlMsg();
 
 protected:
     int ref_10 = int();
@@ -153,6 +169,10 @@ class devAmp : public device
 public:
     explicit devAmp(device *parent = nullptr) : device(parent) {}
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
+    friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
+
+public slots:
+    void createCntlMsg();
 
 protected:
     int power = int();
@@ -163,6 +183,7 @@ protected:
     int stat = int();
     int load_temp = int();
     int handshake = int();
+    int atten_mode = int();
 };
 
 #endif // DEVICE_H

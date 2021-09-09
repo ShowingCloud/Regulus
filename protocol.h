@@ -19,7 +19,7 @@ public:
     friend msg &operator<< (msg &m, const QByteArray &data);
 
     enum validateResult { VAL_PASS, VAL_TOOSHORT, VAL_TOOLONG, VAL_INVALIDID, VAL_REMAINS, VAL_USEINPUT, VAL_FAILED };
-    static validateResult validateProtocol(QByteArray &buffer, const QByteArray &input);
+    static validateResult validateProtocol(QByteArray &buffer, const QByteArray &input, serial *s);
 
     enum proto {
         PROTO_DEFAULT, PROTO_UPLINK, PROTO_DOWNLINK, PROTO_AMP, PROTO_FREQ, PROTO_DIST,
@@ -43,6 +43,7 @@ protected:
     quint8 holder8 = 0x00;
     QDateTime time = QDateTime();
     QByteArray origin = QByteArray();
+    serial *serialport;
 
     static const inline QHash<int, proto> idProto = {
         {0x00, PROTO_FREQ}, {0x01, PROTO_FREQ}, {0x02, PROTO_FREQ}, {0x03, PROTO_FREQ},
@@ -94,7 +95,7 @@ public:
 
     inline const static int posSerial = 17;
 
-protected:
+private:
     quint8 atten = quint8();
     quint8 voltage = quint8();
     quint16 current = quint16();
@@ -123,7 +124,7 @@ public:
 
     inline const static int posSerial = 8;
 
-protected:
+private:
     quint8 ref_10 = quint8();
     quint8 ref_16 = quint8();
     quint8 voltage = quint8();
@@ -144,7 +145,7 @@ public:
 
     inline const static int posSerial = 17;
 
-protected:
+private:
     quint16 power = quint16();
     quint16 gain = quint16();
     quint16 atten = quint16();
@@ -167,7 +168,7 @@ public:
 
     inline const static int posSerial = 4;
 
-protected:
+private:
     quint8 identify = 0x00;
     quint8 instruction = 0x01;
 };
@@ -179,10 +180,11 @@ public:
     explicit msgCntlAmp() {}
     friend const msgCntlAmp &operator>> (const msgCntlAmp &m, QByteArray &data);
     friend msgCntlAmp &operator<< (msgCntlAmp &m, const QByteArray &data);
+    friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
 
     inline const static int posSerial = 8;
 
-protected:
+private:
     quint8 atten_mode = quint8();
     quint8 atten = quint8();
     quint16 power = quint16();
@@ -196,12 +198,11 @@ public:
     explicit msgCntlFreq() {}
     friend const msgCntlFreq &operator>> (const msgCntlFreq &m, QByteArray &data);
     friend msgCntlFreq &operator<< (msgCntlFreq &m, const QByteArray &data);
-
-    void createFakeCntl(const int deviceId, const QString &msg);
+    friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
 
     inline const static int posSerial = 6;
 
-protected:
+private:
     quint8 atten = quint8();
     quint8 ref_10_a = quint8();
     quint8 ref_10_b = quint8();
@@ -214,10 +215,11 @@ public:
     explicit msgCntlDist() {}
     friend const msgCntlDist &operator>> (const msgCntlDist &m, QByteArray &data);
     friend msgCntlDist &operator<< (msgCntlDist &m, const QByteArray &data);
+    friend const devDist &operator>> (const devDist &dev, msgCntlDist &m);
 
     inline const static int posSerial = 4;
 
-protected:
+private:
     quint8 ref_10 = quint8();
     quint8 ref_16 = quint8();
 };

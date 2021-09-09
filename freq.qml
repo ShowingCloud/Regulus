@@ -26,7 +26,7 @@ Window {
         font.pixelSize: defaultLabelFontSize
 
         onAccepted: {
-            devFreqMaster.createCntlMsg(text);
+            devFreqMaster.createCntlMsg();
         }
     }
 
@@ -42,7 +42,7 @@ Window {
         font.pixelSize: defaultLabelFontSize
 
         onAccepted: {
-            devFreqSlave.createCntlMsg(text);
+            devFreqSlave.createCntlMsg();
         }
     }
 
