@@ -73,9 +73,12 @@ jobs:
           lrelease zh_CN.ts
           nmake
           windeployqt release/rdss.exe
-      - uses: montudor/action-zip@v1
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
         with:
-          args: zip -qq -r release.zip release
+          type: 'zip'
+          filename: 'release.zip'
+          path: release/
       - name: Upload compile output
         uses: actions/upload-artifact@v2
         with:
