@@ -83,3 +83,15 @@ jobs:
         with:
           name: ${{ runner.os }} ${{ matrix.qt_ver }} ${{ matrix.qt_arch }} DIDNT_PACK
           path: release/rdss.exe
+      - name: Commit and push
+        uses: github-actions-x/commit@v2.6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          push-branch: 'master'
+          commit-message: 'PDF compiled'
+          force-add: 'true'
+          files: ｜
+            ${{ runner.os }} ${{ matrix.qt_ver }} ${{ matrix.qt_arch }}
+            ${{ runner.os }} ${{ matrix.qt_ver }} ${{ matrix.qt_arch }} DIDNT_PACK
+          name: WANG Guoqin
+          email: wangguoqin1001@gmail.com 
