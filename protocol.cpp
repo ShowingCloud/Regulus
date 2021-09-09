@@ -14,12 +14,12 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &
             msg *m = new msg();
             if (buffer.length() == msgUplink::mlen) {
                 *m << buffer;
-                msg::unknownmsglist << m;
+                msg::unknownmsgList << m;
                 buffer = QByteArray();
                 return VAL_PASS;
             } else {
                 *m << buffer.mid(head, msgUplink::mlen);
-                msg::unknownmsglist << m;
+                msg::unknownmsgList << m;
                 buffer.remove(head, msgUplink::mlen);
                 // TODO: log
                 return VAL_REMAINS;
@@ -47,7 +47,7 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &
         if (input.at(head + msgUplink::mlen) == msg_tailer) {
             msg *m = new msg();
             *m << input.mid(head, msgUplink::mlen);
-            msg::unknownmsglist << m;
+            msg::unknownmsgList << m;
             return VAL_USEINPUT;
         }
     }
@@ -84,15 +84,20 @@ void msgQuery::createQuery()
 {
     this->identify = 0x00;
     this->instruction = 0x01;
-    this->deviceId = 0;
-    this->serialId = 0;
     return;
+}
+
+void msgCntlFreq::createFakeCntl(const int deviceId, const QString &msg)
+{
+    QByteArray b = QByteArray::fromHex(msg.toLatin1());
+    *this << b;
+    this->deviceId = static_cast<quint8>(deviceId);
 }
 
 void protocol::createQueryMsg(serial &s)
 {
     protocol *p = new protocol();
-    protocol::protocollist << p;
+    protocol::protocolList << p;
 
     msgQuery *q = new msgQuery();
     p->downlink = q;
@@ -134,20 +139,17 @@ msg &operator<< (msg &m, const QByteArray &data)
         msgFreq *s = new msgFreq(u);
         *s << data;
         return *s;
-    } break;
-
+    }
     case msg::PROTO_DIST: {
         msgDist *s = new msgDist(u);
         *s << data;
         return *s;
-    } break;
-
+    }
     case msg::PROTO_AMP: {
         msgAmp *s = new msgAmp(u);
         *s << data;
         return *s;
-    } break;
-
+    }
     default:
         qDebug() << "unknown device id";
         break;
@@ -227,6 +229,12 @@ const msgCntlFreq &operator>> (const msgCntlFreq &m, QByteArray &data)
     QDataStream(&data, QIODevice::WriteOnly) << m.head << m.atten << m.ref_10_a << m.ref_10_b
                                              << m.holder8 << m.deviceId << m.serialId << m.holder8
                                              << m.holder8 << m.tail;
+    return m;
+}
+
+msgCntlFreq &operator<< (msgCntlFreq &m, const QByteArray &data)
+{
+    QDataStream(data) >> m.atten >> m.ref_10_a >> m.ref_10_b;
     return m;
 }
 

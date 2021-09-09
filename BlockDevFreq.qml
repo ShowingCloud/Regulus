@@ -37,6 +37,8 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinFreq.setVisible(true);
+                objWinFreq.devFreqMaster = devFreqMaster;
+                objWinFreq.devFreqSlave = devFreqSlave;
             }
         }
     }
@@ -54,6 +56,8 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinFreq.setVisible(true);
+                objWinFreq.devFreqMaster = devFreqMaster;
+                objWinFreq.devFreqSlave = devFreqSlave;
             }
         }
 
@@ -76,6 +80,8 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinFreq.setVisible(true);
+                objWinFreq.devFreqMaster = devFreqMaster;
+                objWinFreq.devFreqSlave = devFreqSlave;
             }
         }
 

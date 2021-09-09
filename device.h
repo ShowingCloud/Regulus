@@ -43,6 +43,7 @@ public slots:
     {
         return this->trConcat(device::idName[this->dId]);
     }
+    void createCntlMsg(const QString &msg);
 
 protected:
     static const inline QHash<int, QList<std::string>> idName = {

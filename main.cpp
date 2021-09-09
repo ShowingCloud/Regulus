@@ -43,11 +43,10 @@ int main(int argc, char *argv[])
 
     database db(&app);
 
-    QList<serial *> serialList;
     for (const QSerialPortInfo &serialportinfo : QSerialPortInfo::availablePorts())
     {
         serial *s = new serial(serialportinfo);
-        serialList << s;
+        serial::serialList << s;
 
         QTimer *timer = new QTimer(&app);
         QObject::connect(timer, &QTimer::timeout, [=]() {
@@ -56,7 +55,7 @@ int main(int argc, char *argv[])
         });
         timer->start(1000);
     }
-    qDebug() << "Serial List: " << serialList;
+    qDebug() << "Serial List: " << serial::serialList;
 
     return app.exec();
 }

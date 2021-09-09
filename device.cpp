@@ -1,5 +1,6 @@
 #include "device.h"
 #include "protocol.h"
+#include "serial.h"
 
 #include <QDebug>
 
@@ -90,4 +91,18 @@ devAmp &operator<< (devAmp &dev, const msgAmp &m)
 
     emit dev.gotData();
     return dev;
+}
+
+void device::createCntlMsg(const QString &msg)
+{
+    protocol *p = new protocol();
+    protocol::protocolList << p;
+
+    msgCntlFreq *q = new msgCntlFreq();
+    q->createFakeCntl(this->dId, msg);
+
+    for (serial *s : serial::serialList)
+    {
+        *s << *q;
+    }
 }

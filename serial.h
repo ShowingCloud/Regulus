@@ -36,6 +36,8 @@ public:
     inline const static enum QSerialPort::StopBits stopbits = QSerialPort::OneStop;
     inline const static enum QSerialPort::FlowControl flowcontrol = QSerialPort::NoFlowControl;
 
+    inline static QList<serial *> serialList = QList<serial *>();
+
 private:
     QSerialPort *serialport = new QSerialPort(this);
     QDateTime lastseen;

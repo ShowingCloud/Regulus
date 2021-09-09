@@ -29,7 +29,7 @@ public:
     inline const static int header = 0xff;
     inline const static int tailer = 0xaa;
 
-    inline static QList<msg *> unknownmsglist = {};
+    inline static QList<msg *> unknownmsgList = {};
     /* static inline int protoMaxLength()
     {
         return *std::max_element(protoLength.values().begin(), protoLength.values().end());
@@ -197,6 +197,8 @@ public:
     friend const msgCntlFreq &operator>> (const msgCntlFreq &m, QByteArray &data);
     friend msgCntlFreq &operator<< (msgCntlFreq &m, const QByteArray &data);
 
+    void createFakeCntl(const int deviceId, const QString &msg);
+
     inline const static int posSerial = 6;
 
 protected:
@@ -229,7 +231,7 @@ public:
     friend const protocol &operator>> (const protocol &p, serial &s);
     friend protocol &operator<< (protocol &p, const serial &s);
 
-    inline static QList<protocol *> protocollist = {};
+    inline static QList<protocol *> protocolList = {};
 
 private:
     msgUplink *uplink;
