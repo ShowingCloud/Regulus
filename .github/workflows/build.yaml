@@ -45,10 +45,18 @@ jobs:
           qt_arch: win64_msvc2017_64
         - qt_ver: 5.15.2
           qt_arch: win32_msvc2017
+        - qt_ver: 5.15.2
+          qt_arch: win64_mingw73
+        - qt_ver: 5.15.2
+          qt_arch: win32_mingw73
         - qt_ver: 5.12.11
           qt_arch: win64_msvc2019_64
         - qt_ver: 5.12.11
           qt_arch: win32_msvc2019
+        - qt_ver: 5.12.11
+          qt_arch: win64_mingw81
+        - qt_ver: 5.12.11
+          qt_arch: win32_mingw81
         include:
           - qt_arch: win64_mingw81
             msvc_arch: x64
@@ -91,6 +99,7 @@ jobs:
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
           qmake
+          dir D:\a\Regulus\Qt\${{ matrix.qt_ver }}\${{ matrix.qt_arch }}\bin\
           lrelease zh_CN.ts
           nmake
           windeployqt release/rdss.exe
