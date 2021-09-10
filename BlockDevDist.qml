@@ -33,7 +33,8 @@ Item {
             id: mouseId
             anchors.fill: parent
             onClicked: {
-                objWinDist.setVisible(true);
+                objWinDist.setVisible(true)
+                objWinDist.devDist = devDist
             }
         }
     }
@@ -55,7 +56,8 @@ Item {
             id: mouseDev
             anchors.fill: parent
             onClicked: {
-                objWinDist.setVisible(true);
+                objWinDist.setVisible(true)
+                objWinDist.devDist = devDist
             }
         }
     }

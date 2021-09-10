@@ -7,9 +7,27 @@ Window {
     id: winDist
     visible: false
     modality: Qt.ApplicationModal
-    width: 900
-    height: 900
+    width: 600
+    height: 600
     title: qsTr("Frequency Distribution Device")
+
+    property QtObject devDist
+
+    TextField {
+        id: input
+        x: 0
+        y: 0
+        height: 100
+        width: 900
+        placeholderText: qsTr("Master")
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignLeft
+        font.pixelSize: defaultLabelFontSize
+
+        onAccepted: {
+            devDist.createFakeCntlMsg(text);
+        }
+    }
 
     onClosing: {
         close.accepted = false

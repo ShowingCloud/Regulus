@@ -36,9 +36,9 @@ Item {
             id: mouseId
             anchors.fill: parent
             onClicked: {
-                objWinFreq.setVisible(true);
-                objWinFreq.devFreqMaster = devFreqMaster;
-                objWinFreq.devFreqSlave = devFreqSlave;
+                objWinFreq.setVisible(true)
+                objWinFreq.devFreqMaster = devFreqMaster
+                objWinFreq.devFreqSlave = devFreqSlave
             }
         }
     }

@@ -217,6 +217,8 @@ public:
     friend msgCntlDist &operator<< (msgCntlDist &m, const QByteArray &data);
     friend const devDist &operator>> (const devDist &dev, msgCntlDist &m);
 
+    void createFakeCntlMsg(const int deviceId, const QString &msg);
+
     inline const static int posSerial = 4;
 
 private:

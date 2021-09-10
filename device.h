@@ -76,13 +76,13 @@ protected:
         {0x0E, {"C2 ", QT_TR_NOOP("High Amplification"), " A"}},
         {0x0F, {"C2 ", QT_TR_NOOP("High Amplification"), " B"}}
     };
+    int dId = 0;
 
 protected:
     serial *lastSerial;
     QDateTime lastseen;
 
 private:
-    int dId = 0;
     QString str = QString();
 
     protocol *query;
@@ -170,6 +170,7 @@ public:
 
 public slots:
     void createCntlMsg();
+    void createFakeCntlMsg(const QString &msg);
 
 protected:
     alert::P_CH     ref_10      = alert::P_CH();
