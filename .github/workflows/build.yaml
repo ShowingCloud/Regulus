@@ -40,11 +40,15 @@ jobs:
         qt_ver: [5.12.11, 5.15.2]
         qt_target: [desktop]
         qt_arch: [win64_msvc2019_64, win32_msvc2019, win64_msvc2017_64, win32_msvc2017, win64_mingw81, win32_mingw81, win64_mingw73, win32_mingw73]
-        #exclude: 
-          # - qt_ver: 5.9.8
-          #   qt_arch: win32_mingw73
-          # - qt_ver: 5.12.6
-          #   qt_arch: win32_mingw53
+        exclude: 
+        - qt_ver: 5.15.2
+          qt_arch: win64_msvc2017_64
+        - qt_ver: 5.15.2
+          qt_arch: win32_msvc2017
+        - qt_ver: 5.12.11
+          qt_arch: win64_msvc2019_64
+        - qt_ver: 5.12.11
+          qt_arch: win32_msvc2019
         include:
           - qt_arch: win64_mingw81
             msvc_arch: x64
