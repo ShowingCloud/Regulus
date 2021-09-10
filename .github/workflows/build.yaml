@@ -99,7 +99,8 @@ jobs:
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
           qmake
-          D:\a\Regulus\Qt\5.15.2\mingw81_32\bin\rcc.exe -name qml qml.qrc -o release/qrc_qml.cpp
+          D:\a\Regulus\Qt\5.15.2\mingw81_32\bin\rcc.exe --name qml qml.qrc -o release/qrc_qml.cpp
+          D:\a\Regulus\Qt\5.15.2\mingw81_32\bin\rcc.exe --name translate translate.qrc -o release/qrc_translate.cpp
           lrelease zh_CN.ts
           nmake
           windeployqt release/rdss.exe
