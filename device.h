@@ -103,7 +103,7 @@ template <class T> void device::updateDevice(const T &m)
 }
 
 class devFreq : public device
-{
+
     Q_OBJECT
     Q_PROPERTY(float            atten           MEMBER atten        NOTIFY gotData)
     Q_PROPERTY(alert::P_CH      ch_a            MEMBER ch_a         NOTIFY gotData)

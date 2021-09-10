@@ -136,7 +136,7 @@ void devFreq::createCntlMsg()
     msgCntlFreq *q = new msgCntlFreq();
     *this >> *q;
 
-    if (this->lastSerial and QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
+    if (this->lastSerial && QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
         qDebug() << "create msg: sending one";
         *this->lastSerial << *q;
     } else {
@@ -156,7 +156,7 @@ void devDist::createCntlMsg()
     msgCntlDist *q = new msgCntlDist();
     *this >> *q;
 
-    if (this->lastSerial and QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
+    if (this->lastSerial && QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
         qDebug() << "create msg: sending one";
         *this->lastSerial << *q;
     } else {
@@ -176,7 +176,7 @@ void devAmp::createCntlMsg()
     msgCntlAmp *q = new msgCntlAmp();
     *this >> *q;
 
-    if (this->lastSerial and QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
+    if (this->lastSerial && QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
         qDebug() << "create msg: sending one";
         *this->lastSerial << *q;
     } else {
