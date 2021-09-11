@@ -3,10 +3,20 @@
 
 #include <QObject>
 #include <QHash>
+#include <QDebug>
+
+class staticAlert;
 
 class alert : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(P_NOR)
+    Q_ENUMS(P_LOCK)
+    Q_ENUMS(P_MS)
+    Q_ENUMS(P_HSK)
+    Q_ENUMS(P_ATTEN)
+    Q_ENUMS(P_STAT)
+    Q_ENUMS(P_CH)
 public:
     explicit alert(QObject *parent = nullptr);
 
@@ -60,6 +70,36 @@ public:
 signals:
 
 public slots:
+    static QString showValue(const QVariant val, const QString str = QString())
+    {
+        QString v;
+
+        if (val.canConvert<P_NOR>()) {
+            v = STR_NOR[val.value<P_NOR>()];
+        } else if (val.canConvert<P_LOCK>()) {
+            v = STR_LOCK[val.value<P_LOCK>()];
+        } else if (val.canConvert<P_MS>()) {
+            v = STR_MS[val.value<P_MS>()];
+        } else if (val.canConvert<P_HSK>()) {
+            v = STR_HSK[val.value<P_HSK>()];
+        } else if (val.canConvert<P_ATTEN>()) {
+            v = STR_ATTEN[val.value<P_ATTEN>()];
+        } else if (val.canConvert<P_STAT>()) {
+            v = STR_STAT[val.value<P_STAT>()];
+        } else if (val.canConvert<P_CH>()) {
+            v = STR_CH[val.value<P_CH>()];
+        }
+
+        return str + tr(v.toUtf8());
+    }
 };
+
+Q_DECLARE_METATYPE(alert::P_NOR)
+Q_DECLARE_METATYPE(alert::P_LOCK)
+Q_DECLARE_METATYPE(alert::P_MS)
+Q_DECLARE_METATYPE(alert::P_HSK)
+Q_DECLARE_METATYPE(alert::P_ATTEN)
+Q_DECLARE_METATYPE(alert::P_STAT)
+Q_DECLARE_METATYPE(alert::P_CH)
 
 #endif // ALERT_H

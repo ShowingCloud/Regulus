@@ -31,21 +31,18 @@ int main(int argc, char *argv[])
     qmlRegisterType<devDist>("rdss.device", 1, 0, "DevDist");
     qmlRegisterType<devAmp>("rdss.device", 1, 0, "DevAmp");
 
+    qmlRegisterSingletonType<alert>("rdss.alert", 1, 0, "Alert", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
+        Q_UNUSED(engine)
+        Q_UNUSED(scriptEngine)
+
+        alert *ret = new alert();
+        return ret;
+    });
+
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
-
-    //QQmlComponent componentMain(&engine, QUrl(QStringLiteral("qrc:/main.qml")));
-    //QQuickWindow *winMain = qobject_cast<QQuickWindow *>(componentMain.create());
-
-    //QQmlComponent componentFreq(&engine, QUrl(QStringLiteral("qrc:/freq.qml")));
-    //QQuickWindow *winFreq = qobject_cast<QQuickWindow *>(componentFreq.create());
-    //winFreq->hide();
-
-    //QList<devFreq *> devFreqList = QList<devFreq *>();
-    //QList<devDist *> devDistList = QList<devDist *>();
-    //QList<devAmp *> devAmpList = QList<devAmp *>();
 
     database db(&app);
 
@@ -57,7 +54,7 @@ int main(int argc, char *argv[])
         QTimer *timer = new QTimer(&app);
         QObject::connect(timer, &QTimer::timeout, [=]() {
             protocol::createQueryMsg(*s);
-            //s->readFakeData();
+            s->readFakeData();
         });
         timer->start(1000);
     }

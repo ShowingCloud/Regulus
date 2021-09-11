@@ -7,7 +7,6 @@
 
 device::device(QObject *parent) : QObject(parent)
 {
-    //connect(this, &device::idChanged, this, &device::nameChanged);
     device::push(this);
 }
 
@@ -55,10 +54,10 @@ device &operator<< (device &d, const msgAmp &m)
 
 devFreq &operator<< (devFreq &dev, const msgFreq &m)
 {
-    dev.atten = m.atten;
+    dev.atten = 0.5f * m.atten;
     //this->ch_a = m;
     //this->ch_b = m;
-    dev.voltage = static_cast<alert::P_NOR>(m.voltage);
+    dev.voltage = m.voltage;
     dev.current = m.current;
     dev.output_stat = static_cast<alert::P_NOR>(m.output_stat);
     dev.input_stat = static_cast<alert::P_NOR>(m.input_stat);
@@ -212,7 +211,7 @@ void devDist::createFakeCntlMsg(const QString &msg)
 
 void msgCntlDist::createFakeCntlMsg(const int deviceId, const QString &msg)
 {
-    QByteArray b = QByteArray::fromHex(msg.toLatin1());
+    QByteArray b = QByteArray::fromHex(msg.toUtf8());
     *this << b;
     this->deviceId = static_cast<quint8>(deviceId);
 }

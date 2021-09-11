@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Extras 1.4
 
+import rdss.alert 1.0
+
 Item {
     property QtObject devFreq
 
@@ -57,7 +59,7 @@ Item {
         anchors.leftMargin: marginIndicators
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: qsTr("radio") + ((devFreq.output_stat === true) ? qsTr("normal") : qsTr("abnormal"))
+        text: Alert.showValue(devFreq.output_stat, qsTr("radio"))
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -70,7 +72,7 @@ Item {
         anchors.left: txtOutput.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: qsTr("mid freq") + ((devFreq.input_stat === true) ? qsTr("normal") : qsTr("abnormal"))
+        text: Alert.showValue(devFreq.input_stat, qsTr("mid freq"))
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -83,7 +85,7 @@ Item {
         anchors.left: txtInput.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: "A1" + devFreq.lock_a1
+        text: Alert.showValue(devFreq.lock_a1, "A1")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -96,7 +98,7 @@ Item {
         anchors.left: txtA1Lock.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: "A2" + devFreq.lock_a2
+        text: Alert.showValue(devFreq.lock_a2, "A2")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -109,7 +111,7 @@ Item {
         anchors.left: txtA2Lock.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: "B1" + devFreq.lock_b1
+        text: Alert.showValue(devFreq.lock_b1, "B1")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -122,7 +124,7 @@ Item {
         anchors.left: txtB1Lock.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: "B2" + devFreq.lock_b2
+        text: Alert.showValue(devFreq.lock_b2, "B2")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -149,7 +151,7 @@ Item {
         anchors.left: txt10.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: devFreq.ref_10_1 === true ? qsTr("normal") : qsTr("abnormal")
+        text: Alert.showValue(devFreq.ref_10_1)
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -162,7 +164,7 @@ Item {
         anchors.left: txt10r1.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: devFreq.ref_10_2 === true ? qsTr("normal") : qsTr("abnormal")
+        text: Alert.showValue(devFreq.ref_10_2)
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -188,7 +190,7 @@ Item {
         anchors.left: txt16.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: devFreq.ref_3 === true ? qsTr("normal") : qsTr("abnormal")
+        text: Alert.showValue(devFreq.ref_3)
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -201,7 +203,7 @@ Item {
         anchors.left: txt16r1.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: devFreq.ref_4 === true ? qsTr("normal") : qsTr("abnormal")
+        text: Alert.showValue(devFreq.ref_4)
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft

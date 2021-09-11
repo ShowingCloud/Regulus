@@ -44,7 +44,14 @@ public:
                 -> QString { return ret += tr(s.c_str()); });
     }
 
-    template <class T> static void updateDevice(const T &m);
+    template <class T> static void updateDevice(const T &m)
+    {
+        for (device *d : device::deviceList)
+        {
+            *d << m;
+        }
+    }
+
     friend device &operator<< (device &dev, const msgFreq &m);
     friend device &operator<< (device &dev, const msgDist &m);
     friend device &operator<< (device &dev, const msgAmp &m);
@@ -93,14 +100,6 @@ private:
         device::deviceList << dev;
     }
 };
-
-template <class T> void device::updateDevice(const T &m)
-{
-    for (device *d : device::deviceList)
-    {
-        *d << m;
-    }
-}
 
 class devFreq : public device
 {

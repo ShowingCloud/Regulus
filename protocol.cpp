@@ -117,7 +117,8 @@ protocol &operator<< (protocol &p, const serial &s)
 
 const msg &operator>> (const msg &m, QByteArray &data)
 {
-    qDebug() << "nothing processed";
+    Q_UNUSED(data)
+    qDebug() << "!!! nothing processed";
     return m;
 }
 

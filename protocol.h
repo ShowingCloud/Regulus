@@ -30,10 +30,6 @@ public:
     inline const static int tailer = 0xaa;
 
     inline static QList<msg *> unknownmsgList = {};
-    /* static inline int protoMaxLength()
-    {
-        return *std::max_element(protoLength.values().begin(), protoLength.values().end());
-    } */
 
 protected:
     const quint8 head = msg::header;
@@ -51,9 +47,6 @@ protected:
         {0x0A, PROTO_DIST}, {0x0B, PROTO_DIST},
         {0x0C, PROTO_AMP}, {0x0D, PROTO_AMP}, {0x0E, PROTO_AMP}, {0x0F, PROTO_AMP}
     };
-    /* static const inline QHash<proto, int> protoLength = {
-        {PROTO_DEFAULT, 2},
-    }; */
 
 signals:
 
