@@ -5,6 +5,8 @@
 #include <QList>
 #include <QHash>
 #include <QDateTime>
+#include <QComboBox>
+#include <QMetaEnum>
 #include <numeric>
 
 class msg;
@@ -131,6 +133,7 @@ public:
 
 public slots:
     void createCntlMsg();
+    const QStringList addEnum(const QString e) const;
 
     inline const QString showDisplay(const QString itemName) const
     {
@@ -148,6 +151,11 @@ public slots:
             return QString();
         }
         return var[itemName.toUtf8()]->getColor();
+    }
+
+    inline const QString showIndicatorColor() const
+    {
+        return "green";
     }
 
 private:

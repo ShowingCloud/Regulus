@@ -8,5 +8,8 @@
         <file>BlockDevDist.qml</file>
         <file>BlockDevAmp.qml</file>
         <file>RectDevFreq.qml</file>
+        <file>ComboText.qml</file>
+        <file>ComboCombo.qml</file>
+        <file>RectHistory.qml</file>
     </qresource>
 </RCC>

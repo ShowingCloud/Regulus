@@ -100,6 +100,8 @@ public:
     QVariant value;
     alert::P_NOR stat = alert::P_NOR_NORMAL;
     QString display = QString();
+    bool holding = false;
+    QVariant v_hold;
 };
 
 #endif // ALERT_H

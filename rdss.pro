@@ -1,4 +1,4 @@
-QT += quick sql serialport
+QT += quick sql serialport widgets
 CONFIG += c++1z console
 
 # The following define makes your compiler emit warnings if you use

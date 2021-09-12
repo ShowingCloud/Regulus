@@ -10,6 +10,12 @@ Item {
         id: ind
         x: marginIndicators
         y: marginIndicators
+        active: false
+
+        Component.onCompleted: devFreq.gotData.connect(function() {
+            active = true
+            color = devFreq.showIndicatorColor()
+        })
     }
 
     Text {

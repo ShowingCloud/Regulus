@@ -23,6 +23,7 @@ Window {
     readonly property int defaultLabelFontSize: 20
     readonly property int rectBigFontSize: 17
     readonly property int rectSmallFontSize: 8
+    readonly property int defaultTextAreaHeight: 200
 
     property QtObject objWinFreq;
     property QtObject objWinDist;

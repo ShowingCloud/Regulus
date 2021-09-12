@@ -142,6 +142,7 @@ QString alert::setDisplay(const QVariant val, const P_ENUM e)
 
     return tr(v.toUtf8());
 }
+
 deviceVar::deviceVar(const alert::P_ENUM type, QObject *parent) : QObject(parent), type(type)
 {
     switch (type) {
