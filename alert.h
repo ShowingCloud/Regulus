@@ -5,8 +5,6 @@
 #include <QHash>
 #include <QDebug>
 
-class staticAlert;
-
 class alert : public QObject
 {
     Q_OBJECT
@@ -29,7 +27,8 @@ public:
     enum P_STAT { P_STAT_NORMAL = 0, P_STAT_ABNORMAL = 1, P_STAT_OTHERS };
     enum P_CH { P_CH_CH1 = 0, P_CH_CH2 = 1, P_CH_OTHERS };
 
-    enum P_ENUM { P_ENUM_NOR, P_ENUM_LOCK, P_ENUM_MS, P_ENUM_HSK, P_ENUM_ATTEN, P_ENUM_STAT, P_ENUM_CH };
+    enum P_ENUM { P_ENUM_NOR, P_ENUM_LOCK, P_ENUM_MS, P_ENUM_HSK, P_ENUM_ATTEN, P_ENUM_STAT, P_ENUM_CH,
+                  P_ENUM_FLOAT, P_ENUM_INT, P_ENUM_VOLTAGE, P_ENUM_CURRENT };
 
     static const inline QHash<P_NOR, QString> STR_NOR = {
         {P_NOR_ABNORMAL, QT_TR_NOOP("Abnormal")},
@@ -70,39 +69,12 @@ public:
         {P_CH_OTHERS, QT_TR_NOOP("Others")}
     };
 
+    static QVariant setValue(const QVariant val, const P_ENUM e);
+    static P_NOR setState(const QVariant val, const P_ENUM e);
+    static QString setDisplay(const QVariant val, const P_ENUM e);
 signals:
 
 public slots:
-    static QString showValue(const QVariant val, const QVariant e, const QString str = QString())
-    {
-        QString v;
-
-        switch (e.value<P_ENUM>()) {
-        case P_ENUM_NOR:
-            v = STR_NOR[val.value<P_NOR>()];
-            break;
-        case P_ENUM_LOCK:
-            v = STR_LOCK[val.value<P_LOCK>()];
-            break;
-        case P_ENUM_MS:
-            v = STR_MS[val.value<P_MS>()];
-            break;
-        case P_ENUM_HSK:
-            v = STR_HSK[val.value<P_HSK>()];
-            break;
-        case P_ENUM_ATTEN:
-            v = STR_ATTEN[val.value<P_ATTEN>()];
-            break;
-        case P_ENUM_STAT:
-            v = STR_STAT[val.value<P_STAT>()];
-            break;
-        case P_ENUM_CH:
-            v = STR_CH[val.value<P_CH>()];
-            break;
-        }
-
-        return str + tr(v.toUtf8());
-    }
 };
 
 Q_DECLARE_METATYPE(alert::P_NOR)
@@ -113,5 +85,21 @@ Q_DECLARE_METATYPE(alert::P_ATTEN)
 Q_DECLARE_METATYPE(alert::P_STAT)
 Q_DECLARE_METATYPE(alert::P_CH)
 Q_DECLARE_METATYPE(alert::P_ENUM)
+
+class deviceVar : public QObject
+{
+    Q_OBJECT
+public:
+    explicit deviceVar(const alert::P_ENUM type, QObject *parent = nullptr);
+
+    void setValue(const QVariant value);
+    int getValue();
+    QString getColor();
+
+    alert::P_ENUM type;
+    QVariant value;
+    alert::P_NOR stat = alert::P_NOR_NORMAL;
+    QString display = QString();
+};
 
 #endif // ALERT_H

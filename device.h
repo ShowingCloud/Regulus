@@ -104,24 +104,26 @@ private:
 class devFreq : public device
 {
     Q_OBJECT
-    Q_PROPERTY(float            atten           MEMBER atten        NOTIFY gotData)
-    Q_PROPERTY(alert::P_CH      ch_a            MEMBER ch_a         NOTIFY gotData)
-    Q_PROPERTY(alert::P_CH      ch_b            MEMBER ch_b         NOTIFY gotData)
-    Q_PROPERTY(int              voltage         MEMBER voltage      NOTIFY gotData)
-    Q_PROPERTY(int              current         MEMBER current      NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR     output_stat     MEMBER output_stat  NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR     input_stat      MEMBER input_stat   NOTIFY gotData)
-    Q_PROPERTY(alert::P_LOCK    lock_a1         MEMBER lock_a1      NOTIFY gotData)
-    Q_PROPERTY(alert::P_LOCK    lock_a2         MEMBER lock_a2      NOTIFY gotData)
-    Q_PROPERTY(alert::P_LOCK    lock_b1         MEMBER lock_b1      NOTIFY gotData)
-    Q_PROPERTY(alert::P_LOCK    lock_b2         MEMBER lock_b2      NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR     ref_10_1        MEMBER ref_10_1     NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR     ref_10_2        MEMBER ref_10_2     NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR     ref_10_inner    MEMBER ref_10_2     NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR     ref_3           MEMBER ref_3        NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR     ref_4           MEMBER ref_4        NOTIFY gotData)
-    Q_PROPERTY(alert::P_HSK     handshake       MEMBER handshake    NOTIFY gotData)
-    Q_PROPERTY(alert::P_MS      masterslave     MEMBER masterslave  NOTIFY gotData)
+    /*
+    Q_PROPERTY(float            atten           MEMBER var["atten"].display         NOTIFY gotData)
+    Q_PROPERTY(alert::P_CH      ch_a            MEMBER var["ch_a"].display          NOTIFY gotData)
+    Q_PROPERTY(alert::P_CH      ch_b            MEMBER var["ch_b"].display          NOTIFY gotData)
+    Q_PROPERTY(int              voltage         MEMBER var["voltage"].display       NOTIFY gotData)
+    Q_PROPERTY(int              current         MEMBER var["current"].display       NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR     output_stat     MEMBER var["output_stat"].display   NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR     input_stat      MEMBER var["input_stat"].display    NOTIFY gotData)
+    Q_PROPERTY(alert::P_LOCK    lock_a1         MEMBER var["lock_a1"].display       NOTIFY gotData)
+    Q_PROPERTY(alert::P_LOCK    lock_a2         MEMBER var["lock_a2"].display       NOTIFY gotData)
+    Q_PROPERTY(alert::P_LOCK    lock_b1         MEMBER var["lock_b1"].display       NOTIFY gotData)
+    Q_PROPERTY(alert::P_LOCK    lock_b2         MEMBER var["lock_b2"].display       NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR     ref_10_1        MEMBER var["ref_10_1"].display      NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR     ref_10_2        MEMBER var["ref_10_2"].display      NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR     ref_10_inner    MEMBER var["ref_10_2"].display      NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR     ref_3           MEMBER var["ref_3"].display         NOTIFY gotData)
+    Q_PROPERTY(alert::P_NOR     ref_4           MEMBER var["ref_4"].display         NOTIFY gotData)
+    Q_PROPERTY(alert::P_HSK     handshake       MEMBER var["handshake"].display     NOTIFY gotData)
+    Q_PROPERTY(alert::P_MS      masterslave     MEMBER var["masterslave"].display   NOTIFY gotData)
+    */
 public:
     explicit devFreq(device *parent = nullptr) : device(parent) {}
     friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
@@ -130,25 +132,45 @@ public:
 public slots:
     void createCntlMsg();
 
+    inline const QString showDisplay(const QString itemName) const
+    {
+        if (var[itemName.toUtf8()] == nullptr) {
+            qDebug() << "Missing item " << itemName;
+            return QString();
+        }
+        return var[itemName.toUtf8()]->display;
+    }
+
+    inline const QString showColor(const QString itemName) const
+    {
+        if (var[itemName.toUtf8()] == nullptr) {
+            qDebug() << "Missing item " << itemName;
+            return QString();
+        }
+        return var[itemName.toUtf8()]->getColor();
+    }
+
 private:
-    float           atten           = float();
-    alert::P_CH     ch_a            = alert::P_CH();
-    alert::P_CH     ch_b            = alert::P_CH();
-    int             voltage         = int();
-    int             current         = int();
-    alert::P_NOR    output_stat     = alert::P_NOR();
-    alert::P_NOR    input_stat      = alert::P_NOR();
-    alert::P_LOCK   lock_a1         = alert::P_LOCK();
-    alert::P_LOCK   lock_a2         = alert::P_LOCK();
-    alert::P_LOCK   lock_b1         = alert::P_LOCK();
-    alert::P_LOCK   lock_b2         = alert::P_LOCK();
-    alert::P_NOR    ref_10_1        = alert::P_NOR();
-    alert::P_NOR    ref_10_2        = alert::P_NOR();
-    alert::P_NOR    ref_10_inner    = alert::P_NOR();
-    alert::P_NOR    ref_3           = alert::P_NOR();
-    alert::P_NOR    ref_4           = alert::P_NOR();
-    alert::P_HSK    handshake       = alert::P_HSK();
-    alert::P_MS     masterslave     = alert::P_MS();
+    const QHash<QString, deviceVar *> var = {
+        {"atten",       new deviceVar(alert::P_ENUM_FLOAT)},
+        {"ch_a",        new deviceVar(alert::P_ENUM_CH)},
+        {"ch_b",        new deviceVar(alert::P_ENUM_CH)},
+        {"voltage",     new deviceVar(alert::P_ENUM_VOLTAGE)},
+        {"current",     new deviceVar(alert::P_ENUM_CURRENT)},
+        {"output_stat", new deviceVar(alert::P_ENUM_NOR)},
+        {"input_stat",  new deviceVar(alert::P_ENUM_NOR)},
+        {"lock_a1",     new deviceVar(alert::P_ENUM_LOCK)},
+        {"lock_a2",     new deviceVar(alert::P_ENUM_LOCK)},
+        {"lock_b1",     new deviceVar(alert::P_ENUM_LOCK)},
+        {"lock_b2",     new deviceVar(alert::P_ENUM_LOCK)},
+        {"ref_10_1",    new deviceVar(alert::P_ENUM_NOR)},
+        {"ref_10_2",    new deviceVar(alert::P_ENUM_NOR)},
+        {"ref_10_inner",new deviceVar(alert::P_ENUM_NOR)},
+        {"ref_3",       new deviceVar(alert::P_ENUM_NOR)},
+        {"ref_4",       new deviceVar(alert::P_ENUM_NOR)},
+        {"handshake",   new deviceVar(alert::P_ENUM_HSK)},
+        {"masterslave", new deviceVar(alert::P_ENUM_MS)}
+    };
 };
 
 class devDist : public device

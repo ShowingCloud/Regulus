@@ -19,11 +19,18 @@ Item {
         anchors.leftMargin: marginIndicators
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 3
-        text: devFreq.atten + " dB"
+        text: devFreq.showDisplay("atten") + " dB"
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectBigFontSize
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = devFreq.showDisplay("atten") + " dB"
+                color = devFreq.showColor("atten")
+            })
+        }
     }
 
     Text {
@@ -32,11 +39,18 @@ Item {
         anchors.left: txtPower.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 3
-        text: devFreq.voltage + " V"
+        text: devFreq.showDisplay("voltage") + " V"
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectBigFontSize
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = devFreq.showDisplay("voltage") + " V"
+                color = devFreq.showColor("voltage")
+            })
+        }
     }
 
     Text {
@@ -45,11 +59,18 @@ Item {
         anchors.left: txtVoltage.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 3
-        text: devFreq.current + " mA"
+        text: devFreq.showDisplay("current") + " mA"
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectBigFontSize
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = devFreq.showDisplay("current") + " mA"
+                color = devFreq.showColor("current")
+            })
+        }
     }
 
     Text {
@@ -59,11 +80,18 @@ Item {
         anchors.leftMargin: marginIndicators
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.output_stat, Alert.P_ENUM_NOR, qsTr("radio"))
+        text: qsTr("radio") + devFreq.showDisplay("output_stat")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = qsTr("radio") + devFreq.showDisplay("output_stat")
+                color = devFreq.showColor("output_stat")
+            })
+        }
     }
 
     Text {
@@ -72,11 +100,18 @@ Item {
         anchors.left: txtOutput.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.input_stat, Alert.P_ENUM_NOR, qsTr("mid freq"))
+        text: qsTr("mid freq") + devFreq.showDisplay("input_stat")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = qsTr("mid freq") + devFreq.showDisplay("input_stat")
+                color = devFreq.showColor("input_stat")
+            })
+        }
     }
 
     Text {
@@ -85,11 +120,18 @@ Item {
         anchors.left: txtInput.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.lock_a1, Alert.P_ENUM_LOCK, "A1")
+        text: "A1" + devFreq.showDisplay("lock_a1")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = devFreq.showDisplay("lock_a1")
+                color = devFreq.showColor("lock_a1")
+            })
+        }
     }
 
     Text {
@@ -98,11 +140,18 @@ Item {
         anchors.left: txtA1Lock.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.lock_a2, Alert.P_ENUM_LOCK, "A2")
+        text: "A2" + devFreq.showDisplay("lock_a2")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = devFreq.showDisplay("lock_a2")
+                color = devFreq.showColor("lock_a2")
+            })
+        }
     }
 
     Text {
@@ -111,11 +160,18 @@ Item {
         anchors.left: txtA2Lock.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.lock_b1, Alert.P_ENUM_LOCK, "B1")
+        text: "B1" + devFreq.showDisplay("lock_b1")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = devFreq.showDisplay("lock_b1")
+                color = devFreq.showColor("lock_b1")
+            })
+        }
     }
 
     Text {
@@ -124,11 +180,18 @@ Item {
         anchors.left: txtB1Lock.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.lock_b2, Alert.P_ENUM_LOCK, "B2")
+        text: "B2" + devFreq.showDisplay("lock_b2")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = devFreq.showDisplay("lock_b2")
+                color = devFreq.showColor("lock_b2")
+            })
+        }
     }
 
     Text {
@@ -151,11 +214,18 @@ Item {
         anchors.left: txt10.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.ref_10_1, Alert.P_ENUM_NOR)
+        text: devFreq.showDisplay("ref_10_1")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = devFreq.showDisplay("ref_10_1")
+                color = devFreq.showColor("ref_10_1")
+            })
+        }
     }
 
     Text {
@@ -164,11 +234,18 @@ Item {
         anchors.left: txt10r1.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.ref_10_2, Alert.P_ENUM_NOR)
+        text: devFreq.showDisplay("ref_10_2")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = devFreq.showDisplay("ref_10_2")
+                color = devFreq.showColor("ref_10_2")
+            })
+        }
     }
 
     Text {
@@ -190,11 +267,18 @@ Item {
         anchors.left: txt16.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.ref_3, Alert.P_ENUM_NOR)
+        text: devFreq.showDisplay("ref_3")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = devFreq.showDisplay("ref_3")
+                color = devFreq.showColor("ref_3")
+            })
+        }
     }
 
     Text {
@@ -203,10 +287,17 @@ Item {
         anchors.left: txt16r1.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.ref_4, Alert.P_ENUM_NOR)
+        text: devFreq.showDisplay("ref_4")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = devFreq.showDisplay("ref_4")
+                color = devFreq.showColor("ref_4")
+            })
+        }
     }
 }
