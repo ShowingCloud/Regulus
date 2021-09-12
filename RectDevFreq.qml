@@ -59,7 +59,7 @@ Item {
         anchors.leftMargin: marginIndicators
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.output_stat, qsTr("radio"))
+        text: Alert.showValue(devFreq.output_stat, Alert.P_ENUM_NOR, qsTr("radio"))
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -72,7 +72,7 @@ Item {
         anchors.left: txtOutput.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.input_stat, qsTr("mid freq"))
+        text: Alert.showValue(devFreq.input_stat, Alert.P_ENUM_NOR, qsTr("mid freq"))
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -85,7 +85,7 @@ Item {
         anchors.left: txtInput.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.lock_a1, "A1")
+        text: Alert.showValue(devFreq.lock_a1, Alert.P_ENUM_LOCK, "A1")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -98,7 +98,7 @@ Item {
         anchors.left: txtA1Lock.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.lock_a2, "A2")
+        text: Alert.showValue(devFreq.lock_a2, Alert.P_ENUM_LOCK, "A2")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -111,7 +111,7 @@ Item {
         anchors.left: txtA2Lock.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.lock_b1, "B1")
+        text: Alert.showValue(devFreq.lock_b1, Alert.P_ENUM_LOCK, "B1")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -124,7 +124,7 @@ Item {
         anchors.left: txtB1Lock.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.lock_b2, "B2")
+        text: Alert.showValue(devFreq.lock_b2, Alert.P_ENUM_LOCK, "B2")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -151,7 +151,7 @@ Item {
         anchors.left: txt10.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.ref_10_1)
+        text: Alert.showValue(devFreq.ref_10_1, Alert.P_ENUM_NOR)
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -164,7 +164,7 @@ Item {
         anchors.left: txt10r1.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.ref_10_2)
+        text: Alert.showValue(devFreq.ref_10_2, Alert.P_ENUM_NOR)
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -190,7 +190,7 @@ Item {
         anchors.left: txt16.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.ref_3)
+        text: Alert.showValue(devFreq.ref_3, Alert.P_ENUM_NOR)
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -203,7 +203,7 @@ Item {
         anchors.left: txt16r1.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: Alert.showValue(devFreq.ref_4)
+        text: Alert.showValue(devFreq.ref_4, Alert.P_ENUM_NOR)
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft

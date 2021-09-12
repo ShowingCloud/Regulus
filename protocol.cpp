@@ -134,24 +134,26 @@ msg &operator<< (msg &m, const QByteArray &data)
     case msg::PROTO_FREQ: {
         msgFreq *s = new msgFreq(u);
         *s << data;
+        delete u;
         return *s;
     }
     case msg::PROTO_DIST: {
         msgDist *s = new msgDist(u);
         *s << data;
+        delete u;
         return *s;
     }
     case msg::PROTO_AMP: {
         msgAmp *s = new msgAmp(u);
         *s << data;
+        delete u;
         return *s;
     }
     default:
         qDebug() << "unknown device id";
-        break;
+        return *u;
     }
 
-    return *u;
 }
 
 msgUplink &operator<< (msgUplink &m, const QByteArray &data)

@@ -17,6 +17,7 @@ class alert : public QObject
     Q_ENUMS(P_ATTEN)
     Q_ENUMS(P_STAT)
     Q_ENUMS(P_CH)
+    Q_ENUMS(P_ENUM)
 public:
     explicit alert(QObject *parent = nullptr);
 
@@ -27,6 +28,8 @@ public:
     enum P_ATTEN { P_ATTEN_NORMAL = 0, P_ATTEN_CONSTPOWER = 1, P_ATTEN_CONSTGAIN = 2, P_ATTEN_OTHERS };
     enum P_STAT { P_STAT_NORMAL = 0, P_STAT_ABNORMAL = 1, P_STAT_OTHERS };
     enum P_CH { P_CH_CH1 = 0, P_CH_CH2 = 1, P_CH_OTHERS };
+
+    enum P_ENUM { P_ENUM_NOR, P_ENUM_LOCK, P_ENUM_MS, P_ENUM_HSK, P_ENUM_ATTEN, P_ENUM_STAT, P_ENUM_CH };
 
     static const inline QHash<P_NOR, QString> STR_NOR = {
         {P_NOR_ABNORMAL, QT_TR_NOOP("Abnormal")},
@@ -70,24 +73,32 @@ public:
 signals:
 
 public slots:
-    static QString showValue(const QVariant val, const QString str = QString())
+    static QString showValue(const QVariant val, const QVariant e, const QString str = QString())
     {
         QString v;
 
-        if (val.canConvert<P_NOR>()) {
+        switch (e.value<P_ENUM>()) {
+        case P_ENUM_NOR:
             v = STR_NOR[val.value<P_NOR>()];
-        } else if (val.canConvert<P_LOCK>()) {
+            break;
+        case P_ENUM_LOCK:
             v = STR_LOCK[val.value<P_LOCK>()];
-        } else if (val.canConvert<P_MS>()) {
+            break;
+        case P_ENUM_MS:
             v = STR_MS[val.value<P_MS>()];
-        } else if (val.canConvert<P_HSK>()) {
+            break;
+        case P_ENUM_HSK:
             v = STR_HSK[val.value<P_HSK>()];
-        } else if (val.canConvert<P_ATTEN>()) {
+            break;
+        case P_ENUM_ATTEN:
             v = STR_ATTEN[val.value<P_ATTEN>()];
-        } else if (val.canConvert<P_STAT>()) {
+            break;
+        case P_ENUM_STAT:
             v = STR_STAT[val.value<P_STAT>()];
-        } else if (val.canConvert<P_CH>()) {
+            break;
+        case P_ENUM_CH:
             v = STR_CH[val.value<P_CH>()];
+            break;
         }
 
         return str + tr(v.toUtf8());
@@ -101,5 +112,6 @@ Q_DECLARE_METATYPE(alert::P_HSK)
 Q_DECLARE_METATYPE(alert::P_ATTEN)
 Q_DECLARE_METATYPE(alert::P_STAT)
 Q_DECLARE_METATYPE(alert::P_CH)
+Q_DECLARE_METATYPE(alert::P_ENUM)
 
 #endif // ALERT_H
