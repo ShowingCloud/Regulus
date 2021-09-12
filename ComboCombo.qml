@@ -1,13 +1,16 @@
 import QtQuick 2.9
 import QtQuick.Controls 1.6
 
+import rdss.alert 1.0
+
 Item {
     id: blockComboCombo
     property int posLeft : 0
     property int posTop : 0
     property int posRight : combo.x + combo.width
     property int posBottom : combo.y + combo.height
-    property string txtText
+    property alias txtText : text.text
+    property alias comboModel : combo.model
 
     Text {
         id: text

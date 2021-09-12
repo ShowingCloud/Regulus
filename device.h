@@ -5,8 +5,6 @@
 #include <QList>
 #include <QHash>
 #include <QDateTime>
-#include <QComboBox>
-#include <QMetaEnum>
 #include <numeric>
 
 class msg;
@@ -133,7 +131,6 @@ public:
 
 public slots:
     void createCntlMsg();
-    const QStringList addEnum(const QString e) const;
 
     inline const QString showDisplay(const QString itemName) const
     {

@@ -22,16 +22,16 @@ Window {
     property QtObject devFreqMaster
     property QtObject devFreqSlave
     signal opened(QtObject devMaster, QtObject devSlave)
-    signal gotData()
+    signal masterGotData()
+    signal slaveGotData()
 
     Component.onCompleted: {
         winFreq.opened.connect(function(devMaster, devSlave) {
             devFreqMaster = devMaster
             devFreqSlave = devSlave
-            //comboMaster.model = devMaster.addEnum("P_NOR")
-            //comboSlave.model = devSlave.addEnum("P_LOCK")
-
             name.text = devFreqMaster.name
+            devMaster.gotData.connect(masterGotData)
+            devSlave.gotData.connect(slaveGotData)
         })
     }
 
@@ -51,6 +51,8 @@ Window {
         posLeft: marginRect + rectMaster.width - widthWidget - widthWidgetLabel - 3 * marginWidget
         posTop: marginRect - marginWidget
         txtText: qsTr("Current State")
+
+        Component.onCompleted: comboModel = Alert.addEnum("P_MS")
     }
 
     Button {
@@ -81,11 +83,18 @@ Window {
         height: 5 * heightWidget + 6 * marginWidget
         border.width: defaultBorderWidth
 
-        ComboCombo {
+        ComboText {
             id: comboMasterAtten
             posTop: 0
             posLeft: 0
             txtText: qsTr("Attenuation")
+
+            Component.onCompleted: {
+                masterGotData.connect(function() {
+                    txtValue = devFreqMaster.showDisplay("atten") + " dB"
+                    colorValue = devFreqMaster.showColor("atten")
+                })
+            }
         }
 
         ComboCombo {
@@ -93,6 +102,8 @@ Window {
             posTop: 0
             posLeft: (rectMaster.width - marginWidget) / 3
             txtText: "10 Mhz " + qsTr("Ref")
+
+            Component.onCompleted: comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
         }
 
         ComboCombo {
@@ -100,6 +111,8 @@ Window {
             posTop: 0
             posLeft: (rectMaster.width - marginWidget) / 3 * 2
             txtText: "10 Mhz " + qsTr("Ref")
+
+            Component.onCompleted: comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
         }
 
         ComboText {
@@ -107,6 +120,13 @@ Window {
             posTop: comboMasterAtten.posBottom
             posLeft: 0
             txtText: qsTr("Voltage")
+
+            Component.onCompleted: {
+                masterGotData.connect(function() {
+                    txtValue = devFreqMaster.showDisplay("voltage") + " V"
+                    colorValue = devFreqMaster.showColor("voltage")
+                })
+            }
         }
 
         ComboText {
@@ -114,6 +134,13 @@ Window {
             posTop: comboMasterAtten.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4
             txtText: qsTr("Current")
+
+            Component.onCompleted: {
+                masterGotData.connect(function() {
+                    txtValue = devFreqMaster.showDisplay("current") + " mA"
+                    colorValue = devFreqMaster.showColor("current")
+                })
+            }
         }
 
         ComboText {
@@ -121,6 +148,13 @@ Window {
             posTop: comboMasterAtten.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4 * 2
             txtText: qsTr("Radio Output")
+
+            Component.onCompleted: {
+                masterGotData.connect(function() {
+                    txtValue = devFreqMaster.showDisplay("output_stat")
+                    colorValue = devFreqMaster.showColor("output_stat")
+                })
+            }
         }
 
         ComboText {
@@ -128,6 +162,13 @@ Window {
             posTop: comboMasterAtten.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4 * 3
             txtText: qsTr("Mid Freq Input")
+
+            Component.onCompleted: {
+                masterGotData.connect(function() {
+                    txtValue = devFreqMaster.showDisplay("input_stat")
+                    colorValue = devFreqMaster.showColor("input_stat")
+                })
+            }
         }
 
         ComboText {
@@ -135,6 +176,13 @@ Window {
             posTop: comboMasterVoltage.posBottom
             posLeft: 0
             txtText: qsTr("Local Oscillator") + " A1"
+
+            Component.onCompleted: {
+                masterGotData.connect(function() {
+                    txtValue = devFreqMaster.showDisplay("lock_a1")
+                    colorValue = devFreqMaster.showColor("lock_a1")
+                })
+            }
         }
 
         ComboText {
@@ -142,6 +190,13 @@ Window {
             posTop: comboMasterVoltage.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4
             txtText: qsTr("Local Oscillator") + " A1"
+
+            Component.onCompleted: {
+                masterGotData.connect(function() {
+                    txtValue = devFreqMaster.showDisplay("lock_a2")
+                    colorValue = devFreqMaster.showColor("lock_a2")
+                })
+            }
         }
 
         ComboText {
@@ -149,6 +204,13 @@ Window {
             posTop: comboMasterVoltage.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4 * 2
             txtText: qsTr("Local Oscillator") + " B1"
+
+            Component.onCompleted: {
+                masterGotData.connect(function() {
+                    txtValue = devFreqMaster.showDisplay("lock_b1")
+                    colorValue = devFreqMaster.showColor("lock_b1")
+                })
+            }
         }
 
         ComboText {
@@ -156,6 +218,13 @@ Window {
             posTop: comboMasterVoltage.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4 * 3
             txtText: qsTr("Local Oscillator") + " B2"
+
+            Component.onCompleted: {
+                masterGotData.connect(function() {
+                    txtValue = devFreqMaster.showDisplay("lock_b2")
+                    colorValue = devFreqMaster.showColor("lock_b2")
+                })
+            }
         }
 
         ComboText {
@@ -163,6 +232,13 @@ Window {
             posTop: comboMasterLOA1.posBottom
             posLeft: 0
             txtText: "10 MHz 1"
+
+            Component.onCompleted: {
+                masterGotData.connect(function() {
+                    txtValue = devFreqMaster.showDisplay("ref_10_1")
+                    colorValue = devFreqMaster.showColor("ref_10_1")
+                })
+            }
         }
 
         ComboText {
@@ -170,6 +246,13 @@ Window {
             posTop: comboMasterLOA1.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4
             txtText: "10 MHz 2"
+
+            Component.onCompleted: {
+                masterGotData.connect(function() {
+                    txtValue = devFreqMaster.showDisplay("ref_10_2")
+                    colorValue = devFreqMaster.showColor("ref_10_2")
+                })
+            }
         }
 
         ComboText {
@@ -177,6 +260,13 @@ Window {
             posTop: comboMasterLOA1.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4 * 2
             txtText: "10 MHz " + qsTr("Inner Ref")
+
+            Component.onCompleted: {
+                masterGotData.connect(function() {
+                    txtValue = devFreqMaster.showDisplay("ref_10_2")
+                    colorValue = devFreqMaster.showColor("ref_10_2")
+                })
+            }
         }
 
         ComboText {
@@ -203,25 +293,36 @@ Window {
         height: 5 * heightWidget + 6 * marginWidget
         border.width: defaultBorderWidth
 
-        ComboCombo {
+        ComboText {
             id: comboSlaveAtten
             posTop: 0
             posLeft: 0
             txtText: qsTr("Attenuation")
+
+            Component.onCompleted: {
+                slaveGotData.connect(function() {
+                    txtValue = devFreqSlave.showDisplay("atten") + " dB"
+                    colorValue = devFreqSlave.showColor("atten")
+                })
+            }
         }
 
         ComboCombo {
             id: comboSlaveRefA
             posTop: 0
             posLeft: (rectSlave.width - marginWidget) / 3
-            txtText: "10 Mhz " + qsTr("Ref")
+            txtText: "10 Mhz " + qsTr("Ref") + " A"
+
+            Component.onCompleted: comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
         }
 
         ComboCombo {
             id: comboSlaveRefB
             posTop: 0
             posLeft: (rectSlave.width - marginWidget) / 3 * 2
-            txtText: "10 Mhz " + qsTr("Ref")
+            txtText: "10 Mhz " + qsTr("Ref") + " B"
+
+            Component.onCompleted: comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
         }
 
         ComboText {
@@ -229,6 +330,13 @@ Window {
             posTop: comboSlaveAtten.posBottom
             posLeft: 0
             txtText: qsTr("Voltage")
+
+            Component.onCompleted: {
+                slaveGotData.connect(function() {
+                    txtValue = devFreqSlave.showDisplay("voltage") + " V"
+                    colorValue = devFreqSlave.showColor("voltage")
+                })
+            }
         }
 
         ComboText {
@@ -236,6 +344,13 @@ Window {
             posTop: comboSlaveAtten.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4
             txtText: qsTr("Current")
+
+            Component.onCompleted: {
+                slaveGotData.connect(function() {
+                    txtValue = devFreqSlave.showDisplay("current") + " mA"
+                    colorValue = devFreqSlave.showColor("current")
+                })
+            }
         }
 
         ComboText {
@@ -243,6 +358,13 @@ Window {
             posTop: comboSlaveAtten.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4 * 2
             txtText: qsTr("Radio Output")
+
+            Component.onCompleted: {
+                slaveGotData.connect(function() {
+                    txtValue = devFreqSlave.showDisplay("output_stat")
+                    colorValue = devFreqSlave.showColor("output_stat")
+                })
+            }
         }
 
         ComboText {
@@ -250,6 +372,13 @@ Window {
             posTop: comboSlaveAtten.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4 * 3
             txtText: qsTr("Mid Freq Input")
+
+            Component.onCompleted: {
+                slaveGotData.connect(function() {
+                    txtValue = devFreqSlave.showDisplay("input_stat")
+                    colorValue = devFreqSlave.showColor("input_stat")
+                })
+            }
         }
 
         ComboText {
@@ -257,6 +386,13 @@ Window {
             posTop: comboSlaveVoltage.posBottom
             posLeft: 0
             txtText: qsTr("Local Oscillator") + " A1"
+
+            Component.onCompleted: {
+                slaveGotData.connect(function() {
+                    txtValue = devFreqSlave.showDisplay("lock_a1")
+                    colorValue = devFreqSlave.showColor("lock_a1")
+                })
+            }
         }
 
         ComboText {
@@ -264,6 +400,13 @@ Window {
             posTop: comboSlaveVoltage.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4
             txtText: qsTr("Local Oscillator") + " A1"
+
+            Component.onCompleted: {
+                slaveGotData.connect(function() {
+                    txtValue = devFreqSlave.showDisplay("lock_a2")
+                    colorValue = devFreqSlave.showColor("lock_a2")
+                })
+            }
         }
 
         ComboText {
@@ -271,6 +414,13 @@ Window {
             posTop: comboSlaveVoltage.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4 * 2
             txtText: qsTr("Local Oscillator") + " B1"
+
+            Component.onCompleted: {
+                slaveGotData.connect(function() {
+                    txtValue = devFreqSlave.showDisplay("lock_b1")
+                    colorValue = devFreqSlave.showColor("lock_b1")
+                })
+            }
         }
 
         ComboText {
@@ -278,6 +428,13 @@ Window {
             posTop: comboSlaveVoltage.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4 * 3
             txtText: qsTr("Local Oscillator") + " B2"
+
+            Component.onCompleted: {
+                slaveGotData.connect(function() {
+                    txtValue = devFreqSlave.showDisplay("lock_b2")
+                    colorValue = devFreqSlave.showColor("lock_b2")
+                })
+            }
         }
 
         ComboText {
@@ -285,6 +442,13 @@ Window {
             posTop: comboSlaveLOA1.posBottom
             posLeft: 0
             txtText: "16 MHz 1"
+
+            Component.onCompleted: {
+                slaveGotData.connect(function() {
+                    txtValue = devFreqSlave.showDisplay("ref_3")
+                    colorValue = devFreqSlave.showColor("ref_3")
+                })
+            }
         }
 
         ComboText {
@@ -292,6 +456,13 @@ Window {
             posTop: comboSlaveLOA1.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4
             txtText: "16 MHz 2"
+
+            Component.onCompleted: {
+                slaveGotData.connect(function() {
+                    txtValue = devFreqSlave.showDisplay("ref_4")
+                    colorValue = devFreqSlave.showColor("ref_4")
+                })
+            }
         }
 
         ComboText {
@@ -299,6 +470,13 @@ Window {
             posTop: comboSlaveLOA1.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4 * 2
             txtText: "16 MHz " + qsTr("Inner Ref")
+
+            Component.onCompleted: {
+                slaveGotData.connect(function() {
+                    txtValue = devFreqSlave.showDisplay("ref_4")
+                    colorValue = devFreqSlave.showColor("ref_4")
+                })
+            }
         }
 
         ComboText {

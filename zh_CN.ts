@@ -131,40 +131,39 @@
 <context>
     <name>devFreq</name>
     <message>
-        <location filename="device.cpp" line="236"/>
         <source>Normal</source>
-        <translation>正常</translation>
+        <translation type="vanished">正常</translation>
     </message>
 </context>
 <context>
     <name>device</name>
     <message>
+        <location filename="device.h" line="71"/>
+        <location filename="device.h" line="72"/>
         <location filename="device.h" line="73"/>
         <location filename="device.h" line="74"/>
-        <location filename="device.h" line="75"/>
-        <location filename="device.h" line="76"/>
         <source>Down Frequency Conversion</source>
         <translation>下变频</translation>
     </message>
     <message>
+        <location filename="device.h" line="75"/>
+        <location filename="device.h" line="76"/>
         <location filename="device.h" line="77"/>
         <location filename="device.h" line="78"/>
-        <location filename="device.h" line="79"/>
-        <location filename="device.h" line="80"/>
         <source>Up Frequency Conversion</source>
         <translation>上变频</translation>
     </message>
     <message>
-        <location filename="device.h" line="81"/>
-        <location filename="device.h" line="82"/>
+        <location filename="device.h" line="79"/>
+        <location filename="device.h" line="80"/>
         <source>Middle Frequency Distribution</source>
         <translation>中频分配</translation>
     </message>
     <message>
+        <location filename="device.h" line="81"/>
+        <location filename="device.h" line="82"/>
         <location filename="device.h" line="83"/>
         <location filename="device.h" line="84"/>
-        <location filename="device.h" line="85"/>
-        <location filename="device.h" line="86"/>
         <source>High Amplification</source>
         <translation>高功放</translation>
     </message>
@@ -194,73 +193,78 @@
         <translation>变频设备</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="53"/>
+        <location filename="freq.qml" line="56"/>
         <source>Current State</source>
         <translation>当前状态</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="62"/>
+        <location filename="freq.qml" line="65"/>
         <source>Submit</source>
         <translation>提交</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="72"/>
+        <location filename="freq.qml" line="75"/>
         <source>Reset</source>
         <translation>重置</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="88"/>
-        <location filename="freq.qml" line="210"/>
+        <location filename="freq.qml" line="91"/>
+        <location filename="freq.qml" line="222"/>
         <source>Attenuation</source>
         <translation>衰减量</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="95"/>
-        <location filename="freq.qml" line="102"/>
-        <location filename="freq.qml" line="217"/>
-        <location filename="freq.qml" line="224"/>
+        <location filename="freq.qml" line="98"/>
+        <location filename="freq.qml" line="107"/>
+        <location filename="freq.qml" line="236"/>
+        <location filename="freq.qml" line="243"/>
         <source>Ref</source>
         <translation>参考</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="109"/>
-        <location filename="freq.qml" line="231"/>
+        <location filename="freq.qml" line="100"/>
+        <source>Channel</source>
+        <translation>通道</translation>
+    </message>
+    <message>
+        <location filename="freq.qml" line="114"/>
+        <location filename="freq.qml" line="250"/>
         <source>Voltage</source>
         <translation>电压</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="116"/>
-        <location filename="freq.qml" line="238"/>
+        <location filename="freq.qml" line="128"/>
+        <location filename="freq.qml" line="264"/>
         <source>Current</source>
         <translation>电流</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="123"/>
-        <location filename="freq.qml" line="245"/>
+        <location filename="freq.qml" line="135"/>
+        <location filename="freq.qml" line="278"/>
         <source>Radio Output</source>
         <translation>射频输出</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="130"/>
-        <location filename="freq.qml" line="252"/>
+        <location filename="freq.qml" line="142"/>
+        <location filename="freq.qml" line="292"/>
         <source>Mid Freq Input</source>
         <translation>中频输入</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="137"/>
-        <location filename="freq.qml" line="144"/>
-        <location filename="freq.qml" line="151"/>
-        <location filename="freq.qml" line="158"/>
-        <location filename="freq.qml" line="259"/>
-        <location filename="freq.qml" line="266"/>
-        <location filename="freq.qml" line="273"/>
-        <location filename="freq.qml" line="280"/>
+        <location filename="freq.qml" line="149"/>
+        <location filename="freq.qml" line="156"/>
+        <location filename="freq.qml" line="163"/>
+        <location filename="freq.qml" line="170"/>
+        <location filename="freq.qml" line="306"/>
+        <location filename="freq.qml" line="320"/>
+        <location filename="freq.qml" line="334"/>
+        <location filename="freq.qml" line="348"/>
         <source>Local Oscillator</source>
         <translation>本振</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="179"/>
-        <location filename="freq.qml" line="301"/>
+        <location filename="freq.qml" line="191"/>
+        <location filename="freq.qml" line="376"/>
         <source>Inner Ref</source>
         <translation>内参</translation>
     </message>

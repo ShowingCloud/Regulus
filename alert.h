@@ -75,6 +75,7 @@ public:
 signals:
 
 public slots:
+    static const QStringList addEnum(const QString e, const QString add = nullptr);
 };
 
 Q_DECLARE_METATYPE(alert::P_NOR)

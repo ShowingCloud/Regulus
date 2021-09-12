@@ -1,5 +1,7 @@
 #include "alert.h"
 
+#include <QMetaEnum>
+
 alert::alert(QObject *parent) : QObject(parent)
 {
 
@@ -141,6 +143,37 @@ QString alert::setDisplay(const QVariant val, const P_ENUM e)
     }
 
     return tr(v.toUtf8());
+}
+
+const QStringList alert::addEnum(const QString e, const QString add)
+{
+    alert alrt;
+    const QMetaObject *metaObj = alrt.metaObject();
+    QMetaEnum enumType = metaObj->enumerator(metaObj->indexOfEnumerator(e.toUtf8()));
+
+    QStringList list;
+
+    auto strFunc = +[](const int x) { Q_UNUSED(x) return QString("No such enum").toUtf8(); };
+    if (e == "P_NOR")
+        strFunc = [](const int x) { return STR_NOR[static_cast<P_NOR>(x)].toUtf8(); };
+    else if (e == "P_LOCK")
+        strFunc = [](const int x) { return STR_LOCK[static_cast<P_LOCK>(x)].toUtf8(); };
+    else if (e == "P_MS")
+        strFunc = [](const int x) { return STR_MS[static_cast<P_MS>(x)].toUtf8(); };
+    else if (e == "P_HSK")
+        strFunc = [](const int x) { return STR_HSK[static_cast<P_HSK>(x)].toUtf8(); };
+    else if (e == "P_ATTEN")
+        strFunc = [](const int x) { return STR_ATTEN[static_cast<P_ATTEN>(x)].toUtf8(); };
+    else if (e == "P_STAT")
+        strFunc = [](const int x) { return STR_STAT[static_cast<P_STAT>(x)].toUtf8(); };
+    else if (e == "P_CH")
+        strFunc = [](const int x) { return STR_CH[static_cast<P_CH>(x)].toUtf8(); };
+
+    for (int i = 0; i < enumType.keyCount() - 1; ++i) /* omitting the last _OTHERS item */
+    {
+        list << (add + tr(strFunc(i)));
+    }
+    return list;
 }
 
 deviceVar::deviceVar(const alert::P_ENUM type, QObject *parent) : QObject(parent), type(type)

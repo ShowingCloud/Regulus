@@ -6,8 +6,9 @@ Item {
     property int posTop : 0
     property int posRight : rect.x + rect.width
     property int posBottom : rect.y + rect.height
-    property string txtText
-    property string txtValue
+    property alias txtText : text.text
+    property alias txtValue : value.text
+    property alias colorValue : value.color
 
     Text {
         id: text
@@ -15,7 +16,6 @@ Item {
         y: posTop + marginWidget
         height: heightWidget
         width: widthWidgetLabel
-        text: txtText
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignHCenter
@@ -37,7 +37,6 @@ Item {
             y: 0
             height: rect.height
             width: rect.width
-            text: txtValue
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignHCenter

@@ -221,20 +221,3 @@ msgCntlDist &operator<< (msgCntlDist &m, const QByteArray &data)
     QDataStream(data) >> m.ref_10 >> m.ref_16;
     return m;
 }
-
-const QStringList devFreq::addEnum(const QString e) const
-{
-    alert alrt;
-    const QMetaObject *metaObj = alrt.metaObject();
-    QMetaEnum enumType = metaObj->enumerator(metaObj->indexOfEnumerator(e.toUtf8()));
-
-    QStringList list;
-    for (int i = 0; i < enumType.keyCount(); ++i)
-    {
-        QString item = QString(enumType.key(i)) + " is "
-                + tr(alert::STR_NOR[static_cast<alert::P_NOR>(i)].toUtf8());
-        qDebug() << tr("Normal");
-        list << item;
-    }
-    return list;
-}

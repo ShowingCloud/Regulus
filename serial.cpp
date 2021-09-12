@@ -42,6 +42,11 @@ void serial::readFakeData()
     this->buffer += data;
     lastseen = QDateTime::currentDateTime();
     msg::validateProtocol(this->buffer, data, this);
+
+    data = QByteArray::fromHex("ff010203040101010101010101010102161718aa");
+    this->buffer += data;
+    lastseen = QDateTime::currentDateTime();
+    msg::validateProtocol(this->buffer, data, this);
 }
 
 void serial::writeData(const QByteArray &data) const
