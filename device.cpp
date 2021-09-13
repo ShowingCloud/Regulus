@@ -103,8 +103,8 @@ devAmp &operator<< (devAmp &dev, const msgAmp &m)
 const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m)
 {
     m.atten = static_cast<quint8>(dev.var["atten"]->getValue());
-    m.ref_10_a = static_cast<quint8>(dev.var["ref_10_1"]->getValue());
-    m.ref_10_b = static_cast<quint8>(dev.var["ref_10_2"]->getValue());
+    m.ref_10_a = static_cast<quint8>(dev.var["ch_a"]->getValue());
+    m.ref_10_b = static_cast<quint8>(dev.var["ch_b"]->getValue());
 
     return dev;
 }

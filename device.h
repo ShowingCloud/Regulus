@@ -155,6 +155,16 @@ public slots:
         return "green";
     }
 
+    inline void setValue(const QString itemName, const QVariant val)
+    {
+        if (var[itemName.toUtf8()] == nullptr) {
+            qDebug() << "Missing item " << itemName;
+            return;
+        }
+        var[itemName.toUtf8()]->setValue(val);
+        this->createCntlMsg();
+    }
+
 private:
     const QHash<QString, deviceVar *> var = {
         {"atten",       new deviceVar(alert::P_ENUM_FLOAT)},

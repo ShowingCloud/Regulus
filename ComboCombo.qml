@@ -12,6 +12,8 @@ Item {
     property alias txtText : text.text
     property alias comboModel : combo.model
 
+    signal updated(int index)
+
     Text {
         id: text
         x: posLeft + marginWidget
@@ -33,5 +35,7 @@ Item {
         height: heightWidget
         width: widthWidget
         currentIndex: 1
+
+        onCurrentIndexChanged: blockComboCombo.updated(currentIndex)
     }
 }

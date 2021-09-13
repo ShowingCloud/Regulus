@@ -103,7 +103,12 @@ Window {
             posLeft: (rectMaster.width - marginWidget) / 3
             txtText: "10 Mhz " + qsTr("Ref")
 
-            Component.onCompleted: comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
+            Component.onCompleted: {
+                comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
+                updated.connect(function (index) {
+                    devFreqMaster.setValue("ch_a", index)
+                })
+            }
         }
 
         ComboCombo {
@@ -112,7 +117,12 @@ Window {
             posLeft: (rectMaster.width - marginWidget) / 3 * 2
             txtText: "10 Mhz " + qsTr("Ref")
 
-            Component.onCompleted: comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
+            Component.onCompleted: {
+                comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
+                updated.connect(function (index) {
+                    devFreqMaster.setValue("ch_b", index)
+                })
+            }
         }
 
         ComboText {
@@ -313,7 +323,12 @@ Window {
             posLeft: (rectSlave.width - marginWidget) / 3
             txtText: "10 Mhz " + qsTr("Ref") + " A"
 
-            Component.onCompleted: comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
+            Component.onCompleted: {
+                comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
+                updated.connect(function (index) {
+                    devFreqSlave.setValue("ch_a", index)
+                })
+            }
         }
 
         ComboCombo {
@@ -322,7 +337,12 @@ Window {
             posLeft: (rectSlave.width - marginWidget) / 3 * 2
             txtText: "10 Mhz " + qsTr("Ref") + " B"
 
-            Component.onCompleted: comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
+            Component.onCompleted: {
+                comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
+                updated.connect(function (index) {
+                    devFreqSlave.setValue("ch_b", index)
+                })
+            }
         }
 
         ComboText {

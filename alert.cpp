@@ -106,6 +106,9 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e)
         else
             return P_NOR_NORMAL;
     }
+
+    qDebug() << "Shouldn't get here";
+    return P_NOR_NORMAL;
 }
 
 QString alert::setDisplay(const QVariant val, const P_ENUM e)
@@ -235,6 +238,9 @@ int deviceVar::getValue()
     case alert::P_ENUM_FLOAT:
         return static_cast<int>(value.value<float>());
     }
+
+    qDebug() << "Shouldn't get here";
+    return -1;
 }
 
 QString deviceVar::getColor()
@@ -249,4 +255,7 @@ QString deviceVar::getColor()
     case alert::P_NOR_OTHERS:
         return "black";
     }
+
+    qDebug() << "Shouldn't get here";
+    return QString();
 }

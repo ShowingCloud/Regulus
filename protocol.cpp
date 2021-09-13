@@ -230,12 +230,6 @@ const msgCntlFreq &operator>> (const msgCntlFreq &m, QByteArray &data)
     return m;
 }
 
-msgCntlFreq &operator<< (msgCntlFreq &m, const QByteArray &data)
-{
-    QDataStream(data) >> m.atten >> m.ref_10_a >> m.ref_10_b;
-    return m;
-}
-
 const msgCntlDist &operator>> (const msgCntlDist &m, QByteArray &data)
 {
     QDataStream(&data, QIODevice::WriteOnly) << m.head << m.ref_10 << m.ref_16 << m.deviceId
