@@ -62,6 +62,11 @@ Window {
         width: widthWidget
         height: heightWidget
         text: qsTr("Submit")
+
+        onClicked: function() {
+            devFreqMaster.createCntlMsg()
+            devFreqSlave.createCntlMsg()
+        }
     }
 
     Button {

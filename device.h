@@ -162,7 +162,6 @@ public slots:
             return;
         }
         var[itemName.toUtf8()]->setValue(val);
-        this->createCntlMsg();
     }
 
 private:

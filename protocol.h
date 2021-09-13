@@ -73,6 +73,11 @@ public:
     friend const msgDownlink &operator>> (const msgDownlink &m, QByteArray &data);
     friend msgDownlink &operator<< (msgDownlink &m, const QByteArray &data);
 
+    inline void setDeviceId(int deviceId)
+    {
+        this->deviceId = deviceId;
+    }
+
     inline const static int posSerial = 0;
 };
 
