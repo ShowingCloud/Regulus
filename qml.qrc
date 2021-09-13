@@ -11,5 +11,6 @@
         <file>ComboText.qml</file>
         <file>ComboCombo.qml</file>
         <file>RectHistory.qml</file>
+        <file>ComboTextField.qml</file>
     </qresource>
 </RCC>

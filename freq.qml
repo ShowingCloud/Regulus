@@ -83,7 +83,7 @@ Window {
         height: 5 * heightWidget + 6 * marginWidget
         border.width: defaultBorderWidth
 
-        ComboText {
+        ComboTextField {
             id: comboMasterAtten
             posTop: 0
             posLeft: 0
@@ -94,33 +94,23 @@ Window {
                     txtValue = devFreqMaster.showDisplay("atten") + " dB"
                     colorValue = devFreqMaster.showColor("atten")
                 })
+                updated.connect(function (value) {
+                    devFreqMaster.setValue("atten", value)
+                })
             }
         }
 
         ComboCombo {
-            id: comboMasterRefA
+            id: comboMasterRef
             posTop: 0
-            posLeft: (rectMaster.width - marginWidget) / 3
+            posLeft: (rectMaster.width - marginWidget) / 2
             txtText: "10 Mhz " + qsTr("Ref")
 
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
                 updated.connect(function (index) {
                     devFreqMaster.setValue("ch_a", index)
-                })
-            }
-        }
-
-        ComboCombo {
-            id: comboMasterRefB
-            posTop: 0
-            posLeft: (rectMaster.width - marginWidget) / 3 * 2
-            txtText: "10 Mhz " + qsTr("Ref")
-
-            Component.onCompleted: {
-                comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
-                updated.connect(function (index) {
-                    devFreqMaster.setValue("ch_b", index)
+                    devFreqSlave.setValue("ch_a", index)
                 })
             }
         }
@@ -198,41 +188,13 @@ Window {
         ComboText {
             id: comboMasterLOA2
             posTop: comboMasterVoltage.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 4
-            txtText: qsTr("Local Oscillator") + " A1"
+            posLeft: (rectMaster.width - marginWidget) / 2
+            txtText: qsTr("Local Oscillator") + " A2"
 
             Component.onCompleted: {
                 masterGotData.connect(function() {
                     txtValue = devFreqMaster.showDisplay("lock_a2")
                     colorValue = devFreqMaster.showColor("lock_a2")
-                })
-            }
-        }
-
-        ComboText {
-            id: comboMasterLOB1
-            posTop: comboMasterVoltage.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 4 * 2
-            txtText: qsTr("Local Oscillator") + " B1"
-
-            Component.onCompleted: {
-                masterGotData.connect(function() {
-                    txtValue = devFreqMaster.showDisplay("lock_b1")
-                    colorValue = devFreqMaster.showColor("lock_b1")
-                })
-            }
-        }
-
-        ComboText {
-            id: comboMasterLOB2
-            posTop: comboMasterVoltage.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 4 * 3
-            txtText: qsTr("Local Oscillator") + " B2"
-
-            Component.onCompleted: {
-                masterGotData.connect(function() {
-                    txtValue = devFreqMaster.showDisplay("lock_b2")
-                    colorValue = devFreqMaster.showColor("lock_b2")
                 })
             }
         }
@@ -303,7 +265,7 @@ Window {
         height: 5 * heightWidget + 6 * marginWidget
         border.width: defaultBorderWidth
 
-        ComboText {
+        ComboTextField {
             id: comboSlaveAtten
             posTop: 0
             posLeft: 0
@@ -314,32 +276,22 @@ Window {
                     txtValue = devFreqSlave.showDisplay("atten") + " dB"
                     colorValue = devFreqSlave.showColor("atten")
                 })
-            }
-        }
-
-        ComboCombo {
-            id: comboSlaveRefA
-            posTop: 0
-            posLeft: (rectSlave.width - marginWidget) / 3
-            txtText: "10 Mhz " + qsTr("Ref") + " A"
-
-            Component.onCompleted: {
-                comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
-                updated.connect(function (index) {
-                    devFreqSlave.setValue("ch_a", index)
+                updated.connect(function (value) {
+                    devFreqSlave.setValue("atten", value)
                 })
             }
         }
 
         ComboCombo {
-            id: comboSlaveRefB
+            id: comboSlaveRef
             posTop: 0
-            posLeft: (rectSlave.width - marginWidget) / 3 * 2
-            txtText: "10 Mhz " + qsTr("Ref") + " B"
+            posLeft: (rectSlave.width - marginWidget) / 2
+            txtText: "10 Mhz " + qsTr("Ref")
 
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
                 updated.connect(function (index) {
+                    devFreqMaster.setValue("ch_b", index)
                     devFreqSlave.setValue("ch_b", index)
                 })
             }
@@ -402,37 +354,9 @@ Window {
         }
 
         ComboText {
-            id: comboSlaveLOA1
-            posTop: comboSlaveVoltage.posBottom
-            posLeft: 0
-            txtText: qsTr("Local Oscillator") + " A1"
-
-            Component.onCompleted: {
-                slaveGotData.connect(function() {
-                    txtValue = devFreqSlave.showDisplay("lock_a1")
-                    colorValue = devFreqSlave.showColor("lock_a1")
-                })
-            }
-        }
-
-        ComboText {
-            id: comboSlaveLOA2
-            posTop: comboSlaveVoltage.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 4
-            txtText: qsTr("Local Oscillator") + " A1"
-
-            Component.onCompleted: {
-                slaveGotData.connect(function() {
-                    txtValue = devFreqSlave.showDisplay("lock_a2")
-                    colorValue = devFreqSlave.showColor("lock_a2")
-                })
-            }
-        }
-
-        ComboText {
             id: comboSlaveLOB1
             posTop: comboSlaveVoltage.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 4 * 2
+            posLeft: (rectSlave.width - marginWidget)
             txtText: qsTr("Local Oscillator") + " B1"
 
             Component.onCompleted: {
@@ -446,7 +370,7 @@ Window {
         ComboText {
             id: comboSlaveLOB2
             posTop: comboSlaveVoltage.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 4 * 3
+            posLeft: (rectSlave.width - marginWidget) / 2
             txtText: qsTr("Local Oscillator") + " B2"
 
             Component.onCompleted: {
@@ -458,10 +382,10 @@ Window {
         }
 
         ComboText {
-            id: comboSlave16Ref1
-            posTop: comboSlaveLOA1.posBottom
+            id: comboSlave10Ref1
+            posTop: comboSlaveLOB1.posBottom
             posLeft: 0
-            txtText: "16 MHz 1"
+            txtText: "10 MHz 1"
 
             Component.onCompleted: {
                 slaveGotData.connect(function() {
@@ -472,10 +396,10 @@ Window {
         }
 
         ComboText {
-            id: comboSlave16Ref2
-            posTop: comboSlaveLOA1.posBottom
+            id: comboSlave10Ref2
+            posTop: comboSlaveLOB1.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4
-            txtText: "16 MHz 2"
+            txtText: "10 MHz 2"
 
             Component.onCompleted: {
                 slaveGotData.connect(function() {
@@ -487,9 +411,9 @@ Window {
 
         ComboText {
             id: comboSlave16RefInner
-            posTop: comboSlaveLOA1.posBottom
+            posTop: comboSlaveLOB1.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4 * 2
-            txtText: "16 MHz " + qsTr("Inner Ref")
+            txtText: "10 MHz " + qsTr("Inner Ref")
 
             Component.onCompleted: {
                 slaveGotData.connect(function() {
@@ -501,14 +425,14 @@ Window {
 
         ComboText {
             id: comboSlaveCommunication
-            posTop: comboSlave16Ref1.posBottom
+            posTop: comboSlave10Ref1.posBottom
             posLeft: 0
             txtText: "Network Communication"
         }
 
         ComboText {
             id: comboSlaveSignal
-            posTop: comboSlave16Ref1.posBottom
+            posTop: comboSlave10Ref1.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4 * 2
             txtText: "Control Signal"
         }
