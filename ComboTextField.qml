@@ -9,8 +9,9 @@ Item {
     property int posBottom : rect.y + rect.height
     property alias txtText : text.text
     property alias txtValue : value.text
-    //property alias colorValue : value.color
+    property alias colorValue : value.textColor
 
+    signal hold()
     signal updated(int value)
 
     Text {
@@ -44,7 +45,13 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: defaultLabelFontSize
 
-            onTextChanged: blockComboTextField.updated(parseInt(parseFloat(value.text) * 2))
+            onActiveFocusChanged: {
+                if (activeFocus) {
+                    blockComboTextField.hold()
+                } else {
+                    blockComboTextField.updated(parseFloat(value.text) * 2)
+                }
+            }
         }
     }
 }

@@ -141,7 +141,7 @@ void devFreq::createCntlMsg()
         *this->lastSerial << *q;
     } else {
         qDebug() << "create msg: sending all";
-        for (serial *s : serial::serialList)
+        for (serial *s : qAsConst(serial::serialList))
         {
             *s << *q;
         }
@@ -164,7 +164,7 @@ void devDist::createCntlMsg()
         *this->lastSerial << *q;
     } else {
         qDebug() << "create msg: sending all";
-        for (serial *s : serial::serialList)
+        for (serial *s : qAsConst(serial::serialList))
         {
             *s << *q;
         }
@@ -187,40 +187,11 @@ void devAmp::createCntlMsg()
         *this->lastSerial << *q;
     } else {
         qDebug() << "create msg: sending all";
-        for (serial *s : serial::serialList)
+        for (serial *s : qAsConst(serial::serialList))
         {
             *s << *q;
         }
     }
 
     delete q;
-}
-
-void devDist::createFakeCntlMsg(const QString &msg)
-{
-    protocol *p = new protocol();
-    protocol::protocolList << p;
-
-    msgCntlDist *q = new msgCntlDist();
-    q->createFakeCntlMsg(this->dId, msg);
-
-    for (serial *s : serial::serialList)
-    {
-        *s << *q;
-    }
-
-    delete q;
-}
-
-void msgCntlDist::createFakeCntlMsg(const int deviceId, const QString &msg)
-{
-    QByteArray b = QByteArray::fromHex(msg.toUtf8());
-    *this << b;
-    this->deviceId = static_cast<quint8>(deviceId);
-}
-
-msgCntlDist &operator<< (msgCntlDist &m, const QByteArray &data)
-{
-    QDataStream(data) >> m.ref_10 >> m.ref_16;
-    return m;
 }

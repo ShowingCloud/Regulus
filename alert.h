@@ -16,6 +16,8 @@ class alert : public QObject
     Q_ENUMS(P_STAT)
     Q_ENUMS(P_CH)
     Q_ENUMS(P_ENUM)
+    Q_ENUMS(P_COLOR)
+    Q_PROPERTY(QHash<P_COLOR, QString> STR_COLOR MEMBER STR_COLOR)
 public:
     explicit alert(QObject *parent = nullptr);
 
@@ -29,6 +31,15 @@ public:
 
     enum P_ENUM { P_ENUM_NOR, P_ENUM_LOCK, P_ENUM_MS, P_ENUM_HSK, P_ENUM_ATTEN, P_ENUM_STAT, P_ENUM_CH,
                   P_ENUM_FLOAT, P_ENUM_INT, P_ENUM_VOLTAGE, P_ENUM_CURRENT };
+
+    enum P_COLOR { P_COLOR_NORMAL, P_COLOR_ABNORMAL, P_COLOR_STANDBY, P_COLOR_HOLDING, P_COLOR_OTHERS };
+    static const inline QHash<P_COLOR, QString> STR_COLOR = {
+        {P_COLOR_NORMAL, "green"},
+        {P_COLOR_ABNORMAL, "red"},
+        {P_COLOR_STANDBY, "yellow"},
+        {P_COLOR_HOLDING, "blue"},
+        {P_COLOR_OTHERS, "black"}
+    };
 
     static const inline QHash<P_NOR, QString> STR_NOR = {
         {P_NOR_ABNORMAL, QT_TR_NOOP("Abnormal")},
@@ -94,6 +105,7 @@ public:
     explicit deviceVar(const alert::P_ENUM type, QObject *parent = nullptr);
 
     void setValue(const QVariant value);
+    void holdValue(const QVariant value);
     int getValue();
     QString getColor();
 

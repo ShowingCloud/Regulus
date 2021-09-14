@@ -164,6 +164,21 @@ public slots:
         var[itemName.toUtf8()]->setValue(val);
     }
 
+    inline void setHold(const QString itemName)
+    {
+        if (var[itemName.toUtf8()] == nullptr) {
+            qDebug() << "Missing item " << itemName;
+            return;
+        }
+        var[itemName.toUtf8()]->holding = true;
+    }
+
+    inline void holdValue(const QString itemName, const QVariant val)
+    {
+        this->setHold(itemName);
+        this->setValue(itemName, val);
+    }
+
 private:
     const QHash<QString, deviceVar *> var = {
         {"atten",       new deviceVar(alert::P_ENUM_FLOAT)},
@@ -205,7 +220,6 @@ public:
 
 public slots:
     void createCntlMsg();
-    void createFakeCntlMsg(const QString &msg);
 
 protected:
     alert::P_CH     ref_10      = alert::P_CH();

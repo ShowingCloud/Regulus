@@ -221,8 +221,19 @@ void deviceVar::setValue(const QVariant value)
     this->display = alert::setDisplay(value, this->type);
 }
 
+void deviceVar::holdValue(const QVariant value)
+{
+    this->v_hold = alert::setValue(value, this->type);
+}
+
 int deviceVar::getValue()
 {
+    QVariant *ret;
+    if (holding)
+        ret = &value;
+    else
+        ret = &value;
+
     switch (type) {
     case alert::P_ENUM_NOR:
     case alert::P_ENUM_LOCK:
@@ -234,9 +245,9 @@ int deviceVar::getValue()
     case alert::P_ENUM_INT:
     case alert::P_ENUM_CURRENT:
     case alert::P_ENUM_VOLTAGE:
-        return value.value<int>();
+        return ret->value<int>();
     case alert::P_ENUM_FLOAT:
-        return static_cast<int>(value.value<float>());
+        return static_cast<int>(ret->value<float>());
     }
 
     qDebug() << "Shouldn't get here";
@@ -245,9 +256,12 @@ int deviceVar::getValue()
 
 QString deviceVar::getColor()
 {
+    if (holding)
+        return alert::STR_COLOR[alert::P_COLOR_HOLDING];
+
     switch (stat) {
     case alert::P_NOR_NORMAL:
-        return "green";
+        return alert::STR_COLOR[alert::P_COLOR_NORMAL];
     case alert::P_NOR_ABNORMAL:
         return "red";
     case alert::P_NOR_STANDBY:

@@ -23,10 +23,6 @@ Window {
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: defaultLabelFontSize
-
-        onAccepted: {
-            devDist.createFakeCntlMsg(text);
-        }
     }
 
     onClosing: {

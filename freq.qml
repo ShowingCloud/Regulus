@@ -56,23 +56,8 @@ Window {
     }
 
     Button {
-        id: buttonSubmit
-        x: comboChannel.posLeft - marginWidget - widthWidget
-        anchors.top: name.top
-        width: widthWidget
-        height: heightWidget
-        text: qsTr("Submit")
-
-        onClicked: function() {
-            devFreqMaster.createCntlMsg()
-            devFreqSlave.createCntlMsg()
-        }
-    }
-
-    Button {
         id: buttonReset
-        anchors.right: buttonSubmit.left
-        anchors.rightMargin: marginWidget
+        x: comboChannel.posLeft - marginWidget - widthWidget
         anchors.top: name.top
         width: widthWidget
         height: heightWidget
@@ -96,11 +81,15 @@ Window {
 
             Component.onCompleted: {
                 masterGotData.connect(function() {
-                    txtValue = devFreqMaster.showDisplay("atten") + " dB"
-                    colorValue = devFreqMaster.showColor("atten")
+                    if ((colorValue = devFreqMaster.showColor("atten")) !== Alert.STR_COLOR[Alert.P_COLOR_HOLDING])
+                        txtValue = devFreqMaster.showDisplay("atten") + " dB"
+                    console.log(Alert.P_COLOR_HOLDING)
                 })
                 updated.connect(function (value) {
-                    devFreqMaster.setValue("atten", value)
+                    devFreqMaster.holdValue("atten", value)
+                })
+                hold.connect(function() {
+                    devFreqMaster.setHold("atten")
                 })
             }
         }
@@ -114,8 +103,11 @@ Window {
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
                 updated.connect(function (index) {
-                    devFreqMaster.setValue("ch_a", index)
-                    devFreqSlave.setValue("ch_a", index)
+                    devFreqMaster.holdValue("ch_a", index)
+                    devFreqSlave.holdValue("ch_a", index)
+                })
+                hold.connect(function() {
+                    devFreqMaster.setHold("ch_a")
                 })
             }
         }
@@ -259,6 +251,17 @@ Window {
             posLeft: (rectMaster.width - marginWidget) / 4 * 2
             txtText: "Control Signal"
         }
+
+        Button {
+            id: buttonMasterSubmit
+            x: rectMaster.width - marginWidget - widthWidget
+            y: comboMaster10Ref1.posBottom + marginWidget
+            width: widthWidget
+            height: heightWidget
+            text: qsTr("Submit")
+
+            onClicked: devFreqMaster.createCntlMsg()
+        }
     }
 
     Rectangle {
@@ -266,8 +269,8 @@ Window {
         anchors.left: rectMaster.left
         anchors.top: rectMaster.bottom
         anchors.topMargin: marginRect
-        width: winFreq.width - 2 * marginRect
-        height: 5 * heightWidget + 6 * marginWidget
+        width: rectMaster.width
+        height: rectMaster.height
         border.width: defaultBorderWidth
 
         ComboTextField {
@@ -282,7 +285,10 @@ Window {
                     colorValue = devFreqSlave.showColor("atten")
                 })
                 updated.connect(function (value) {
-                    devFreqSlave.setValue("atten", value)
+                    devFreqSlave.holdValue("atten", value)
+                })
+                hold.connect(function() {
+                    devFreqSlave.setHold("atten")
                 })
             }
         }
@@ -296,8 +302,11 @@ Window {
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
                 updated.connect(function (index) {
-                    devFreqMaster.setValue("ch_b", index)
-                    devFreqSlave.setValue("ch_b", index)
+                    devFreqMaster.holdValue("ch_b", index)
+                    devFreqSlave.holdValue("ch_b", index)
+                })
+                hold.connect(function() {
+                    devFreqSlave.setHold("ch_b")
                 })
             }
         }
@@ -361,7 +370,7 @@ Window {
         ComboText {
             id: comboSlaveLOB1
             posTop: comboSlaveVoltage.posBottom
-            posLeft: (rectSlave.width - marginWidget)
+            posLeft: 0
             txtText: qsTr("Local Oscillator") + " B1"
 
             Component.onCompleted: {
@@ -440,6 +449,17 @@ Window {
             posTop: comboSlave10Ref1.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4 * 2
             txtText: "Control Signal"
+        }
+
+        Button {
+            id: buttonSlaveSubmit
+            x: rectSlave.width - marginWidget - widthWidget
+            y: comboSlave10Ref1.posBottom + marginWidget
+            width: widthWidget
+            height: heightWidget
+            text: qsTr("Submit")
+
+            onClicked: devFreqSlave.createCntlMsg()
         }
     }
 

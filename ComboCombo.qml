@@ -12,6 +12,7 @@ Item {
     property alias txtText : text.text
     property alias comboModel : combo.model
 
+    signal hold()
     signal updated(int index)
 
     Text {
@@ -36,6 +37,12 @@ Item {
         width: widthWidget
         currentIndex: 1
 
-        onCurrentIndexChanged: blockComboCombo.updated(currentIndex)
+        onActiveFocusChanged: {
+            if (activeFocus) {
+                blockComboCombo.hold()
+            } else {
+                blockComboCombo.updated(currentIndex)
+            }
+        }
     }
 }
