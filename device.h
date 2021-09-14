@@ -35,6 +35,9 @@ class device : public QObject
     Q_PROPERTY(QDateTime    lastseen    MEMBER  lastseen NOTIFY gotData)
 public:
     explicit device(QObject *parent = nullptr);
+    friend device &operator<< (device &dev, const msgFreq &m);
+    friend device &operator<< (device &dev, const msgDist &m);
+    friend device &operator<< (device &dev, const msgAmp &m);
 
     inline static QList<device *> deviceList = {};
 
@@ -52,10 +55,6 @@ public:
         }
     }
 
-    friend device &operator<< (device &dev, const msgFreq &m);
-    friend device &operator<< (device &dev, const msgDist &m);
-    friend device &operator<< (device &dev, const msgAmp &m);
-
 signals:
     void idSet();
     void gotData();
@@ -65,72 +64,6 @@ public slots:
     {
         return this->trConcat(device::idName[this->dId]);
     }
-
-protected:
-    static const inline QHash<int, QList<std::string>> idName = {
-        {0x04, {"C1 ", QT_TR_NOOP("Down Frequency Conversion")}},
-        {0x05, {"C1 ", QT_TR_NOOP("Down Frequency Conversion")}},
-        {0x06, {"C2 ", QT_TR_NOOP("Down Frequency Conversion")}},
-        {0x07, {"C2 ", QT_TR_NOOP("Down Frequency Conversion")}},
-        {0x00, {"C1 ", QT_TR_NOOP("Up Frequency Conversion")}},
-        {0x01, {"C1 ", QT_TR_NOOP("Up Frequency Conversion")}},
-        {0x02, {"C2 ", QT_TR_NOOP("Up Frequency Conversion")}},
-        {0x03, {"C2 ", QT_TR_NOOP("Up Frequency Conversion")}},
-        {0x0A, {QT_TR_NOOP("Middle Frequency Distribution"), " A"}},
-        {0x0B, {QT_TR_NOOP("Middle Frequency Distribution"), " B"}},
-        {0x0C, {"C1 ", QT_TR_NOOP("High Amplification"), " A"}},
-        {0x0D, {"C1 ", QT_TR_NOOP("High Amplification"), " B"}},
-        {0x0E, {"C2 ", QT_TR_NOOP("High Amplification"), " A"}},
-        {0x0F, {"C2 ", QT_TR_NOOP("High Amplification"), " B"}}
-    };
-    int dId = 0;
-
-protected:
-    serial *lastSerial;
-    QDateTime lastseen;
-
-private:
-    QString str = QString();
-
-    protocol *query;
-    protocol *cntl;
-
-    inline static void push(device *dev)
-    {
-        device::deviceList << dev;
-    }
-};
-
-class devFreq : public device
-{
-    Q_OBJECT
-    /*
-    Q_PROPERTY(float            atten           MEMBER var["atten"].display         NOTIFY gotData)
-    Q_PROPERTY(alert::P_CH      ch_a            MEMBER var["ch_a"].display          NOTIFY gotData)
-    Q_PROPERTY(alert::P_CH      ch_b            MEMBER var["ch_b"].display          NOTIFY gotData)
-    Q_PROPERTY(int              voltage         MEMBER var["voltage"].display       NOTIFY gotData)
-    Q_PROPERTY(int              current         MEMBER var["current"].display       NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR     output_stat     MEMBER var["output_stat"].display   NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR     input_stat      MEMBER var["input_stat"].display    NOTIFY gotData)
-    Q_PROPERTY(alert::P_LOCK    lock_a1         MEMBER var["lock_a1"].display       NOTIFY gotData)
-    Q_PROPERTY(alert::P_LOCK    lock_a2         MEMBER var["lock_a2"].display       NOTIFY gotData)
-    Q_PROPERTY(alert::P_LOCK    lock_b1         MEMBER var["lock_b1"].display       NOTIFY gotData)
-    Q_PROPERTY(alert::P_LOCK    lock_b2         MEMBER var["lock_b2"].display       NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR     ref_10_1        MEMBER var["ref_10_1"].display      NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR     ref_10_2        MEMBER var["ref_10_2"].display      NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR     ref_10_inner    MEMBER var["ref_10_2"].display      NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR     ref_3           MEMBER var["ref_3"].display         NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR     ref_4           MEMBER var["ref_4"].display         NOTIFY gotData)
-    Q_PROPERTY(alert::P_HSK     handshake       MEMBER var["handshake"].display     NOTIFY gotData)
-    Q_PROPERTY(alert::P_MS      masterslave     MEMBER var["masterslave"].display   NOTIFY gotData)
-    */
-public:
-    explicit devFreq(device *parent = nullptr) : device(parent) {}
-    friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
-    friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
-
-public slots:
-    void createCntlMsg();
 
     inline const QString showDisplay(const QString itemName) const
     {
@@ -179,27 +112,76 @@ public slots:
         this->setValue(itemName, val);
     }
 
-private:
-    const QHash<QString, deviceVar *> var = {
-        {"atten",       new deviceVar(alert::P_ENUM_FLOAT)},
-        {"ch_a",        new deviceVar(alert::P_ENUM_CH)},
-        {"ch_b",        new deviceVar(alert::P_ENUM_CH)},
-        {"voltage",     new deviceVar(alert::P_ENUM_VOLTAGE)},
-        {"current",     new deviceVar(alert::P_ENUM_CURRENT)},
-        {"output_stat", new deviceVar(alert::P_ENUM_NOR)},
-        {"input_stat",  new deviceVar(alert::P_ENUM_NOR)},
-        {"lock_a1",     new deviceVar(alert::P_ENUM_LOCK)},
-        {"lock_a2",     new deviceVar(alert::P_ENUM_LOCK)},
-        {"lock_b1",     new deviceVar(alert::P_ENUM_LOCK)},
-        {"lock_b2",     new deviceVar(alert::P_ENUM_LOCK)},
-        {"ref_10_1",    new deviceVar(alert::P_ENUM_NOR)},
-        {"ref_10_2",    new deviceVar(alert::P_ENUM_NOR)},
-        {"ref_10_inner",new deviceVar(alert::P_ENUM_NOR)},
-        {"ref_3",       new deviceVar(alert::P_ENUM_NOR)},
-        {"ref_4",       new deviceVar(alert::P_ENUM_NOR)},
-        {"handshake",   new deviceVar(alert::P_ENUM_HSK)},
-        {"masterslave", new deviceVar(alert::P_ENUM_MS)}
+protected:
+    static const inline QHash<int, QList<std::string>> idName = {
+        {0x04, {"C1 ", QT_TR_NOOP("Down Frequency Conversion")}},
+        {0x05, {"C1 ", QT_TR_NOOP("Down Frequency Conversion")}},
+        {0x06, {"C2 ", QT_TR_NOOP("Down Frequency Conversion")}},
+        {0x07, {"C2 ", QT_TR_NOOP("Down Frequency Conversion")}},
+        {0x00, {"C1 ", QT_TR_NOOP("Up Frequency Conversion")}},
+        {0x01, {"C1 ", QT_TR_NOOP("Up Frequency Conversion")}},
+        {0x02, {"C2 ", QT_TR_NOOP("Up Frequency Conversion")}},
+        {0x03, {"C2 ", QT_TR_NOOP("Up Frequency Conversion")}},
+        {0x0A, {QT_TR_NOOP("Middle Frequency Distribution"), " A"}},
+        {0x0B, {QT_TR_NOOP("Middle Frequency Distribution"), " B"}},
+        {0x0C, {"C1 ", QT_TR_NOOP("High Amplification"), " A"}},
+        {0x0D, {"C1 ", QT_TR_NOOP("High Amplification"), " B"}},
+        {0x0E, {"C2 ", QT_TR_NOOP("High Amplification"), " A"}},
+        {0x0F, {"C2 ", QT_TR_NOOP("High Amplification"), " B"}}
     };
+    int dId = 0;
+
+protected:
+    serial *lastSerial;
+    QDateTime lastseen;
+    QHash<QString, deviceVar *> var;
+
+private:
+    QString str = QString();
+
+    protocol *query;
+    protocol *cntl;
+
+    inline static void push(device *dev)
+    {
+        device::deviceList << dev;
+    }
+};
+
+class devFreq : public device
+{
+    Q_OBJECT
+public:
+    explicit devFreq(device *parent = nullptr) : device(parent)
+    {
+        this->var = {
+            {"atten",       new deviceVar(alert::P_ENUM_FLOAT)},
+            {"ch_a",        new deviceVar(alert::P_ENUM_CH)},
+            {"ch_b",        new deviceVar(alert::P_ENUM_CH)},
+            {"voltage",     new deviceVar(alert::P_ENUM_VOLTAGE)},
+            {"current",     new deviceVar(alert::P_ENUM_CURRENT)},
+            {"output_stat", new deviceVar(alert::P_ENUM_NOR)},
+            {"input_stat",  new deviceVar(alert::P_ENUM_NOR)},
+            {"lock_a1",     new deviceVar(alert::P_ENUM_LOCK)},
+            {"lock_a2",     new deviceVar(alert::P_ENUM_LOCK)},
+            {"lock_b1",     new deviceVar(alert::P_ENUM_LOCK)},
+            {"lock_b2",     new deviceVar(alert::P_ENUM_LOCK)},
+            {"ref_10_1",    new deviceVar(alert::P_ENUM_NOR)},
+            {"ref_10_2",    new deviceVar(alert::P_ENUM_NOR)},
+            {"ref_10_inner",new deviceVar(alert::P_ENUM_NOR)},
+            {"ref_3",       new deviceVar(alert::P_ENUM_NOR)},
+            {"ref_4",       new deviceVar(alert::P_ENUM_NOR)},
+            {"handshake",   new deviceVar(alert::P_ENUM_HSK)},
+            {"masterslave", new deviceVar(alert::P_ENUM_MS)}
+        };
+    }
+    friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
+    friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
+
+public slots:
+    void createCntlMsg();
+
+private:
 };
 
 class devDist : public device
