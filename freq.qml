@@ -52,7 +52,22 @@ Window {
         posTop: marginRect - marginWidget
         txtText: qsTr("Current State")
 
-        Component.onCompleted: comboModel = Alert.addEnum("P_MS")
+        Component.onCompleted: {
+            comboModel = Alert.addEnum("P_MS")
+            indexChanged.connect(function(index) {
+                comboMasterAtten.submit()
+                comboMasterRef.submit()
+                comboSlaveAtten.submit()
+                comboSlaveRef.submit()
+
+                if (index === Alert.P_MS_MASTER)
+                    devFreqMaster.createCntlMsg()
+                else if (index === Alert.P_MS_SLAVE)
+                    devFreqSlave.createCntlMsg()
+
+                buttonReset.clicked()
+            })
+        }
     }
 
     Button {

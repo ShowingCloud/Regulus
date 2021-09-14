@@ -16,6 +16,7 @@ Item {
 
     signal hold()
     signal updated(int index)
+    signal indexChanged(int index)
     signal submit()
 
     Text {
@@ -51,6 +52,10 @@ Item {
             } else {
                 blockComboCombo.updated(currentIndex)
             }
+        }
+
+        onCurrentIndexChanged: {
+            blockComboCombo.indexChanged(currentIndex)
         }
     }
 
