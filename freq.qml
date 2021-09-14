@@ -283,14 +283,16 @@ Window {
 
             Component.onCompleted: {
                 slaveGotData.connect(function() {
-                    txtValue = devFreqSlave.showDisplay("atten") + " dB"
-                    colorValue = devFreqSlave.showColor("atten")
+                    if ((colorValue = devFreqSlave.showColor("atten")) !== Alert.MAP_COLOR["HOLDING"])
+                        txtValue = devFreqSlave.showDisplay("atten") + " dB"
                 })
                 updated.connect(function (value) {
                     devFreqSlave.holdValue("atten", value)
                 })
                 hold.connect(function() {
                     devFreqSlave.setHold("atten")
+                    colorValue = devFreqSlave.showColor("atten")
+                    txtValue = ""
                 })
             }
         }
@@ -309,6 +311,7 @@ Window {
                 })
                 hold.connect(function() {
                     devFreqSlave.setHold("ch_b")
+                    colorValue = devFreqSlave.showColor("ch_b")
                 })
             }
         }
