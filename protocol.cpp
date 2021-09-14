@@ -83,13 +83,6 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &
     */
 }
 
-void msgQuery::createQuery()
-{
-    this->identify = 0x00;
-    this->instruction = 0x01;
-    return;
-}
-
 void protocol::createQueryMsg(serial &s)
 {
     protocol *p = new protocol();
@@ -97,7 +90,6 @@ void protocol::createQueryMsg(serial &s)
 
     msgQuery *q = new msgQuery();
     p->downlink = q;
-    q->createQuery();
     s << *q;
 
     //msgCntlAmp *r = new msgCntlAmp();

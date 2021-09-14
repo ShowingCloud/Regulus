@@ -81,15 +81,16 @@ Window {
 
             Component.onCompleted: {
                 masterGotData.connect(function() {
-                    if ((colorValue = devFreqMaster.showColor("atten")) !== Alert.STR_COLOR[Alert.P_COLOR_HOLDING])
+                    if ((colorValue = devFreqMaster.showColor("atten")) !== Alert.MAP_COLOR["HOLDING"])
                         txtValue = devFreqMaster.showDisplay("atten") + " dB"
-                    console.log(Alert.P_COLOR_HOLDING)
                 })
                 updated.connect(function (value) {
                     devFreqMaster.holdValue("atten", value)
                 })
                 hold.connect(function() {
                     devFreqMaster.setHold("atten")
+                    colorValue = devFreqMaster.showColor("atten")
+                    txtValue = ""
                 })
             }
         }
@@ -108,6 +109,7 @@ Window {
                 })
                 hold.connect(function() {
                     devFreqMaster.setHold("ch_a")
+                    colorValue = devFreqMaster.showColor("ch_a")
                 })
             }
         }

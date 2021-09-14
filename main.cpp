@@ -20,13 +20,6 @@ int main(int argc, char *argv[])
     translator.load(":/zh_CN");
     app.installTranslator(&translator);
 
-    qRegisterMetaType<alert::P_NOR>("alert::P_NOR");
-    qRegisterMetaType<alert::P_LOCK>("alert::P_LOCK");
-    qRegisterMetaType<alert::P_MS>("alert::P_MS");
-    qRegisterMetaType<alert::P_HSK>("alert::P_HSK");
-    qRegisterMetaType<alert::P_ATTEN>("alert::P_ATTEN");
-    qRegisterMetaType<alert::P_STAT>("alert::P_STAT");
-    qRegisterMetaType<alert::P_CH>("alert::P_CH");
     qmlRegisterType<devFreq>("rdss.device", 1, 0, "DevFreq");
     qmlRegisterType<devDist>("rdss.device", 1, 0, "DevDist");
     qmlRegisterType<devAmp>("rdss.device", 1, 0, "DevAmp");

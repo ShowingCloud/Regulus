@@ -5,7 +5,6 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QDateTime>
-#include <QDebug>
 
 class msg;
 class msgQuery;

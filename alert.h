@@ -17,9 +17,9 @@ class alert : public QObject
     Q_ENUMS(P_CH)
     Q_ENUMS(P_ENUM)
     Q_ENUMS(P_COLOR)
-    //Q_PROPERTY(QHash<P_COLOR, QString> STR_COLOR MEMBER STR_COLOR)
+    Q_PROPERTY(QVariantMap MAP_COLOR MEMBER MAP_COLOR CONSTANT)
 public:
-    explicit alert(QObject *parent = nullptr);
+    explicit alert(QObject *parent = nullptr) {Q_UNUSED(parent)};
 
     enum P_NOR { P_NOR_ABNORMAL = 0, P_NOR_NORMAL = 1, P_NOR_STANDBY = 2, P_NOR_OTHERS };
     enum P_LOCK { P_LOCK_UNLOCK = 0, P_LOCK_LOCKED = 1, P_LOCK_STANDBY = 2, P_LOCK_OTHERS };
@@ -39,6 +39,13 @@ public:
         {P_COLOR_STANDBY, "yellow"},
         {P_COLOR_HOLDING, "blue"},
         {P_COLOR_OTHERS, "black"}
+    };
+    static const inline QVariantMap MAP_COLOR = { /* Using QVariantMap until something supported by Qt */
+        {"NORMAL", STR_COLOR[P_COLOR_NORMAL]},
+        {"ABNORMAL", STR_COLOR[P_COLOR_ABNORMAL]},
+        {"STANDBY", STR_COLOR[P_COLOR_STANDBY]},
+        {"HOLDING", STR_COLOR[P_COLOR_HOLDING]},
+        {"OTHERS", STR_COLOR[P_COLOR_NORMAL]},
     };
 
     static const inline QHash<P_NOR, QString> STR_NOR = {
@@ -97,6 +104,7 @@ Q_DECLARE_METATYPE(alert::P_ATTEN)
 Q_DECLARE_METATYPE(alert::P_STAT)
 Q_DECLARE_METATYPE(alert::P_CH)
 Q_DECLARE_METATYPE(alert::P_ENUM)
+Q_DECLARE_METATYPE(alert::P_COLOR)
 
 class deviceVar : public QObject
 {

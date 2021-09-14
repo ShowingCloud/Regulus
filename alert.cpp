@@ -3,11 +3,6 @@
 #include <QMetaEnum>
 #include <iso646.h>
 
-alert::alert(QObject *parent) : QObject(parent)
-{
-
-}
-
 QVariant alert::setValue(const QVariant val, const P_ENUM e)
 {
     QVariant ret;
