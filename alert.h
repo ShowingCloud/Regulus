@@ -17,7 +17,7 @@ class alert : public QObject
     Q_ENUMS(P_CH)
     Q_ENUMS(P_ENUM)
     Q_ENUMS(P_COLOR)
-    Q_PROPERTY(QHash<P_COLOR, QString> STR_COLOR MEMBER STR_COLOR)
+    //Q_PROPERTY(QHash<P_COLOR, QString> STR_COLOR MEMBER STR_COLOR)
 public:
     explicit alert(QObject *parent = nullptr);
 

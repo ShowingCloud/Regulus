@@ -4,6 +4,7 @@
 
 #include <QDateTime>
 #include <QDebug>
+#include <iso646.h>
 
 device::device(QObject *parent) : QObject(parent)
 {
@@ -136,7 +137,7 @@ void devFreq::createCntlMsg()
     *this >> *q;
     q->setDeviceId(this->dId);
 
-    if (this->lastSerial && QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
+    if (this->lastSerial and QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
         qDebug() << "create msg: sending one";
         *this->lastSerial << *q;
     } else {
@@ -159,7 +160,7 @@ void devDist::createCntlMsg()
     *this >> *q;
     q->setDeviceId(this->dId);
 
-    if (this->lastSerial && QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
+    if (this->lastSerial and QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
         qDebug() << "create msg: sending one";
         *this->lastSerial << *q;
     } else {
@@ -182,7 +183,7 @@ void devAmp::createCntlMsg()
     *this >> *q;
     q->setDeviceId(this->dId);
 
-    if (this->lastSerial && QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
+    if (this->lastSerial and QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
         qDebug() << "create msg: sending one";
         *this->lastSerial << *q;
     } else {

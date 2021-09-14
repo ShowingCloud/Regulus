@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <iso646.h>
 
 #include "protocol.h"
 #include "serial.h"
@@ -10,7 +11,7 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &
     const char msg_header = static_cast<char>(msg::header), msg_tailer = static_cast<char>(msg::tailer);
     do {
         head = buffer.indexOf(msg_header, head);
-        if (buffer.length() >= head + msgUplink::mlen && buffer.at(head + msgUplink::mlen - 1) == msg_tailer) {
+        if (buffer.length() >= head + msgUplink::mlen and buffer.at(head + msgUplink::mlen - 1) == msg_tailer) {
             msg *m = new msg();
             m->serialport = s;
             if (buffer.length() == msgUplink::mlen) {
@@ -38,7 +39,7 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &
                     // TODO: log
                     return VAL_TOOLONG;
                 }
-            } while (tail != -1 && tail - head < msgUplink::mlen);
+            } while (tail != -1 and tail - head < msgUplink::mlen);
         }
     } while (head != -1);
 

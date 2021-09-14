@@ -1,6 +1,7 @@
 #include "alert.h"
 
 #include <QMetaEnum>
+#include <iso646.h>
 
 alert::alert(QObject *parent) : QObject(parent)
 {
@@ -13,25 +14,25 @@ QVariant alert::setValue(const QVariant val, const P_ENUM e)
 
     switch (e) {
     case P_ENUM_NOR:
-        ret = (val.value<int>() >= 0 && val.value<int>() < P_NOR_OTHERS) ? val.value<int>() : P_NOR_OTHERS;
+        ret = (val.value<int>() >= 0 and val.value<int>() < P_NOR_OTHERS) ? val.value<int>() : P_NOR_OTHERS;
         break;
     case P_ENUM_LOCK:
-        ret = (val.value<int>() >= 0 && val.value<int>() < P_LOCK_OTHERS) ? val.value<int>() : P_LOCK_OTHERS;
+        ret = (val.value<int>() >= 0 and val.value<int>() < P_LOCK_OTHERS) ? val.value<int>() : P_LOCK_OTHERS;
         break;
     case P_ENUM_MS:
-        ret = (val.value<int>() >= 0 && val.value<int>() < P_MS_OTHERS) ? val.value<int>() : P_MS_OTHERS;
+        ret = (val.value<int>() >= 0 and val.value<int>() < P_MS_OTHERS) ? val.value<int>() : P_MS_OTHERS;
         break;
     case P_ENUM_HSK:
-        ret = (val.value<int>() >= 0 && val.value<int>() < P_HSK_OTHERS) ? val.value<int>() : P_HSK_OTHERS;
+        ret = (val.value<int>() >= 0 and val.value<int>() < P_HSK_OTHERS) ? val.value<int>() : P_HSK_OTHERS;
         break;
     case P_ENUM_ATTEN:
-        ret = (val.value<int>() >= 0 && val.value<int>() < P_ATTEN_OTHERS) ? val.value<int>() : P_ATTEN_OTHERS;
+        ret = (val.value<int>() >= 0 and val.value<int>() < P_ATTEN_OTHERS) ? val.value<int>() : P_ATTEN_OTHERS;
         break;
     case P_ENUM_STAT:
-        ret = (val.value<int>() >= 0 && val.value<int>() < P_STAT_OTHERS) ? val.value<int>() : P_STAT_OTHERS;
+        ret = (val.value<int>() >= 0 and val.value<int>() < P_STAT_OTHERS) ? val.value<int>() : P_STAT_OTHERS;
         break;
     case P_ENUM_CH:
-        ret = (val.value<int>() >= 0 && val.value<int>() < P_CH_OTHERS) ? val.value<int>() : P_CH_OTHERS;
+        ret = (val.value<int>() >= 0 and val.value<int>() < P_CH_OTHERS) ? val.value<int>() : P_CH_OTHERS;
         break;
     case P_ENUM_INT:
     case P_ENUM_CURRENT:
@@ -96,12 +97,12 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e)
             return P_NOR_OTHERS;
         }
     case P_ENUM_VOLTAGE:
-        if (val.value<int>() > 15 || val.value<int>() < 10)
+        if (val.value<int>() > 15 or val.value<int>() < 10)
             return P_NOR_ABNORMAL;
         else
             return P_NOR_NORMAL;
     case P_ENUM_CURRENT:
-        if (val.value<int>() > 3000 || val.value<int>() < 100)
+        if (val.value<int>() > 3000 or val.value<int>() < 100)
             return P_NOR_ABNORMAL;
         else
             return P_NOR_NORMAL;

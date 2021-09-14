@@ -3,7 +3,9 @@
 
 #include <QObject>
 #include <QSerialPort>
+#include <QSerialPortInfo>
 #include <QDateTime>
+#include <QDebug>
 
 class msg;
 class msgQuery;
@@ -28,6 +30,11 @@ public:
     inline bool timedout()
     {
         return QDateTime::currentDateTime().secsTo(lastseen) < serial::timeout;
+    }
+
+    inline bool has(const QSerialPortInfo &info)
+    {
+        return this->serialport->portName() == info.portName();
     }
 
     inline const static enum QSerialPort::BaudRate baudrate = QSerialPort::Baud115200;

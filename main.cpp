@@ -46,19 +46,29 @@ int main(int argc, char *argv[])
 
     database db(&app);
 
-    for (const QSerialPortInfo &serialportinfo : QSerialPortInfo::availablePorts())
-    {
-        serial *s = new serial(serialportinfo);
-        serial::serialList << s;
+    QTimer *searchSerialTimer = new QTimer(&app);
+    QObject::connect(searchSerialTimer, &QTimer::timeout, [&]() {
+        for (const QSerialPortInfo &serialportinfo : QSerialPortInfo::availablePorts())
+        {
+            for (serial *inlist : qAsConst(serial::serialList))
+                if (inlist->has(serialportinfo))
+                    return;
 
-        QTimer *timer = new QTimer(&app);
-        QObject::connect(timer, &QTimer::timeout, [=]() {
-            protocol::createQueryMsg(*s);
-            s->readFakeData();
-        });
-        timer->start(1000);
-    }
-    qDebug() << "Serial List: " << serial::serialList;
+            serial *s = new serial(serialportinfo);
+            serial::serialList << s;
+
+            QTimer *timer = new QTimer(&app);
+            QObject::connect(timer, &QTimer::timeout, [=]() {
+                protocol::createQueryMsg(*s);
+                s->readFakeData();
+                timer->start(1000);
+            });
+            timer->start(0);
+        }
+        searchSerialTimer->start(10000);
+        qDebug() << "Serial List: " << serial::serialList;
+    });
+    searchSerialTimer->start(0);
 
     return app.exec();
 }
