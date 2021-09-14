@@ -12,7 +12,8 @@ Item {
     property alias colorValue : value.textColor
 
     signal hold()
-    signal updated(int value)
+    signal updated(double value)
+    signal submit()
 
     Text {
         id: text
@@ -49,9 +50,11 @@ Item {
                 if (activeFocus) {
                     blockComboTextField.hold()
                 } else {
-                    blockComboTextField.updated(parseFloat(value.text) * 2)
+                    blockComboTextField.updated(parseFloat(value.text))
                 }
             }
         }
     }
+
+    onSubmit: blockComboTextField.updated(parseFloat(value.text))
 }

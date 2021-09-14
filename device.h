@@ -34,7 +34,7 @@ class device : public QObject
     Q_PROPERTY(QString      str         MEMBER  str      NOTIFY gotData)
     Q_PROPERTY(QDateTime    lastseen    MEMBER  lastseen NOTIFY gotData)
 public:
-    explicit device(QObject *parent = nullptr);
+    explicit device(const QHash<QString, deviceVar *> var, QObject *parent = nullptr);
     friend device &operator<< (device &dev, const msgFreq &m);
     friend device &operator<< (device &dev, const msgDist &m);
     friend device &operator<< (device &dev, const msgAmp &m);
@@ -88,13 +88,13 @@ public slots:
         return "green";
     }
 
-    inline void setValue(const QString itemName, const QVariant val)
+    inline QVariant getValue(const QString itemName)
     {
         if (var[itemName.toUtf8()] == nullptr) {
             qDebug() << "Missing item " << itemName;
-            return;
+            return QVariant();
         }
-        var[itemName.toUtf8()]->setValue(val);
+        return var[itemName.toUtf8()]->getValue();
     }
 
     inline void setHold(const QString itemName)
@@ -104,12 +104,38 @@ public slots:
             return;
         }
         var[itemName.toUtf8()]->holding = true;
+        var[itemName.toUtf8()]->v_hold = var[itemName.toUtf8()]->value;
+    }
+
+    inline void releaseHold(const QString itemName)
+    {
+        if (var[itemName.toUtf8()] == nullptr) {
+            qDebug() << "Missing item " << itemName;
+            return;
+        }
+        var[itemName.toUtf8()]->holding = false;
+        var[itemName.toUtf8()]->setValue(var[itemName.toUtf8()]->value);
+        // The above line is for displaying
+    }
+
+    inline void submitHold(const QString itemName) /* not in use */
+    {
+        if (var[itemName.toUtf8()] == nullptr) {
+            qDebug() << "Missing item " << itemName;
+            return;
+        }
+        var[itemName.toUtf8()]->setValue(var[itemName.toUtf8()]->v_hold);
+        var[itemName.toUtf8()]->holding = false;
     }
 
     inline void holdValue(const QString itemName, const QVariant val)
     {
-        this->setHold(itemName);
-        this->setValue(itemName, val);
+        if (var[itemName.toUtf8()] == nullptr) {
+            qDebug() << "Missing item " << itemName;
+            return;
+        }
+        var[itemName.toUtf8()]->holding = true;
+        var[itemName.toUtf8()]->v_hold = val;
     }
 
 protected:
@@ -130,11 +156,9 @@ protected:
         {0x0F, {"C2 ", QT_TR_NOOP("High Amplification"), " B"}}
     };
     int dId = 0;
-
-protected:
     serial *lastSerial;
     QDateTime lastseen;
-    QHash<QString, deviceVar *> var;
+    const QHash<QString, deviceVar *> var;
 
 private:
     QString str = QString();
@@ -152,9 +176,7 @@ class devFreq : public device
 {
     Q_OBJECT
 public:
-    explicit devFreq(device *parent = nullptr) : device(parent)
-    {
-        this->var = {
+    explicit devFreq(device *parent = nullptr) : device({
             {"atten",       new deviceVar(alert::P_ENUM_FLOAT)},
             {"ch_a",        new deviceVar(alert::P_ENUM_CH)},
             {"ch_b",        new deviceVar(alert::P_ENUM_CH)},
@@ -173,8 +195,7 @@ public:
             {"ref_4",       new deviceVar(alert::P_ENUM_NOR)},
             {"handshake",   new deviceVar(alert::P_ENUM_HSK)},
             {"masterslave", new deviceVar(alert::P_ENUM_MS)}
-        };
-    }
+    }, parent) {}
     friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
     friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
 
@@ -196,7 +217,7 @@ class devDist : public device
     Q_PROPERTY(alert::P_NOR lock_16_1   MEMBER lock_16_1 NOTIFY gotData)
     Q_PROPERTY(alert::P_NOR lock_16_2   MEMBER lock_16_2 NOTIFY gotData)
 public:
-    explicit devDist(device *parent = nullptr) : device(parent) {}
+    explicit devDist(device *parent = nullptr) : device({}, parent) {}
     friend devDist &operator<< (devDist &dev, const msgDist &m);
     friend const devDist &operator>> (const devDist &dev, msgCntlDist &m);
 
@@ -232,7 +253,7 @@ class devAmp : public device
     Q_PROPERTY(alert::P_HSK     handshake       MEMBER handshake    NOTIFY gotData)
     Q_PROPERTY(alert::P_ATTEN   atten_mode      MEMBER atten_mode   NOTIFY gotData)
 public:
-    explicit devAmp(device *parent = nullptr) : device(parent) {}
+    explicit devAmp(device *parent = nullptr) : device({}, parent) {}
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
 

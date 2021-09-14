@@ -62,6 +62,20 @@ Window {
         width: widthWidget
         height: heightWidget
         text: qsTr("Reset")
+
+        onClicked: {
+            forceActiveFocus()
+            devFreqMaster.releaseHold("atten")
+            comboMasterAtten.colorValue = devFreqMaster.showColor("atten")
+            comboMasterAtten.txtValue = devFreqMaster.showDisplay("atten") + " dB"
+            devFreqSlave.releaseHold("atten")
+            comboSlaveAtten.colorValue = devFreqSlave.showColor("atten")
+            comboSlaveAtten.txtValue = devFreqSlave.showDisplay("atten") + " dB"
+            devFreqMaster.releaseHold("ch_a")
+            comboMasterRef.colorValue = devFreqMaster.showColor("ch_a")
+            devFreqSlave.releaseHold("ch_b")
+            comboSlaveRef.colorValue = devFreqSlave.showColor("ch_b")
+        }
     }
 
     Rectangle {
@@ -85,7 +99,8 @@ Window {
                         txtValue = devFreqMaster.showDisplay("atten") + " dB"
                 })
                 updated.connect(function (value) {
-                    devFreqMaster.holdValue("atten", value)
+                    if (value !== "" && !isNaN(value))
+                        devFreqMaster.holdValue("atten", value)
                 })
                 hold.connect(function() {
                     devFreqMaster.setHold("atten")
@@ -262,7 +277,14 @@ Window {
             height: heightWidget
             text: qsTr("Submit")
 
-            onClicked: devFreqMaster.createCntlMsg()
+            onClicked: {
+                comboMasterAtten.submit()
+                comboMasterRef.submit()
+                comboSlaveAtten.submit()
+                comboSlaveRef.submit()
+                devFreqMaster.createCntlMsg()
+                buttonReset.clicked()
+            }
         }
     }
 
@@ -287,7 +309,8 @@ Window {
                         txtValue = devFreqSlave.showDisplay("atten") + " dB"
                 })
                 updated.connect(function (value) {
-                    devFreqSlave.holdValue("atten", value)
+                    if (value !== "" && !isNaN(value))
+                        devFreqSlave.holdValue("atten", value)
                 })
                 hold.connect(function() {
                     devFreqSlave.setHold("atten")
@@ -464,7 +487,14 @@ Window {
             height: heightWidget
             text: qsTr("Submit")
 
-            onClicked: devFreqSlave.createCntlMsg()
+            onClicked: {
+                comboMasterAtten.submit()
+                comboMasterRef.submit()
+                comboSlaveAtten.submit()
+                comboSlaveRef.submit()
+                devFreqSlave.createCntlMsg()
+                buttonReset.clicked()
+            }
         }
     }
 

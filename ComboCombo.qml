@@ -16,6 +16,7 @@ Item {
 
     signal hold()
     signal updated(int index)
+    signal submit()
 
     Text {
         id: text
@@ -52,4 +53,6 @@ Item {
             }
         }
     }
+
+    onSubmit: blockComboCombo.updated(combo.currentIndex)
 }

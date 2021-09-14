@@ -1,6 +1,7 @@
 #include "alert.h"
 
 #include <QMetaEnum>
+#include <QDebug>
 #include <iso646.h>
 
 QVariant alert::setValue(const QVariant val, const P_ENUM e)
@@ -35,7 +36,7 @@ QVariant alert::setValue(const QVariant val, const P_ENUM e)
         ret = val.value<int>();
         break;
     case P_ENUM_FLOAT:
-        ret = 0.5f * val.value<float>();
+        ret = 0.5f * val.value<int>();
         break;
     }
 
@@ -134,9 +135,11 @@ QString alert::setDisplay(const QVariant val, const P_ENUM e)
         v = STR_CH[val.value<P_CH>()];
         break;
     case P_ENUM_INT:
-    case P_ENUM_FLOAT:
     case P_ENUM_CURRENT:
     case P_ENUM_VOLTAGE:
+        v = val.toString();
+        break;
+    case P_ENUM_FLOAT:
         v = val.toString();
         break;
     }
@@ -212,23 +215,20 @@ deviceVar::deviceVar(const alert::P_ENUM type, QObject *parent) : QObject(parent
 
 void deviceVar::setValue(const QVariant value)
 {
-    this->value = alert::setValue(value, this->type);
-    this->stat = alert::setState(value, this->type);
-    this->display = alert::setDisplay(value, this->type);
-}
-
-void deviceVar::holdValue(const QVariant value)
-{
-    this->v_hold = alert::setValue(value, this->type);
+    if (not this->holding) {
+        this->value = alert::setValue(value, this->type);
+        this->stat = alert::setState(this->value, this->type);
+        this->display = alert::setDisplay(this->value, this->type);
+    }
 }
 
 int deviceVar::getValue()
 {
     QVariant *ret;
-    if (holding)
-        ret = &value;
+    if (this->holding)
+        ret = &this->v_hold;
     else
-        ret = &value;
+        ret = &this->value;
 
     switch (type) {
     case alert::P_ENUM_NOR:
@@ -243,7 +243,7 @@ int deviceVar::getValue()
     case alert::P_ENUM_VOLTAGE:
         return ret->value<int>();
     case alert::P_ENUM_FLOAT:
-        return static_cast<int>(ret->value<float>());
+        return static_cast<int>(ret->value<float>() * 2);
     }
 
     qDebug() << "Shouldn't get here";

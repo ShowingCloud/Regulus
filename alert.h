@@ -113,7 +113,6 @@ public:
     explicit deviceVar(const alert::P_ENUM type, QObject *parent = nullptr);
 
     void setValue(const QVariant value);
-    void holdValue(const QVariant value);
     int getValue();
     QString getColor();
 

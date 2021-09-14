@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <iso646.h>
 
-device::device(QObject *parent) : QObject(parent)
+device::device(QHash<QString, deviceVar*> var, QObject *parent) : QObject(parent), var(var)
 {
     device::push(this);
 }
