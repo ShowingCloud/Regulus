@@ -11,7 +11,7 @@ Window {
     readonly property int widthWidgetLabel: 150
     readonly property int widthWidget: 150
     readonly property int marginRect: 30
-    readonly property bool devFreqUp: false
+    property bool devFreqUp: false
 
     id: winFreq
     visible: false
@@ -22,7 +22,7 @@ Window {
 
     property QtObject devFreqMaster
     property QtObject devFreqSlave
-    signal opened(QtObject devMaster, QtObject devSlave)
+    signal opened(QtObject devMaster, QtObject devSlave, bool devUp)
     signal masterGotData()
     signal slaveGotData()
 
