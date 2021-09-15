@@ -62,6 +62,7 @@ Item {
 
         RectDevFreq {
             devFreq: devFreqMaster
+            devIsMaster: true
         }
     }
 
@@ -85,6 +86,7 @@ Item {
 
         RectDevFreq {
             devFreq: devFreqSlave
+            devIsMaster: false
         }
     }
 }

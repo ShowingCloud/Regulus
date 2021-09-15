@@ -23,10 +23,16 @@
 <context>
     <name>RectDevFreq</name>
     <message>
-        <location filename="RectDevFreq.qml" line="89"/>
-        <location filename="RectDevFreq.qml" line="97"/>
+        <location filename="RectDevFreq.qml" line="90"/>
+        <location filename="RectDevFreq.qml" line="98"/>
         <source>radio</source>
         <translation>射频</translation>
+    </message>
+    <message>
+        <location filename="RectDevFreq.qml" line="270"/>
+        <location filename="RectDevFreq.qml" line="278"/>
+        <source>Inner Ref</source>
+        <translation>内参</translation>
     </message>
     <message>
         <source>normal</source>
@@ -37,8 +43,8 @@
         <translation type="vanished">异常</translation>
     </message>
     <message>
-        <location filename="RectDevFreq.qml" line="109"/>
-        <location filename="RectDevFreq.qml" line="117"/>
+        <location filename="RectDevFreq.qml" line="110"/>
+        <location filename="RectDevFreq.qml" line="118"/>
         <source>mid freq</source>
         <translation>中频</translation>
     </message>

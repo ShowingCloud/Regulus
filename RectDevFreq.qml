@@ -5,6 +5,7 @@ import rdss.alert 1.0
 
 Item {
     property QtObject devFreq
+    property bool devIsMaster
 
     StatusIndicator {
         id: ind
@@ -80,12 +81,12 @@ Item {
     }
 
     Text {
-        id: txtOutput
+        id: txtRadio
         anchors.top: txtPower.bottom
         anchors.left: ind.right
         anchors.leftMargin: marginIndicators
         height: rackFreqBoxFreqHeight / 3
-        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
+        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 3
         text: qsTr("radio") + devFreq.showDisplay("radio_stat")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -101,11 +102,11 @@ Item {
     }
 
     Text {
-        id: txtInput
+        id: txtMid
         anchors.top: txtPower.bottom
-        anchors.left: txtOutput.right
+        anchors.left: txtRadio.right
         height: rackFreqBoxFreqHeight / 3
-        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
+        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 3
         text: qsTr("mid freq") + devFreq.showDisplay("mid_stat")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -123,23 +124,25 @@ Item {
     Text {
         id: txtA1Lock
         anchors.top: txtPower.bottom
-        anchors.left: txtInput.right
+        anchors.left: txtMid.right
         height: rackFreqBoxFreqHeight / 3
-        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: "A1" + devFreq.showDisplay("lock_a1")
+        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 3
+        text: "A1 " + devFreq.showDisplay("lock_a1")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
+        visible: devIsMaster
 
         Component.onCompleted: {
             devFreq.gotData.connect(function() {
-                text = devFreq.showDisplay("lock_a1")
+                text = "A1 " + devFreq.showDisplay("lock_a1")
                 color = devFreq.showColor("lock_a1")
             })
         }
     }
 
+    /*
     Text {
         id: txtA2Lock
         anchors.top: txtPower.bottom
@@ -159,27 +162,30 @@ Item {
             })
         }
     }
+    */
 
     Text {
         id: txtB1Lock
         anchors.top: txtPower.bottom
-        anchors.left: txtA2Lock.right
+        anchors.left: txtMid.right
         height: rackFreqBoxFreqHeight / 3
-        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: "B1" + devFreq.showDisplay("lock_b1")
+        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 3
+        text: "B1 " + devFreq.showDisplay("lock_b1")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
+        visible: (!devIsMaster)
 
         Component.onCompleted: {
             devFreq.gotData.connect(function() {
-                text = devFreq.showDisplay("lock_b1")
+                text = "B1 " + devFreq.showDisplay("lock_b1")
                 color = devFreq.showColor("lock_b1")
             })
         }
     }
 
+    /*
     Text {
         id: txtB2Lock
         anchors.top: txtPower.bottom
@@ -199,14 +205,15 @@ Item {
             })
         }
     }
+    */
 
     Text {
         id: txt10
-        anchors.top: txtOutput.bottom
+        anchors.top: txtRadio.bottom
         anchors.left: ind.right
         anchors.leftMargin: marginIndicators
         height: rackFreqBoxFreqHeight / 3
-        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
+        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 4
         text: "10MHz"
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -216,11 +223,11 @@ Item {
 
     Text {
         id: txt10r1
-        anchors.top: txtOutput.bottom
+        anchors.top: txtRadio.bottom
         anchors.left: txt10.right
         height: rackFreqBoxFreqHeight / 3
-        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: devFreq.showDisplay("ref_10_1")
+        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 4
+        text: "1 " + devFreq.showDisplay("ref_10_1")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -228,7 +235,7 @@ Item {
 
         Component.onCompleted: {
             devFreq.gotData.connect(function() {
-                text = devFreq.showDisplay("ref_10_1")
+                text = "1 " + devFreq.showDisplay("ref_10_1")
                 color = devFreq.showColor("ref_10_1")
             })
         }
@@ -236,11 +243,11 @@ Item {
 
     Text {
         id: txt10r2
-        anchors.top: txtOutput.bottom
+        anchors.top: txtRadio.bottom
         anchors.left: txt10r1.right
         height: rackFreqBoxFreqHeight / 3
-        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: devFreq.showDisplay("ref_10_2")
+        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 4
+        text: "2 " + devFreq.showDisplay("ref_10_2")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -248,32 +255,19 @@ Item {
 
         Component.onCompleted: {
             devFreq.gotData.connect(function() {
-                text = devFreq.showDisplay("ref_10_2")
+                text = "2 " + devFreq.showDisplay("ref_10_2")
                 color = devFreq.showColor("ref_10_2")
             })
         }
     }
 
     Text {
-        id: txt16
-        anchors.top: txtOutput.bottom
+        id: txt10Inner
+        anchors.top: txtRadio.bottom
         anchors.left: txt10r2.right
         height: rackFreqBoxFreqHeight / 3
-        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: "16MHz"
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
-        horizontalAlignment: Text.AlignLeft
-        font.pixelSize: rectSmallFontSize
-    }
-
-    Text {
-        id: txt16r1
-        anchors.top: txtOutput.bottom
-        anchors.left: txt16.right
-        height: rackFreqBoxFreqHeight / 3
-        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: devFreq.showDisplay("ref_3")
+        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 4
+        text: qsTr("Inner Ref") + devFreq.showDisplay("ref_10_inner")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -281,28 +275,8 @@ Item {
 
         Component.onCompleted: {
             devFreq.gotData.connect(function() {
-                text = devFreq.showDisplay("ref_3")
-                color = devFreq.showColor("ref_3")
-            })
-        }
-    }
-
-    Text {
-        id: txt16r2
-        anchors.top: txtOutput.bottom
-        anchors.left: txt16r1.right
-        height: rackFreqBoxFreqHeight / 3
-        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: devFreq.showDisplay("ref_4")
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
-        horizontalAlignment: Text.AlignLeft
-        font.pixelSize: rectSmallFontSize
-
-        Component.onCompleted: {
-            devFreq.gotData.connect(function() {
-                text = devFreq.showDisplay("ref_4")
-                color = devFreq.showColor("ref_4")
+                text = qsTr("Inner Ref") + devFreq.showDisplay("ref_10_inner")
+                color = devFreq.showColor("ref_10_inner")
             })
         }
     }
