@@ -13,10 +13,11 @@ Item {
     property alias txtText : text.text
     property alias comboModel : combo.model
     property string colorValue : "black"
+    property alias index : combo.currentIndex
 
     signal hold()
     signal updated(int index)
-    signal indexChanged(int index)
+    signal changedIndex(int index)
     signal submit()
 
     Text {
@@ -73,7 +74,7 @@ Item {
         }
 
         onCurrentIndexChanged: {
-            blockComboCombo.indexChanged(currentIndex)
+            blockComboCombo.changedIndex(currentIndex)
         }
     }
 

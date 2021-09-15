@@ -168,7 +168,7 @@ msgFreq &operator<< (msgFreq &m, const QByteArray &data)
                       >> m.current >> m.radio_stat >> m.mid_stat >> m.lock_a1
                       >> m.lock_a2 >> m.lock_b1 >> m.lock_b2 >> m.ref_10_1
                       >> m.ref_10_2 >> m.ref_3 >> m.ref_4 >> m.holder8 /* device */
-                      >> m.handshake >> m.serialId >> m.holder8 >> m.holder8 /* tailer */;
+                      >> m.handshake >> m.serialId >> m.masterslave >> m.holder8 /* tailer */;
     device::updateDevice(m);
     return m;
 }

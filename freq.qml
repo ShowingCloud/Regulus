@@ -57,7 +57,11 @@ Window {
 
         Component.onCompleted: {
             comboModel = Alert.addEnum("P_MS")
-            indexChanged.connect(function(index) {
+            masterGotData.connect(function() {
+                index = devFreqMaster.getValue("masterslave")
+                colorValue = devFreqMaster.showColor("masterslave")
+            })
+            changedIndex.connect(function(index) {
                 comboMasterAtten.submit()
                 comboMasterRef.submit()
                 comboSlaveAtten.submit()

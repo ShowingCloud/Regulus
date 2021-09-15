@@ -71,6 +71,7 @@ devFreq &operator<< (devFreq &dev, const msgFreq &m)
     dev.var["ref_3"]->setValue(m.ref_3);
     dev.var["ref_4"]->setValue(m.ref_4);
     dev.var["handshake"]->setValue(m.handshake);
+    dev.var["masterslave"]->setValue(m.masterslave);
 
     emit dev.gotData();
     return dev;

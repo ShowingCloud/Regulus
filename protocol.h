@@ -108,6 +108,7 @@ private:
     quint8 ref_3 = quint8();
     quint8 ref_4 = quint8();
     quint8 handshake = quint8();
+    quint8 masterslave = quint8();
 };
 
 class msgDist : public msgUplink
