@@ -9,6 +9,7 @@ Item {
     property int posTop : 0
     property int posRight : devMaster.x + devMaster.width
     property int posBottom : devSlave.y + devSlave.height
+    property bool devFreqUp: false
 
     DevFreq {
         id: devFreqMaster
@@ -37,7 +38,7 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinFreq.setVisible(true)
-                objWinFreq.opened(devFreqMaster, devFreqSlave)
+                objWinFreq.opened(devFreqMaster, devFreqSlave, devFreqUp)
             }
         }
     }
@@ -55,7 +56,7 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinFreq.setVisible(true)
-                objWinFreq.opened(devFreqMaster, devFreqSlave)
+                objWinFreq.opened(devFreqMaster, devFreqSlave, devFreqUp)
             }
         }
 
@@ -78,7 +79,7 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinFreq.setVisible(true)
-                objWinFreq.opened(devFreqMaster, devFreqSlave)
+                objWinFreq.opened(devFreqMaster, devFreqSlave, devFreqUp)
             }
         }
 

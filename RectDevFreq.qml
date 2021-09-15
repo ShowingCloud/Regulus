@@ -86,7 +86,7 @@ Item {
         anchors.leftMargin: marginIndicators
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: qsTr("radio") + devFreq.showDisplay("output_stat")
+        text: qsTr("radio") + devFreq.showDisplay("radio_stat")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -94,8 +94,8 @@ Item {
 
         Component.onCompleted: {
             devFreq.gotData.connect(function() {
-                text = qsTr("radio") + devFreq.showDisplay("output_stat")
-                color = devFreq.showColor("output_stat")
+                text = qsTr("radio") + devFreq.showDisplay("radio_stat")
+                color = devFreq.showColor("radio_stat")
             })
         }
     }
@@ -106,7 +106,7 @@ Item {
         anchors.left: txtOutput.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 6
-        text: qsTr("mid freq") + devFreq.showDisplay("input_stat")
+        text: qsTr("mid freq") + devFreq.showDisplay("mid_stat")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
@@ -114,8 +114,8 @@ Item {
 
         Component.onCompleted: {
             devFreq.gotData.connect(function() {
-                text = qsTr("mid freq") + devFreq.showDisplay("input_stat")
-                color = devFreq.showColor("input_stat")
+                text = qsTr("mid freq") + devFreq.showDisplay("mid_stat")
+                color = devFreq.showColor("mid_stat")
             })
         }
     }

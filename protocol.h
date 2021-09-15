@@ -97,8 +97,8 @@ private:
     quint8 atten = quint8();
     quint8 voltage = quint8();
     quint16 current = quint16();
-    quint8 output_stat = quint8();
-    quint8 input_stat = quint8();
+    quint8 radio_stat = quint8();
+    quint8 mid_stat = quint8();
     quint8 lock_a1 = quint8();
     quint8 lock_a2 = quint8();
     quint8 lock_b1 = quint8();

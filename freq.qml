@@ -11,6 +11,7 @@ Window {
     readonly property int widthWidgetLabel: 150
     readonly property int widthWidget: 150
     readonly property int marginRect: 30
+    readonly property bool devFreqUp: false
 
     id: winFreq
     visible: false
@@ -26,9 +27,10 @@ Window {
     signal slaveGotData()
 
     Component.onCompleted: {
-        winFreq.opened.connect(function(devMaster, devSlave) {
+        winFreq.opened.connect(function(devMaster, devSlave, devUp) {
             devFreqMaster = devMaster
             devFreqSlave = devSlave
+            devFreqUp = devUp
             name.text = devFreqMaster.name
             devMaster.gotData.connect(masterGotData)
             devSlave.gotData.connect(slaveGotData)
@@ -173,29 +175,29 @@ Window {
         }
 
         ComboText {
-            id: comboMasterOutputStat
+            id: comboMasterRadioStat
             posTop: comboMasterAtten.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4 * 2
-            txtText: qsTr("Radio Output")
+            txtText: qsTr("Radio") + (devFreqUp ? qsTr("Output") : qsTr("Input"))
 
             Component.onCompleted: {
                 masterGotData.connect(function() {
-                    txtValue = devFreqMaster.showDisplay("output_stat")
-                    colorValue = devFreqMaster.showColor("output_stat")
+                    txtValue = devFreqMaster.showDisplay("radio_stat")
+                    colorValue = devFreqMaster.showColor("radio_stat")
                 })
             }
         }
 
         ComboText {
-            id: comboMasterInputStat
+            id: comboMasterMidStat
             posTop: comboMasterAtten.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4 * 3
-            txtText: qsTr("Mid Freq Input")
+            txtText: qsTr("Mid Freq") + (devFreqUp ? qsTr("Input") : qsTr("Output"))
 
             Component.onCompleted: {
                 masterGotData.connect(function() {
-                    txtValue = devFreqMaster.showDisplay("input_stat")
-                    colorValue = devFreqMaster.showColor("input_stat")
+                    txtValue = devFreqMaster.showDisplay("mid_stat")
+                    colorValue = devFreqMaster.showColor("mid_stat")
                 })
             }
         }
@@ -214,6 +216,7 @@ Window {
             }
         }
 
+        /*
         ComboText {
             id: comboMasterLOA2
             posTop: comboMasterVoltage.posBottom
@@ -227,6 +230,7 @@ Window {
                 })
             }
         }
+        */
 
         ComboText {
             id: comboMaster10Ref1
@@ -383,29 +387,29 @@ Window {
         }
 
         ComboText {
-            id: comboSlaveOutputStat
+            id: comboSlaveRadioStat
             posTop: comboSlaveAtten.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4 * 2
-            txtText: qsTr("Radio Output")
+            txtText: qsTr("Radio") + (devFreqUp ? qsTr("Output") : qsTr("Input"))
 
             Component.onCompleted: {
                 slaveGotData.connect(function() {
-                    txtValue = devFreqSlave.showDisplay("output_stat")
-                    colorValue = devFreqSlave.showColor("output_stat")
+                    txtValue = devFreqSlave.showDisplay("radio_stat")
+                    colorValue = devFreqSlave.showColor("radio_stat")
                 })
             }
         }
 
         ComboText {
-            id: comboSlaveInputStat
+            id: comboSlaveMidStat
             posTop: comboSlaveAtten.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4 * 3
-            txtText: qsTr("Mid Freq Input")
+            txtText: qsTr("Mid Freq") + (devFreqUp ? qsTr("Input") : qsTr("Output"))
 
             Component.onCompleted: {
                 slaveGotData.connect(function() {
-                    txtValue = devFreqSlave.showDisplay("input_stat")
-                    colorValue = devFreqSlave.showColor("input_stat")
+                    txtValue = devFreqSlave.showDisplay("mid_stat")
+                    colorValue = devFreqSlave.showColor("mid_stat")
                 })
             }
         }
@@ -424,6 +428,7 @@ Window {
             }
         }
 
+        /*
         ComboText {
             id: comboSlaveLOB2
             posTop: comboSlaveVoltage.posBottom
@@ -437,6 +442,7 @@ Window {
                 })
             }
         }
+        */
 
         ComboText {
             id: comboSlave10Ref1

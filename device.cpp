@@ -60,8 +60,8 @@ devFreq &operator<< (devFreq &dev, const msgFreq &m)
     //this->ch_b = m;
     dev.var["voltage"]->setValue(m.voltage);
     dev.var["current"]->setValue(m.current);
-    dev.var["output_stat"]->setValue(m.output_stat);
-    dev.var["input_stat"]->setValue(m.input_stat);
+    dev.var["radio_stat"]->setValue(m.radio_stat);
+    dev.var["mid_stat"]->setValue(m.mid_stat);
     dev.var["lock_a1"]->setValue(m.lock_a1);
     dev.var["lock_a2"]->setValue(m.lock_a2);
     dev.var["lock_b1"]->setValue(m.lock_b1);

@@ -67,6 +67,7 @@ Window {
             slaveId: 0x05
             posTop: txtRackFreqId.height
             posLeft: 0
+            devFreqUp: false
         }
 
         BlockDevFreq {
@@ -75,6 +76,7 @@ Window {
             slaveId: 0x07
             posTop: txtRackFreqId.height
             posLeft: blkFreqDownFreq1.posRight
+            devFreqUp: false
         }
 
         BlockDevFreq {
@@ -83,6 +85,7 @@ Window {
             slaveId: 0x01
             posTop: blkFreqDownFreq1.posBottom
             posLeft: 0
+            devFreqUp: true
         }
 
         BlockDevFreq {
@@ -91,6 +94,7 @@ Window {
             slaveId: 0x03
             posTop: blkFreqDownFreq1.posBottom
             posLeft: blkFreqUpFreq1.posRight
+            devFreqUp: true
         }
 
         BlockDevDist {
