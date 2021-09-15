@@ -39,12 +39,30 @@ Item {
         y: posTop + marginWidget
         height: heightWidget
         width: widthWidget
-        //activeFocusOnPress: true
+        font.pixelSize: defaultLabelFontSize
         currentIndex: 1
 
-        //style: ComboBoxStyle {
-        //    textColor: colorValue
-        //}
+        contentItem: Text {
+            text: combo.displayText
+            font: combo.font
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            elide: Text.ElideRight
+            color: colorValue
+        }
+
+        delegate: ItemDelegate {
+            width: combo.width
+            contentItem: Text {
+                text: modelData
+                font: combo.font
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                elide: Text.ElideRight
+                color: colorValue
+            }
+            highlighted: combo.highlightedIndex === index
+        }
 
         onActiveFocusChanged: {
             if (activeFocus) {

@@ -45,6 +45,7 @@ Item {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: defaultLabelFontSize
+            padding: 3 // seems good but not with the default 6
 
             onActiveFocusChanged: {
                 if (activeFocus) {
