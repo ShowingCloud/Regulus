@@ -1,7 +1,7 @@
-import QtQuick 2.9
-import QtQuick.Controls 1.6
-import QtQuick.Dialogs 1.2
-import QtQuick.Window 2.9
+import QtQuick 2.11
+import QtQuick.Controls 2.4
+import QtQuick.Dialogs 1.3
+import QtQuick.Window 2.11
 
 import rdss.alert 1.0
 
@@ -34,6 +34,7 @@ Window {
             name.text = devFreqMaster.name
             devMaster.gotData.connect(masterGotData)
             devSlave.gotData.connect(slaveGotData)
+            buttonReset.clicked();
         })
     }
 
@@ -131,7 +132,7 @@ Window {
             id: comboMasterRef
             posTop: 0
             posLeft: (rectMaster.width - marginWidget) / 2
-            txtText: "10 Mhz " + qsTr("Ref")
+            txtText: "10 MHz " + qsTr("Ref")
 
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
@@ -343,7 +344,7 @@ Window {
             id: comboSlaveRef
             posTop: 0
             posLeft: (rectSlave.width - marginWidget) / 2
-            txtText: "10 Mhz " + qsTr("Ref")
+            txtText: "10 MHz " + qsTr("Ref")
 
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")

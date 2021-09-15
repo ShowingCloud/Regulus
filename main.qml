@@ -1,5 +1,5 @@
-import QtQuick 2.9
-import QtQuick.Window 2.9
+import QtQuick 2.11
+import QtQuick.Window 2.11
 import QtQuick.Extras 1.4
 import QtQuick.Shapes 1.11
 

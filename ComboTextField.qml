@@ -1,5 +1,5 @@
-import QtQuick 2.9
-import QtQuick.Controls 1.6
+import QtQuick 2.11
+import QtQuick.Controls 2.4
 
 Item {
     id: blockComboTextField
@@ -9,7 +9,7 @@ Item {
     property int posBottom : rect.y + rect.height
     property alias txtText : text.text
     property alias txtValue : value.text
-    property alias colorValue : value.textColor
+    property alias colorValue : value.color
 
     signal hold()
     signal updated(double value)

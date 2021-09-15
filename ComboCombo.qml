@@ -1,5 +1,5 @@
-import QtQuick 2.9
-import QtQuick.Controls 1.6
+import QtQuick 2.11
+import QtQuick.Controls 2.4
 import QtQuick.Controls.Styles 1.4
 
 import rdss.alert 1.0
@@ -39,12 +39,12 @@ Item {
         y: posTop + marginWidget
         height: heightWidget
         width: widthWidget
-        activeFocusOnPress: true
+        //activeFocusOnPress: true
         currentIndex: 1
 
-        style: ComboBoxStyle {
-            textColor: colorValue
-        }
+        //style: ComboBoxStyle {
+        //    textColor: colorValue
+        //}
 
         onActiveFocusChanged: {
             if (activeFocus) {
