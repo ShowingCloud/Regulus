@@ -79,10 +79,10 @@ devFreq &operator<< (devFreq &dev, const msgFreq &m)
 
 devDist &operator<< (devDist &dev, const msgDist &m)
 {
-    dev.ref_10 = static_cast<alert::P_CH>(m.ref_10);
-    dev.ref_16 = static_cast<alert::P_CH>(m.ref_16);
-    dev.voltage = m.voltage;
-    dev.current = m.current;
+    dev.var["ref_10"]->setValue(m.ref_10);
+    dev.var["ref_16"]->setValue(m.ref_16);
+    dev.var["voltage"]->setValue(m.voltage);
+    dev.var["current"]->setValue(m.current);
 
     emit dev.gotData();
     return dev;
@@ -90,13 +90,13 @@ devDist &operator<< (devDist &dev, const msgDist &m)
 
 devAmp &operator<< (devAmp &dev, const msgAmp &m)
 {
-    dev.power = m.power;
-    dev.gain = m.gain;
-    dev.atten_out = m.atten;
-    dev.loss = m.loss;
-    dev.amp_temp = m.temp;
-    dev.load_temp = m.load_temp;
-    dev.handshake = static_cast<alert::P_HSK>(m.handshake);
+    dev.var["power"]->setValue(m.power);
+    dev.var["gain"]->setValue(m.gain);
+    dev.var["atten_out"]->setValue(m.atten);
+    dev.var["loss"]->setValue(m.loss);
+    dev.var["amp_temp"]->setValue(m.temp);
+    dev.var["load_temp"]->setValue(m.load_temp);
+    dev.var["handshake"]->setValue(m.handshake);
 
     emit dev.gotData();
     return dev;
@@ -113,18 +113,18 @@ const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m)
 
 const devDist &operator>> (const devDist &dev, msgCntlDist &m)
 {
-    m.ref_10 = static_cast<quint8>(dev.ref_10);
-    m.ref_16 = static_cast<quint8>(dev.ref_16);
+    m.ref_10 = static_cast<quint8>(dev.var["ref_10"]->getValue());
+    m.ref_16 = static_cast<quint8>(dev.var["ref_16"]->getValue());
 
     return dev;
 }
 
 const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m)
 {
-    m.atten_mode = static_cast<quint8>(dev.atten_mode);
-    m.atten = static_cast<quint8>(dev.atten_in);
-    m.power = static_cast<quint16>(dev.power);
-    m.gain = static_cast<quint16>(dev.gain);
+    m.atten_mode = static_cast<quint8>(dev.var["atten_mode"]->getValue());
+    m.atten = static_cast<quint8>(dev.var["atten_in"]->getValue());
+    m.power = static_cast<quint16>(dev.var["power"]->getValue());
+    m.gain = static_cast<quint16>(dev.var["gain"]->getValue());
 
     return dev;
 }

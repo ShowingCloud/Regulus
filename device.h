@@ -177,104 +177,78 @@ class devFreq : public device
     Q_OBJECT
 public:
     explicit devFreq(device *parent = nullptr) : device({
-            {"atten",       new deviceVar(alert::P_ENUM_FLOAT)},
-            {"ch_a",        new deviceVar(alert::P_ENUM_CH)},
-            {"ch_b",        new deviceVar(alert::P_ENUM_CH)},
-            {"voltage",     new deviceVar(alert::P_ENUM_VOLTAGE)},
-            {"current",     new deviceVar(alert::P_ENUM_CURRENT)},
-            {"radio_stat",  new deviceVar(alert::P_ENUM_NOR)},
-            {"mid_stat",    new deviceVar(alert::P_ENUM_NOR)},
-            {"lock_a1",     new deviceVar(alert::P_ENUM_LOCK)},
-            {"lock_a2",     new deviceVar(alert::P_ENUM_LOCK)},
-            {"lock_b1",     new deviceVar(alert::P_ENUM_LOCK)},
-            {"lock_b2",     new deviceVar(alert::P_ENUM_LOCK)},
-            {"ref_10_1",    new deviceVar(alert::P_ENUM_NOR)},
-            {"ref_10_2",    new deviceVar(alert::P_ENUM_NOR)},
-            {"ref_10_inner",new deviceVar(alert::P_ENUM_NOR)},
-            {"ref_3",       new deviceVar(alert::P_ENUM_NOR)},
-            {"ref_4",       new deviceVar(alert::P_ENUM_NOR)},
-            {"handshake",   new deviceVar(alert::P_ENUM_HSK)},
-            {"masterslave", new deviceVar(alert::P_ENUM_MS)}
+        {"atten",       new deviceVar(alert::P_ENUM_FLOAT)},
+        {"ch_a",        new deviceVar(alert::P_ENUM_CH)},
+        {"ch_b",        new deviceVar(alert::P_ENUM_CH)},
+        {"voltage",     new deviceVar(alert::P_ENUM_VOLTAGE)},
+        {"current",     new deviceVar(alert::P_ENUM_CURRENT)},
+        {"radio_stat",  new deviceVar(alert::P_ENUM_NOR)},
+        {"mid_stat",    new deviceVar(alert::P_ENUM_NOR)},
+        {"lock_a1",     new deviceVar(alert::P_ENUM_LOCK)},
+        {"lock_a2",     new deviceVar(alert::P_ENUM_LOCK)},
+        {"lock_b1",     new deviceVar(alert::P_ENUM_LOCK)},
+        {"lock_b2",     new deviceVar(alert::P_ENUM_LOCK)},
+        {"ref_10_1",    new deviceVar(alert::P_ENUM_NOR)},
+        {"ref_10_2",    new deviceVar(alert::P_ENUM_NOR)},
+        {"ref_10_inner",new deviceVar(alert::P_ENUM_NOR)},
+        {"ref_3",       new deviceVar(alert::P_ENUM_NOR)},
+        {"ref_4",       new deviceVar(alert::P_ENUM_NOR)},
+        {"handshake",   new deviceVar(alert::P_ENUM_HSK)},
+        {"masterslave", new deviceVar(alert::P_ENUM_MS)}
     }, parent) {}
     friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
     friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
 
 public slots:
     void createCntlMsg();
-
-private:
 };
 
 class devDist : public device
 {
     Q_OBJECT
-    Q_PROPERTY(alert::P_CH  ref_10      MEMBER ref_10   NOTIFY gotData)
-    Q_PROPERTY(alert::P_CH  ref_16      MEMBER ref_16   NOTIFY gotData)
-    Q_PROPERTY(int          voltage     MEMBER voltage  NOTIFY gotData)
-    Q_PROPERTY(int          current     MEMBER voltage  NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR lock_10_1   MEMBER lock_10_1 NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR lock_10_2   MEMBER lock_10_2 NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR lock_16_1   MEMBER lock_16_1 NOTIFY gotData)
-    Q_PROPERTY(alert::P_NOR lock_16_2   MEMBER lock_16_2 NOTIFY gotData)
 public:
-    explicit devDist(device *parent = nullptr) : device({}, parent) {}
+    explicit devDist(device *parent = nullptr) : device({
+        {"ref_10",      new deviceVar(alert::P_ENUM_CH)},
+        {"ref_16",      new deviceVar(alert::P_ENUM_CH)},
+        {"voltage",     new deviceVar(alert::P_ENUM_VOLTAGE)},
+        {"current",     new deviceVar(alert::P_ENUM_CURRENT)},
+        {"lock_10_1",   new deviceVar(alert::P_ENUM_LOCK)},
+        {"lock_10_2",   new deviceVar(alert::P_ENUM_LOCK)},
+        {"lock_16_1",   new deviceVar(alert::P_ENUM_LOCK)},
+        {"lock_16_2",   new deviceVar(alert::P_ENUM_LOCK)}
+    }, parent) {}
     friend devDist &operator<< (devDist &dev, const msgDist &m);
     friend const devDist &operator>> (const devDist &dev, msgCntlDist &m);
 
 public slots:
     void createCntlMsg();
-
-protected:
-    alert::P_CH     ref_10      = alert::P_CH();
-    alert::P_CH     ref_16      = alert::P_CH();
-    int             voltage     = int();
-    int             current     = int();
-    alert::P_NOR    lock_10_1   = alert::P_NOR();
-    alert::P_NOR    lock_10_2   = alert::P_NOR();
-    alert::P_NOR    lock_16_1   = alert::P_NOR();
-    alert::P_NOR    lock_16_2   = alert::P_NOR();
 };
 
 class devAmp : public device
 {
     Q_OBJECT
-    Q_PROPERTY(int              power           MEMBER power        NOTIFY gotData)
-    Q_PROPERTY(int              gain            MEMBER gain         NOTIFY gotData)
-    Q_PROPERTY(float            atten_in        MEMBER atten_in     NOTIFY gotData)
-    Q_PROPERTY(int              atten_out       MEMBER atten_out    NOTIFY gotData)
-    Q_PROPERTY(int              loss            MEMBER loss         NOTIFY gotData)
-    Q_PROPERTY(int              amp_temp        MEMBER amp_temp     NOTIFY gotData)
-    Q_PROPERTY(alert::P_STAT    s_stand_wave    MEMBER s_stand_wave NOTIFY gotData)
-    Q_PROPERTY(alert::P_STAT    s_temp          MEMBER s_temp       NOTIFY gotData)
-    Q_PROPERTY(alert::P_STAT    s_current       MEMBER s_current    NOTIFY gotData)
-    Q_PROPERTY(alert::P_STAT    s_voltage       MEMBER s_voltage    NOTIFY gotData)
-    Q_PROPERTY(alert::P_STAT    s_power         MEMBER s_power      NOTIFY gotData)
-    Q_PROPERTY(int              load_temp       MEMBER load_temp    NOTIFY gotData)
-    Q_PROPERTY(alert::P_HSK     handshake       MEMBER handshake    NOTIFY gotData)
-    Q_PROPERTY(alert::P_ATTEN   atten_mode      MEMBER atten_mode   NOTIFY gotData)
 public:
-    explicit devAmp(device *parent = nullptr) : device({}, parent) {}
+    explicit devAmp(device *parent = nullptr) : device({
+        {"power",           new deviceVar(alert::P_ENUM_INT)},
+        {"gain",            new deviceVar(alert::P_ENUM_INT)},
+        {"atten_in",        new deviceVar(alert::P_ENUM_FLOAT)},
+        {"atten_out",       new deviceVar(alert::P_ENUM_INT)},
+        {"loss",            new deviceVar(alert::P_ENUM_INT)},
+        {"amp_temp",        new deviceVar(alert::P_ENUM_INT)},
+        {"s_stand_wave",    new deviceVar(alert::P_ENUM_STAT)},
+        {"s_temp",          new deviceVar(alert::P_ENUM_STAT)},
+        {"s_current",       new deviceVar(alert::P_ENUM_STAT)},
+        {"s_voltage",       new deviceVar(alert::P_ENUM_STAT)},
+        {"s_power",         new deviceVar(alert::P_ENUM_STAT)},
+        {"load_temp",       new deviceVar(alert::P_ENUM_INT)},
+        {"handshake",       new deviceVar(alert::P_ENUM_HSK)},
+        {"atten_mode",      new deviceVar(alert::P_ENUM_ATTEN)}
+    }, parent) {}
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
 
 public slots:
     void createCntlMsg();
-
-protected:
-    int             power           = int();
-    int             gain            = int();
-    float           atten_in        = float();
-    int             atten_out       = int();
-    int             loss            = int();
-    int             amp_temp        = int();
-    alert::P_STAT   s_stand_wave    = alert::P_STAT();
-    alert::P_STAT   s_temp          = alert::P_STAT();
-    alert::P_STAT   s_current       = alert::P_STAT();
-    alert::P_STAT   s_voltage       = alert::P_STAT();
-    alert::P_STAT   s_power         = alert::P_STAT();
-    int             load_temp       = int();
-    alert::P_HSK    handshake       = alert::P_HSK();
-    alert::P_ATTEN  atten_mode      = alert::P_ATTEN();
 };
 
 #endif // DEVICE_H
