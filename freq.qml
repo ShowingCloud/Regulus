@@ -17,7 +17,7 @@ Window {
     visible: false
     modality: Qt.ApplicationModal
     width: rectMaster.width + 2 * marginRect
-    height: 2 * rectMaster.height + heightWidget + 4 * marginRect + marginWidget + defaultTextAreaHeight
+    height: 2 * rectMaster.height + heightWidget + 4 * marginRect + marginWidget + defaultHistoryAreaHeight
     title: qsTr("Frequency Conversion Device")
 
     property QtObject devFreqMaster

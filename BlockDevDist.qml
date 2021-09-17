@@ -34,7 +34,7 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinDist.setVisible(true)
-                objWinDist.devDist = devDist
+                objWinDist.opened(devDist)
             }
         }
     }
@@ -57,7 +57,7 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinDist.setVisible(true)
-                objWinDist.devDist = devDist
+                objWinDist.opened(devDist)
             }
         }
 

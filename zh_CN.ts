@@ -268,14 +268,67 @@
 <context>
     <name>dist</name>
     <message>
-        <location filename="dist.qml" line="12"/>
         <source>Frequency Distribution Device</source>
-        <translation>频率分配设备</translation>
+        <translation type="vanished">频率分配设备</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="22"/>
         <source>Master</source>
-        <translation type="unfinished">主路</translation>
+        <translation type="obsolete">主路</translation>
+    </message>
+    <message>
+        <location filename="dist.qml" line="20"/>
+        <source>Distuency Distribution Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dist.qml" line="54"/>
+        <source>Reset</source>
+        <translation>重置</translation>
+    </message>
+    <message>
+        <location filename="dist.qml" line="74"/>
+        <location filename="dist.qml" line="92"/>
+        <source>Outer Ref</source>
+        <translation>外参考</translation>
+    </message>
+    <message>
+        <location filename="dist.qml" line="77"/>
+        <location filename="dist.qml" line="95"/>
+        <source>Channel</source>
+        <translation>通道</translation>
+    </message>
+    <message>
+        <location filename="dist.qml" line="110"/>
+        <source>Voltage</source>
+        <translation>电压</translation>
+    </message>
+    <message>
+        <location filename="dist.qml" line="124"/>
+        <source>Current</source>
+        <translation>电流</translation>
+    </message>
+    <message>
+        <location filename="dist.qml" line="138"/>
+        <location filename="dist.qml" line="152"/>
+        <location filename="dist.qml" line="166"/>
+        <location filename="dist.qml" line="180"/>
+        <source>Lock</source>
+        <translation>锁定</translation>
+    </message>
+    <message>
+        <location filename="dist.qml" line="194"/>
+        <source>Network Communication</source>
+        <translation>网络通信</translation>
+    </message>
+    <message>
+        <location filename="dist.qml" line="201"/>
+        <source>Handshake Signal</source>
+        <translation>握手信号</translation>
+    </message>
+    <message>
+        <location filename="dist.qml" line="217"/>
+        <source>Submit</source>
+        <translation>提交</translation>
     </message>
 </context>
 <context>

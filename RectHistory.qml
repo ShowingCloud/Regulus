@@ -4,7 +4,7 @@ import QtQuick.Controls 2.4
 Item {
     id: rectHist
     property int itemWidth
-    property int itemHeight : defaultTextAreaHeight
+    property int itemHeight : defaultHistoryAreaHeight
 
     TextArea {
         id: txt
