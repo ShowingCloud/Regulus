@@ -52,76 +52,76 @@
 <context>
     <name>alert</name>
     <message>
-        <location filename="alert.h" line="52"/>
-        <location filename="alert.h" line="81"/>
+        <location filename="alert.h" line="64"/>
+        <location filename="alert.h" line="93"/>
         <source>Abnormal</source>
         <translation>异常</translation>
     </message>
     <message>
-        <location filename="alert.h" line="53"/>
-        <location filename="alert.h" line="80"/>
+        <location filename="alert.h" line="65"/>
+        <location filename="alert.h" line="92"/>
         <source>Normal</source>
         <translation>正常</translation>
     </message>
     <message>
-        <location filename="alert.h" line="54"/>
-        <location filename="alert.h" line="60"/>
+        <location filename="alert.h" line="66"/>
+        <location filename="alert.h" line="72"/>
         <source>Standby</source>
         <translation>待机</translation>
     </message>
     <message>
-        <location filename="alert.h" line="55"/>
-        <location filename="alert.h" line="61"/>
-        <location filename="alert.h" line="66"/>
-        <location filename="alert.h" line="71"/>
-        <location filename="alert.h" line="77"/>
-        <location filename="alert.h" line="82"/>
-        <location filename="alert.h" line="87"/>
+        <location filename="alert.h" line="67"/>
+        <location filename="alert.h" line="73"/>
+        <location filename="alert.h" line="78"/>
+        <location filename="alert.h" line="83"/>
+        <location filename="alert.h" line="89"/>
+        <location filename="alert.h" line="94"/>
+        <location filename="alert.h" line="99"/>
         <source>Others</source>
         <translation>其他</translation>
     </message>
     <message>
-        <location filename="alert.h" line="58"/>
+        <location filename="alert.h" line="70"/>
         <source>Unlocked</source>
         <translation>失锁</translation>
     </message>
     <message>
-        <location filename="alert.h" line="59"/>
+        <location filename="alert.h" line="71"/>
         <source>Locked</source>
         <translation>锁定</translation>
     </message>
     <message>
-        <location filename="alert.h" line="64"/>
+        <location filename="alert.h" line="76"/>
         <source>Master</source>
         <translation>主路</translation>
     </message>
     <message>
-        <location filename="alert.h" line="65"/>
+        <location filename="alert.h" line="77"/>
         <source>Slave</source>
         <translation>从路</translation>
     </message>
     <message>
-        <location filename="alert.h" line="69"/>
+        <location filename="alert.h" line="81"/>
         <source>Successful</source>
         <translation>成功</translation>
     </message>
     <message>
-        <location filename="alert.h" line="70"/>
+        <location filename="alert.h" line="82"/>
         <source>Failed</source>
         <translation>失败</translation>
     </message>
     <message>
-        <location filename="alert.h" line="74"/>
+        <location filename="alert.h" line="86"/>
         <source>Normal Attenuation</source>
         <translation>正常衰减</translation>
     </message>
     <message>
-        <location filename="alert.h" line="75"/>
+        <location filename="alert.h" line="87"/>
         <source>Constant Power</source>
         <translation>恒功率</translation>
     </message>
     <message>
-        <location filename="alert.h" line="76"/>
+        <location filename="alert.h" line="88"/>
         <source>Constant Gain</source>
         <translation>恒增益</translation>
     </message>
@@ -230,6 +230,18 @@
         <location filename="freq.qml" line="412"/>
         <source>Mid Freq</source>
         <translation>中频</translation>
+    </message>
+    <message>
+        <location filename="freq.qml" line="286"/>
+        <location filename="freq.qml" line="498"/>
+        <source>Network Communication</source>
+        <translation>网络通信</translation>
+    </message>
+    <message>
+        <location filename="freq.qml" line="293"/>
+        <location filename="freq.qml" line="505"/>
+        <source>Handshake Signal</source>
+        <translation>握手信号</translation>
     </message>
     <message>
         <location filename="freq.qml" line="302"/>

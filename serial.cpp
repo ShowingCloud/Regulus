@@ -38,12 +38,12 @@ void serial::readData()
 
 void serial::readFakeData()
 {
-    QByteArray data = QByteArray::fromHex("ff010203040101010101010101010103161701aa");
+    QByteArray data = QByteArray::fromHex("ff010203040101010101010101010103011701aa");
     this->buffer += data;
     lastseen = QDateTime::currentDateTime();
     msg::validateProtocol(this->buffer, data, this);
 
-    data = QByteArray::fromHex("ff010203040101010101010101010102161701aa");
+    data = QByteArray::fromHex("ff010203040101010101010101010102001701aa");
     this->buffer += data;
     lastseen = QDateTime::currentDateTime();
     msg::validateProtocol(this->buffer, data, this);

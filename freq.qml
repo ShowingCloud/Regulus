@@ -283,14 +283,21 @@ Window {
             id: comboMasterCommunication
             posTop: comboMaster10Ref1.posBottom
             posLeft: 0
-            txtText: "Network Communication"
+            txtText: qsTr("Network Communication")
         }
 
         ComboText {
             id: comboMasterSignal
             posTop: comboMaster10Ref1.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4 * 2
-            txtText: "Control Signal"
+            txtText: qsTr("Handshake Signal")
+
+            Component.onCompleted: {
+                masterGotData.connect(function() {
+                    txtValue = devFreqMaster.showDisplay("handshake")
+                    colorValue = devFreqMaster.showColor("handshake")
+                })
+            }
         }
 
         Button {
@@ -495,14 +502,21 @@ Window {
             id: comboSlaveCommunication
             posTop: comboSlave10Ref1.posBottom
             posLeft: 0
-            txtText: "Network Communication"
+            txtText: qsTr("Network Communication")
         }
 
         ComboText {
             id: comboSlaveSignal
             posTop: comboSlave10Ref1.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4 * 2
-            txtText: "Control Signal"
+            txtText: qsTr("Handshake Signal")
+
+            Component.onCompleted: {
+                slaveGotData.connect(function() {
+                    txtValue = devFreqSlave.showDisplay("handshake")
+                    colorValue = devFreqSlave.showColor("handshake")
+                })
+            }
         }
 
         Button {
