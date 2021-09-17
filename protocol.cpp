@@ -56,31 +56,6 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &
     }
 
     return VAL_FAILED;
-
-    /*
-    if (idProto.contains(input.at(1).unicode()))
-    {
-        proto p = idProto[input.at(1).unicode()];
-
-        int length = protoLength[p];
-
-        if (input.length() == length)
-        {
-            return VAL_PASS;
-        }
-        else if (input.length() < length)
-        {
-            return VAL_TOOSHORT;
-        }
-        else // input.length() > length
-        {
-            return VAL_TOOLONG;
-        }
-    }
-    else {
-        return VAL_INVALIDID;
-    }
-    */
 }
 
 void protocol::createQueryMsg(serial &s)
@@ -91,9 +66,6 @@ void protocol::createQueryMsg(serial &s)
     msgQuery *q = new msgQuery();
     p->downlink = q;
     s << *q;
-
-    //msgCntlAmp *r = new msgCntlAmp();
-    //s << *r;
 }
 
 const protocol &operator>> (const protocol &p, serial &s)

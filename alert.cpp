@@ -10,25 +10,14 @@ QVariant alert::setValue(const QVariant val, const P_ENUM e)
 
     switch (e) {
     case P_ENUM_NOR:
-        ret = (val.value<int>() >= 0 and val.value<int>() < P_NOR_OTHERS) ? val.value<int>() : P_NOR_OTHERS;
-        break;
     case P_ENUM_LOCK:
-        ret = (val.value<int>() >= 0 and val.value<int>() < P_LOCK_OTHERS) ? val.value<int>() : P_LOCK_OTHERS;
-        break;
     case P_ENUM_MS:
-        ret = (val.value<int>() >= 0 and val.value<int>() < P_MS_OTHERS) ? val.value<int>() : P_MS_OTHERS;
-        break;
     case P_ENUM_HSK:
-        ret = (val.value<int>() >= 0 and val.value<int>() < P_HSK_OTHERS) ? val.value<int>() : P_HSK_OTHERS;
-        break;
     case P_ENUM_ATTEN:
-        ret = (val.value<int>() >= 0 and val.value<int>() < P_ATTEN_OTHERS) ? val.value<int>() : P_ATTEN_OTHERS;
-        break;
     case P_ENUM_STAT:
-        ret = (val.value<int>() >= 0 and val.value<int>() < P_STAT_OTHERS) ? val.value<int>() : P_STAT_OTHERS;
-        break;
     case P_ENUM_CH:
-        ret = (val.value<int>() >= 0 and val.value<int>() < P_CH_OTHERS) ? val.value<int>() : P_CH_OTHERS;
+        ret = (val.value<int>() >= 0 and val.value<int>() < P_ENUM_VALUE["others"][e].value<int>())
+                ? val.value<int>() : P_ENUM_VALUE["others"][e].value<int>();
         break;
     case P_ENUM_INT:
     case P_ENUM_CURRENT:
@@ -182,25 +171,13 @@ deviceVar::deviceVar(const alert::P_ENUM type, QObject *parent) : QObject(parent
 {
     switch (type) {
     case alert::P_ENUM_NOR:
-        this->setValue(alert::P_NOR_NORMAL);
-        return;
     case alert::P_ENUM_LOCK:
-        this->setValue(alert::P_LOCK_LOCKED);
-        return;
     case alert::P_ENUM_MS:
-        this->setValue(alert::P_MS_MASTER);
-        return;
     case alert::P_ENUM_HSK:
-        this->setValue(alert::P_HSK_SUCCESS);
-        return;
     case alert::P_ENUM_ATTEN:
-        this->setValue(alert::P_ATTEN_NORMAL);
-        return;
     case alert::P_ENUM_STAT:
-        this->setValue(alert::P_STAT_NORMAL);
-        return;
     case alert::P_ENUM_CH:
-        this->setValue(alert::P_CH_OTHERS);
+        this->setValue(alert::P_ENUM_VALUE["default"][type]);
         return;
     case alert::P_ENUM_INT:
     case alert::P_ENUM_CURRENT:

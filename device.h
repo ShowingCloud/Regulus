@@ -67,7 +67,7 @@ public slots:
 
     inline const QString showDisplay(const QString itemName) const
     {
-        if (var[itemName.toUtf8()] == nullptr) {
+        if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return QString();
         }
@@ -76,7 +76,7 @@ public slots:
 
     inline const QString showColor(const QString itemName) const
     {
-        if (var[itemName.toUtf8()] == nullptr) {
+        if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return QString();
         }
@@ -90,7 +90,7 @@ public slots:
 
     inline QVariant getValue(const QString itemName)
     {
-        if (var[itemName.toUtf8()] == nullptr) {
+        if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return QVariant();
         }
@@ -99,7 +99,7 @@ public slots:
 
     inline void setHold(const QString itemName)
     {
-        if (var[itemName.toUtf8()] == nullptr) {
+        if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return;
         }
@@ -109,7 +109,7 @@ public slots:
 
     inline void releaseHold(const QString itemName)
     {
-        if (var[itemName.toUtf8()] == nullptr) {
+        if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return;
         }
@@ -120,7 +120,7 @@ public slots:
 
     inline void submitHold(const QString itemName) /* not in use */
     {
-        if (var[itemName.toUtf8()] == nullptr) {
+        if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return;
         }
@@ -130,7 +130,7 @@ public slots:
 
     inline void holdValue(const QString itemName, const QVariant val)
     {
-        if (var[itemName.toUtf8()] == nullptr) {
+        if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return;
         }

@@ -19,7 +19,7 @@ class alert : public QObject
     Q_ENUMS(P_COLOR)
     Q_PROPERTY(QVariantMap MAP_COLOR MEMBER MAP_COLOR CONSTANT)
 public:
-    explicit alert(QObject *parent = nullptr) {Q_UNUSED(parent)};
+    explicit alert(QObject *parent = nullptr) {Q_UNUSED(parent)}
 
     enum P_NOR { P_NOR_ABNORMAL = 0, P_NOR_NORMAL = 1, P_NOR_STANDBY = 2, P_NOR_OTHERS };
     enum P_LOCK { P_LOCK_UNLOCK = 0, P_LOCK_LOCKED = 1, P_LOCK_STANDBY = 2, P_LOCK_OTHERS };
@@ -40,6 +40,17 @@ public:
         {P_COLOR_HOLDING, "blue"},
         {P_COLOR_OTHERS, "black"}
     };
+
+    static inline const QVariantHash EnumMap2VariantHash (const QHash<QVariant, QString> enumMap)
+    {
+        QVariantHash ret;
+        QHashIterator<QVariant, QString> i(enumMap);
+        while (i.hasNext()) {
+            ret[i.key().toString()] = i.value();
+        }
+        return ret;
+    }
+
     static const inline QVariantMap MAP_COLOR = { /* Using QVariantMap until something supported by Qt */
         {"NORMAL", STR_COLOR[P_COLOR_NORMAL]},
         {"ABNORMAL", STR_COLOR[P_COLOR_ABNORMAL]},
@@ -47,6 +58,7 @@ public:
         {"HOLDING", STR_COLOR[P_COLOR_HOLDING]},
         {"OTHERS", STR_COLOR[P_COLOR_NORMAL]},
     };
+    //static const inline QVariantMap MAP_COLOR = EnumMap2VariantHash(STR_COLOR);
 
     static const inline QHash<P_NOR, QString> STR_NOR = {
         {P_NOR_ABNORMAL, QT_TR_NOOP("Abnormal")},
@@ -87,9 +99,38 @@ public:
         {P_CH_OTHERS, QT_TR_NOOP("Others")}
     };
 
+    static const inline QHash<QString, QHash<P_ENUM, QVariant>> P_ENUM_VALUE = {
+        {"str", {
+            {P_ENUM_NOR,    QVariant::fromValue(STR_NOR)},
+            {P_ENUM_LOCK,   QVariant::fromValue(STR_LOCK)},
+            {P_ENUM_MS,     QVariant::fromValue(STR_MS)},
+            {P_ENUM_HSK,    QVariant::fromValue(STR_HSK)},
+            {P_ENUM_ATTEN,  QVariant::fromValue(STR_ATTEN)},
+            {P_ENUM_STAT,   QVariant::fromValue(STR_STAT)},
+            {P_ENUM_CH,     QVariant::fromValue(STR_CH)}
+        }}, {"others", {
+            {P_ENUM_NOR,    P_NOR_OTHERS},
+            {P_ENUM_LOCK,   P_LOCK_OTHERS},
+            {P_ENUM_MS,     P_MS_OTHERS},
+            {P_ENUM_HSK,    P_HSK_OTHERS},
+            {P_ENUM_ATTEN,  P_ATTEN_OTHERS},
+            {P_ENUM_STAT,   P_STAT_OTHERS},
+            {P_ENUM_CH,     P_CH_OTHERS}
+         }}, {"default", {
+            {P_ENUM_NOR,    P_NOR_NORMAL},
+            {P_ENUM_LOCK,   P_LOCK_LOCKED},
+            {P_ENUM_MS,     P_MS_MASTER},
+            {P_ENUM_HSK,    P_HSK_SUCCESS},
+            {P_ENUM_ATTEN,  P_ATTEN_NORMAL},
+            {P_ENUM_STAT,   P_STAT_NORMAL},
+            {P_ENUM_CH,     P_CH_OTHERS}
+         }}
+    };
+
     static QVariant setValue(const QVariant val, const P_ENUM e);
     static P_NOR setState(const QVariant val, const P_ENUM e);
     static QString setDisplay(const QVariant val, const P_ENUM e);
+
 signals:
 
 public slots:
