@@ -13,5 +13,6 @@
         <file>RectHistory.qml</file>
         <file>ComboTextField.qml</file>
         <file>RectDevDist.qml</file>
+        <file>RectDevAmp.qml</file>
     </qresource>
 </RCC>

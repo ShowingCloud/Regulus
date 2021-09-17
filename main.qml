@@ -12,16 +12,15 @@ Window {
     readonly property int rackFreqBoxWidth: 270
     readonly property int rackFreqBoxFreqHeight: 73
     readonly property int rackFreqBoxDistHeight: 106
-    readonly property int rackAmpBoxWidth: 270
-    readonly property int rackAmpBoxHeight: 117
+    readonly property int rackAmpBoxWidth: 601
+    readonly property int rackAmpBoxHeight: 108
     readonly property int serialSWWidth: 352
     readonly property int serialSWHeight: 64
     readonly property int defaultMarginAndTextWidthHeight: 30
-    readonly property int marginHeightRackAmp: 144
     readonly property int marginRacks: 54
     readonly property int marginIndicators: 10
     readonly property int defaultLabelFontSize: 20
-    readonly property int rectBigFontSize: 17
+    readonly property int rectBigFontSize: 15
     readonly property int rectSmallFontSize: 12 // 8
     readonly property int defaultTextAreaHeight: 200
 
@@ -190,7 +189,7 @@ Window {
             id: blkAmpAmpA1
             masterId: 0x0C
             slaveId: 0x0D
-            posTop: txtRackAmpId.height + marginHeightRackAmp
+            posTop: txtRackAmpId.height
             posLeft: 0
         }
 
@@ -198,8 +197,8 @@ Window {
             id: blkAmpAmpB1
             masterId: 0x0E
             slaveId: 0x0F
-            posTop: txtRackAmpId.height + marginHeightRackAmp
-            posLeft: blkAmpAmpA1.posRight
+            posTop: blkAmpAmpA1.posBottom
+            posLeft: 0
         }
 
         Rectangle {

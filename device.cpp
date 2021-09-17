@@ -96,7 +96,7 @@ devAmp &operator<< (devAmp &dev, const msgAmp &m)
 {
     dev.var["power"]->setValue(m.power);
     dev.var["gain"]->setValue(m.gain);
-    dev.var["atten_out"]->setValue(m.atten);
+    dev.var["atten"]->setValue(m.atten);
     dev.var["loss"]->setValue(m.loss);
     dev.var["amp_temp"]->setValue(m.temp);
     dev.var["load_temp"]->setValue(m.load_temp);

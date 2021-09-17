@@ -21,6 +21,76 @@
     </message>
 </context>
 <context>
+    <name>RectDevAmp</name>
+    <message>
+        <location filename="RectDevAmp.qml" line="49"/>
+        <location filename="RectDevAmp.qml" line="57"/>
+        <source>Gain</source>
+        <translation>增益</translation>
+    </message>
+    <message>
+        <location filename="RectDevAmp.qml" line="69"/>
+        <location filename="RectDevAmp.qml" line="77"/>
+        <source>Attenuation</source>
+        <translation>衰减</translation>
+    </message>
+    <message>
+        <location filename="RectDevAmp.qml" line="89"/>
+        <location filename="RectDevAmp.qml" line="97"/>
+        <source>Return</source>
+        <translation>回波</translation>
+    </message>
+    <message>
+        <location filename="RectDevAmp.qml" line="109"/>
+        <location filename="RectDevAmp.qml" line="117"/>
+        <source>Amplifier Temperature</source>
+        <translation>功放温度</translation>
+    </message>
+    <message>
+        <location filename="RectDevAmp.qml" line="130"/>
+        <source>Stand Wave</source>
+        <translation>驻波</translation>
+    </message>
+    <message>
+        <location filename="RectDevAmp.qml" line="149"/>
+        <source>Temperature</source>
+        <translation>温度</translation>
+    </message>
+    <message>
+        <location filename="RectDevAmp.qml" line="168"/>
+        <source>Current</source>
+        <translation>电流</translation>
+    </message>
+    <message>
+        <location filename="RectDevAmp.qml" line="187"/>
+        <source>Voltage</source>
+        <translation>电压</translation>
+    </message>
+    <message>
+        <location filename="RectDevAmp.qml" line="206"/>
+        <source>Output Power</source>
+        <translation>输出功率</translation>
+    </message>
+    <message>
+        <location filename="RectDevAmp.qml" line="225"/>
+        <location filename="RectDevAmp.qml" line="233"/>
+        <source>Load Temperature</source>
+        <translation>负载温度</translation>
+    </message>
+    <message>
+        <source>radio</source>
+        <translation type="obsolete">射频</translation>
+    </message>
+    <message>
+        <source>mid freq</source>
+        <translation type="obsolete">中频</translation>
+    </message>
+    <message>
+        <source>Inner Ref</source>
+        <translation type="obsolete">内参</translation>
+    </message>
+</context>
+<context>
     <name>RectDevDist</name>
     <message>
         <location filename="RectDevDist.qml" line="28"/>
@@ -333,12 +403,12 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="main.qml" line="36"/>
+        <location filename="main.qml" line="35"/>
         <source>RDSS Project</source>
         <translation>RDSS 项目</translation>
     </message>
     <message>
-        <location filename="main.qml" line="58"/>
+        <location filename="main.qml" line="57"/>
         <source>Frequency Conversion Rack</source>
         <translation>变频机柜</translation>
     </message>
@@ -356,21 +426,21 @@
         <translation type="vanished">中频分配</translation>
     </message>
     <message>
-        <location filename="main.qml" line="134"/>
-        <location filename="main.qml" line="225"/>
+        <location filename="main.qml" line="133"/>
+        <location filename="main.qml" line="224"/>
         <source>Switch</source>
         <oldsource>Switch2</oldsource>
         <translation>交换机</translation>
     </message>
     <message>
-        <location filename="main.qml" line="161"/>
-        <location filename="main.qml" line="252"/>
+        <location filename="main.qml" line="160"/>
+        <location filename="main.qml" line="251"/>
         <source>Serial</source>
         <oldsource>Serial2</oldsource>
         <translation>串转网</translation>
     </message>
     <message>
-        <location filename="main.qml" line="183"/>
+        <location filename="main.qml" line="182"/>
         <source>Amplification Rack</source>
         <translation>功放机柜</translation>
     </message>

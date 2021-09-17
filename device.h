@@ -231,8 +231,7 @@ public:
     explicit devAmp(device *parent = nullptr) : device({
         {"power",           new deviceVar(alert::P_ENUM_INT)},
         {"gain",            new deviceVar(alert::P_ENUM_INT)},
-        {"atten_in",        new deviceVar(alert::P_ENUM_FLOAT)},
-        {"atten_out",       new deviceVar(alert::P_ENUM_INT)},
+        {"atten",           new deviceVar(alert::P_ENUM_INT)},
         {"loss",            new deviceVar(alert::P_ENUM_INT)},
         {"amp_temp",        new deviceVar(alert::P_ENUM_INT)},
         {"s_stand_wave",    new deviceVar(alert::P_ENUM_STAT)},
