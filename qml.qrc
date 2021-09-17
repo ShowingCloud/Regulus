@@ -12,5 +12,6 @@
         <file>ComboCombo.qml</file>
         <file>RectHistory.qml</file>
         <file>ComboTextField.qml</file>
+        <file>RectDevDist.qml</file>
     </qresource>
 </RCC>

@@ -155,9 +155,9 @@ msgDist &operator<< (msgDist &m, const QByteArray &data)
     qDebug() << "Got Msg Dist" << m.deviceId << m.origin;
 
     QDataStream(data) >> m.holder8 /* header */ >> m.ref_10 >> m.ref_16 >> m.voltage
-                      >> m.current >> m.power >> m.holder8 >> m.holder8 /* device */
-                      >> m.holder8 >> m.holder8 >> m.holder8 >> m.holder8
-                      >> m.holder8 >> m.holder8 >> m.serialId >> m.holder8 >> m.holder8
+                      >> m.current >> m.lock_10_1 >> m.lock_10_2 >> m.serialId
+                      >> m.lock_16_1 >> m.lock_16_2 >> m.holder8 >> m.holder8
+                      >> m.holder8 >> m.holder8 >> m.holder8 /* device */ >> m.holder8 >> m.holder8
                       >> m.holder8 >> m.holder8 /* tailer */;
     device::updateDevice(m);
     return m;

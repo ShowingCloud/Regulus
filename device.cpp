@@ -83,6 +83,10 @@ devDist &operator<< (devDist &dev, const msgDist &m)
     dev.var["ref_16"]->setValue(m.ref_16);
     dev.var["voltage"]->setValue(m.voltage);
     dev.var["current"]->setValue(m.current);
+    dev.var["lock_10_1"]->setValue(m.lock_10_1);
+    dev.var["lock_10_2"]->setValue(m.lock_10_2);
+    dev.var["lock_16_1"]->setValue(m.lock_16_1);
+    dev.var["lock_16_2"]->setValue(m.lock_16_2);
 
     emit dev.gotData();
     return dev;

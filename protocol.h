@@ -128,8 +128,10 @@ private:
     quint8 ref_16 = quint8();
     quint8 voltage = quint8();
     quint16 current = quint16();
-    quint8 power = quint8();
-
+    quint8 lock_10_1 = quint8();
+    quint8 lock_10_2 = quint8();
+    quint8 lock_16_1 = quint8();
+    quint8 lock_16_2 = quint8();
 };
 
 class msgAmp : public msgUplink

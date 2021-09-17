@@ -21,6 +21,23 @@
     </message>
 </context>
 <context>
+    <name>RectDevDist</name>
+    <message>
+        <location filename="RectDevDist.qml" line="28"/>
+        <location filename="RectDevDist.qml" line="36"/>
+        <location filename="RectDevDist.qml" line="48"/>
+        <location filename="RectDevDist.qml" line="56"/>
+        <source>Outer Ref</source>
+        <translation>外参考</translation>
+    </message>
+    <message>
+        <location filename="RectDevDist.qml" line="110"/>
+        <location filename="RectDevDist.qml" line="164"/>
+        <source>Lock</source>
+        <translation>锁定</translation>
+    </message>
+</context>
+<context>
     <name>RectDevFreq</name>
     <message>
         <location filename="RectDevFreq.qml" line="90"/>
@@ -205,47 +222,47 @@
     </message>
     <message>
         <location filename="freq.qml" line="186"/>
-        <location filename="freq.qml" line="398"/>
+        <location filename="freq.qml" line="405"/>
         <source>Radio</source>
         <translation>射频</translation>
     </message>
     <message>
         <location filename="freq.qml" line="186"/>
         <location filename="freq.qml" line="200"/>
-        <location filename="freq.qml" line="398"/>
-        <location filename="freq.qml" line="412"/>
+        <location filename="freq.qml" line="405"/>
+        <location filename="freq.qml" line="419"/>
         <source>Output</source>
         <translation>输出</translation>
     </message>
     <message>
         <location filename="freq.qml" line="186"/>
         <location filename="freq.qml" line="200"/>
-        <location filename="freq.qml" line="398"/>
-        <location filename="freq.qml" line="412"/>
+        <location filename="freq.qml" line="405"/>
+        <location filename="freq.qml" line="419"/>
         <source>Input</source>
         <translation>输入</translation>
     </message>
     <message>
         <location filename="freq.qml" line="200"/>
-        <location filename="freq.qml" line="412"/>
+        <location filename="freq.qml" line="419"/>
         <source>Mid Freq</source>
         <translation>中频</translation>
     </message>
     <message>
         <location filename="freq.qml" line="286"/>
-        <location filename="freq.qml" line="498"/>
+        <location filename="freq.qml" line="505"/>
         <source>Network Communication</source>
         <translation>网络通信</translation>
     </message>
     <message>
         <location filename="freq.qml" line="293"/>
-        <location filename="freq.qml" line="505"/>
+        <location filename="freq.qml" line="512"/>
         <source>Handshake Signal</source>
         <translation>握手信号</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="302"/>
-        <location filename="freq.qml" line="514"/>
+        <location filename="freq.qml" line="309"/>
+        <location filename="freq.qml" line="528"/>
         <source>Submit</source>
         <translation>提交</translation>
     </message>
@@ -256,31 +273,31 @@
     </message>
     <message>
         <location filename="freq.qml" line="116"/>
-        <location filename="freq.qml" line="328"/>
+        <location filename="freq.qml" line="335"/>
         <source>Attenuation</source>
         <translation>衰减量</translation>
     </message>
     <message>
         <location filename="freq.qml" line="139"/>
-        <location filename="freq.qml" line="351"/>
+        <location filename="freq.qml" line="358"/>
         <source>Ref</source>
         <translation>参考</translation>
     </message>
     <message>
         <location filename="freq.qml" line="142"/>
-        <location filename="freq.qml" line="354"/>
+        <location filename="freq.qml" line="361"/>
         <source>Channel</source>
         <translation>通道</translation>
     </message>
     <message>
         <location filename="freq.qml" line="158"/>
-        <location filename="freq.qml" line="370"/>
+        <location filename="freq.qml" line="377"/>
         <source>Voltage</source>
         <translation>电压</translation>
     </message>
     <message>
         <location filename="freq.qml" line="172"/>
-        <location filename="freq.qml" line="384"/>
+        <location filename="freq.qml" line="391"/>
         <source>Current</source>
         <translation>电流</translation>
     </message>
@@ -294,13 +311,13 @@
     </message>
     <message>
         <location filename="freq.qml" line="214"/>
-        <location filename="freq.qml" line="426"/>
+        <location filename="freq.qml" line="433"/>
         <source>Local Oscillator</source>
         <translation>本振</translation>
     </message>
     <message>
         <location filename="freq.qml" line="272"/>
-        <location filename="freq.qml" line="484"/>
+        <location filename="freq.qml" line="491"/>
         <source>Inner Ref</source>
         <translation>内参</translation>
     </message>

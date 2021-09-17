@@ -60,14 +60,9 @@ Item {
                 objWinDist.devDist = devDist
             }
         }
-    }
 
-    Text {
-        id: txtStr
-        anchors.top: dev.top
-        anchors.left: dev.left
-        height: defaultMarginAndTextWidthHeight
-        width: 2 * rackFreqBoxWidth
-        text: devDist.str
+        RectDevDist {
+            devDist: devDist
+        }
     }
 }
