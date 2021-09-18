@@ -83,7 +83,30 @@ Window {
 
         onClicked: {
             forceActiveFocus()
-            // TODO
+            devAmpMaster.releaseHold("atten_mode")
+            comboMasterAttenMode.colorValue = devAmpMaster.showColor("atten_mode")
+            comboMasterAttenMode.index = devAmpMaster.getValue("atten_mode")
+            devAmpMaster.releaseHold("atten")
+            comboMasterAtten.colorValue = devAmpMaster.showColor("atten")
+            comboMasterAtten.txtValue = devAmpMaster.showDisplay("atten") + " dB"
+            devAmpMaster.releaseHold("power")
+            comboMasterPower.colorValue = devAmpMaster.showColor("power")
+            comboMasterPower.txtValue = devAmpMaster.showDisplay("power") + " mW"
+            devAmpMaster.releaseHold("gain")
+            comboMasterGain.colorValue = devAmpMaster.showColor("gain")
+            comboMasterGain.txtValue = devAmpMaster.showDisplay("gain") + " dB"
+            devAmpSlave.releaseHold("atten_mode")
+            comboSlaveAttenMode.colorValue = devAmpSlave.showColor("atten_mode")
+            comboSlaveAttenMode.index = devAmpSlave.getValue("atten_mode")
+            devAmpSlave.releaseHold("atten")
+            comboSlaveAtten.colorValue = devAmpSlave.showColor("atten")
+            comboSlaveAtten.txtValue = devAmpSlave.showDisplay("atten") + " dB"
+            devAmpSlave.releaseHold("power")
+            comboSlavePower.colorValue = devAmpSlave.showColor("power")
+            comboSlavePower.txtValue = devAmpSlave.showDisplay("power") + " mW"
+            devAmpSlave.releaseHold("gain")
+            comboSlaveGain.colorValue = devAmpSlave.showColor("gain")
+            comboSlaveGain.txtValue = devAmpSlave.showDisplay("gain") + " dB"
         }
     }
 
@@ -325,10 +348,10 @@ Window {
             text: qsTr("Submit")
 
             onClicked: {
+                comboMasterAttenMode.submit()
                 comboMasterAtten.submit()
-                comboMasterRef.submit()
-                comboSlaveAtten.submit()
-                comboSlaveRef.submit()
+                comboMasterPower.submit()
+                comboMasterGain.submit()
                 devAmpMaster.createCntlMsg()
                 buttonReset.clicked()
             }
@@ -573,10 +596,10 @@ Window {
             text: qsTr("Submit")
 
             onClicked: {
+                comboSlaveAttenMode.submit()
                 comboSlaveAtten.submit()
-                comboSlaveRef.submit()
-                comboSlaveAtten.submit()
-                comboSlaveRef.submit()
+                comboSlavePower.submit()
+                comboSlaveGain.submit()
                 devAmpSlave.createCntlMsg()
                 buttonReset.clicked()
             }

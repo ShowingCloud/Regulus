@@ -126,7 +126,7 @@ const devDist &operator>> (const devDist &dev, msgCntlDist &m)
 const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m)
 {
     m.atten_mode = static_cast<quint8>(dev.var["atten_mode"]->getValue());
-    m.atten = static_cast<quint8>(dev.var["atten_in"]->getValue());
+    m.atten = static_cast<quint8>(dev.var["atten"]->getValue());
     m.power = static_cast<quint16>(dev.var["power"]->getValue());
     m.gain = static_cast<quint16>(dev.var["gain"]->getValue());
 

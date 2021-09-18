@@ -54,7 +54,6 @@ Item {
         }
 
         delegate: ItemDelegate {
-            id: delegate
             width: combo.width
             contentItem: Text {
                 text: modelData
@@ -63,15 +62,6 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 color: colorValue
-
-                MouseArea {
-                    id: mouseId
-                    anchors.fill: parent
-                    onClicked: {
-                        blockComboCombo.clicked(combo.currentIndex)
-                        delegate.clicked()
-                    }
-                }
             }
             highlighted: combo.highlightedIndex === index
         }
@@ -85,6 +75,7 @@ Item {
         }
 
         onCurrentIndexChanged: blockComboCombo.changedIndex(currentIndex)
+        onActivated: blockComboCombo.clicked(currentIndex)
     }
 
     onSubmit: blockComboCombo.updated(combo.currentIndex)

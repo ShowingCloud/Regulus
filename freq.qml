@@ -311,7 +311,6 @@ Window {
             onClicked: {
                 comboMasterAtten.submit()
                 comboMasterRef.submit()
-                comboSlaveAtten.submit()
                 comboSlaveRef.submit()
                 devFreqMaster.createCntlMsg()
                 buttonReset.clicked()
@@ -528,10 +527,9 @@ Window {
             text: qsTr("Submit")
 
             onClicked: {
-                comboMasterAtten.submit()
-                comboMasterRef.submit()
                 comboSlaveAtten.submit()
                 comboSlaveRef.submit()
+                comboMasterRef.submit()
                 devFreqSlave.createCntlMsg()
                 buttonReset.clicked()
             }

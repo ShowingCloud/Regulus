@@ -89,7 +89,7 @@ Window {
                 })
                 gotData.connect(function() {
                     if ((colorValue = devDist.showColor("ref_10")) !== Alert.MAP_COLOR["HOLDING"])
-                        index = devDist.showDisplay("ref_10")
+                        index = devDist.getValue("ref_10")
                 })
             }
         }
@@ -111,7 +111,7 @@ Window {
                 })
                 gotData.connect(function() {
                     if ((colorValue = devDist.showColor("ref_16")) !== Alert.MAP_COLOR["HOLDING"])
-                        index = devDist.showDisplay("ref_16")
+                        index = devDist.getValue("ref_16")
                 })
             }
         }
@@ -216,6 +216,8 @@ Window {
             text: qsTr("Submit")
 
             onClicked: {
+                comboRef10.submit()
+                comboRef16.submit()
                 devDist.createCntlMsg()
                 buttonReset.clicked()
             }
