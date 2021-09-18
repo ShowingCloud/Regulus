@@ -56,10 +56,10 @@ Window {
             forceActiveFocus()
             devDist.releaseHold("ref_10")
             comboRef10.colorValue = devDist.showColor("ref_10")
-            comboRef10.index = devDist.showDisplay("ref_10")
+            comboRef10.index = devDist.getValue("ref_10")
             devDist.releaseHold("ref_16")
             comboRef16.colorValue = devDist.showColor("ref_16")
-            comboRef16.index = devDist.showDisplay("ref_16")
+            comboRef16.index = devDist.getValue("ref_16")
         }
     }
 

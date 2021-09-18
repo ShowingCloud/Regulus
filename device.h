@@ -156,7 +156,7 @@ protected:
         {0x0F, {"C2 ", QT_TR_NOOP("High Amplification"), " B"}}
     };
     int dId = 0;
-    serial *lastSerial;
+    serial *lastSerial = nullptr;
     QDateTime lastseen;
     const QHash<QString, deviceVar *> var;
 
