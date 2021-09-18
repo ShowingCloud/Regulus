@@ -61,7 +61,7 @@ Window {
                 index = devFreqMaster.getValue("masterslave")
                 colorValue = devFreqMaster.showColor("masterslave")
             })
-            changedIndex.connect(function(index) {
+            clicked.connect(function(index) {
                 comboMasterAtten.submit()
                 comboMasterRef.submit()
                 comboSlaveAtten.submit()

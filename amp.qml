@@ -61,7 +61,7 @@ Window {
                 colorValue = devAmpMaster.showColor("masterslave")
             })
             */
-            changedIndex.connect(function(index) {
+            clicked.connect(function(index) {
                 // TODO
                 if (index === Alert.P_MS_MASTER)
                     devAmpMaster.createCntlMsg()

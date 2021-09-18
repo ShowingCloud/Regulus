@@ -16,8 +16,9 @@ Item {
     property alias index : combo.currentIndex
 
     signal hold()
-    signal updated(int index)
-    signal changedIndex(int index)
+    signal updated(int index) /* when lost focus ie. change handed over */
+    signal changedIndex(int index) /* when change index event occurred */
+    signal clicked(int index) /* when any index was selected */
     signal submit()
 
     Text {
@@ -61,6 +62,12 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 color: colorValue
+
+                MouseArea {
+                    id: mouseId
+                    anchors.fill: parent
+                    onClicked: blockComboCombo.clicked(combo.currentIndex)
+                }
             }
             highlighted: combo.highlightedIndex === index
         }
@@ -73,9 +80,7 @@ Item {
             }
         }
 
-        onCurrentIndexChanged: {
-            blockComboCombo.changedIndex(currentIndex)
-        }
+        onCurrentIndexChanged: blockComboCombo.changedIndex(currentIndex)
     }
 
     onSubmit: blockComboCombo.updated(combo.currentIndex)
