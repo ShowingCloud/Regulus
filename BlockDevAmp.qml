@@ -59,6 +59,7 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinAmp.setVisible(true);
+                objWinAmp.opened(devAmpMaster, devAmpSlave)
             }
         }
 
@@ -87,6 +88,7 @@ Item {
             anchors.fill: parent
             onClicked: {
                 objWinAmp.setVisible(true);
+                objWinAmp.opened(devAmpMaster, devAmpSlave)
             }
         }
 

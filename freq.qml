@@ -182,7 +182,7 @@ Window {
         ComboText {
             id: comboMasterRadioStat
             posTop: comboMasterAtten.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 4 * 2
+            posLeft: (rectMaster.width - marginWidget) / 2
             txtText: qsTr("Radio") + (devFreqUp ? qsTr("Output") : qsTr("Input"))
 
             Component.onCompleted: {
@@ -196,7 +196,7 @@ Window {
         ComboText {
             id: comboMasterMidStat
             posTop: comboMasterAtten.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 4 * 3
+            posLeft: (rectMaster.width - marginWidget) * 3 / 4
             txtText: qsTr("Mid Freq") + (devFreqUp ? qsTr("Input") : qsTr("Output"))
 
             Component.onCompleted: {
@@ -268,7 +268,7 @@ Window {
         ComboText {
             id: comboMaster10RefInner
             posTop: comboMasterLOA1.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 4 * 2
+            posLeft: (rectMaster.width - marginWidget) / 2
             txtText: "10 MHz " + qsTr("Inner Ref")
 
             Component.onCompleted: {
@@ -289,7 +289,7 @@ Window {
         ComboText {
             id: comboMasterSignal
             posTop: comboMaster10Ref1.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 4 * 2
+            posLeft: (rectMaster.width - marginWidget) / 2
             txtText: qsTr("Handshake Signal")
 
             Component.onCompleted: {
@@ -401,7 +401,7 @@ Window {
         ComboText {
             id: comboSlaveRadioStat
             posTop: comboSlaveAtten.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 4 * 2
+            posLeft: (rectSlave.width - marginWidget) / 2
             txtText: qsTr("Radio") + (devFreqUp ? qsTr("Output") : qsTr("Input"))
 
             Component.onCompleted: {
@@ -415,7 +415,7 @@ Window {
         ComboText {
             id: comboSlaveMidStat
             posTop: comboSlaveAtten.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 4 * 3
+            posLeft: (rectSlave.width - marginWidget) * 3 / 4
             txtText: qsTr("Mid Freq") + (devFreqUp ? qsTr("Input") : qsTr("Output"))
 
             Component.onCompleted: {
@@ -487,7 +487,7 @@ Window {
         ComboText {
             id: comboSlave16RefInner
             posTop: comboSlaveLOB1.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 4 * 2
+            posLeft: (rectSlave.width - marginWidget) / 2
             txtText: "10 MHz " + qsTr("Inner Ref")
 
             Component.onCompleted: {
@@ -508,7 +508,7 @@ Window {
         ComboText {
             id: comboSlaveSignal
             posTop: comboSlave10Ref1.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 4 * 2
+            posLeft: (rectSlave.width - marginWidget) / 2
             txtText: qsTr("Handshake Signal")
 
             Component.onCompleted: {

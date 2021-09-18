@@ -216,9 +216,109 @@
 <context>
     <name>amp</name>
     <message>
-        <location filename="amp.qml" line="12"/>
+        <location filename="amp.qml" line="20"/>
         <source>Amplification Device</source>
         <translation>功放设备</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="54"/>
+        <source>Current State</source>
+        <translation>当前状态</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="82"/>
+        <source>Reset</source>
+        <translation>重置</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="103"/>
+        <location filename="amp.qml" line="351"/>
+        <source>Attenuation Mode</source>
+        <translation>衰减模式</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="121"/>
+        <location filename="amp.qml" line="369"/>
+        <source>Attenuation</source>
+        <translation>衰减量</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="144"/>
+        <location filename="amp.qml" line="392"/>
+        <source>Power</source>
+        <translation>功率</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="167"/>
+        <location filename="amp.qml" line="415"/>
+        <source>Gain</source>
+        <translation>增益</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="190"/>
+        <location filename="amp.qml" line="438"/>
+        <source>Return Loss</source>
+        <translation>回波损耗</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="204"/>
+        <location filename="amp.qml" line="452"/>
+        <source>Amplifier Temperature</source>
+        <translation>功放温度</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="218"/>
+        <location filename="amp.qml" line="466"/>
+        <source>Stand Wave</source>
+        <translation>驻波</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="232"/>
+        <location filename="amp.qml" line="480"/>
+        <source>Temperature</source>
+        <translation>温度</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="246"/>
+        <location filename="amp.qml" line="494"/>
+        <source>Current</source>
+        <translation>电流</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="260"/>
+        <location filename="amp.qml" line="508"/>
+        <source>Voltage</source>
+        <translation>电压</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="274"/>
+        <location filename="amp.qml" line="522"/>
+        <source>Output Power</source>
+        <translation>输出功率</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="288"/>
+        <location filename="amp.qml" line="536"/>
+        <source>Load Temperature</source>
+        <translation>负载温度</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="302"/>
+        <location filename="amp.qml" line="550"/>
+        <source>Network Communication</source>
+        <translation>网络通信</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="309"/>
+        <location filename="amp.qml" line="557"/>
+        <source>Handshake Signal</source>
+        <translation>握手信号</translation>
+    </message>
+    <message>
+        <location filename="amp.qml" line="325"/>
+        <location filename="amp.qml" line="573"/>
+        <source>Submit</source>
+        <translation>提交</translation>
     </message>
 </context>
 <context>
@@ -268,65 +368,60 @@
 <context>
     <name>dist</name>
     <message>
+        <location filename="dist.qml" line="20"/>
         <source>Frequency Distribution Device</source>
-        <translation type="vanished">频率分配设备</translation>
+        <translation>频率分配设备</translation>
     </message>
     <message>
         <source>Master</source>
         <translation type="obsolete">主路</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="20"/>
-        <source>Distuency Distribution Device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dist.qml" line="54"/>
+        <location filename="dist.qml" line="53"/>
         <source>Reset</source>
         <translation>重置</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="74"/>
-        <location filename="dist.qml" line="92"/>
+        <location filename="dist.qml" line="79"/>
+        <location filename="dist.qml" line="101"/>
         <source>Outer Ref</source>
         <translation>外参考</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="77"/>
-        <location filename="dist.qml" line="95"/>
+        <location filename="dist.qml" line="82"/>
+        <location filename="dist.qml" line="104"/>
         <source>Channel</source>
         <translation>通道</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="110"/>
+        <location filename="dist.qml" line="123"/>
         <source>Voltage</source>
         <translation>电压</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="124"/>
+        <location filename="dist.qml" line="137"/>
         <source>Current</source>
         <translation>电流</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="138"/>
-        <location filename="dist.qml" line="152"/>
-        <location filename="dist.qml" line="166"/>
-        <location filename="dist.qml" line="180"/>
+        <location filename="dist.qml" line="151"/>
+        <location filename="dist.qml" line="165"/>
+        <location filename="dist.qml" line="179"/>
+        <location filename="dist.qml" line="193"/>
         <source>Lock</source>
         <translation>锁定</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="194"/>
+        <location filename="dist.qml" line="207"/>
         <source>Network Communication</source>
         <translation>网络通信</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="201"/>
         <source>Handshake Signal</source>
-        <translation>握手信号</translation>
+        <translation type="vanished">握手信号</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="217"/>
+        <location filename="dist.qml" line="216"/>
         <source>Submit</source>
         <translation>提交</translation>
     </message>

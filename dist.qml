@@ -17,7 +17,7 @@ Window {
     modality: Qt.ApplicationModal
     width: rect.width + 2 * marginRect
     height: rect.height + heightWidget + 2 * marginRect + marginWidget + defaultHistoryAreaHeight
-    title: qsTr("Distuency Distribution Device")
+    title: qsTr("Frequency Distribution Device")
 
     property QtObject devDist
     signal opened(QtObject dev)
