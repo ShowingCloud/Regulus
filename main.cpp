@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QTranslator translator;
-    translator.load(":/zh_CN");
+    translator.load(":/i18n/zh_CN");
     app.installTranslator(&translator);
 
     qmlRegisterType<devFreq>("rdss.device", 1, 0, "DevFreq");
