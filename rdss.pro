@@ -1,5 +1,5 @@
 QT += quick sql serialport widgets
-CONFIG += c++1z console
+CONFIG += c++1z console lrelease embed_translations
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -20,8 +20,7 @@ SOURCES += \
     serial.cpp \
     device.cpp
 
-RESOURCES += qml.qrc \
-    translate.qrc
+RESOURCES += qml.qrc
 
 TRANSLATIONS += zh_CN.ts
 
@@ -35,9 +34,6 @@ QML_DESIGNER_IMPORT_PATH =
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-DISTFILES += \
-    zh_CN.ts
 
 HEADERS += \
     database.h \
