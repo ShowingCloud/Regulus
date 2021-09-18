@@ -143,9 +143,11 @@ void devFreq::createCntlMsg()
     q->setDeviceId(this->dId);
 
     if (this->lastSerial and QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
+        qDebug() << this->lastSerial << this->lastseen;
         qDebug() << "create msg: sending one";
         *this->lastSerial << *q;
     } else {
+        qDebug() << this->lastSerial << this->lastseen;
         qDebug() << "create msg: sending all";
         for (serial *s : qAsConst(serial::serialList))
         {
@@ -166,9 +168,11 @@ void devDist::createCntlMsg()
     q->setDeviceId(this->dId);
 
     if (this->lastSerial and QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
+        qDebug() << this->lastSerial << this->lastseen;
         qDebug() << "create msg: sending one";
         *this->lastSerial << *q;
     } else {
+        qDebug() << this->lastSerial << this->lastseen;
         qDebug() << "create msg: sending all";
         for (serial *s : qAsConst(serial::serialList))
         {
@@ -189,9 +193,11 @@ void devAmp::createCntlMsg()
     q->setDeviceId(this->dId);
 
     if (this->lastSerial and QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
+        qDebug() << this->lastSerial << this->lastseen;
         qDebug() << "create msg: sending one";
         *this->lastSerial << *q;
     } else {
+        qDebug() << this->lastSerial << this->lastseen;
         qDebug() << "create msg: sending all";
         for (serial *s : qAsConst(serial::serialList))
         {
