@@ -54,6 +54,7 @@ Item {
         }
 
         delegate: ItemDelegate {
+            id: delegate
             width: combo.width
             contentItem: Text {
                 text: modelData
@@ -66,7 +67,10 @@ Item {
                 MouseArea {
                     id: mouseId
                     anchors.fill: parent
-                    onClicked: blockComboCombo.clicked(combo.currentIndex)
+                    onClicked: {
+                        blockComboCombo.clicked(combo.currentIndex)
+                        delegate.clicked()
+                    }
                 }
             }
             highlighted: combo.highlightedIndex === index
