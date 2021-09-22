@@ -84,6 +84,7 @@ Window {
         width: widthWidget
         height: heightWidget
         text: qsTr("Reset")
+        font.pixelSize: defaultLabelFontSize
 
         onClicked: {
             forceActiveFocus()
@@ -307,6 +308,7 @@ Window {
             width: widthWidget
             height: heightWidget
             text: qsTr("Submit")
+            font.pixelSize: defaultLabelFontSize
 
             onClicked: {
                 comboMasterAtten.submit()
@@ -525,6 +527,7 @@ Window {
             width: widthWidget
             height: heightWidget
             text: qsTr("Submit")
+            font.pixelSize: defaultLabelFontSize
 
             onClicked: {
                 comboSlaveAtten.submit()
