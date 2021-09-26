@@ -17,7 +17,7 @@ class serial : public QObject
     Q_OBJECT
 public:
     explicit serial(const QSerialPortInfo &serialportinfo, QObject *parent = nullptr);
-    ~serial();
+    ~serial() override;
 
     friend serial &operator<< (serial &s, const msg &m);
     friend serial &operator<< (serial &s, const msgQuery &m);
