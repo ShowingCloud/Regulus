@@ -190,9 +190,10 @@ public:
         {"lock_b2",     new deviceVar(alert::P_ENUM_LOCK)},
         {"ref_10_1",    new deviceVar(alert::P_ENUM_NOR)},
         {"ref_10_2",    new deviceVar(alert::P_ENUM_NOR)},
-        {"ref_10_inner",new deviceVar(alert::P_ENUM_NOR)},
-        {"ref_3",       new deviceVar(alert::P_ENUM_NOR)},
-        {"ref_4",       new deviceVar(alert::P_ENUM_NOR)},
+        {"ref_10_3",    new deviceVar(alert::P_ENUM_NOR)},
+        {"ref_10_4",    new deviceVar(alert::P_ENUM_NOR)},
+        {"ref_inner_1", new deviceVar(alert::P_ENUM_NOR)},
+        {"ref_inner_2", new deviceVar(alert::P_ENUM_NOR)},
         {"handshake",   new deviceVar(alert::P_ENUM_HSK)},
         {"masterslave", new deviceVar(alert::P_ENUM_MS)}
     }, parent) {}
@@ -229,10 +230,10 @@ class devAmp : public device
     Q_OBJECT
 public:
     explicit devAmp(device *parent = nullptr) : device({
-        {"power",           new deviceVar(alert::P_ENUM_INT)},
-        {"gain",            new deviceVar(alert::P_ENUM_INT)},
-        {"atten",           new deviceVar(alert::P_ENUM_INT)},
-        {"loss",            new deviceVar(alert::P_ENUM_INT)},
+        {"power",           new deviceVar(alert::P_ENUM_DECUPLE)},
+        {"gain",            new deviceVar(alert::P_ENUM_DECUPLE)},
+        {"atten",           new deviceVar(alert::P_ENUM_DECUPLE)},
+        {"loss",            new deviceVar(alert::P_ENUM_DECUPLE)},
         {"amp_temp",        new deviceVar(alert::P_ENUM_INT)},
         {"s_stand_wave",    new deviceVar(alert::P_ENUM_STAT)},
         {"s_temp",          new deviceVar(alert::P_ENUM_STAT)},

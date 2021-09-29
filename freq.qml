@@ -274,8 +274,8 @@ Window {
 
             Component.onCompleted: {
                 masterGotData.connect(function() {
-                    txtValue = devFreqMaster.showDisplay("ref_10_2")
-                    colorValue = devFreqMaster.showColor("ref_10_2")
+                    txtValue = devFreqMaster.showDisplay("ref_inner_1")
+                    colorValue = devFreqMaster.showColor("ref_inner_1")
                 })
             }
         }
@@ -465,8 +465,8 @@ Window {
 
             Component.onCompleted: {
                 slaveGotData.connect(function() {
-                    txtValue = devFreqSlave.showDisplay("ref_3")
-                    colorValue = devFreqSlave.showColor("ref_3")
+                    txtValue = devFreqSlave.showDisplay("ref_10_3")
+                    colorValue = devFreqSlave.showColor("ref_10_3")
                 })
             }
         }
@@ -479,8 +479,8 @@ Window {
 
             Component.onCompleted: {
                 slaveGotData.connect(function() {
-                    txtValue = devFreqSlave.showDisplay("ref_4")
-                    colorValue = devFreqSlave.showColor("ref_4")
+                    txtValue = devFreqSlave.showDisplay("ref_10_4")
+                    colorValue = devFreqSlave.showColor("ref_10_4")
                 })
             }
         }
@@ -493,8 +493,8 @@ Window {
 
             Component.onCompleted: {
                 slaveGotData.connect(function() {
-                    txtValue = devFreqSlave.showDisplay("ref_4")
-                    colorValue = devFreqSlave.showColor("ref_4")
+                    txtValue = devFreqSlave.showDisplay("ref_inner_2")
+                    colorValue = devFreqSlave.showColor("ref_inner_2")
                 })
             }
         }

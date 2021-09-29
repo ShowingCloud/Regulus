@@ -139,8 +139,13 @@ msgFreq &operator<< (msgFreq &m, const QByteArray &data)
     QDataStream(data) >> m.holder8 /* header */ >> m.atten >> m.voltage
                       >> m.current >> m.radio_stat >> m.mid_stat >> m.lock_a1
                       >> m.lock_a2 >> m.lock_b1 >> m.lock_b2 >> m.ref_10_1
-                      >> m.ref_10_2 >> m.ref_3 >> m.ref_4 >> m.holder8 /* device */
+                      >> m.ref_2 >> m.ref_10_3 >> m.ref_4 >> m.holder8 /* device */
                       >> m.handshake >> m.serialId >> m.masterslave >> m.holder8 /* tailer */;
+    m.ref_10_2 = m.ref_2 & 0x0F;
+    m.ref_inner_1 = (m.ref_2 & 0xF0) >> 4;
+    m.ref_10_4 = m.ref_4 & 0x0F;
+    m.ref_inner_2 = (m.ref_4 & 0xF0) >> 4;
+
     device::updateDevice(m);
     return m;
 }
@@ -159,6 +164,7 @@ msgDist &operator<< (msgDist &m, const QByteArray &data)
                       >> m.lock_16_1 >> m.lock_16_2 >> m.holder8 >> m.holder8
                       >> m.holder8 >> m.holder8 >> m.holder8 /* device */ >> m.holder8 >> m.holder8
                       >> m.holder8 >> m.holder8 /* tailer */;
+
     device::updateDevice(m);
     return m;
 }
@@ -176,6 +182,12 @@ msgAmp &operator<< (msgAmp &m, const QByteArray &data)
                       >> m.loss >> m.temp >> m.stat >> m.load_temp
                       >> m.holder8 /* device */ >> m.holder8 >> m.serialId
                       >> m.handshake >> m.holder8 /* tailer */;
+    m.stat_stand_wave = (m.stat & 0x10) >> 4;
+    m.stat_temp = (m.stat & 0x08) >> 3;
+    m.stat_current = (m.stat & 0x04) >> 2;
+    m.stat_voltage = (m.stat & 0x02) >> 1;
+    m.stat_power = m.stat & 0x01;
+
     device::updateDevice(m);
     return m;
 }

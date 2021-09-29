@@ -175,7 +175,7 @@ Item {
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
-        visible: (!devIsMaster)
+        visible: !devIsMaster
 
         Component.onCompleted: {
             devFreq.gotData.connect(function() {
@@ -232,6 +232,7 @@ Item {
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
+        visible: devIsMaster
 
         Component.onCompleted: {
             devFreq.gotData.connect(function() {
@@ -252,6 +253,7 @@ Item {
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
+        visible: devIsMaster
 
         Component.onCompleted: {
             devFreq.gotData.connect(function() {
@@ -267,16 +269,80 @@ Item {
         anchors.left: txt10r2.right
         height: rackFreqBoxFreqHeight / 3
         width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 4
-        text: qsTr("Inner Ref") + devFreq.showDisplay("ref_10_inner")
+        text: qsTr("Inner Ref") + devFreq.showDisplay("ref_inner_1")
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: rectSmallFontSize
+        visible: devIsMaster
 
         Component.onCompleted: {
             devFreq.gotData.connect(function() {
-                text = qsTr("Inner Ref") + devFreq.showDisplay("ref_10_inner")
-                color = devFreq.showColor("ref_10_inner")
+                text = qsTr("Inner Ref") + devFreq.showDisplay("ref_inner_1")
+                color = devFreq.showColor("ref_inner_1")
+            })
+        }
+    }
+
+    Text {
+        id: txt10r3
+        anchors.top: txtRadio.bottom
+        anchors.left: txt10.right
+        height: rackFreqBoxFreqHeight / 3
+        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 4
+        text: "1 " + devFreq.showDisplay("ref_10_3")
+        verticalAlignment: Text.AlignVCenter
+        elide: Text.ElideRight
+        horizontalAlignment: Text.AlignLeft
+        font.pixelSize: rectSmallFontSize
+        visible: !devIsMaster
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = "1 " + devFreq.showDisplay("ref_10_3")
+                color = devFreq.showColor("ref_10_3")
+            })
+        }
+    }
+
+    Text {
+        id: txt10r4
+        anchors.top: txtRadio.bottom
+        anchors.left: txt10r3.right
+        height: rackFreqBoxFreqHeight / 3
+        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 4
+        text: "2 " + devFreq.showDisplay("ref_10_4")
+        verticalAlignment: Text.AlignVCenter
+        elide: Text.ElideRight
+        horizontalAlignment: Text.AlignLeft
+        font.pixelSize: rectSmallFontSize
+        visible: !devIsMaster
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = "2 " + devFreq.showDisplay("ref_10_4")
+                color = devFreq.showColor("ref_10_4")
+            })
+        }
+    }
+
+    Text {
+        id: txt10Inner2
+        anchors.top: txtRadio.bottom
+        anchors.left: txt10r4.right
+        height: rackFreqBoxFreqHeight / 3
+        width: (rackFreqBoxWidth - 2 * marginIndicators - ind.width) / 4
+        text: qsTr("Inner Ref") + devFreq.showDisplay("ref_inner_2")
+        verticalAlignment: Text.AlignVCenter
+        elide: Text.ElideRight
+        horizontalAlignment: Text.AlignLeft
+        font.pixelSize: rectSmallFontSize
+        visible: !devIsMaster
+
+        Component.onCompleted: {
+            devFreq.gotData.connect(function() {
+                text = qsTr("Inner Ref") + devFreq.showDisplay("ref_inner_2")
+                color = devFreq.showColor("ref_inner_2")
             })
         }
     }

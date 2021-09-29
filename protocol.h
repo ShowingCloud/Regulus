@@ -104,9 +104,13 @@ private:
     quint8 lock_b1 = quint8();
     quint8 lock_b2 = quint8();
     quint8 ref_10_1 = quint8();
-    quint8 ref_10_2 = quint8();
-    quint8 ref_3 = quint8();
+    quint8 ref_2 = quint8();
+    quint8 ref_10_3 = quint8();
     quint8 ref_4 = quint8();
+    quint8 ref_10_2 = quint8();
+    quint8 ref_inner_1 = quint8();
+    quint8 ref_10_4 = quint8();
+    quint8 ref_inner_2 = quint8();
     quint8 handshake = quint8();
     quint8 masterslave = quint8();
 };
@@ -153,6 +157,11 @@ private:
     quint16 loss = quint16();
     quint16 temp = quint16();
     quint16 stat = quint16();
+    quint8 stat_stand_wave = quint8();
+    quint8 stat_temp = quint8();
+    quint8 stat_current = quint8();
+    quint8 stat_voltage = quint8();
+    quint8 stat_power = quint8();
     quint16 load_temp = quint16();
     quint8 handshake = quint8();
 };

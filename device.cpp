@@ -68,8 +68,10 @@ devFreq &operator<< (devFreq &dev, const msgFreq &m)
     dev.var["lock_b2"]->setValue(m.lock_b2);
     dev.var["ref_10_1"]->setValue(m.ref_10_1);
     dev.var["ref_10_2"]->setValue(m.ref_10_2);
-    dev.var["ref_3"]->setValue(m.ref_3);
-    dev.var["ref_4"]->setValue(m.ref_4);
+    dev.var["ref_10_3"]->setValue(m.ref_10_3);
+    dev.var["ref_10_4"]->setValue(m.ref_10_4);
+    dev.var["ref_inner_1"]->setValue(m.ref_inner_1);
+    dev.var["ref_inner_2"]->setValue(m.ref_inner_2);
     dev.var["handshake"]->setValue(m.handshake);
     dev.var["masterslave"]->setValue(m.masterslave);
 
@@ -100,6 +102,11 @@ devAmp &operator<< (devAmp &dev, const msgAmp &m)
     dev.var["loss"]->setValue(m.loss);
     dev.var["amp_temp"]->setValue(m.temp);
     dev.var["load_temp"]->setValue(m.load_temp);
+    dev.var["s_stand_wave"]->setValue(m.stat_stand_wave);
+    dev.var["s_temp"]->setValue(m.stat_temp);
+    dev.var["s_current"]->setValue(m.stat_current);
+    dev.var["s_voltage"]->setValue(m.stat_voltage);
+    dev.var["s_power"]->setValue(m.stat_power);
     dev.var["handshake"]->setValue(m.handshake);
 
     emit dev.gotData();

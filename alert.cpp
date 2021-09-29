@@ -27,6 +27,10 @@ QVariant alert::setValue(const QVariant val, const P_ENUM e)
     case P_ENUM_FLOAT:
         ret = 0.5f * val.value<int>();
         break;
+    case P_ENUM_DECUPLE:
+    case P_ENUM_DECUPLE_DOUBLE:
+        ret = val.value<int>() / 10.0f;
+        break;
     }
 
     return ret;
@@ -71,6 +75,8 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e)
     case P_ENUM_CH:
     case P_ENUM_INT:
     case P_ENUM_FLOAT:
+    case P_ENUM_DECUPLE:
+    case P_ENUM_DECUPLE_DOUBLE:
         return P_NOR_NORMAL;
     case P_ENUM_STAT:
         switch (val.value<P_STAT>()) {
@@ -129,7 +135,9 @@ QString alert::setDisplay(const QVariant val, const P_ENUM e)
         v = val.toString();
         break;
     case P_ENUM_FLOAT:
-        v = val.toString();
+    case P_ENUM_DECUPLE:
+    case P_ENUM_DECUPLE_DOUBLE:
+        v = QString::number(val.value<double>());
         break;
     }
 
@@ -182,6 +190,8 @@ deviceVar::deviceVar(const alert::P_ENUM type, QObject *parent) : QObject(parent
     case alert::P_ENUM_INT:
     case alert::P_ENUM_CURRENT:
     case alert::P_ENUM_VOLTAGE:
+    case alert::P_ENUM_DECUPLE:
+    case alert::P_ENUM_DECUPLE_DOUBLE:
         this->setValue(0);
         return;
     case alert::P_ENUM_FLOAT:
@@ -220,7 +230,10 @@ int deviceVar::getValue()
     case alert::P_ENUM_VOLTAGE:
         return ret->value<int>();
     case alert::P_ENUM_FLOAT:
+    case alert::P_ENUM_DECUPLE_DOUBLE:
         return static_cast<int>(ret->value<float>() * 2);
+    case alert::P_ENUM_DECUPLE:
+        return ret->value<int>() * 10;
     }
 
     qDebug() << "Shouldn't get here";
