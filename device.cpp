@@ -20,6 +20,7 @@ device &operator<< (device &d, const msgFreq &m)
         dev << m;
 
         dev.lastseen = QDateTime::currentDateTime();
+        dev.timerStr = dev.lastseen.toString(Qt::ISODate) + "#" + QString::number(m.serialId);
         dev.lastSerial = m.serialport;
     }
     return d;
@@ -34,6 +35,7 @@ device &operator<< (device &d, const msgDist &m)
         dev << m;
 
         dev.lastseen = QDateTime::currentDateTime();
+        dev.timerStr = dev.lastseen.toString(Qt::ISODate) + "#" + QString::number(m.serialId);
         dev.lastSerial = m.serialport;
     }
     return d;
@@ -48,6 +50,7 @@ device &operator<< (device &d, const msgAmp &m)
         dev << m;
 
         dev.lastseen = QDateTime::currentDateTime();
+        dev.timerStr = dev.lastseen.toString(Qt::ISODate) + "#" + QString::number(m.serialId);
         dev.lastSerial = m.serialport;
     }
     return d;

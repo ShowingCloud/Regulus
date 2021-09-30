@@ -324,6 +324,14 @@ Window {
             posTop: comboMasterStateCurrent.posBottom
             posLeft: 0
             txtText: qsTr("Network Communication")
+            fontSize: timerStringFontSize
+
+            Component.onCompleted: {
+                masterGotData.connect(function() {
+                    txtValue = devAmpMaster.timerStr
+                    colorValue = Alert.MAP_COLOR["NORMAL"]
+                })
+            }
         }
 
         ComboText {
@@ -573,6 +581,14 @@ Window {
             posTop: comboSlaveStateCurrent.posBottom
             posLeft: 0
             txtText: qsTr("Network Communication")
+            fontSize: timerStringFontSize
+
+            Component.onCompleted: {
+                slaveGotData.connect(function() {
+                    txtValue = devAmpSlave.timerStr
+                    colorValue = Alert.MAP_COLOR["NORMAL"]
+                })
+            }
         }
 
         ComboText {

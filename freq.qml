@@ -285,6 +285,14 @@ Window {
             posTop: comboMaster10Ref1.posBottom
             posLeft: 0
             txtText: qsTr("Network Communication")
+            fontSize: timerStringFontSize
+
+            Component.onCompleted: {
+                masterGotData.connect(function() {
+                    txtValue = devFreqMaster.timerStr
+                    colorValue = Alert.MAP_COLOR["NORMAL"]
+                })
+            }
         }
 
         ComboText {
@@ -504,6 +512,14 @@ Window {
             posTop: comboSlave10Ref1.posBottom
             posLeft: 0
             txtText: qsTr("Network Communication")
+            fontSize: timerStringFontSize
+
+            Component.onCompleted: {
+                slaveGotData.connect(function() {
+                    txtValue = devFreqSlave.timerStr
+                    colorValue = Alert.MAP_COLOR["NORMAL"]
+                })
+            }
         }
 
         ComboText {

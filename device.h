@@ -33,6 +33,7 @@ class device : public QObject
     Q_PROPERTY(QString      name        READ    name     NOTIFY idSet)
     Q_PROPERTY(QString      str         MEMBER  str      NOTIFY gotData)
     Q_PROPERTY(QDateTime    lastseen    MEMBER  lastseen NOTIFY gotData)
+    Q_PROPERTY(QString      timerStr    MEMBER  timerStr NOTIFY gotData)
 public:
     explicit device(const QHash<QString, deviceVar *> var, QObject *parent = nullptr);
     friend device &operator<< (device &dev, const msgFreq &m);
@@ -159,6 +160,7 @@ protected:
     serial *lastSerial = nullptr;
     QDateTime lastseen;
     const QHash<QString, deviceVar *> var;
+    QString timerStr = QString();
 
 private:
     QString str = QString();

@@ -9,6 +9,7 @@ Item {
     property alias txtText : text.text
     property alias txtValue : value.text
     property alias colorValue : value.color
+    property int fontSize : defaultLabelFontSize
 
     Text {
         id: text
@@ -40,7 +41,7 @@ Item {
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
+            font.pixelSize: fontSize
         }
     }
 }

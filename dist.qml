@@ -206,6 +206,14 @@ Window {
             posTop: combo10Lock1.posBottom
             posLeft: 0
             txtText: qsTr("Network Communication")
+            fontSize: timerStringFontSize
+
+            Component.onCompleted: {
+                gotData.connect(function() {
+                    txtValue = devDist.timerStr
+                    colorValue = Alert.MAP_COLOR["NORMAL"]
+                })
+            }
         }
 
         Button {

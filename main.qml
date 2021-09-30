@@ -22,6 +22,7 @@ Window {
     readonly property int defaultLabelFontSize: 20
     readonly property int rectBigFontSize: 15
     readonly property int rectSmallFontSize: 12 // 8
+    readonly property int timerStringFontSize: 10
     readonly property int defaultHistoryAreaHeight: 200
 
     property QtObject objWinFreq;
