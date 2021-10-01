@@ -21,6 +21,8 @@ class alert : public QObject
 public:
     explicit alert(QObject *parent = nullptr) {Q_UNUSED(parent)}
 
+    inline const static int timeout = 10;
+
     enum P_NOR { P_NOR_ABNORMAL = 0, P_NOR_NORMAL = 1, P_NOR_STANDBY = 2, P_NOR_OTHERS };
     enum P_LOCK { P_LOCK_UNLOCK = 0, P_LOCK_LOCKED = 1, P_LOCK_STANDBY = 2, P_LOCK_OTHERS };
     enum P_MS { P_MS_MASTER = 0, P_MS_SLAVE = 1, P_MS_OTHERS };

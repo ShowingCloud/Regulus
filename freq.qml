@@ -520,6 +520,13 @@ Window {
                     colorValue = Alert.MAP_COLOR["NORMAL"]
                 })
             }
+
+            Timer {
+                interval: Alert.timeout * 1000
+                running: true
+                repeat: true
+                onTriggered: comboSlaveCommunication.colorValue = devFreqSlave.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
+            }
         }
 
         ComboText {

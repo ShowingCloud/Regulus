@@ -66,6 +66,12 @@ public slots:
         return this->trConcat(device::idName[this->dId]);
     }
 
+    inline bool timedout() const
+    {
+        return lastseen == QDateTime()
+                or QDateTime::currentDateTime().secsTo(lastseen) >= alert::timeout;
+    }
+
     inline const QString showDisplay(const QString itemName) const
     {
         if (!var.contains(itemName.toUtf8())) {
@@ -80,6 +86,8 @@ public slots:
         if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return QString();
+        } else if (this->timedout()) {
+            return alert::STR_COLOR[alert::P_COLOR_OTHERS];
         }
         return var[itemName.toUtf8()]->getColor();
     }
@@ -158,7 +166,7 @@ protected:
     };
     int dId = 0;
     serial *lastSerial = nullptr;
-    QDateTime lastseen;
+    QDateTime lastseen = QDateTime();
     const QHash<QString, deviceVar *> var;
     QString timerStr = QString();
 
