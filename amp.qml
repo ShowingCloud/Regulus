@@ -340,12 +340,7 @@ Window {
             posLeft: 0
             txtText: qsTr("Network Communication")
             fontSize: timerStringFontSize
-
-            Component.onCompleted: {
-                masterRefreshData.connect(function() {
-                    txtValue = devAmpMaster.timerStr
-                })
-            }
+            txtValue: devAmpMaster.timerStr
         }
 
         ComboText {
@@ -596,12 +591,7 @@ Window {
             posLeft: 0
             txtText: qsTr("Network Communication")
             fontSize: timerStringFontSize
-
-            Component.onCompleted: {
-                slaveRefreshData.connect(function() {
-                    txtValue = devAmpSlave.timerStr
-                })
-            }
+            txtValue: devAmpSlave.timerStr
         }
 
         ComboText {

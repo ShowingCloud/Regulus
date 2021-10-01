@@ -114,14 +114,12 @@ Item {
                 if (!devFreqSlave.timedout()) colorValue = Alert.MAP_COLOR["NORMAL"]
                 if (objWinFreq.devFreqSlave === devFreqSlave)
                     objWinFreq.slaveCommunicationColorValue = colorValue
-                if (devFreqSlave.dId == 5) console.log("gotData: " + colorValue + devFreqSlave.timedout())
                 restart()
             });
             onTriggered: {
                 colorValue = devFreqSlave.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
                 if (objWinFreq.devFreqSlave === devFreqSlave)
                     objWinFreq.slaveCommunicationColorValue = colorValue
-                if (devFreqSlave.dId == 5) console.log("triggered: " + colorValue + devFreqSlave.timedout())
             }
         }
     }

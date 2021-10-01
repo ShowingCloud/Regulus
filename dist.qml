@@ -218,12 +218,7 @@ Window {
             posLeft: 0
             txtText: qsTr("Network Communication")
             fontSize: timerStringFontSize
-
-            Component.onCompleted: {
-                refreshData.connect(function() {
-                    txtValue = devDist.timerStr
-                })
-            }
+            txtValue: devDist.timerStr
         }
 
         Button {
