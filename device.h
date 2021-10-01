@@ -69,7 +69,7 @@ public slots:
     inline bool timedout() const
     {
         return lastseen == QDateTime()
-                or QDateTime::currentDateTime().secsTo(lastseen) >= alert::timeout;
+                or QDateTime::currentDateTime().secsTo(lastseen) <= - alert::timeout;
     }
 
     inline const QString showDisplay(const QString itemName) const
@@ -168,7 +168,7 @@ protected:
     serial *lastSerial = nullptr;
     QDateTime lastseen = QDateTime();
     const QHash<QString, deviceVar *> var;
-    QString timerStr = QString();
+    QString timerStr = tr("No data");
 
 private:
     QString str = QString();

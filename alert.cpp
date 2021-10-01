@@ -25,11 +25,11 @@ QVariant alert::setValue(const QVariant val, const P_ENUM e)
         ret = val.value<int>();
         break;
     case P_ENUM_FLOAT:
-        ret = 0.5f * val.value<int>();
+        ret = 0.5 * val.value<int>();
         break;
     case P_ENUM_DECUPLE:
     case P_ENUM_DECUPLE_DOUBLE:
-        ret = val.value<int>() / 10.0f;
+        ret = val.value<int>() / 10.0;
         break;
     }
 

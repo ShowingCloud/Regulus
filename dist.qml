@@ -11,6 +11,7 @@ Window {
     readonly property int widthWidgetLabel: 150
     readonly property int widthWidget: 150
     readonly property int marginRect: 30
+    property alias communicationColorValue: comboCommunication.colorValue
 
     id: winDist
     visible: false
@@ -19,17 +20,27 @@ Window {
     height: rect.height + heightWidget + 2 * marginRect + marginWidget + defaultHistoryAreaHeight
     title: qsTr("Frequency Distribution Device")
 
-    property QtObject devDist
+    property QtObject devDist: null
     signal opened(QtObject dev)
-    signal gotData()
+    signal refreshData()
 
     Component.onCompleted: {
         winDist.opened.connect(function(dev) {
             devDist = dev
             name.text = devDist.name
-            dev.gotData.connect(gotData)
+            dev.gotData.connect(refreshData)
+            refreshData()
             buttonReset.clicked();
         })
+    }
+
+    onClosing: {
+        close.accepted = false
+        this.hide()
+        devDist.gotData.disconnect(refreshData)
+        buttonReset.clicked()
+        name.text = ""
+        devDist = null
     }
 
     Text {
@@ -88,7 +99,7 @@ Window {
                     devDist.setHold("ref_10")
                     colorValue = devDist.showColor("ref_10")
                 })
-                gotData.connect(function() {
+                refreshData.connect(function() {
                     if ((colorValue = devDist.showColor("ref_10")) !== Alert.MAP_COLOR["HOLDING"])
                         index = devDist.getValue("ref_10")
                 })
@@ -110,7 +121,7 @@ Window {
                     devDist.setHold("ref_16")
                     colorValue = devDist.showColor("ref_16")
                 })
-                gotData.connect(function() {
+                refreshData.connect(function() {
                     if ((colorValue = devDist.showColor("ref_16")) !== Alert.MAP_COLOR["HOLDING"])
                         index = devDist.getValue("ref_16")
                 })
@@ -124,7 +135,7 @@ Window {
             txtText: qsTr("Voltage")
 
             Component.onCompleted: {
-                gotData.connect(function() {
+                refreshData.connect(function() {
                     txtValue = devDist.showDisplay("voltage") + " V"
                     colorValue = devDist.showColor("voltage")
                 })
@@ -138,7 +149,7 @@ Window {
             txtText: qsTr("Current")
 
             Component.onCompleted: {
-                gotData.connect(function() {
+                refreshData.connect(function() {
                     txtValue = devDist.showDisplay("current") + " mA"
                     colorValue = devDist.showColor("current")
                 })
@@ -152,7 +163,7 @@ Window {
             txtText: "10 MHz " + qsTr("Lock") + " 1"
 
             Component.onCompleted: {
-                gotData.connect(function() {
+                refreshData.connect(function() {
                     txtValue = devDist.showDisplay("lock_10_1")
                     colorValue = devDist.showColor("lock_10_1")
                 })
@@ -166,7 +177,7 @@ Window {
             txtText: "10 MHz " + qsTr("Lock") + " 2"
 
             Component.onCompleted: {
-                gotData.connect(function() {
+                refreshData.connect(function() {
                     txtValue = devDist.showDisplay("lock_10_2")
                     colorValue = devDist.showColor("lock_10_2")
                 })
@@ -180,7 +191,7 @@ Window {
             txtText: "16 MHz " + qsTr("Lock") + " 1"
 
             Component.onCompleted: {
-                gotData.connect(function() {
+                refreshData.connect(function() {
                     txtValue = devDist.showDisplay("lock_16_1")
                     colorValue = devDist.showColor("lock_16_1")
                 })
@@ -194,7 +205,7 @@ Window {
             txtText: "16 MHz " + qsTr("Lock") + " 2"
 
             Component.onCompleted: {
-                gotData.connect(function() {
+                refreshData.connect(function() {
                     txtValue = devDist.showDisplay("lock_16_2")
                     colorValue = devDist.showColor("lock_16_2")
                 })
@@ -209,9 +220,8 @@ Window {
             fontSize: timerStringFontSize
 
             Component.onCompleted: {
-                gotData.connect(function() {
+                refreshData.connect(function() {
                     txtValue = devDist.timerStr
-                    colorValue = Alert.MAP_COLOR["NORMAL"]
                 })
             }
         }
@@ -240,10 +250,5 @@ Window {
         anchors.topMargin: marginRect
         anchors.left: rect.left
         itemWidth: rect.width
-    }
-
-    onClosing: {
-        close.accepted = false
-        this.hide()
     }
 }

@@ -11,6 +11,8 @@ Window {
     readonly property int widthWidgetLabel: 150
     readonly property int widthWidget: 150
     readonly property int marginRect: 30
+    property alias masterCommunicationColorValue: comboMasterCommunication.colorValue
+    property alias slaveCommunicationColorValue: comboSlaveCommunication.colorValue
 
     id: winAmp
     visible: false
@@ -19,21 +21,34 @@ Window {
     height: 2 * rectMaster.height + heightWidget + 4 * marginRect + marginWidget + defaultHistoryAreaHeight
     title: qsTr("Amplification Device")
 
-    property QtObject devAmpMaster
-    property QtObject devAmpSlave
+    property QtObject devAmpMaster: null
+    property QtObject devAmpSlave: null
     signal opened(QtObject devMaster, QtObject devSlave)
-    signal masterGotData()
-    signal slaveGotData()
+    signal masterRefreshData()
+    signal slaveRefreshData()
 
     Component.onCompleted: {
         winAmp.opened.connect(function(devMaster, devSlave) {
             devAmpMaster = devMaster
             devAmpSlave = devSlave
             name.text = devAmpMaster.name
-            devMaster.gotData.connect(masterGotData)
-            devSlave.gotData.connect(slaveGotData)
-            buttonReset.clicked();
+            devMaster.gotData.connect(masterRefreshData)
+            devSlave.gotData.connect(slaveRefreshData)
+            masterRefreshData()
+            slaveRefreshData()
+            buttonReset.clicked()
         })
+    }
+
+    onClosing: {
+        close.accepted = false
+        this.hide()
+        devAmpMaster.gotData.disconnect(masterRefreshData)
+        devAmpSlave.gotData.disconnect(slaveRefreshData)
+        buttonReset.clicked()
+        name.text = ""
+        devAmpMaster = null
+        devAmpSlave = null
     }
 
     Text {
@@ -56,7 +71,7 @@ Window {
         Component.onCompleted: {
             comboModel = Alert.addEnum("P_MS")
             /*
-            masterGotData.connect(function() {
+            masterRefreshData.connect(function() {
                 index = devAmpMaster.getValue("masterslave")
                 colorValue = devAmpMaster.showColor("masterslave")
             })
@@ -145,7 +160,7 @@ Window {
             txtText: qsTr("Attenuation")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     if ((colorValue = devAmpMaster.showColor("atten")) !== Alert.MAP_COLOR["HOLDING"])
                         txtValue = devAmpMaster.showDisplay("atten") + " dB"
                 })
@@ -168,7 +183,7 @@ Window {
             txtText: qsTr("Power")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     if ((colorValue = devAmpMaster.showColor("power")) !== Alert.MAP_COLOR["HOLDING"])
                         txtValue = devAmpMaster.showDisplay("power") + " mW"
                 })
@@ -191,7 +206,7 @@ Window {
             txtText: qsTr("Gain")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     if ((colorValue = devAmpMaster.showColor("gain")) !== Alert.MAP_COLOR["HOLDING"])
                         txtValue = devAmpMaster.showDisplay("gain") + " dB"
                 })
@@ -214,7 +229,7 @@ Window {
             txtText: qsTr("Return Loss")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = "-" + devAmpMaster.showDisplay("loss") + " dB"
                     colorValue = devAmpMaster.showColor("loss")
                 })
@@ -228,7 +243,7 @@ Window {
             txtText: qsTr("Amplifier Temperature")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devAmpMaster.showDisplay("amp_temp") + " C"
                     colorValue = devAmpMaster.showColor("amp_temp")
                 })
@@ -242,7 +257,7 @@ Window {
             txtText: qsTr("Stand Wave")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devAmpMaster.showDisplay("s_stand_wave")
                     colorValue = devAmpMaster.showColor("s_stand_wave")
                 })
@@ -256,7 +271,7 @@ Window {
             txtText: qsTr("Temperature")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devAmpMaster.showDisplay("s_temp")
                     colorValue = devAmpMaster.showColor("s_temp")
                 })
@@ -270,7 +285,7 @@ Window {
             txtText: qsTr("Current")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devAmpMaster.showDisplay("s_current")
                     colorValue = devAmpMaster.showColor("s_current")
                 })
@@ -284,7 +299,7 @@ Window {
             txtText: qsTr("Voltage")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devAmpMaster.showDisplay("s_voltage")
                     colorValue = devAmpMaster.showColor("s_voltage")
                 })
@@ -298,7 +313,7 @@ Window {
             txtText: qsTr("Output Power")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devAmpMaster.showDisplay("s_power")
                     colorValue = devAmpMaster.showColor("s_power")
                 })
@@ -312,7 +327,7 @@ Window {
             txtText: qsTr("Load Temperature")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devAmpMaster.showDisplay("load_temp")
                     colorValue = devAmpMaster.showColor("load_temp")
                 })
@@ -327,9 +342,8 @@ Window {
             fontSize: timerStringFontSize
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devAmpMaster.timerStr
-                    colorValue = Alert.MAP_COLOR["NORMAL"]
                 })
             }
         }
@@ -341,7 +355,7 @@ Window {
             txtText: qsTr("Handshake Signal")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devAmpMaster.showDisplay("handshake")
                     colorValue = devAmpMaster.showColor("handshake")
                 })
@@ -402,7 +416,7 @@ Window {
             txtText: qsTr("Attenuation")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     if ((colorValue = devAmpSlave.showColor("atten")) !== Alert.MAP_COLOR["HOLDING"])
                         txtValue = devAmpSlave.showDisplay("atten") + " dB"
                 })
@@ -425,7 +439,7 @@ Window {
             txtText: qsTr("Power")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     if ((colorValue = devAmpSlave.showColor("power")) !== Alert.MAP_COLOR["HOLDING"])
                         txtValue = devAmpSlave.showDisplay("power") + " mW"
                 })
@@ -448,7 +462,7 @@ Window {
             txtText: qsTr("Gain")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     if ((colorValue = devAmpSlave.showColor("gain")) !== Alert.MAP_COLOR["HOLDING"])
                         txtValue = devAmpSlave.showDisplay("gain") + " dB"
                 })
@@ -471,7 +485,7 @@ Window {
             txtText: qsTr("Return Loss")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = "-" + devAmpSlave.showDisplay("loss") + " dB"
                     colorValue = devAmpSlave.showColor("loss")
                 })
@@ -485,7 +499,7 @@ Window {
             txtText: qsTr("Amplifier Temperature")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devAmpSlave.showDisplay("amp_temp") + " C"
                     colorValue = devAmpSlave.showColor("amp_temp")
                 })
@@ -499,7 +513,7 @@ Window {
             txtText: qsTr("Stand Wave")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devAmpSlave.showDisplay("s_stand_wave")
                     colorValue = devAmpSlave.showColor("s_stand_wave")
                 })
@@ -513,7 +527,7 @@ Window {
             txtText: qsTr("Temperature")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devAmpSlave.showDisplay("s_temp")
                     colorValue = devAmpSlave.showColor("s_temp")
                 })
@@ -527,7 +541,7 @@ Window {
             txtText: qsTr("Current")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devAmpSlave.showDisplay("s_current")
                     colorValue = devAmpSlave.showColor("s_current")
                 })
@@ -541,7 +555,7 @@ Window {
             txtText: qsTr("Voltage")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devAmpSlave.showDisplay("s_voltage")
                     colorValue = devAmpSlave.showColor("s_voltage")
                 })
@@ -555,7 +569,7 @@ Window {
             txtText: qsTr("Output Power")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devAmpSlave.showDisplay("s_power")
                     colorValue = devAmpSlave.showColor("s_power")
                 })
@@ -569,7 +583,7 @@ Window {
             txtText: qsTr("Load Temperature")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devAmpSlave.showDisplay("load_temp")
                     colorValue = devAmpSlave.showColor("load_temp")
                 })
@@ -584,9 +598,8 @@ Window {
             fontSize: timerStringFontSize
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devAmpSlave.timerStr
-                    colorValue = Alert.MAP_COLOR["NORMAL"]
                 })
             }
         }
@@ -598,7 +611,7 @@ Window {
             txtText: qsTr("Handshake Signal")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devAmpSlave.showDisplay("handshake")
                     colorValue = devAmpSlave.showColor("handshake")
                 })
@@ -631,10 +644,5 @@ Window {
         anchors.topMargin: marginRect
         anchors.left: rectSlave.left
         itemWidth: rectMaster.width
-    }
-
-    onClosing: {
-        close.accepted = false
-        this.hide()
     }
 }

@@ -2,6 +2,7 @@ import QtQuick 2.11
 import QtQuick.Extras 1.4
 
 import rdss.device 1.0
+import rdss.alert 1.0
 
 Item {
     id: blockDevFreq
@@ -36,10 +37,7 @@ Item {
         MouseArea {
             id: mouseId
             anchors.fill: parent
-            onClicked: {
-                objWinFreq.setVisible(true)
-                objWinFreq.opened(devFreqMaster, devFreqSlave, devFreqUp)
-            }
+            onClicked: mouseClick()
         }
     }
 
@@ -54,15 +52,33 @@ Item {
         MouseArea {
             id: mouseMaster
             anchors.fill: parent
-            onClicked: {
-                objWinFreq.setVisible(true)
-                objWinFreq.opened(devFreqMaster, devFreqSlave, devFreqUp)
-            }
+            onClicked: mouseClick()
         }
 
         RectDevFreq {
             devFreq: devFreqMaster
             devIsMaster: true
+        }
+
+        Timer {
+            property string colorValue: Alert.MAP_COLOR["OTHERS"]
+
+            id: masterTimer
+            interval: Alert.timeout * 1000
+            running: true
+            repeat: true
+
+            Component.onCompleted: devFreqMaster.gotData.connect(function() {
+                if (!devFreqMaster.timedout()) colorValue = Alert.MAP_COLOR["NORMAL"]
+                if (objWinFreq.devFreqMaster === devFreqMaster)
+                    objWinFreq.masterCommunicationColorValue = colorValue
+                restart()
+            });
+            onTriggered: {
+                colorValue = devFreqMaster.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
+                if (objWinFreq.devFreqMaster === devFreqMaster)
+                    objWinFreq.masterCommunicationColorValue = colorValue
+            }
         }
     }
 
@@ -78,15 +94,42 @@ Item {
         MouseArea {
             id: mouseSlave
             anchors.fill: parent
-            onClicked: {
-                objWinFreq.setVisible(true)
-                objWinFreq.opened(devFreqMaster, devFreqSlave, devFreqUp)
-            }
+            onClicked: mouseClick()
         }
 
         RectDevFreq {
             devFreq: devFreqSlave
             devIsMaster: false
         }
+
+        Timer {
+            property string colorValue: Alert.MAP_COLOR["OTHERS"]
+
+            id: slaveTimer
+            interval: Alert.timeout * 1000
+            running: true
+            repeat: true
+
+            Component.onCompleted: devFreqSlave.gotData.connect(function() {
+                if (!devFreqSlave.timedout()) colorValue = Alert.MAP_COLOR["NORMAL"]
+                if (objWinFreq.devFreqSlave === devFreqSlave)
+                    objWinFreq.slaveCommunicationColorValue = colorValue
+                if (devFreqSlave.dId == 5) console.log("gotData: " + colorValue + devFreqSlave.timedout())
+                restart()
+            });
+            onTriggered: {
+                colorValue = devFreqSlave.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
+                if (objWinFreq.devFreqSlave === devFreqSlave)
+                    objWinFreq.slaveCommunicationColorValue = colorValue
+                if (devFreqSlave.dId == 5) console.log("triggered: " + colorValue + devFreqSlave.timedout())
+            }
+        }
+    }
+
+    function mouseClick() {
+        objWinFreq.setVisible(true)
+        objWinFreq.opened(devFreqMaster, devFreqSlave, devFreqUp)
+        objWinFreq.masterCommunicationColorValue = masterTimer.colorValue
+        objWinFreq.slaveCommunicationColorValue = slaveTimer.colorValue
     }
 }

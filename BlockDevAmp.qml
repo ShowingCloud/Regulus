@@ -2,6 +2,7 @@ import QtQuick 2.11
 import QtQuick.Extras 1.4
 
 import rdss.device 1.0
+import rdss.alert 1.0
 
 Item {
     id: blockDevAmp
@@ -35,8 +36,27 @@ Item {
         MouseArea {
             id: mouseId
             anchors.fill: parent
-            onClicked: {
-                objWinAmp.setVisible(true);
+            onClicked: mouseClick()
+        }
+
+        Timer {
+            property string colorValue: Alert.MAP_COLOR["OTHERS"]
+
+            id: masterTimer
+            interval: Alert.timeout * 1000
+            running: true
+            repeat: true
+
+            Component.onCompleted: devAmpMaster.gotData.connect(function() {
+                if (!devAmpMaster.timedout()) colorValue = Alert.MAP_COLOR["NORMAL"]
+                if (objWinAmp.devAmpMaster === devAmpMaster)
+                    objWinAmp.masterCommunicationColorValue = colorValue
+                restart()
+            });
+            onTriggered: {
+                colorValue = devAmpMaster.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
+                if (objWinAmp.devAmpMaster === devAmpMaster)
+                    objWinAmp.masterCommunicationColorValue = colorValue
             }
         }
     }
@@ -57,10 +77,7 @@ Item {
         MouseArea {
             id: mouseMaster
             anchors.fill: parent
-            onClicked: {
-                objWinAmp.setVisible(true);
-                objWinAmp.opened(devAmpMaster, devAmpSlave)
-            }
+            onClicked: mouseClick()
         }
 
         RectDevAmp {
@@ -86,15 +103,40 @@ Item {
         MouseArea {
             id: mouseSlave
             anchors.fill: parent
-            onClicked: {
-                objWinAmp.setVisible(true);
-                objWinAmp.opened(devAmpMaster, devAmpSlave)
-            }
+            onClicked: mouseClick()
         }
 
         RectDevAmp {
             devAmp: devAmpSlave
             devIsMaster: false
         }
+
+        Timer {
+            property string colorValue: Alert.MAP_COLOR["OTHERS"]
+
+            id: slaveTimer
+            interval: Alert.timeout * 1000
+            running: true
+            repeat: true
+
+            Component.onCompleted: devAmpSlave.gotData.connect(function() {
+                if (!devAmpSlave.timedout()) colorValue = Alert.MAP_COLOR["NORMAL"]
+                if (objWinAmp.devAmpSlave === devAmpSlave)
+                    objWinAmp.slaveCommunicationColorValue = colorValue
+                restart()
+            });
+            onTriggered: {
+                colorValue = devAmpSlave.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
+                if (objWinAmp.devAmpSlave === devAmpSlave)
+                    objWinAmp.slaveCommunicationColorValue = colorValue
+            }
+        }
+    }
+
+    function mouseClick() {
+        objWinAmp.setVisible(true);
+        objWinAmp.opened(devAmpMaster, devAmpSlave)
+        objWinAmp.masterCommunicationColorValue = masterTimer.colorValue
+        objWinAmp.slaveCommunicationColorValue = slaveTimer.colorValue
     }
 }

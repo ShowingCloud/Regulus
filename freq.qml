@@ -12,6 +12,8 @@ Window {
     readonly property int widthWidget: 150
     readonly property int marginRect: 30
     property bool devFreqUp: false
+    property alias masterCommunicationColorValue: comboMasterCommunication.colorValue
+    property alias slaveCommunicationColorValue: comboSlaveCommunication.colorValue
 
     id: winFreq
     visible: false
@@ -20,11 +22,11 @@ Window {
     height: 2 * rectMaster.height + heightWidget + 4 * marginRect + marginWidget + defaultHistoryAreaHeight
     title: qsTr("Frequency Conversion Device")
 
-    property QtObject devFreqMaster
-    property QtObject devFreqSlave
+    property QtObject devFreqMaster: null
+    property QtObject devFreqSlave: null
     signal opened(QtObject devMaster, QtObject devSlave, bool devUp)
-    signal masterGotData()
-    signal slaveGotData()
+    signal masterRefreshData()
+    signal slaveRefreshData()
 
     Component.onCompleted: {
         winFreq.opened.connect(function(devMaster, devSlave, devUp) {
@@ -32,10 +34,23 @@ Window {
             devFreqSlave = devSlave
             devFreqUp = devUp
             name.text = devFreqMaster.name
-            devMaster.gotData.connect(masterGotData)
-            devSlave.gotData.connect(slaveGotData)
-            buttonReset.clicked();
+            devMaster.gotData.connect(masterRefreshData)
+            devSlave.gotData.connect(slaveRefreshData)
+            masterRefreshData()
+            slaveRefreshData()
+            buttonReset.clicked()
         })
+    }
+
+    onClosing: {
+        close.accepted = false
+        this.hide()
+        devFreqMaster.gotData.disconnect(masterRefreshData)
+        devFreqSlave.gotData.disconnect(slaveRefreshData)
+        buttonReset.clicked();
+        name.text = ""
+        devFreqMaster = null
+        devFreqSlave = null
     }
 
     Text {
@@ -57,7 +72,7 @@ Window {
 
         Component.onCompleted: {
             comboModel = Alert.addEnum("P_MS")
-            masterGotData.connect(function() {
+            masterRefreshData.connect(function() {
                 index = devFreqMaster.getValue("masterslave")
                 colorValue = devFreqMaster.showColor("masterslave")
             })
@@ -117,7 +132,7 @@ Window {
             txtText: qsTr("Attenuation")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     if ((colorValue = devFreqMaster.showColor("atten")) !== Alert.MAP_COLOR["HOLDING"])
                         txtValue = devFreqMaster.showDisplay("atten") + " dB"
                 })
@@ -159,7 +174,7 @@ Window {
             txtText: qsTr("Voltage")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devFreqMaster.showDisplay("voltage") + " V"
                     colorValue = devFreqMaster.showColor("voltage")
                 })
@@ -173,7 +188,7 @@ Window {
             txtText: qsTr("Current")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devFreqMaster.showDisplay("current") + " mA"
                     colorValue = devFreqMaster.showColor("current")
                 })
@@ -187,7 +202,7 @@ Window {
             txtText: qsTr("Radio") + (devFreqUp ? qsTr("Output") : qsTr("Input"))
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devFreqMaster.showDisplay("radio_stat")
                     colorValue = devFreqMaster.showColor("radio_stat")
                 })
@@ -201,7 +216,7 @@ Window {
             txtText: qsTr("Mid Freq") + (devFreqUp ? qsTr("Input") : qsTr("Output"))
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devFreqMaster.showDisplay("mid_stat")
                     colorValue = devFreqMaster.showColor("mid_stat")
                 })
@@ -215,7 +230,7 @@ Window {
             txtText: qsTr("Local Oscillator") + " A1"
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devFreqMaster.showDisplay("lock_a1")
                     colorValue = devFreqMaster.showColor("lock_a1")
                 })
@@ -230,7 +245,7 @@ Window {
             txtText: qsTr("Local Oscillator") + " A2"
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devFreqMaster.showDisplay("lock_a2")
                     colorValue = devFreqMaster.showColor("lock_a2")
                 })
@@ -245,7 +260,7 @@ Window {
             txtText: "10 MHz 1"
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devFreqMaster.showDisplay("ref_10_1")
                     colorValue = devFreqMaster.showColor("ref_10_1")
                 })
@@ -259,7 +274,7 @@ Window {
             txtText: "10 MHz 2"
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devFreqMaster.showDisplay("ref_10_2")
                     colorValue = devFreqMaster.showColor("ref_10_2")
                 })
@@ -273,7 +288,7 @@ Window {
             txtText: "10 MHz " + qsTr("Inner Ref")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devFreqMaster.showDisplay("ref_inner_1")
                     colorValue = devFreqMaster.showColor("ref_inner_1")
                 })
@@ -288,9 +303,8 @@ Window {
             fontSize: timerStringFontSize
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devFreqMaster.timerStr
-                    colorValue = Alert.MAP_COLOR["NORMAL"]
                 })
             }
         }
@@ -302,7 +316,7 @@ Window {
             txtText: qsTr("Handshake Signal")
 
             Component.onCompleted: {
-                masterGotData.connect(function() {
+                masterRefreshData.connect(function() {
                     txtValue = devFreqMaster.showDisplay("handshake")
                     colorValue = devFreqMaster.showColor("handshake")
                 })
@@ -344,7 +358,7 @@ Window {
             txtText: qsTr("Attenuation")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     if ((colorValue = devFreqSlave.showColor("atten")) !== Alert.MAP_COLOR["HOLDING"])
                         txtValue = devFreqSlave.showDisplay("atten") + " dB"
                 })
@@ -386,7 +400,7 @@ Window {
             txtText: qsTr("Voltage")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devFreqSlave.showDisplay("voltage") + " V"
                     colorValue = devFreqSlave.showColor("voltage")
                 })
@@ -400,7 +414,7 @@ Window {
             txtText: qsTr("Current")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devFreqSlave.showDisplay("current") + " mA"
                     colorValue = devFreqSlave.showColor("current")
                 })
@@ -414,7 +428,7 @@ Window {
             txtText: qsTr("Radio") + (devFreqUp ? qsTr("Output") : qsTr("Input"))
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devFreqSlave.showDisplay("radio_stat")
                     colorValue = devFreqSlave.showColor("radio_stat")
                 })
@@ -428,7 +442,7 @@ Window {
             txtText: qsTr("Mid Freq") + (devFreqUp ? qsTr("Input") : qsTr("Output"))
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devFreqSlave.showDisplay("mid_stat")
                     colorValue = devFreqSlave.showColor("mid_stat")
                 })
@@ -442,7 +456,7 @@ Window {
             txtText: qsTr("Local Oscillator") + " B1"
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devFreqSlave.showDisplay("lock_b1")
                     colorValue = devFreqSlave.showColor("lock_b1")
                 })
@@ -457,7 +471,7 @@ Window {
             txtText: qsTr("Local Oscillator") + " B2"
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devFreqSlave.showDisplay("lock_b2")
                     colorValue = devFreqSlave.showColor("lock_b2")
                 })
@@ -472,7 +486,7 @@ Window {
             txtText: "10 MHz 1"
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devFreqSlave.showDisplay("ref_10_3")
                     colorValue = devFreqSlave.showColor("ref_10_3")
                 })
@@ -486,7 +500,7 @@ Window {
             txtText: "10 MHz 2"
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devFreqSlave.showDisplay("ref_10_4")
                     colorValue = devFreqSlave.showColor("ref_10_4")
                 })
@@ -500,7 +514,7 @@ Window {
             txtText: "10 MHz " + qsTr("Inner Ref")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devFreqSlave.showDisplay("ref_inner_2")
                     colorValue = devFreqSlave.showColor("ref_inner_2")
                 })
@@ -515,17 +529,9 @@ Window {
             fontSize: timerStringFontSize
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devFreqSlave.timerStr
-                    colorValue = Alert.MAP_COLOR["NORMAL"]
                 })
-            }
-
-            Timer {
-                interval: Alert.timeout * 1000
-                running: true
-                repeat: true
-                onTriggered: comboSlaveCommunication.colorValue = devFreqSlave.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
             }
         }
 
@@ -536,7 +542,7 @@ Window {
             txtText: qsTr("Handshake Signal")
 
             Component.onCompleted: {
-                slaveGotData.connect(function() {
+                slaveRefreshData.connect(function() {
                     txtValue = devFreqSlave.showDisplay("handshake")
                     colorValue = devFreqSlave.showColor("handshake")
                 })
@@ -568,10 +574,5 @@ Window {
         anchors.topMargin: marginRect
         anchors.left: rectSlave.left
         itemWidth: rectMaster.width
-    }
-
-    onClosing: {
-        close.accepted = false
-        this.hide()
     }
 }

@@ -17,7 +17,8 @@ class alert : public QObject
     Q_ENUMS(P_CH)
     Q_ENUMS(P_ENUM)
     Q_ENUMS(P_COLOR)
-    Q_PROPERTY(QVariantMap MAP_COLOR MEMBER MAP_COLOR CONSTANT)
+    Q_PROPERTY(QVariantMap  MAP_COLOR   MEMBER MAP_COLOR    CONSTANT)
+    Q_PROPERTY(int          timeout     MEMBER timeout      CONSTANT)
 public:
     explicit alert(QObject *parent = nullptr) {Q_UNUSED(parent)}
 
@@ -58,7 +59,7 @@ public:
         {"ABNORMAL", STR_COLOR[P_COLOR_ABNORMAL]},
         {"STANDBY", STR_COLOR[P_COLOR_STANDBY]},
         {"HOLDING", STR_COLOR[P_COLOR_HOLDING]},
-        {"OTHERS", STR_COLOR[P_COLOR_NORMAL]},
+        {"OTHERS", STR_COLOR[P_COLOR_OTHERS]},
     };
     //static const inline QVariantMap MAP_COLOR = EnumMap2VariantHash(STR_COLOR);
 

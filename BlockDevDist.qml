@@ -2,6 +2,7 @@ import QtQuick 2.11
 import QtQuick.Extras 1.4
 
 import rdss.device 1.0
+import rdss.alert 1.0
 
 Item {
     id: blockDevDist
@@ -32,10 +33,7 @@ Item {
         MouseArea {
             id: mouseId
             anchors.fill: parent
-            onClicked: {
-                objWinDist.setVisible(true)
-                objWinDist.opened(devDist)
-            }
+            onClicked: mouseClick()
         }
     }
 
@@ -55,14 +53,38 @@ Item {
         MouseArea {
             id: mouseDev
             anchors.fill: parent
-            onClicked: {
-                objWinDist.setVisible(true)
-                objWinDist.opened(devDist)
-            }
+            onClicked: mouseClick()
         }
 
         RectDevDist {
             devDist: devDist
         }
+
+        Timer {
+            property string colorValue: Alert.MAP_COLOR["OTHERS"]
+
+            id: timer
+            interval: Alert.timeout * 1000
+            running: true
+            repeat: true
+
+            Component.onCompleted: devDist.gotData.connect(function() {
+                if (!devDist.timedout()) colorValue = Alert.MAP_COLOR["NORMAL"]
+                if (objWinDist.devDist === devDist)
+                    objWinDist.communicationColorValue = colorValue
+                restart()
+            });
+            onTriggered: {
+                colorValue = devDist.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
+                if (objWinDist.devDist === devDist)
+                    objWinDist.communicationColorValue = colorValue
+            }
+        }
+    }
+
+    function mouseClick() {
+        objWinDist.setVisible(true)
+        objWinDist.opened(devDist)
+        objWinDist.communicationColorValue = timer.colorValue
     }
 }
