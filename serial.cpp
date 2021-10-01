@@ -20,10 +20,12 @@ serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject
 
     connect(this->serialport, &QSerialPort::readyRead, this, &serial::readData);
 
+#ifdef QT_DEBUG
     QByteArray data = QByteArray::fromHex("ff010203040101010101010101010105001701aa");
     this->buffer += data;
     lastseen = QDateTime::currentDateTime();
     msg::validateProtocol(this->buffer, data, this);
+#endif
 }
 
 serial::~serial()
