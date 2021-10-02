@@ -79,8 +79,8 @@ Item {
                 colorValue = devDist.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
                 if (objWinDist.devDist === devDist)
                     objWinDist.communicationColorValue = colorValue
-                if (rect.ind.active)
-                    rect.ind.color = colorValue
+                if (rect.ind.active && devDist.timedout())
+                    rect.ind.color = Alert.MAP_COLOR["ABNORMAL"]
             }
         }
     }
