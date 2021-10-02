@@ -6,6 +6,7 @@
 #include <QHash>
 #include <QDateTime>
 #include <numeric>
+#include <iso646.h>
 
 class msg;
 class msgFreq;
@@ -68,7 +69,7 @@ public slots:
 
     inline bool timedout() const
     {
-        return lastseen == QDateTime() \
+        return lastseen == QDateTime()
                 or QDateTime::currentDateTime().secsTo(lastseen) <= - alert::timeout;
     }
 
