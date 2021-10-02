@@ -301,7 +301,7 @@ Window {
             posLeft: 0
             txtText: qsTr("Network Communication")
             fontSize: timerStringFontSize
-            txtValue: devFreqMaster.timerStr
+            txtValue: devFreqMaster ? devFreqMaster.timerStr : qsTr("No data")
         }
 
         ComboText {
@@ -522,7 +522,7 @@ Window {
             posLeft: 0
             txtText: qsTr("Network Communication")
             fontSize: timerStringFontSize
-            txtValue: devFreqSlave.timerStr
+            txtValue: devFreqSlave ? devFreqSlave.timerStr : qsTr("No data")
         }
 
         ComboText {

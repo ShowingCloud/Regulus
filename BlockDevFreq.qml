@@ -56,6 +56,7 @@ Item {
         }
 
         RectDevFreq {
+            id: rectMaster
             devFreq: devFreqMaster
             devIsMaster: true
         }
@@ -78,6 +79,8 @@ Item {
                 colorValue = devFreqMaster.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
                 if (objWinFreq.devFreqMaster === devFreqMaster)
                     objWinFreq.masterCommunicationColorValue = colorValue
+                if (rectMaster.ind.active)
+                    rectMaster.ind.color = colorValue
             }
         }
     }
@@ -98,6 +101,7 @@ Item {
         }
 
         RectDevFreq {
+            id: rectSlave
             devFreq: devFreqSlave
             devIsMaster: false
         }
@@ -120,6 +124,8 @@ Item {
                 colorValue = devFreqSlave.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
                 if (objWinFreq.devFreqSlave === devFreqSlave)
                     objWinFreq.slaveCommunicationColorValue = colorValue
+                if (rectSlave.ind.active)
+                    rectSlave.ind.color = colorValue
             }
         }
     }

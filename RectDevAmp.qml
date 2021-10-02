@@ -5,6 +5,7 @@ import rdss.alert 1.0
 
 Item {
     property QtObject devAmp
+    property alias ind: ind
     property bool devIsMaster: false
 
     StatusIndicator {

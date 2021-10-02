@@ -38,27 +38,6 @@ Item {
             anchors.fill: parent
             onClicked: mouseClick()
         }
-
-        Timer {
-            property string colorValue: Alert.MAP_COLOR["OTHERS"]
-
-            id: masterTimer
-            interval: Alert.timeout * 1000
-            running: true
-            repeat: true
-
-            Component.onCompleted: devAmpMaster.gotData.connect(function() {
-                if (!devAmpMaster.timedout()) colorValue = Alert.MAP_COLOR["NORMAL"]
-                if (objWinAmp.devAmpMaster === devAmpMaster)
-                    objWinAmp.masterCommunicationColorValue = colorValue
-                restart()
-            });
-            onTriggered: {
-                colorValue = devAmpMaster.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
-                if (objWinAmp.devAmpMaster === devAmpMaster)
-                    objWinAmp.masterCommunicationColorValue = colorValue
-            }
-        }
     }
 
     Rectangle {
@@ -81,8 +60,32 @@ Item {
         }
 
         RectDevAmp {
+            id: rectMaster
             devAmp: devAmpMaster
             devIsMaster: true
+        }
+
+        Timer {
+            property string colorValue: Alert.MAP_COLOR["OTHERS"]
+
+            id: masterTimer
+            interval: Alert.timeout * 1000
+            running: true
+            repeat: true
+
+            Component.onCompleted: devAmpMaster.gotData.connect(function() {
+                if (!devAmpMaster.timedout()) colorValue = Alert.MAP_COLOR["NORMAL"]
+                if (objWinAmp.devAmpMaster === devAmpMaster)
+                    objWinAmp.masterCommunicationColorValue = colorValue
+                restart()
+            });
+            onTriggered: {
+                colorValue = devAmpMaster.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
+                if (objWinAmp.devAmpMaster === devAmpMaster)
+                    objWinAmp.masterCommunicationColorValue = colorValue
+                if (rectMaster.ind.active)
+                    rectMaster.ind.color = colorValue
+            }
         }
     }
 
@@ -107,6 +110,7 @@ Item {
         }
 
         RectDevAmp {
+            id: rectSlave
             devAmp: devAmpSlave
             devIsMaster: false
         }
@@ -129,6 +133,8 @@ Item {
                 colorValue = devAmpSlave.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
                 if (objWinAmp.devAmpSlave === devAmpSlave)
                     objWinAmp.slaveCommunicationColorValue = colorValue
+                if (rectSlave.ind.active)
+                    rectSlave.ind.color = colorValue
             }
         }
     }

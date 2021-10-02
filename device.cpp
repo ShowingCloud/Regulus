@@ -79,6 +79,39 @@ devFreq &operator<< (devFreq &dev, const msgFreq &m)
     return dev;
 }
 
+const QString devFreq::showIndicatorColor() const
+{
+    if (this->timedout())
+        return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
+    else
+        if (true)
+            return alert::STR_COLOR[alert::P_COLOR_NORMAL];
+        else
+            return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
+}
+
+const QString devDist::showIndicatorColor() const
+{
+    if (this->timedout())
+        return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
+    else
+        if (true)
+            return alert::STR_COLOR[alert::P_COLOR_NORMAL];
+        else
+            return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
+}
+
+const QString devAmp::showIndicatorColor() const
+{
+    if (this->timedout())
+        return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
+    else
+        if (true)
+            return alert::STR_COLOR[alert::P_COLOR_NORMAL];
+        else
+            return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
+}
+
 devDist &operator<< (devDist &dev, const msgDist &m)
 {
     dev.var["ref_10"]->setValue(m.ref_10);

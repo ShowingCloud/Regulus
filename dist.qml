@@ -218,7 +218,7 @@ Window {
             posLeft: 0
             txtText: qsTr("Network Communication")
             fontSize: timerStringFontSize
-            txtValue: devDist.timerStr
+            txtValue: devDist ? devDist.timerStr : qsTr("No data")
         }
 
         Button {

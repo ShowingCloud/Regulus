@@ -62,6 +62,9 @@ signals:
     void gotData();
 
 public slots:
+    virtual void createCntlMsg() = 0;
+    virtual const QString showIndicatorColor() const = 0;
+
     inline QString name() const
     {
         return this->trConcat(device::idName[this->dId]);
@@ -91,11 +94,6 @@ public slots:
             return alert::STR_COLOR[alert::P_COLOR_OTHERS];
         }
         return var[itemName.toUtf8()]->getColor();
-    }
-
-    inline const QString showIndicatorColor() const
-    {
-        return "green";
     }
 
     inline QVariant getValue(const QString itemName)
@@ -212,7 +210,8 @@ public:
     friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
 
 public slots:
-    void createCntlMsg();
+    void createCntlMsg() override;
+    const QString showIndicatorColor() const override;
 };
 
 class devDist : public device
@@ -233,7 +232,8 @@ public:
     friend const devDist &operator>> (const devDist &dev, msgCntlDist &m);
 
 public slots:
-    void createCntlMsg();
+    void createCntlMsg() override;
+    const QString showIndicatorColor() const override;
 };
 
 class devAmp : public device
@@ -259,7 +259,8 @@ public:
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
 
 public slots:
-    void createCntlMsg();
+    void createCntlMsg() override;
+    const QString showIndicatorColor() const override;
 };
 
 #endif // DEVICE_H
