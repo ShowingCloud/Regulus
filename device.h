@@ -68,7 +68,7 @@ public slots:
 
     inline bool timedout() const
     {
-        return lastseen == QDateTime()
+        return lastseen == QDateTime() \
                 or QDateTime::currentDateTime().secsTo(lastseen) <= - alert::timeout;
     }
 
