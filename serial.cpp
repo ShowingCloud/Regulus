@@ -21,7 +21,7 @@ serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject
     connect(this->serialport, &QSerialPort::readyRead, this, &serial::readData);
 
 #ifdef QT_DEBUG
-    QByteArray data = QByteArray::fromHex("ff010203040101010101010101010105001701aa");
+    QByteArray data = QByteArray::fromHex("ff010a03040101010101010101010105001701aa");
     this->buffer += data;
     lastseen = QDateTime::currentDateTime();
     msg::validateProtocol(this->buffer, data, this);
@@ -45,17 +45,17 @@ void serial::readData()
 
 void serial::readFakeData()
 {
-    QByteArray data = QByteArray::fromHex("ff010203040101010101010101010103011701aa");
+    QByteArray data = QByteArray::fromHex("ff010a03040101010101010101010103011701aa");
     this->buffer += data;
     lastseen = QDateTime::currentDateTime();
     msg::validateProtocol(this->buffer, data, this);
 
-    data = QByteArray::fromHex("ff010203040101010101010101010102001701aa");
+    data = QByteArray::fromHex("ff010a03040101010101010101010102001701aa");
     this->buffer += data;
     lastseen = QDateTime::currentDateTime();
     msg::validateProtocol(this->buffer, data, this);
 
-    data = QByteArray::fromHex("ff01000304050001010001010101010A001701aa");
+    data = QByteArray::fromHex("ff01000a04050001010001010101010A001701aa");
     this->buffer += data;
     lastseen = QDateTime::currentDateTime();
     msg::validateProtocol(this->buffer, data, this);

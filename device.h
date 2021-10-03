@@ -169,6 +169,15 @@ protected:
     const QHash<QString, deviceVar *> var;
     QString timerStr = tr("No data");
 
+    inline bool stateGood(const QString v) const
+    {
+        if (!var.contains(v.toUtf8())) {
+            qDebug() << "Missing item " << v;
+            return false;
+        }
+        return var[v.toUtf8()]->stat == alert::P_NOR_NORMAL;
+    }
+
 private:
     QString str = QString();
 

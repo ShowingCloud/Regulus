@@ -79,39 +79,6 @@ devFreq &operator<< (devFreq &dev, const msgFreq &m)
     return dev;
 }
 
-const QString devFreq::showIndicatorColor() const
-{
-    if (this->timedout())
-        return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
-    else
-        if (true)
-            return alert::STR_COLOR[alert::P_COLOR_NORMAL];
-        else
-            return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
-}
-
-const QString devDist::showIndicatorColor() const
-{
-    if (this->timedout())
-        return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
-    else
-        if (true)
-            return alert::STR_COLOR[alert::P_COLOR_NORMAL];
-        else
-            return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
-}
-
-const QString devAmp::showIndicatorColor() const
-{
-    if (this->timedout())
-        return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
-    else
-        if (true)
-            return alert::STR_COLOR[alert::P_COLOR_NORMAL];
-        else
-            return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
-}
-
 devDist &operator<< (devDist &dev, const msgDist &m)
 {
     dev.var["ref_10"]->setValue(m.ref_10);
@@ -171,6 +138,50 @@ const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m)
     m.gain = static_cast<quint16>(dev.var["gain"]->getValue());
 
     return dev;
+}
+
+const QString devFreq::showIndicatorColor() const
+{
+    if (timedout())
+        return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
+    else
+        if (stateGood("atten") and stateGood("voltage") and stateGood("current")
+                and stateGood("radio_stat") and stateGood("mid_stat")
+                and (stateGood("lock_a1") or stateGood("lock_b1"))
+                and (stateGood("ref_10_1") or stateGood("ref_10_2") or stateGood("ref_10_3")
+                     or stateGood("ref_10_4") or stateGood("ref_inner_1") or stateGood("ref_inner_2"))
+                and stateGood("handshake"))
+            return alert::STR_COLOR[alert::P_COLOR_NORMAL];
+        else
+            return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
+}
+
+const QString devDist::showIndicatorColor() const
+{
+    if (timedout())
+        return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
+    else
+        if (stateGood("ref_10") and stateGood("ref_16") and stateGood("voltage")
+                and stateGood("current")
+                and (stateGood("lock_10_1") or stateGood("lock_10_2")
+                     or stateGood("lock_10_3") or stateGood("lock_10_4")))
+            return alert::STR_COLOR[alert::P_COLOR_NORMAL];
+        else
+            return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
+}
+
+const QString devAmp::showIndicatorColor() const
+{
+    if (timedout())
+        return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
+    else
+        if (stateGood("power") and stateGood("gain") and stateGood("atten")
+                and stateGood("loss") and stateGood("amp_temp") and stateGood("load_temp")
+                and stateGood("s_stand_wave") and stateGood("s_temp") and stateGood("s_current")
+                and stateGood("s_voltage") and stateGood("s_power") and stateGood("handshake"))
+            return alert::STR_COLOR[alert::P_COLOR_NORMAL];
+        else
+            return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
 }
 
 void devFreq::createCntlMsg()
