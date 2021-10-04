@@ -5,12 +5,12 @@
 
 serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject(parent)
 {
-    this->serialport->setPort(serialportinfo);
-    this->serialport->setBaudRate(serial::baudrate);
-    this->serialport->setDataBits(serial::databits);
-    this->serialport->setParity(serial::parity);
-    this->serialport->setStopBits(serial::stopbits);
-    this->serialport->setFlowControl(serial::flowcontrol);
+    serialport->setPort(serialportinfo);
+    serialport->setBaudRate(serial::baudrate);
+    serialport->setDataBits(serial::databits);
+    serialport->setParity(serial::parity);
+    serialport->setStopBits(serial::stopbits);
+    serialport->setFlowControl(serial::flowcontrol);
 
     if(serialport->open(QIODevice::ReadWrite)) {
         qDebug() << "Serial port opened.";
@@ -18,53 +18,56 @@ serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject
         qDebug() << "Serial port open failed" << serialport->error();
     }
 
-    connect(this->serialport, &QSerialPort::readyRead, this, &serial::readData);
+    connect(serialport, &QSerialPort::readyRead, this, &serial::readData);
 
 #ifdef QT_DEBUG
     QByteArray data = QByteArray::fromHex("ff010a03040101010101010101010105001701aa");
-    this->buffer += data;
+    buffer += data;
     lastseen = QDateTime::currentDateTime();
-    msg::validateProtocol(this->buffer, data, this);
+    msg::validateProtocol(buffer, data, this);
 #endif
 }
 
 serial::~serial()
 {
-    if(this->serialport->isOpen())
-        this->serialport->close();
+    if(serialport->isOpen())
+        serialport->close();
     qDebug() << "Serial port closed.";
+    delete serialport;
 }
 
 void serial::readData()
 {
     QByteArray data = serialport->readAll();
-    this->buffer += data;
+    buffer += data;
     lastseen = QDateTime::currentDateTime();
-    msg::validateProtocol(this->buffer, data, this);
+    msg::validateProtocol(buffer, data, this);
 }
 
+#ifdef QT_DEBUG
 void serial::readFakeData()
 {
     QByteArray data = QByteArray::fromHex("ff010a03040101010101010101010103011701aa");
-    this->buffer += data;
+    buffer += data;
     lastseen = QDateTime::currentDateTime();
-    msg::validateProtocol(this->buffer, data, this);
+    msg::validateProtocol(buffer, data, this);
 
     data = QByteArray::fromHex("ff010a03040101010101010101010102001701aa");
-    this->buffer += data;
+    buffer += data;
     lastseen = QDateTime::currentDateTime();
-    msg::validateProtocol(this->buffer, data, this);
+    msg::validateProtocol(buffer, data, this);
 
     data = QByteArray::fromHex("ff01000a04050001010001010101010A001701aa");
-    this->buffer += data;
+    buffer += data;
     lastseen = QDateTime::currentDateTime();
-    msg::validateProtocol(this->buffer, data, this);
+    msg::validateProtocol(buffer, data, this);
 
     data = QByteArray::fromHex("ff00010202030301040105060601070E001701aa");
-    this->buffer += data;
+    buffer += data;
     lastseen = QDateTime::currentDateTime();
-    msg::validateProtocol(this->buffer, data, this);
+    msg::validateProtocol(buffer, data, this);
 }
+#endif
 
 void serial::writeData(const QByteArray &data) const
 {
@@ -129,7 +132,7 @@ serial &operator<< (serial &s, const msg &m)
 
 const serial &operator>> (const serial &s, msg &m)
 {
-    Q_UNUSED(m);
+    Q_UNUSED(m)
     qDebug() << "!!! not processing";
     return s;
 }

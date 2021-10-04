@@ -20,7 +20,7 @@ class alert : public QObject
     Q_PROPERTY(QVariantMap  MAP_COLOR   MEMBER MAP_COLOR    CONSTANT)
     Q_PROPERTY(int          timeout     MEMBER timeout      CONSTANT)
 public:
-    explicit alert(QObject *parent = nullptr) {Q_UNUSED(parent)}
+    explicit alert(const QObject *parent = nullptr) {Q_UNUSED(parent)}
 
     inline const static int timeout = 10;
 
@@ -130,9 +130,9 @@ public:
          }}
     };
 
-    static QVariant setValue(const QVariant val, const P_ENUM e);
+    static const QVariant setValue(const QVariant val, const P_ENUM e);
     static P_NOR setState(const QVariant val, const P_ENUM e);
-    static QString setDisplay(const QVariant val, const P_ENUM e);
+    static const QString setDisplay(const QVariant val, const P_ENUM e);
 
 signals:
 
@@ -157,8 +157,8 @@ public:
     explicit deviceVar(const alert::P_ENUM type, QObject *parent = nullptr);
 
     void setValue(const QVariant value);
-    int getValue();
-    QString getColor();
+    int getValue() const;
+    const QString getColor() const;
 
     alert::P_ENUM type;
     QVariant value;

@@ -56,8 +56,8 @@ device &operator<< (device &d, const msgAmp &m)
 devFreq &operator<< (devFreq &dev, const msgFreq &m)
 {
     dev.var["atten"]->setValue(m.atten);
-    //this->ch_a = m;
-    //this->ch_b = m;
+    //ch_a = m;
+    //ch_b = m;
     dev.var["voltage"]->setValue(m.voltage);
     dev.var["current"]->setValue(m.current);
     dev.var["radio_stat"]->setValue(m.radio_stat);
@@ -119,6 +119,7 @@ const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m)
     m.ref_10_a = static_cast<quint8>(dev.var["ch_a"]->getValue());
     m.ref_10_b = static_cast<quint8>(dev.var["ch_b"]->getValue());
 
+    m.setDeviceId(static_cast<quint8>(dev.dId));
     return dev;
 }
 
@@ -127,6 +128,7 @@ const devDist &operator>> (const devDist &dev, msgCntlDist &m)
     m.ref_10 = static_cast<quint8>(dev.var["ref_10"]->getValue());
     m.ref_16 = static_cast<quint8>(dev.var["ref_16"]->getValue());
 
+    m.setDeviceId(static_cast<quint8>(dev.dId));
     return dev;
 }
 
@@ -137,6 +139,7 @@ const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m)
     m.power = static_cast<quint16>(dev.var["power"]->getValue());
     m.gain = static_cast<quint16>(dev.var["gain"]->getValue());
 
+    m.setDeviceId(static_cast<quint8>(dev.dId));
     return dev;
 }
 
@@ -184,18 +187,17 @@ const QString devAmp::showIndicatorColor() const
             return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
 }
 
-void devFreq::createCntlMsg()
+void devFreq::createCntlMsg() const
 {
     protocol *p = new protocol();
     protocol::protocolList << p;
 
     msgCntlFreq *q = new msgCntlFreq();
     *this >> *q;
-    q->setDeviceId(this->dId);
 
-    if (this->lastSerial and QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
+    if (lastSerial and QDateTime::currentDateTime().secsTo(lastseen) < 3) {
         qDebug() << "create msg: sending one";
-        *this->lastSerial << *q;
+        *lastSerial << *q;
     } else {
         qDebug() << "create msg: sending all";
         for (serial *s : qAsConst(serial::serialList))
@@ -207,18 +209,17 @@ void devFreq::createCntlMsg()
     delete q;
 }
 
-void devDist::createCntlMsg()
+void devDist::createCntlMsg() const
 {
     protocol *p = new protocol();
     protocol::protocolList << p;
 
     msgCntlDist *q = new msgCntlDist();
     *this >> *q;
-    q->setDeviceId(this->dId);
 
-    if (this->lastSerial and QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
+    if (lastSerial and QDateTime::currentDateTime().secsTo(lastseen) < 3) {
         qDebug() << "create msg: sending one";
-        *this->lastSerial << *q;
+        *lastSerial << *q;
     } else {
         qDebug() << "create msg: sending all";
         for (serial *s : qAsConst(serial::serialList))
@@ -230,18 +231,17 @@ void devDist::createCntlMsg()
     delete q;
 }
 
-void devAmp::createCntlMsg()
+void devAmp::createCntlMsg() const
 {
     protocol *p = new protocol();
     protocol::protocolList << p;
 
     msgCntlAmp *q = new msgCntlAmp();
     *this >> *q;
-    q->setDeviceId(this->dId);
 
-    if (this->lastSerial and QDateTime::currentDateTime().secsTo(this->lastseen) < 3) {
+    if (lastSerial and QDateTime::currentDateTime().secsTo(lastseen) < 3) {
         qDebug() << "create msg: sending one";
-        *this->lastSerial << *q;
+        *lastSerial << *q;
     } else {
         qDebug() << "create msg: sending all";
         for (serial *s : qAsConst(serial::serialList))

@@ -26,14 +26,14 @@ public:
     friend serial &operator<< (serial &s, const msgCntlAmp &m);
     friend const serial &operator>> (const serial &s, msg &m);
 
-    inline bool timedout()
+    inline bool timedout() const
     {
         return QDateTime::currentDateTime().secsTo(lastseen) <= - serial::timeout;
     }
 
-    inline bool has(const QSerialPortInfo &info)
+    inline bool has(const QSerialPortInfo &info) const
     {
-        return this->serialport->portName() == info.portName();
+        return serialport->portName() == info.portName();
     }
 
     inline const static enum QSerialPort::BaudRate baudrate = QSerialPort::Baud115200;
@@ -45,6 +45,8 @@ public:
     inline static QList<serial *> serialList = QList<serial *>();
 
 private:
+    void writeData(const QByteArray &data) const;
+
     QSerialPort *serialport = new QSerialPort(this);
     QDateTime lastseen;
     QByteArray buffer = "";
@@ -55,8 +57,9 @@ signals:
 
 public slots:
     void readData();
+#ifdef QT_DEBUG
     void readFakeData();
-    void writeData(const QByteArray &data) const;
+#endif
 };
 
 #endif // SERIAL_H

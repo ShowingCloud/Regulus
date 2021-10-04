@@ -21,7 +21,7 @@ class database : public QObject
 
 public:
     explicit database(QObject *parent = nullptr);
-    ~database();
+    ~database() override;
 
     database &operator<< (const msgAmp &msg);
     database &operator<< (const msgFreq &msg);

@@ -6,26 +6,26 @@ database::database(QObject *parent) : QObject(parent)
 {
     if (QSqlDatabase::contains("qt_sql_default_connection"))
     {
-        this->db = QSqlDatabase::database("qt_sql_default_connection");
+        db = QSqlDatabase::database("qt_sql_default_connection");
     }
     else
     {
-        this->db = QSqlDatabase::addDatabase("QSQLITE");
-        this->db.setDatabaseName(database::filename);
-        this->db.setUserName(database::username);
-        this->db.setPassword(database::password);
+        db = QSqlDatabase::addDatabase("QSQLITE");
+        db.setDatabaseName(database::filename);
+        db.setUserName(database::username);
+        db.setPassword(database::password);
     }
 
-    if (!this->db.open())
+    if (!db.open())
     {
-        qDebug() << "Error: Failed to connect db." << this->db.lastError();
+        qDebug() << "Error: Failed to connect db." << db.lastError();
     }
 
-    this->dbModel = new QSqlTableModel(this, this->db);
+    dbModel = new QSqlTableModel(this, db);
 }
 
 database::~database()
 {
-    this->db.close();
+    db.close();
     qDebug() << "Database closed.";
 }

@@ -43,7 +43,7 @@ public:
 
     inline static QList<device *> deviceList = {};
 
-    inline QString trConcat(const QList<std::string> str) const
+    inline const QString trConcat(const QList<std::string> str) const
     {
         return std::accumulate(begin(str), end(str), QString(), [](QString ret, const std::string s)
                 -> QString { return ret += tr(s.c_str()); });
@@ -62,12 +62,12 @@ signals:
     void gotData();
 
 public slots:
-    virtual void createCntlMsg() = 0;
+    virtual void createCntlMsg() const = 0;
     virtual const QString showIndicatorColor() const = 0;
 
-    inline QString name() const
+    inline const QString name() const
     {
-        return this->trConcat(device::idName[this->dId]);
+        return trConcat(device::idName[dId]);
     }
 
     inline bool timedout() const
@@ -90,13 +90,13 @@ public slots:
         if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return QString();
-        } else if (this->timedout()) {
+        } else if (timedout()) {
             return alert::STR_COLOR[alert::P_COLOR_OTHERS];
         }
         return var[itemName.toUtf8()]->getColor();
     }
 
-    inline QVariant getValue(const QString itemName)
+    inline const QVariant getValue(const QString itemName) const
     {
         if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
@@ -219,7 +219,7 @@ public:
     friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
 
 public slots:
-    void createCntlMsg() override;
+    void createCntlMsg() const override;
     const QString showIndicatorColor() const override;
 };
 
@@ -241,7 +241,7 @@ public:
     friend const devDist &operator>> (const devDist &dev, msgCntlDist &m);
 
 public slots:
-    void createCntlMsg() override;
+    void createCntlMsg() const override;
     const QString showIndicatorColor() const override;
 };
 
@@ -268,7 +268,7 @@ public:
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
 
 public slots:
-    void createCntlMsg() override;
+    void createCntlMsg() const override;
     const QString showIndicatorColor() const override;
 };
 

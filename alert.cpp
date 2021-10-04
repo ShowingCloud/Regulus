@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <iso646.h>
 
-QVariant alert::setValue(const QVariant val, const P_ENUM e)
+const QVariant alert::setValue(const QVariant val, const P_ENUM e)
 {
     QVariant ret;
 
@@ -103,7 +103,7 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e)
     return P_NOR_NORMAL;
 }
 
-QString alert::setDisplay(const QVariant val, const P_ENUM e)
+const QString alert::setDisplay(const QVariant val, const P_ENUM e)
 {
     QString v;
 
@@ -185,37 +185,37 @@ deviceVar::deviceVar(const alert::P_ENUM type, QObject *parent) : QObject(parent
     case alert::P_ENUM_ATTEN:
     case alert::P_ENUM_STAT:
     case alert::P_ENUM_CH:
-        this->setValue(alert::P_ENUM_VALUE["default"][type]);
+        setValue(alert::P_ENUM_VALUE["default"][type]);
         return;
     case alert::P_ENUM_INT:
     case alert::P_ENUM_CURRENT:
     case alert::P_ENUM_VOLTAGE:
     case alert::P_ENUM_DECUPLE:
     case alert::P_ENUM_DECUPLE_DOUBLE:
-        this->setValue(0);
+        setValue(0);
         return;
     case alert::P_ENUM_FLOAT:
-        this->setValue(0.0f);
+        setValue(0.0f);
         return;
     }
 }
 
-void deviceVar::setValue(const QVariant value)
+void deviceVar::setValue(const QVariant v)
 {
-    if (not this->holding) {
-        this->value = alert::setValue(value, this->type);
-        this->stat = alert::setState(this->value, this->type);
-        this->display = alert::setDisplay(this->value, this->type);
+    if (not holding) {
+        value = alert::setValue(v, type);
+        stat = alert::setState(v, type);
+        display = alert::setDisplay(v, type);
     }
 }
 
-int deviceVar::getValue()
+int deviceVar::getValue() const
 {
-    QVariant *ret;
-    if (this->holding)
-        ret = &this->v_hold;
+    const QVariant *ret;
+    if (holding)
+        ret = &v_hold;
     else
-        ret = &this->value;
+        ret = &value;
 
     switch (type) {
     case alert::P_ENUM_NOR:
@@ -240,7 +240,7 @@ int deviceVar::getValue()
     return -1;
 }
 
-QString deviceVar::getColor()
+const QString deviceVar::getColor() const
 {
     if (holding)
         return alert::STR_COLOR[alert::P_COLOR_HOLDING];
@@ -249,11 +249,11 @@ QString deviceVar::getColor()
     case alert::P_NOR_NORMAL:
         return alert::STR_COLOR[alert::P_COLOR_NORMAL];
     case alert::P_NOR_ABNORMAL:
-        return "red";
+        return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
     case alert::P_NOR_STANDBY:
-        return "yellow";
+        return alert::STR_COLOR[alert::P_COLOR_STANDBY];
     case alert::P_NOR_OTHERS:
-        return "black";
+        return alert::STR_COLOR[alert::P_COLOR_OTHERS];
     }
 
     qDebug() << "Shouldn't get here";
