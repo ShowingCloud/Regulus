@@ -28,4 +28,5 @@ database::~database()
 {
     db.close();
     qDebug() << "Database closed.";
+    delete dbModel;
 }

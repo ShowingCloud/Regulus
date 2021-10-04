@@ -47,17 +47,14 @@ protected:
         {0x0A, PROTO_DIST}, {0x0B, PROTO_DIST},
         {0x0C, PROTO_AMP}, {0x0D, PROTO_AMP}, {0x0E, PROTO_AMP}, {0x0F, PROTO_AMP}
     };
-
-signals:
-
-public slots:
 };
 
 class msgUplink : public msg
 {
 public:
-    explicit msgUplink(msg *parent) : msg(*parent) {}
-    explicit msgUplink();
+    explicit msgUplink(msg parent) : msg(parent) {}
+    explicit msgUplink() {}
+
     friend const msgUplink &operator>> (const msgUplink &m, QByteArray &data);
     friend msgUplink &operator<< (msgUplink &m, const QByteArray &data);
 
@@ -68,8 +65,9 @@ public:
 class msgDownlink : public msg
 {
 public:
-    explicit msgDownlink(msg *parent) : msg(*parent) {}
+    explicit msgDownlink(msg parent) : msg(parent) {}
     explicit msgDownlink() {}
+
     friend const msgDownlink &operator>> (const msgDownlink &m, QByteArray &data);
     friend msgDownlink &operator<< (msgDownlink &m, const QByteArray &data);
 
@@ -84,8 +82,9 @@ public:
 class msgFreq : public msgUplink
 {
 public:
-    explicit msgFreq(msgUplink *parent) : msgUplink(*parent) {}
+    explicit msgFreq(msgUplink parent) : msgUplink(parent) {}
     explicit msgFreq() {}
+
     friend const msgFreq &operator>> (const msgFreq &m, QByteArray &data);
     friend msgFreq &operator<< (msgFreq &m, const QByteArray &data);
     friend device &operator<< (device &dev, const msgFreq &m);
@@ -118,8 +117,9 @@ private:
 class msgDist : public msgUplink
 {
 public:
-    explicit msgDist(msgUplink *parent) : msgUplink(*parent) {}
+    explicit msgDist(msgUplink parent) : msgUplink(parent) {}
     explicit msgDist() {}
+
     friend const msgDist &operator>> (const msgDist &m, QByteArray &data);
     friend msgDist &operator<< (msgDist &m, const QByteArray &data);
     friend device &operator<< (device &dev, const msgDist &m);
@@ -141,8 +141,9 @@ private:
 class msgAmp : public msgUplink
 {
 public:
-    explicit msgAmp(msgUplink *parent) : msgUplink(*parent) {}
+    explicit msgAmp(msgUplink parent) : msgUplink(parent) {}
     explicit msgAmp() {}
+
     friend const msgAmp &operator>> (const msgAmp &m, QByteArray &data);
     friend msgAmp &operator<< (msgAmp &m, const QByteArray &data);
     friend device &operator<< (device &dev, const msgAmp &m);
@@ -169,8 +170,9 @@ private:
 class msgQuery : public msgDownlink
 {
 public:
-    explicit msgQuery(msgDownlink *parent) : msgDownlink(*parent) {}
+    explicit msgQuery(msgDownlink parent) : msgDownlink(parent) {}
     explicit msgQuery() {}
+
     friend const msgQuery &operator>> (const msgQuery &m, QByteArray &data);
     friend msgQuery &operator<< (msgQuery &m, const QByteArray &data);
 
@@ -186,8 +188,9 @@ private:
 class msgCntlAmp : public msgDownlink
 {
 public:
-    explicit msgCntlAmp(msgDownlink *parent) : msgDownlink(*parent) {}
+    explicit msgCntlAmp(msgDownlink parent) : msgDownlink(parent) {}
     explicit msgCntlAmp() {}
+
     friend const msgCntlAmp &operator>> (const msgCntlAmp &m, QByteArray &data);
     friend msgCntlAmp &operator<< (msgCntlAmp &m, const QByteArray &data);
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
@@ -204,8 +207,9 @@ private:
 class msgCntlFreq : public msgDownlink
 {
 public:
-    explicit msgCntlFreq(msgDownlink *parent) : msgDownlink(*parent) {}
+    explicit msgCntlFreq(msgDownlink parent) : msgDownlink(parent) {}
     explicit msgCntlFreq() {}
+
     friend const msgCntlFreq &operator>> (const msgCntlFreq &m, QByteArray &data);
     friend msgCntlFreq &operator<< (msgCntlFreq &m, const QByteArray &data);
     friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
@@ -221,8 +225,9 @@ private:
 class msgCntlDist : public msgDownlink
 {
 public:
-    explicit msgCntlDist(msgDownlink *parent) : msgDownlink(*parent) {}
+    explicit msgCntlDist(msgDownlink parent) : msgDownlink(parent) {}
     explicit msgCntlDist() {}
+
     friend const msgCntlDist &operator>> (const msgCntlDist &m, QByteArray &data);
     friend msgCntlDist &operator<< (msgCntlDist &m, const QByteArray &data);
     friend const devDist &operator>> (const devDist &dev, msgCntlDist &m);
@@ -240,6 +245,7 @@ class protocol : public QObject
     Q_OBJECT
 public:
     explicit protocol(QObject *parent = nullptr) : QObject(parent) {}
+
     friend const protocol &operator>> (const protocol &p, serial &s);
     friend protocol &operator<< (protocol &p, const serial &s);
 

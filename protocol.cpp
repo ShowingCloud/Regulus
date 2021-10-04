@@ -92,33 +92,26 @@ msg &operator<< (msg &m, const QByteArray &data)
     m.time = QDateTime::currentDateTime();
     m.origin = data;
 
-    msgUplink *u = new msgUplink(&m);
-    *u << data;
+    msgUplink u = msgUplink(m);
+    u << data;
 
-    switch (msg::idProto[u->deviceId]) {
+    switch (msg::idProto[u.deviceId]) {
     case msg::PROTO_FREQ: {
         msgFreq *s = new msgFreq(u);
         *s << data;
-        delete u;
         return *s;
-    }
-    case msg::PROTO_DIST: {
+    } case msg::PROTO_DIST: {
         msgDist *s = new msgDist(u);
         *s << data;
-        delete u;
         return *s;
-    }
-    case msg::PROTO_AMP: {
+    } case msg::PROTO_AMP: {
         msgAmp *s = new msgAmp(u);
         *s << data;
-        delete u;
         return *s;
-    }
-    default:
+    } default:
         qDebug() << "unknown device id";
-        return *u;
+        return *new msgUplink(m);
     }
-
 }
 
 msgUplink &operator<< (msgUplink &m, const QByteArray &data)
