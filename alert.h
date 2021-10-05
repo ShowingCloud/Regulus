@@ -5,6 +5,8 @@
 #include <QHash>
 #include <QDebug>
 
+class database;
+
 class alert : public QObject
 {
     Q_OBJECT
@@ -22,6 +24,8 @@ class alert : public QObject
 public:
     explicit alert(const QObject *parent = nullptr) {Q_UNUSED(parent)}
 
+    friend database &operator<< (database &db, const alert &alert);
+
     inline const static int timeout = 10;
 
     enum P_NOR { P_NOR_ABNORMAL = 0, P_NOR_NORMAL = 1, P_NOR_STANDBY = 2, P_NOR_OTHERS };
@@ -31,6 +35,7 @@ public:
     enum P_ATTEN { P_ATTEN_NORMAL = 0, P_ATTEN_CONSTPOWER = 1, P_ATTEN_CONSTGAIN = 2, P_ATTEN_OTHERS };
     enum P_STAT { P_STAT_NORMAL = 0, P_STAT_ABNORMAL = 1, P_STAT_OTHERS };
     enum P_CH { P_CH_CH1 = 0, P_CH_CH2 = 1, P_CH_OTHERS };
+    enum P_ALERT { P_ALERT_GOOD = 0, P_ALERT_LOWER, P_ALERT_HIGHER, P_ALERT_NODATA, P_ALERT_OTHERS };
 
     enum P_ENUM { P_ENUM_NOR, P_ENUM_LOCK, P_ENUM_MS, P_ENUM_HSK, P_ENUM_ATTEN, P_ENUM_STAT, P_ENUM_CH,
                   P_ENUM_FLOAT, P_ENUM_INT, P_ENUM_VOLTAGE, P_ENUM_CURRENT, P_ENUM_DECUPLE, P_ENUM_DECUPLE_DOUBLE };
@@ -166,6 +171,7 @@ public:
     QString display = QString();
     bool holding = false;
     QVariant v_hold;
+    alert::P_ALERT stat_alert;
 };
 
 #endif // ALERT_H

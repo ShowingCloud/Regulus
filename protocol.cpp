@@ -4,6 +4,7 @@
 #include "protocol.h"
 #include "serial.h"
 #include "device.h"
+#include "database.h"
 
 msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &input, serial *s)
 {
@@ -140,6 +141,7 @@ msgFreq &operator<< (msgFreq &m, const QByteArray &data)
     m.ref_inner_2 = (m.ref_4 & 0xF0) >> 4;
 
     device::updateDevice(m);
+    staticDB << m;
     return m;
 }
 

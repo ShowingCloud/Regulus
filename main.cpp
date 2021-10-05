@@ -37,8 +37,6 @@ int main(int argc, char *argv[])
     if (engine.rootObjects().isEmpty())
         return -1;
 
-    database db(&app);
-
     QTimer *searchSerialTimer = new QTimer(&app);
     QObject::connect(searchSerialTimer, &QTimer::timeout, [&]() {
         for (const QSerialPortInfo &serialportinfo : QSerialPortInfo::availablePorts())

@@ -9,6 +9,7 @@
 #include "device.h"
 
 class serial;
+class database;
 
 class msg
 {
@@ -89,6 +90,7 @@ public:
     friend msgFreq &operator<< (msgFreq &m, const QByteArray &data);
     friend device &operator<< (device &dev, const msgFreq &m);
     friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
+    friend database &operator<< (database &db, const msgFreq &msg);
 
     inline const static int posSerial = 17;
 
@@ -124,6 +126,7 @@ public:
     friend msgDist &operator<< (msgDist &m, const QByteArray &data);
     friend device &operator<< (device &dev, const msgDist &m);
     friend devDist &operator<< (devDist &dev, const msgDist &m);
+    friend database &operator<< (database &db, const msgDist &msg);
 
     inline const static int posSerial = 8;
 
@@ -148,6 +151,7 @@ public:
     friend msgAmp &operator<< (msgAmp &m, const QByteArray &data);
     friend device &operator<< (device &dev, const msgAmp &m);
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
+    friend database &operator<< (database &db, const msgAmp &msg);
 
     inline const static int posSerial = 17;
 
@@ -194,6 +198,7 @@ public:
     friend const msgCntlAmp &operator>> (const msgCntlAmp &m, QByteArray &data);
     friend msgCntlAmp &operator<< (msgCntlAmp &m, const QByteArray &data);
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
+    friend database &operator<< (database &db, const msgCntlAmp &msg);
 
     inline const static int posSerial = 8;
 
@@ -213,6 +218,7 @@ public:
     friend const msgCntlFreq &operator>> (const msgCntlFreq &m, QByteArray &data);
     friend msgCntlFreq &operator<< (msgCntlFreq &m, const QByteArray &data);
     friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
+    friend database &operator<< (database &db, const msgCntlFreq &msg);
 
     inline const static int posSerial = 6;
 
@@ -231,6 +237,7 @@ public:
     friend const msgCntlDist &operator>> (const msgCntlDist &m, QByteArray &data);
     friend msgCntlDist &operator<< (msgCntlDist &m, const QByteArray &data);
     friend const devDist &operator>> (const devDist &dev, msgCntlDist &m);
+    friend database &operator<< (database &db, const msgCntlDist &msg);
 
     inline const static int posSerial = 4;
 

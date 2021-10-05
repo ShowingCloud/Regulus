@@ -52,9 +52,7 @@ public:
     template <class T> static void updateDevice(const T &m)
     {
         for (device *d : device::deviceList)
-        {
             *d << m;
-        }
     }
 
 signals:
@@ -163,6 +161,7 @@ protected:
         {0x0E, {"C2 ", QT_TR_NOOP("High Amplification"), " A"}},
         {0x0F, {"C2 ", QT_TR_NOOP("High Amplification"), " B"}}
     };
+
     int dId = 0;
     serial *lastSerial = nullptr;
     QDateTime lastseen = QDateTime();
