@@ -17,7 +17,8 @@ const QVariant alert::setValue(const QVariant val, const P_ENUM e)
     case P_ENUM_STAT:
     case P_ENUM_CH:
         ret = (val.value<int>() >= 0 and val.value<int>() < P_ENUM_VALUE["others"][e].value<int>())
-                ? val.value<int>() : P_ENUM_VALUE["others"][e].value<int>();
+                ? val.value<int>()
+                : P_ENUM_VALUE["others"][e].value<int>();
         break;
     case P_ENUM_INT:
     case P_ENUM_CURRENT:
@@ -204,8 +205,8 @@ void deviceVar::setValue(const QVariant v)
 {
     if (not holding) {
         value = alert::setValue(v, type);
-        stat = alert::setState(v, type);
-        display = alert::setDisplay(v, type);
+        stat = alert::setState(value, type);
+        display = alert::setDisplay(value, type);
     }
 }
 

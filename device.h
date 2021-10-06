@@ -88,9 +88,13 @@ public slots:
         if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return QString();
-        } else if (timedout()) {
-            return alert::STR_COLOR[alert::P_COLOR_OTHERS];
         }
+
+        if (var[itemName.toUtf8()]->getColor() == alert::STR_COLOR[alert::P_COLOR_HOLDING])
+            return alert::STR_COLOR[alert::P_COLOR_HOLDING];
+        else if (timedout())
+            return alert::STR_COLOR[alert::P_COLOR_OTHERS];
+
         return var[itemName.toUtf8()]->getColor();
     }
 
@@ -120,7 +124,7 @@ public slots:
             return;
         }
         var[itemName.toUtf8()]->holding = false;
-        var[itemName.toUtf8()]->setValue(var[itemName.toUtf8()]->value);
+        // var[itemName.toUtf8()]->setValue(var[itemName.toUtf8()]->value);
         // The above line is for displaying
     }
 

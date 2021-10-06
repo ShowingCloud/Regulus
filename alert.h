@@ -185,7 +185,7 @@ public:
     QString display = QString();
     bool holding = false;
     QVariant v_hold;
-    alert::P_ALERT stat_alert;
+    alert::P_ALERT stat_alert = alert::P_ALERT_NODATA;
 };
 
 #endif // ALERT_H
