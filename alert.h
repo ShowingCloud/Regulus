@@ -35,9 +35,6 @@ public:
     enum P_ATTEN { P_ATTEN_NORMAL = 0, P_ATTEN_CONSTPOWER = 1, P_ATTEN_CONSTGAIN = 2, P_ATTEN_OTHERS };
     enum P_STAT { P_STAT_NORMAL = 0, P_STAT_ABNORMAL = 1, P_STAT_OTHERS };
     enum P_CH { P_CH_CH1 = 0, P_CH_CH2 = 1, P_CH_OTHERS };
-    enum P_ALERT { P_ALERT_NODATA = 0, P_ALERT_GOOD, P_ALERT_LOWER, P_ALERT_UPPER, P_ALERT_BAD,
-                   P_ALERT_TIMEOUT, P_ALERT_OTHERS };
-
     enum P_ENUM { P_ENUM_NOR, P_ENUM_LOCK, P_ENUM_MS, P_ENUM_HSK, P_ENUM_ATTEN, P_ENUM_STAT, P_ENUM_CH,
                   P_ENUM_FLOAT, P_ENUM_INT, P_ENUM_VOLTAGE, P_ENUM_CURRENT, P_ENUM_DECUPLE, P_ENUM_DECUPLE_DOUBLE };
 
@@ -48,6 +45,22 @@ public:
         {P_COLOR_STANDBY, "yellow"},
         {P_COLOR_HOLDING, "blue"},
         {P_COLOR_OTHERS, "black"}
+    };
+
+    enum P_ALERT { P_ALERT_NODATA = 0, P_ALERT_GOOD, P_ALERT_LOWER, P_ALERT_UPPER, P_ALERT_BAD,
+                   P_ALERT_TIMEOUT, P_ALERT_OTHERS };
+    static const inline QHash<P_ALERT, QStringList> STR_ALERT = {
+        {P_ALERT_NODATA, {QT_TR_NOOP("No data")}},
+        {P_ALERT_GOOD, {QT_TR_NOOP("Good value")}},
+        {P_ALERT_LOWER, {QT_TR_NOOP("Lower than lower limit"),
+                         QT_TR_NOOP("Lower limit")}},
+        {P_ALERT_UPPER, {QT_TR_NOOP("Higher than upper limit"),
+                         QT_TR_NOOP("Upper limit")}},
+        {P_ALERT_BAD, {QT_TR_NOOP("Bad value"),
+                       QT_TR_NOOP("Good value")}},
+        {P_ALERT_TIMEOUT, {QT_TR_NOOP("Timeout"),
+                           QT_TR_NOOP("Timeout value")}},
+        {P_ALERT_OTHERS, {QT_TR_NOOP("Other alert")}}
     };
 
     static inline const QVariantHash EnumMap2VariantHash (const QHash<QVariant, QString> enumMap)

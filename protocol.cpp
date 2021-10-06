@@ -201,6 +201,7 @@ const msgCntlFreq &operator>> (const msgCntlFreq &m, QByteArray &data)
     QDataStream(&data, QIODevice::WriteOnly) << m.head << m.atten << m.ref_10_a << m.ref_10_b
                                              << m.holder8 << m.deviceId << m.serialId << m.holder8
                                              << m.holder8 << m.tail;
+    staticDB << m;
     return m;
 }
 
@@ -209,6 +210,7 @@ const msgCntlDist &operator>> (const msgCntlDist &m, QByteArray &data)
     QDataStream(&data, QIODevice::WriteOnly) << m.head << m.ref_10 << m.ref_16 << m.deviceId
                                              << m.serialId << m.holder8 << m.holder8 << m.holder8
                                              << m.holder8 << m.tail;
+    staticDB << m;
     return m;
 }
 
@@ -216,5 +218,6 @@ const msgCntlAmp &operator>> (const msgCntlAmp &m, QByteArray &data)
 {
     QDataStream(&data, QIODevice::WriteOnly) << m.head << m.atten_mode << m.atten << m.power
                                              << m.gain << m.deviceId << m.serialId << m.tail;
+    staticDB << m;
     return m;
 }

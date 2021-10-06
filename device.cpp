@@ -201,9 +201,7 @@ void devFreq::createCntlMsg() const
     } else {
         qDebug() << "create msg: sending all";
         for (serial *s : qAsConst(serial::serialList))
-        {
             *s << *q;
-        }
     }
 
     delete q;
@@ -223,9 +221,7 @@ void devDist::createCntlMsg() const
     } else {
         qDebug() << "create msg: sending all";
         for (serial *s : qAsConst(serial::serialList))
-        {
             *s << *q;
-        }
     }
 
     delete q;
@@ -245,9 +241,7 @@ void devAmp::createCntlMsg() const
     } else {
         qDebug() << "create msg: sending all";
         for (serial *s : qAsConst(serial::serialList))
-        {
             *s << *q;
-        }
     }
 
     delete q;

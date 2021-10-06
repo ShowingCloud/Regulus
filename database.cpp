@@ -131,94 +131,68 @@ database &operator<< (database &db, const msgAmp &msg)
     return db;
 }
 
-database &operator<< (database &db, const alert &alert)
-{
-    return db;
-}
-
-database &operator<< (database &db, const msgCntlAmp &msg)
-{
-    return db;
-}
-
 database &operator<< (database &db, const msgCntlFreq &msg)
 {
+    db.dbModel->setTable(db.DB_TABLES[db.DB_TBL_FREQ_OPER]);
+    QSqlRecord r = db.dbModel->record();
+    r.setValue("Device", msg.deviceId);
+    r.setValue("Time", msg.time);
+    r.setValue("Attenuation", msg.atten);
+    r.setValue("Ref10_A", msg.ref_10_a);
+    r.setValue("Ref10_B", msg.ref_10_b);
+    r.setValue("Serial_Id", msg.serialId);
+    if (!db.dbModel->insertRecord(-1, r))
+        qDebug() << db.dbModel->lastError();
+
     return db;
 }
 
 database &operator<< (database &db, const msgCntlDist &msg)
 {
+    db.dbModel->setTable(db.DB_TABLES[db.DB_TBL_DIST_OPER]);
+    QSqlRecord r = db.dbModel->record();
+    r.setValue("Device", msg.deviceId);
+    r.setValue("Time", msg.time);
+    r.setValue("Ref10", msg.ref_10);
+    r.setValue("Ref16", msg.ref_16);
+    r.setValue("Serial_Id", msg.serialId);
+    if (!db.dbModel->insertRecord(-1, r))
+        qDebug() << db.dbModel->lastError();
+
     return db;
 }
 
-//msgDist &operator<< (msgDist &m, const QByteArray &data)
-//{
-//    if (data.length() != msgUplink::mlen)
-//    {
-//        qDebug() << "Mulformed message";
-//        return m;
-//    }
-//    qDebug() << "Got Msg Dist" << m.deviceId << m.origin;
-//
-//    QDataStream(data) >> m.holder8 /* header */ >> m.ref_10 >> m.ref_16 >> m.voltage
-//                      >> m.current >> m.lock_10_1 >> m.lock_10_2 >> m.serialId
-//                      >> m.lock_16_1 >> m.lock_16_2 >> m.holder8 >> m.holder8
-//                      >> m.holder8 >> m.holder8 >> m.holder8 /* device */ >> m.holder8 >> m.holder8
-//                      >> m.holder8 >> m.holder8 /* tailer */;
-//
-//    device::updateDevice(m);
-//    return m;
-//}
-//
-//msgAmp &operator<< (msgAmp &m, const QByteArray &data)
-//{
-//    if (data.length() != msgUplink::mlen)
-//    {
-//        qDebug() << "Mulformed message";
-//        return m;
-//    }
-//    qDebug() << "Got Msg Amp" << m.deviceId << m.origin;
-//
-//    QDataStream(data) >> m.holder8 /* header */ >> m.power >> m.gain >> m.atten
-//                      >> m.loss >> m.temp >> m.stat >> m.load_temp
-//                      >> m.holder8 /* device */ >> m.holder8 >> m.serialId
-//                      >> m.handshake >> m.holder8 /* tailer */;
-//    m.stat_stand_wave = (m.stat & 0x10) >> 4;
-//    m.stat_temp = (m.stat & 0x08) >> 3;
-//    m.stat_current = (m.stat & 0x04) >> 2;
-//    m.stat_voltage = (m.stat & 0x02) >> 1;
-//    m.stat_power = m.stat & 0x01;
-//
-//    device::updateDevice(m);
-//    return m;
-//}
-//
-//const msgQuery &operator>> (const msgQuery &m, QByteArray &data)
-//{
-//    QDataStream(&data, QIODevice::WriteOnly) << m.head << m.identify << m.instruction
-//                                             << m.deviceId << m.serialId << m.tail;
-//    return m;
-//}
-//
-//const msgCntlFreq &operator>> (const msgCntlFreq &m, QByteArray &data)
-//{
-//    QDataStream(&data, QIODevice::WriteOnly) << m.head << m.atten << m.ref_10_a << m.ref_10_b
-//                                             << m.holder8 << m.deviceId << m.serialId << m.holder8
-//                                             << m.holder8 << m.tail;
-//    return m;
-//}
-//
-//const msgCntlDist &operator>> (const msgCntlDist &m, QByteArray &data)
-//{
-//    QDataStream(&data, QIODevice::WriteOnly) << m.head << m.ref_10 << m.ref_16 << m.deviceId
-//                                             << m.serialId << m.holder8 << m.holder8 << m.holder8
-//                                             << m.holder8 << m.tail;
-//    return m;
-//}
-//
-//const msgCntlAmp &operator>> (const msgCntlAmp &m, QByteArray &data)
-//{
-//    QDataStream(&data, QIODevice::WriteOnly) << m.head << m.atten_mode << m.atten << m.power
-//                                             << m.gain << m.deviceId << m.serialId << m.tail;
-//    return m;
-//}
+database &operator<< (database &db, const msgCntlAmp &msg)
+{
+    db.dbModel->setTable(db.DB_TABLES[db.DB_TBL_AMP_OPER]);
+    QSqlRecord r = db.dbModel->record();
+    r.setValue("Device", msg.deviceId);
+    r.setValue("Time", msg.time);
+    r.setValue("Attenuation_Mode", msg.atten);
+    r.setValue("Power", msg.power);
+    r.setValue("Gain", msg.gain);
+    r.setValue("Serial_Id", msg.serialId);
+    if (!db.dbModel->insertRecord(-1, r))
+        qDebug() << db.dbModel->lastError();
+
+    return db;
+}
+
+database &operator<< (database &db, const alert &alert)
+{
+    db.dbModel->setTable(db.DB_TABLES[db.DB_TBL_MSG_ALERT]);
+    QSqlRecord r = db.dbModel->record();
+    /*
+    r.setValue("Device", msg.);
+    r.setValue("Time", msg.);
+    r.setValue("Type", msg.);
+    r.setValue("Column", msg.);
+    r.setValue("Value", msg.);
+    r.setValue("Normal_Value", msg.);
+    r.setValue("Emergence", msg.);
+    */
+    if (!db.dbModel->insertRecord(-1, r))
+        qDebug() << db.dbModel->lastError();
+
+    return db;
+}
