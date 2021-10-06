@@ -143,53 +143,53 @@
     <message>
         <location filename="alert.h" line="53"/>
         <source>No data</source>
-        <translation type="unfinished">无数据</translation>
+        <translation>无数据</translation>
     </message>
     <message>
         <location filename="alert.h" line="54"/>
         <location filename="alert.h" line="60"/>
         <source>Good value</source>
-        <translation type="unfinished"></translation>
+        <translation>正常值</translation>
     </message>
     <message>
         <location filename="alert.h" line="55"/>
         <source>Lower than lower limit</source>
-        <translation type="unfinished"></translation>
+        <translation>低于下限</translation>
     </message>
     <message>
         <location filename="alert.h" line="56"/>
         <source>Lower limit</source>
-        <translation type="unfinished"></translation>
+        <translation>下限值</translation>
     </message>
     <message>
         <location filename="alert.h" line="57"/>
         <source>Higher than upper limit</source>
-        <translation type="unfinished"></translation>
+        <translation>高于上限</translation>
     </message>
     <message>
         <location filename="alert.h" line="58"/>
         <source>Upper limit</source>
-        <translation type="unfinished"></translation>
+        <translation>上限值</translation>
     </message>
     <message>
         <location filename="alert.h" line="59"/>
         <source>Bad value</source>
-        <translation type="unfinished"></translation>
+        <translation>异常值</translation>
     </message>
     <message>
         <location filename="alert.h" line="61"/>
         <source>Timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>回复超时</translation>
     </message>
     <message>
         <location filename="alert.h" line="62"/>
         <source>Timeout value</source>
-        <translation type="unfinished"></translation>
+        <translation>超时时限</translation>
     </message>
     <message>
         <location filename="alert.h" line="63"/>
         <source>Other alert</source>
-        <translation type="unfinished"></translation>
+        <translation>其他警报</translation>
     </message>
     <message>
         <location filename="alert.h" line="86"/>
@@ -365,7 +365,7 @@
         <location filename="amp.qml" line="343"/>
         <location filename="amp.qml" line="594"/>
         <source>No data</source>
-        <translation type="unfinished">无数据</translation>
+        <translation>无数据</translation>
     </message>
     <message>
         <location filename="amp.qml" line="350"/>
@@ -390,37 +390,37 @@
 <context>
     <name>device</name>
     <message>
-        <location filename="device.h" line="149"/>
-        <location filename="device.h" line="150"/>
-        <location filename="device.h" line="151"/>
-        <location filename="device.h" line="152"/>
-        <source>Down Frequency Conversion</source>
-        <translation>下变频</translation>
-    </message>
-    <message>
         <location filename="device.h" line="153"/>
         <location filename="device.h" line="154"/>
         <location filename="device.h" line="155"/>
         <location filename="device.h" line="156"/>
-        <source>Up Frequency Conversion</source>
-        <translation>上变频</translation>
+        <source>Down Frequency Conversion</source>
+        <translation>下变频</translation>
     </message>
     <message>
         <location filename="device.h" line="157"/>
         <location filename="device.h" line="158"/>
+        <location filename="device.h" line="159"/>
+        <location filename="device.h" line="160"/>
+        <source>Up Frequency Conversion</source>
+        <translation>上变频</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="161"/>
+        <location filename="device.h" line="162"/>
         <source>Middle Frequency Distribution</source>
         <translation>中频分配</translation>
     </message>
     <message>
-        <location filename="device.h" line="159"/>
-        <location filename="device.h" line="160"/>
-        <location filename="device.h" line="161"/>
-        <location filename="device.h" line="162"/>
+        <location filename="device.h" line="163"/>
+        <location filename="device.h" line="164"/>
+        <location filename="device.h" line="165"/>
+        <location filename="device.h" line="166"/>
         <source>High Amplification</source>
         <translation>高功放</translation>
     </message>
     <message>
-        <location filename="device.h" line="169"/>
+        <location filename="device.h" line="173"/>
         <source>No data</source>
         <translation>无数据</translation>
     </message>
@@ -483,7 +483,7 @@
     <message>
         <location filename="dist.qml" line="221"/>
         <source>No data</source>
-        <translation type="unfinished">无数据</translation>
+        <translation>无数据</translation>
     </message>
     <message>
         <source>Handshake Signal</source>
@@ -545,7 +545,7 @@
         <location filename="freq.qml" line="304"/>
         <location filename="freq.qml" line="525"/>
         <source>No data</source>
-        <translation type="unfinished">无数据</translation>
+        <translation>无数据</translation>
     </message>
     <message>
         <location filename="freq.qml" line="311"/>
