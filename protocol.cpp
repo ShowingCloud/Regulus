@@ -161,6 +161,7 @@ msgDist &operator<< (msgDist &m, const QByteArray &data)
                       >> m.holder8 >> m.holder8 /* tailer */;
 
     device::updateDevice(m);
+    staticDB << m;
     return m;
 }
 
@@ -184,6 +185,7 @@ msgAmp &operator<< (msgAmp &m, const QByteArray &data)
     m.stat_power = m.stat & 0x01;
 
     device::updateDevice(m);
+    staticDB << m;
     return m;
 }
 

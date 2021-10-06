@@ -87,11 +87,47 @@ database &operator<< (database &db, const msgFreq &msg)
 
 database &operator<< (database &db, const msgDist &msg)
 {
+    db.dbModel->setTable(db.DB_TABLES[db.DB_TBL_DIST_DATA]);
+    QSqlRecord r = db.dbModel->record();
+    r.setValue("Device", msg.deviceId);
+    r.setValue("Time", msg.time);
+    r.setValue("Ref10", msg.ref_10);
+    r.setValue("Ref16", msg.ref_16);
+    r.setValue("Voltage", msg.voltage);
+    r.setValue("Current", msg.current);
+    r.setValue("Lock10_1", msg.lock_10_1);
+    r.setValue("Lock10_2", msg.lock_10_2);
+    r.setValue("Lock16_1", msg.lock_16_1);
+    r.setValue("Lock16_2", msg.lock_16_2);
+    r.setValue("Serial_Id", msg.serialId);
+    if (!db.dbModel->insertRecord(-1, r))
+        qDebug() << db.dbModel->lastError();
+
     return db;
 }
 
 database &operator<< (database &db, const msgAmp &msg)
 {
+    db.dbModel->setTable(db.DB_TABLES[db.DB_TBL_AMP_DATA]);
+    QSqlRecord r = db.dbModel->record();
+    r.setValue("Device", msg.deviceId);
+    r.setValue("Time", msg.time);
+    r.setValue("Power", msg.power);
+    r.setValue("Gain", msg.gain);
+    r.setValue("Attenuation", msg.atten);
+    r.setValue("Loss", msg.loss);
+    r.setValue("Temperature", msg.temp);
+    r.setValue("Stat_Stand_Wave", msg.stat_stand_wave);
+    r.setValue("Stat_Temperature", msg.stat_temp);
+    r.setValue("Stat_Current", msg.stat_current);
+    r.setValue("Stat_Voltage", msg.stat_voltage);
+    r.setValue("Stat_Power", msg.stat_power);
+    r.setValue("Load_Temperature", msg.load_temp);
+    r.setValue("Serial_Id", msg.serialId);
+    r.setValue("Handshake", msg.handshake);
+    if (!db.dbModel->insertRecord(-1, r))
+        qDebug() << db.dbModel->lastError();
+
     return db;
 }
 
