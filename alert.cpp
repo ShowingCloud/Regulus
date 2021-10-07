@@ -207,7 +207,8 @@ void deviceVar::setValue(const QVariant v)
         value = alert::setValue(v, type);
         stat = alert::setState(value, type);
         display = alert::setDisplay(value, type);
-    }
+    } else
+        value = alert::setValue(v, type);
 }
 
 int deviceVar::getValue() const
@@ -234,16 +235,16 @@ int deviceVar::getValue() const
     case alert::P_ENUM_DECUPLE_DOUBLE:
         return static_cast<int>(ret->value<float>() * 2);
     case alert::P_ENUM_DECUPLE:
-        return ret->value<int>() * 10;
+        return static_cast<int>(ret->value<float>() * 10);
     }
 
     qDebug() << "Shouldn't get here";
     return -1;
 }
 
-const QString deviceVar::getColor() const
+const QString deviceVar::getColor(bool allowHolding) const
 {
-    if (holding)
+    if (holding && allowHolding)
         return alert::STR_COLOR[alert::P_COLOR_HOLDING];
 
     switch (stat) {

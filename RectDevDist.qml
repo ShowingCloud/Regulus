@@ -35,7 +35,7 @@ Item {
         Component.onCompleted: {
             devDist.gotData.connect(function() {
                 text = qsTr("Outer Ref") + "10MHz " + devDist.showDisplay("ref_10")
-                color = devDist.showColor("ref_10")
+                color = devDist.showColor("ref_10", false)
             })
         }
     }
@@ -55,7 +55,7 @@ Item {
         Component.onCompleted: {
             devDist.gotData.connect(function() {
                 text = qsTr("Outer Ref") + "16MHz " + devDist.showDisplay("ref_16")
-                color = devDist.showColor("ref_16")
+                color = devDist.showColor("ref_16", false)
             })
         }
     }

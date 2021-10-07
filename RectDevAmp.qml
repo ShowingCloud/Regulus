@@ -36,7 +36,7 @@ Item {
         Component.onCompleted: {
             devAmp.gotData.connect(function() {
                 text = devAmp.showDisplay("power") + " mW"
-                color = devAmp.showColor("power")
+                color = devAmp.showColor("power", false)
             })
         }
     }
@@ -56,7 +56,7 @@ Item {
         Component.onCompleted: {
             devAmp.gotData.connect(function() {
                 text = qsTr("Gain") + " " + devAmp.showDisplay("gain") + " dB"
-                color = devAmp.showColor("gain")
+                color = devAmp.showColor("gain", false)
             })
         }
     }
@@ -76,7 +76,7 @@ Item {
         Component.onCompleted: {
             devAmp.gotData.connect(function() {
                 text = qsTr("Attenuation") + " " + devAmp.showDisplay("atten") + " dB"
-                color = devAmp.showColor("atten")
+                color = devAmp.showColor("atten", false)
             })
         }
     }

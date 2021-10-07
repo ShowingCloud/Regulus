@@ -37,6 +37,7 @@ class device : public QObject
     Q_PROPERTY(QString      timerStr    MEMBER  timerStr NOTIFY gotData)
 public:
     explicit device(const QHash<QString, deviceVar *> var, QObject *parent = nullptr);
+
     friend device &operator<< (device &dev, const msgFreq &m);
     friend device &operator<< (device &dev, const msgDist &m);
     friend device &operator<< (device &dev, const msgAmp &m);
@@ -83,19 +84,19 @@ public slots:
         return var[itemName.toUtf8()]->display;
     }
 
-    inline const QString showColor(const QString itemName) const
+    inline const QString showColor(const QString itemName, bool allowHolding = true) const
     {
         if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return QString();
         }
 
-        if (var[itemName.toUtf8()]->getColor() == alert::STR_COLOR[alert::P_COLOR_HOLDING])
+        if (var[itemName.toUtf8()]->getColor(allowHolding) == alert::STR_COLOR[alert::P_COLOR_HOLDING])
             return alert::STR_COLOR[alert::P_COLOR_HOLDING];
         else if (timedout())
             return alert::STR_COLOR[alert::P_COLOR_OTHERS];
 
-        return var[itemName.toUtf8()]->getColor();
+        return var[itemName.toUtf8()]->getColor(allowHolding);
     }
 
     inline const QVariant getValue(const QString itemName) const
@@ -218,6 +219,7 @@ public:
         {"handshake",   new deviceVar(alert::P_ENUM_HSK)},
         {"masterslave", new deviceVar(alert::P_ENUM_MS)}
     }, parent) {}
+
     friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
     friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
 
@@ -240,6 +242,7 @@ public:
         {"lock_16_1",   new deviceVar(alert::P_ENUM_LOCK)},
         {"lock_16_2",   new deviceVar(alert::P_ENUM_LOCK)}
     }, parent) {}
+
     friend devDist &operator<< (devDist &dev, const msgDist &m);
     friend const devDist &operator>> (const devDist &dev, msgCntlDist &m);
 
@@ -255,7 +258,7 @@ public:
     explicit devAmp(device *parent = nullptr) : device({
         {"power",           new deviceVar(alert::P_ENUM_DECUPLE)},
         {"gain",            new deviceVar(alert::P_ENUM_DECUPLE)},
-        {"atten",           new deviceVar(alert::P_ENUM_DECUPLE)},
+        {"atten",           new deviceVar(alert::P_ENUM_DECUPLE_DOUBLE)},
         {"loss",            new deviceVar(alert::P_ENUM_DECUPLE)},
         {"amp_temp",        new deviceVar(alert::P_ENUM_INT)},
         {"s_stand_wave",    new deviceVar(alert::P_ENUM_STAT)},
@@ -267,6 +270,7 @@ public:
         {"handshake",       new deviceVar(alert::P_ENUM_HSK)},
         {"atten_mode",      new deviceVar(alert::P_ENUM_ATTEN)}
     }, parent) {}
+
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
 

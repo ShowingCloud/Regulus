@@ -177,15 +177,15 @@ public:
 
     void setValue(const QVariant value);
     int getValue() const;
-    const QString getColor() const;
+    const QString getColor(bool allowHolding = true) const;
 
-    alert::P_ENUM type;
-    QVariant value;
-    alert::P_NOR stat = alert::P_NOR_NORMAL;
-    QString display = QString();
-    bool holding = false;
-    QVariant v_hold;
-    alert::P_ALERT stat_alert = alert::P_ALERT_NODATA;
+    alert::P_ENUM   type;
+    QVariant        value;
+    alert::P_NOR    stat        = alert::P_NOR_NORMAL;
+    QString         display     = QString();
+    bool            holding     = false;
+    QVariant        v_hold;
+    alert::P_ALERT  stat_alert  = alert::P_ALERT_NODATA;
 };
 
 #endif // ALERT_H

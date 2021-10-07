@@ -36,7 +36,7 @@ Item {
         Component.onCompleted: {
             devFreq.gotData.connect(function() {
                 text = devFreq.showDisplay("atten") + " dB"
-                color = devFreq.showColor("atten")
+                color = devFreq.showColor("atten", false)
             })
         }
     }
