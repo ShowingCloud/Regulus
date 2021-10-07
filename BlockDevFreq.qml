@@ -79,8 +79,11 @@ Item {
                 colorValue = devFreqMaster.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
                 if (objWinFreq.devFreqMaster === devFreqMaster)
                     objWinFreq.masterCommunicationColorValue = colorValue
-                if (rectMaster.ind.active && devFreqMaster.timedout())
-                    rectMaster.ind.color = Alert.MAP_COLOR["ABNORMAL"]
+                if (devFreqMaster.timedout()) {
+                    devFreqMaster.alertTimeout()
+                    if (rectMaster.ind.active)
+                        rectMaster.ind.color = Alert.MAP_COLOR["ABNORMAL"]
+                }
             }
         }
     }
@@ -124,8 +127,11 @@ Item {
                 colorValue = devFreqSlave.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
                 if (objWinFreq.devFreqSlave === devFreqSlave)
                     objWinFreq.slaveCommunicationColorValue = colorValue
-                if (rectSlave.ind.active && devFreqSlave.timedout())
-                    rectSlave.ind.color = Alert.MAP_COLOR["ABNORMAL"]
+                if (devFreqSlave.timedout()) {
+                    devFreqSlave.alertTimeout()
+                    if (rectSlave.ind.active)
+                        rectSlave.ind.color = Alert.MAP_COLOR["ABNORMAL"]
+                }
             }
         }
     }

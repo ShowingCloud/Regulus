@@ -61,7 +61,10 @@ public:
                          QT_TR_NOOP("Upper limit")}},
         {P_ALERT_BAD, {QT_TR_NOOP("Bad value"),
                        QT_TR_NOOP("Good value")}},
-        {P_ALERT_TIMEOUT, {QT_TR_NOOP("Timeout")}},
+        {P_ALERT_TIMEOUT, {QT_TR_NOOP("Timeout"),
+                           QT_TR_NOOP("Last seen"),
+                           QT_TR_NOOP("Never"),
+                           QT_TR_NOOP("seconds before")}},
         {P_ALERT_OTHERS, {QT_TR_NOOP("Other alert")}}
     };
 

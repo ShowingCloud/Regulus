@@ -83,8 +83,11 @@ Item {
                 colorValue = devAmpMaster.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
                 if (objWinAmp.devAmpMaster === devAmpMaster)
                     objWinAmp.masterCommunicationColorValue = colorValue
-                if (rectMaster.ind.active && devAmpMaster.timedout())
-                    rectMaster.ind.color = Alert.MAP_COLOR["ABNORMAL"]
+                if (devAmpMaster.timedout()) {
+                    devAmpMaster.alertTimeout()
+                    if (rectMaster.ind.active)
+                        rectMaster.ind.color = Alert.MAP_COLOR["ABNORMAL"]
+                }
             }
         }
     }
@@ -133,8 +136,11 @@ Item {
                 colorValue = devAmpSlave.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
                 if (objWinAmp.devAmpSlave === devAmpSlave)
                     objWinAmp.slaveCommunicationColorValue = colorValue
-                if (rectSlave.ind.active && devAmpSlave.timedout())
-                    rectSlave.ind.color = Alert.MAP_COLOR["ABNORMAL"]
+                if (devAmpSlave.timedout()) {
+                    devAmpSlave.alertTimeout()
+                    if (rectSlave.ind.active)
+                        rectSlave.ind.color = Alert.MAP_COLOR["ABNORMAL"]
+                }
             }
         }
     }

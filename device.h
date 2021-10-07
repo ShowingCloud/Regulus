@@ -76,6 +76,16 @@ public slots:
                 or QDateTime::currentDateTime().secsTo(lastseen) <= - alert::timeout;
     }
 
+    inline qint64 getLastseen() const
+    {
+        return (lastseen == QDateTime()) ? -1 : - QDateTime::currentDateTime().secsTo(lastseen);
+    }
+
+    inline void alertTimeout() const
+    {
+        staticDB.setAlert(static_cast<database::DB_TBL>(devTable), dId, alert::P_ALERT_TIMEOUT_NOFIELD, "", this->getLastseen());
+    }
+
     inline const QString showDisplay(const QString itemName) const
     {
         if (!var.contains(itemName.toUtf8())) {
@@ -169,6 +179,7 @@ protected:
     };
 
     int dId = 0;
+    int devTable = 0;
     serial *lastSerial = nullptr;
     QDateTime lastseen = QDateTime();
     const QHash<QString, deviceVar *> var;
