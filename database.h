@@ -8,12 +8,29 @@
 #include <QSqlRecord>
 #include <QSqlError>
 
-#include "protocol.h"
-#include "alert.h"
+class msgFreq;
+class msgDist;
+class msgAmp;
+class msgCntlFreq;
+class msgCntlDist;
+class msgCntlAmp;
+class alertRecord;
 
 class database : public QObject
 {
     Q_OBJECT
+
+public:
+    explicit database(QObject *parent = nullptr);
+    ~database() override;
+
+    friend database &operator<< (database &db, const msgAmp &msg);
+    friend database &operator<< (database &db, const msgFreq &msg);
+    friend database &operator<< (database &db, const msgDist &msg);
+    friend database &operator<< (database &db, const alertRecord &alert);
+    friend database &operator<< (database &db, const msgCntlAmp &msg);
+    friend database &operator<< (database &db, const msgCntlFreq &msg);
+    friend database &operator<< (database &db, const msgCntlDist &msg);
 
     enum DB_TBL { DB_TBL_AMP_DATA, DB_TBL_AMP_ALERT, DB_TBL_AMP_OPER,
          DB_TBL_FREQ_DATA, DB_TBL_FREQ_ALERT, DB_TBL_FREQ_OPER,
@@ -25,18 +42,6 @@ class database : public QObject
         DB_TBL_DIST_DATA, DB_TBL_DIST_ALERT, DB_TBL_DIST_OPER,
         DB_TBL_MSG_ALERT };
     enum DB_RET { DB_RET_SUCCESS };
-
-public:
-    explicit database(QObject *parent = nullptr);
-    ~database() override;
-
-    friend database &operator<< (database &db, const msgAmp &msg);
-    friend database &operator<< (database &db, const msgFreq &msg);
-    friend database &operator<< (database &db, const msgDist &msg);
-    friend database &operator<< (database &db, const alert &alert);
-    friend database &operator<< (database &db, const msgCntlAmp &msg);
-    friend database &operator<< (database &db, const msgCntlFreq &msg);
-    friend database &operator<< (database &db, const msgCntlDist &msg);
 
 private:
     bool createTable();
@@ -66,7 +71,7 @@ private:
                            {"Serial_Id", "INTEGER"}, {"Master_Slave", "INTEGER"}}},
         {DB_TBL_FREQ_ALERT, {{"Id", "INTEGER", "UNIQUE", "PRIMARY KEY", "AUTOINCREMENT"},
                              {"Device", "INTEGER"}, {"Time", "DATETIME"}, {"Type", "INTEGER"},
-                             {"Column", "TEXT"}, {"Value", "INTEGER"}, {"Normal_Value", "INTEGER"},
+                             {"Field", "TEXT"}, {"Value", "INTEGER"}, {"Normal_Value", "INTEGER"},
                              {"Emergence", "INTEGER"}}},
         {DB_TBL_FREQ_OPER, {{"Id", "INTEGER", "UNIQUE", "PRIMARY KEY", "AUTOINCREMENT"},
                             {"Device", "INTEGER"}, {"Time", "DATETIME"}, {"Attenuation", "INTEGER"},
@@ -78,7 +83,7 @@ private:
                             {"Lock16_2", "INTEGER"}, {"Serial_Id", "INTEGER"}}},
         {DB_TBL_DIST_ALERT, {{"Id", "INTEGER", "UNIQUE", "PRIMARY KEY", "AUTOINCREMENT"},
                              {"Device", "INTEGER"}, {"Time", "DATETIME"}, {"Type", "INTEGER"},
-                             {"Column", "TEXT"}, {"Value", "INTEGER"}, {"Normal_Value", "INTEGER"},
+                             {"Field", "TEXT"}, {"Value", "INTEGER"}, {"Normal_Value", "INTEGER"},
                              {"Emergence", "INTEGER"}}},
         {DB_TBL_DIST_OPER, {{"Id", "INTEGER", "UNIQUE", "PRIMARY KEY", "AUTOINCREMENT"},
                             {"Device", "INTEGER"}, {"Time", "DATETIME"}, {"Ref10", "INTEGER"},
@@ -91,7 +96,7 @@ private:
                            {"Load_Temperature", "INTEGER"}, {"Serial_Id", "INTEGER"}, {"Handshake", "INTEGER"}}},
         {DB_TBL_AMP_ALERT, {{"Id", "INTEGER", "UNIQUE", "PRIMARY KEY", "AUTOINCREMENT"},
                             {"Device", "INTEGER"}, {"Time", "DATETIME"}, {"Type", "INTEGER"},
-                            {"Column", "TEXT"}, {"Value", "INTEGER"}, {"Normal_Value", "INTEGER"},
+                            {"Field", "TEXT"}, {"Value", "INTEGER"}, {"Normal_Value", "INTEGER"},
                             {"Emergence", "INTEGER"}}},
         {DB_TBL_AMP_OPER, {{"Id", "INTEGER", "UNIQUE", "PRIMARY KEY", "AUTOINCREMENT"},
                            {"Device", "INTEGER"}, {"Time", "DATETIME"}, {"Attenuation_Mode", "INTEGER"},

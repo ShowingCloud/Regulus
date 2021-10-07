@@ -1,4 +1,6 @@
 #include "database.h"
+#include "alert.h"
+#include "protocol.h"
 
 #include <QtDebug>
 
@@ -178,19 +180,18 @@ database &operator<< (database &db, const msgCntlAmp &msg)
     return db;
 }
 
-database &operator<< (database &db, const alert &alert)
+database &operator<< (database &db, const alertRecord &alert)
 {
-    db.dbModel->setTable(db.DB_TABLES[db.DB_TBL_MSG_ALERT]);
+    db.dbModel->setTable(db.DB_TABLES[alert.dbTable]);
     QSqlRecord r = db.dbModel->record();
-    /*
-    r.setValue("Device", msg.);
-    r.setValue("Time", msg.);
-    r.setValue("Type", msg.);
-    r.setValue("Column", msg.);
-    r.setValue("Value", msg.);
-    r.setValue("Normal_Value", msg.);
-    r.setValue("Emergence", msg.);
-    */
+    r.setValue("Device", alert.device);
+    r.setValue("Time", QDateTime::currentDateTime());
+    r.setValue("Type", alert.type);
+    r.setValue("Field", alert.field);
+    r.setValue("Value", alert.value);
+    r.setValue("Normal_Value", alert.normal_value);
+    r.setValue("Emergence", (alert.type != alert::P_ALERT_GOOD));
+    qDebug() << r;
     if (!db.dbModel->insertRecord(-1, r))
         qDebug() << db.dbModel->lastError();
 

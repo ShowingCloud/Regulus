@@ -5,7 +5,9 @@
 #include <QHash>
 #include <QDebug>
 
-class database;
+class deviceVar;
+
+#include "database.h"
 
 class alert : public QObject
 {
@@ -21,6 +23,7 @@ class alert : public QObject
     Q_ENUMS(P_COLOR)
     Q_PROPERTY(QVariantMap  MAP_COLOR   MEMBER MAP_COLOR    CONSTANT)
     Q_PROPERTY(int          timeout     MEMBER timeout      CONSTANT)
+
 public:
     explicit alert(const QObject *parent = nullptr) {Q_UNUSED(parent)}
 
@@ -150,7 +153,7 @@ public:
     };
 
     static const QVariant setValue(const QVariant val, const P_ENUM e);
-    static P_NOR setState(const QVariant val, const P_ENUM e);
+    static P_NOR setState(const QVariant val, const P_ENUM e, const deviceVar *parent);
     static const QString setDisplay(const QVariant val, const P_ENUM e);
 
 signals:
@@ -169,9 +172,28 @@ Q_DECLARE_METATYPE(alert::P_CH)
 Q_DECLARE_METATYPE(alert::P_ENUM)
 Q_DECLARE_METATYPE(alert::P_COLOR)
 
+class alertRecord : public alert
+{
+    Q_OBJECT
+
+public:
+    explicit alertRecord(const alert::P_ALERT type, const QVariant value, const QVariant normal_value,
+                   const QString field, const int device, const database::DB_TBL dbTable, const QObject *parent = nullptr)
+        : type(type), value(value), normal_value(normal_value), field(field), device(device), dbTable(dbTable) {
+        Q_UNUSED(parent)}
+
+    const alert::P_ALERT type;
+    const QVariant value;
+    const QVariant normal_value;
+    const QString field;
+    const int device;
+    const database::DB_TBL dbTable;
+};
+
 class deviceVar : public QObject
 {
     Q_OBJECT
+
 public:
     explicit deviceVar(const alert::P_ENUM type, QObject *parent = nullptr);
 
@@ -186,6 +208,9 @@ public:
     bool            holding     = false;
     QVariant        v_hold;
     alert::P_ALERT  stat_alert  = alert::P_ALERT_NODATA;
+
+signals:
+    void sendAlert(alert::P_ALERT type, QVariant value, QVariant normal_value) const;
 };
 
 #endif // ALERT_H

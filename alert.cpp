@@ -37,7 +37,7 @@ const QVariant alert::setValue(const QVariant val, const P_ENUM e)
     return ret;
 }
 
-alert::P_NOR alert::setState(const QVariant val, const P_ENUM e)
+alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, const deviceVar *parent)
 {
     switch (e) {
     case P_ENUM_NOR:
@@ -89,7 +89,10 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e)
             return P_NOR_OTHERS;
         }
     case P_ENUM_VOLTAGE:
-        if (val.value<int>() > 15 or val.value<int>() < 10)
+        if (val.value<int>() > 15) {
+            emit parent->sendAlert(P_ALERT_UPPER, val.value<int>(), 15);
+            return P_NOR_ABNORMAL;
+        } else if (val.value<int>() < 10)
             return P_NOR_ABNORMAL;
         else
             return P_NOR_NORMAL;
@@ -205,7 +208,7 @@ void deviceVar::setValue(const QVariant v)
 {
     if (not holding) {
         value = alert::setValue(v, type);
-        stat = alert::setState(value, type);
+        stat = alert::setState(value, type, this);
         display = alert::setDisplay(value, type);
     } else
         value = alert::setValue(v, type);

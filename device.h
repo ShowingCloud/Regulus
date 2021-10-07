@@ -19,6 +19,7 @@ class protocol;
 class serial;
 
 #include "alert.h"
+#include "database.h"
 
 class device : public QObject
 {
@@ -36,7 +37,7 @@ class device : public QObject
     Q_PROPERTY(QDateTime    lastseen    MEMBER  lastseen NOTIFY gotData)
     Q_PROPERTY(QString      timerStr    MEMBER  timerStr NOTIFY gotData)
 public:
-    explicit device(const QHash<QString, deviceVar *> var, QObject *parent = nullptr);
+    explicit device(const QHash<QString, deviceVar *> var, const database::DB_TBL devTable, QObject *parent = nullptr);
 
     friend device &operator<< (device &dev, const msgFreq &m);
     friend device &operator<< (device &dev, const msgDist &m);
@@ -218,7 +219,7 @@ public:
         {"ref_inner_2", new deviceVar(alert::P_ENUM_NOR)},
         {"handshake",   new deviceVar(alert::P_ENUM_HSK)},
         {"masterslave", new deviceVar(alert::P_ENUM_MS)}
-    }, parent) {}
+    }, database::DB_TBL_FREQ_ALERT, parent) {}
 
     friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
     friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
@@ -241,7 +242,7 @@ public:
         {"lock_10_2",   new deviceVar(alert::P_ENUM_LOCK)},
         {"lock_16_1",   new deviceVar(alert::P_ENUM_LOCK)},
         {"lock_16_2",   new deviceVar(alert::P_ENUM_LOCK)}
-    }, parent) {}
+    }, database::DB_TBL_DIST_ALERT, parent) {}
 
     friend devDist &operator<< (devDist &dev, const msgDist &m);
     friend const devDist &operator>> (const devDist &dev, msgCntlDist &m);
@@ -269,7 +270,7 @@ public:
         {"load_temp",       new deviceVar(alert::P_ENUM_INT)},
         {"handshake",       new deviceVar(alert::P_ENUM_HSK)},
         {"atten_mode",      new deviceVar(alert::P_ENUM_ATTEN)}
-    }, parent) {}
+    }, database::DB_TBL_AMP_ALERT, parent) {}
 
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);

@@ -1,14 +1,25 @@
 #include "device.h"
 #include "protocol.h"
 #include "serial.h"
+#include "database.h"
 
 #include <QDateTime>
 #include <QDebug>
 #include <iso646.h>
 
-device::device(QHash<QString, deviceVar*> var, QObject *parent) : QObject(parent), var(var)
+device::device(const QHash<QString, deviceVar*> var, const database::DB_TBL devTable, QObject *parent) : QObject(parent), var(var)
 {
     device::push(this);
+
+    QHash<QString, deviceVar *>::const_iterator v = var.constBegin();
+    while (v != var.constEnd()) {
+        connect(v.value(), &deviceVar::sendAlert, this, [=]
+                (const alert::P_ALERT type, const QVariant value, const QVariant normal_value){
+            alertRecord record(type, value, normal_value, v.key(), dId, devTable);
+            staticDB << record;
+        });
+        v++;
+    }
 }
 
 device &operator<< (device &d, const msgFreq &m)
