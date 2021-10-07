@@ -50,8 +50,8 @@ public:
         {P_COLOR_OTHERS, "black"}
     };
 
-    enum P_ALERT { P_ALERT_NODATA = 0, P_ALERT_GOOD, P_ALERT_LOWER, P_ALERT_UPPER, P_ALERT_BAD,
-                   P_ALERT_TIMEOUT, P_ALERT_OTHERS };
+    enum P_ALERT { P_ALERT_GOOD = 0, P_ALERT_NODATA, P_ALERT_LOWER, P_ALERT_UPPER, P_ALERT_BAD,
+                   P_ALERT_TIMEOUT, P_ALERT_TIMEOUT_NOFIELD, P_ALERT_OTHERS, P_ALERT_OTHERS_NOFIELD };
     static const inline QHash<P_ALERT, QStringList> STR_ALERT = {
         {P_ALERT_NODATA, {QT_TR_NOOP("No data")}},
         {P_ALERT_GOOD, {QT_TR_NOOP("Good value")}},
@@ -61,8 +61,7 @@ public:
                          QT_TR_NOOP("Upper limit")}},
         {P_ALERT_BAD, {QT_TR_NOOP("Bad value"),
                        QT_TR_NOOP("Good value")}},
-        {P_ALERT_TIMEOUT, {QT_TR_NOOP("Timeout"),
-                           QT_TR_NOOP("Timeout value")}},
+        {P_ALERT_TIMEOUT, {QT_TR_NOOP("Timeout")}},
         {P_ALERT_OTHERS, {QT_TR_NOOP("Other alert")}}
     };
 
@@ -153,8 +152,11 @@ public:
     };
 
     static const QVariant setValue(const QVariant val, const P_ENUM e);
-    static P_NOR setState(const QVariant val, const P_ENUM e, const deviceVar *parent);
+    static P_NOR setState(const QVariant val, const P_ENUM e, deviceVar *parent);
     static const QString setDisplay(const QVariant val, const P_ENUM e);
+
+    static void prepareAlert(const P_ALERT type, const QVariant value, const QVariant normal_value, deviceVar *parent);
+    static void prepareAlert(const P_ALERT type, const QVariant value, deviceVar *parent);
 
 signals:
 
@@ -171,24 +173,6 @@ Q_DECLARE_METATYPE(alert::P_STAT)
 Q_DECLARE_METATYPE(alert::P_CH)
 Q_DECLARE_METATYPE(alert::P_ENUM)
 Q_DECLARE_METATYPE(alert::P_COLOR)
-
-class alertRecord : public alert
-{
-    Q_OBJECT
-
-public:
-    explicit alertRecord(const alert::P_ALERT type, const QVariant value, const QVariant normal_value,
-                   const QString field, const int device, const database::DB_TBL dbTable, const QObject *parent = nullptr)
-        : type(type), value(value), normal_value(normal_value), field(field), device(device), dbTable(dbTable) {
-        Q_UNUSED(parent)}
-
-    const alert::P_ALERT type;
-    const QVariant value;
-    const QVariant normal_value;
-    const QString field;
-    const int device;
-    const database::DB_TBL dbTable;
-};
 
 class deviceVar : public QObject
 {
@@ -207,10 +191,10 @@ public:
     QString         display     = QString();
     bool            holding     = false;
     QVariant        v_hold;
-    alert::P_ALERT  stat_alert  = alert::P_ALERT_NODATA;
+    alert::P_ALERT  stat_alert  = alert::P_ALERT_GOOD;
 
 signals:
-    void sendAlert(alert::P_ALERT type, QVariant value, QVariant normal_value) const;
+    void sendAlert(alert::P_ALERT type, QVariant value, QVariant normal_value = 0) const;
 };
 
 #endif // ALERT_H

@@ -37,38 +37,49 @@ const QVariant alert::setValue(const QVariant val, const P_ENUM e)
     return ret;
 }
 
-alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, const deviceVar *parent)
+alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *parent)
 {
     switch (e) {
     case P_ENUM_NOR:
         switch (val.value<P_NOR>()) {
         case P_NOR_NORMAL:
+            alert::prepareAlert(P_ALERT_GOOD, val, parent);
             return P_NOR_NORMAL;
         case P_NOR_ABNORMAL:
+            alert::prepareAlert(P_ALERT_BAD, val, P_NOR_NORMAL, parent);
             return P_NOR_ABNORMAL;
         case P_NOR_STANDBY:
+            alert::prepareAlert(P_ALERT_GOOD, val, parent);
             return P_NOR_STANDBY;
         case P_NOR_OTHERS:
+            alert::prepareAlert(P_ALERT_BAD, val, P_NOR_NORMAL, parent);
             return P_NOR_OTHERS;
         }
     case P_ENUM_LOCK:
         switch (val.value<P_LOCK>()) {
         case P_LOCK_LOCKED:
+            alert::prepareAlert(P_ALERT_GOOD, val, parent);
             return P_NOR_NORMAL;
         case P_LOCK_UNLOCK:
+            alert::prepareAlert(P_ALERT_BAD, val, P_LOCK_LOCKED, parent);
             return P_NOR_ABNORMAL;
         case P_LOCK_STANDBY:
+            alert::prepareAlert(P_ALERT_GOOD, val, parent);
             return P_NOR_STANDBY;
         case P_LOCK_OTHERS:
+            alert::prepareAlert(P_ALERT_BAD, val, P_LOCK_LOCKED, parent);
             return P_NOR_OTHERS;
         }
     case P_ENUM_HSK:
         switch (val.value<P_HSK>()) {
         case P_HSK_SUCCESS:
+            alert::prepareAlert(P_ALERT_GOOD, val, parent);
             return P_NOR_NORMAL;
         case P_HSK_FAILED:
+            alert::prepareAlert(P_ALERT_BAD, val, P_HSK_SUCCESS, parent);
             return P_NOR_ABNORMAL;
         case P_HSK_OTHERS:
+            alert::prepareAlert(P_ALERT_BAD, val, P_HSK_SUCCESS, parent);
             return P_NOR_OTHERS;
         }
     case P_ENUM_MS:
@@ -78,33 +89,65 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, const deviceVar
     case P_ENUM_FLOAT:
     case P_ENUM_DECUPLE:
     case P_ENUM_DECUPLE_DOUBLE:
+        alert::prepareAlert(P_ALERT_GOOD, val, parent);
         return P_NOR_NORMAL;
     case P_ENUM_STAT:
         switch (val.value<P_STAT>()) {
         case P_STAT_NORMAL:
+            alert::prepareAlert(P_ALERT_GOOD, val, parent);
             return P_NOR_NORMAL;
         case P_STAT_ABNORMAL:
+            alert::prepareAlert(P_ALERT_BAD, val, P_STAT_NORMAL, parent);
             return P_NOR_ABNORMAL;
         case P_STAT_OTHERS:
+            alert::prepareAlert(P_ALERT_BAD, val, P_STAT_NORMAL, parent);
             return P_NOR_OTHERS;
         }
     case P_ENUM_VOLTAGE:
         if (val.value<int>() > 15) {
-            emit parent->sendAlert(P_ALERT_UPPER, val.value<int>(), 15);
+            alert::prepareAlert(P_ALERT_UPPER, val, 15, parent);
             return P_NOR_ABNORMAL;
-        } else if (val.value<int>() < 10)
+        } else if (val.value<int>() < 10) {
+            alert::prepareAlert(P_ALERT_LOWER, val, 10, parent);
             return P_NOR_ABNORMAL;
-        else
+        } else {
+            alert::prepareAlert(P_ALERT_GOOD, val, parent);
             return P_NOR_NORMAL;
+        }
     case P_ENUM_CURRENT:
-        if (val.value<int>() > 3000 or val.value<int>() < 100)
+        if (val.value<int>() > 3000) {
+            alert::prepareAlert(P_ALERT_UPPER, val, 3000, parent);
             return P_NOR_ABNORMAL;
-        else
+        } else if (val.value<int>() < 100) {
+            alert::prepareAlert(P_ALERT_LOWER, val, 100, parent);
+            return P_NOR_ABNORMAL;
+        } else {
+            alert::prepareAlert(P_ALERT_GOOD, val, parent);
             return P_NOR_NORMAL;
+        }
     }
 
-    qDebug() << "Shouldn't get here";
+    qDebug() << "!!! Shouldn't get here";
     return P_NOR_NORMAL;
+}
+
+void alert::prepareAlert(const P_ALERT type, const QVariant value, const QVariant normal_value, deviceVar *parent)
+{
+    if (parent->stat_alert != type) {
+        emit parent->sendAlert(type, value, normal_value);
+        parent->stat_alert = type;
+    }
+}
+
+void alert::prepareAlert(const P_ALERT type, const QVariant value, deviceVar *parent)
+{
+    if (type == P_ALERT_GOOD) {
+        if (parent->stat_alert != type) {
+            emit parent->sendAlert(type, value);
+            parent->stat_alert = type;
+        }
+    } else
+        qDebug() << "!!! Shouldn't get here";
 }
 
 const QString alert::setDisplay(const QVariant val, const P_ENUM e)
@@ -189,17 +232,20 @@ deviceVar::deviceVar(const alert::P_ENUM type, QObject *parent) : QObject(parent
     case alert::P_ENUM_ATTEN:
     case alert::P_ENUM_STAT:
     case alert::P_ENUM_CH:
-        setValue(alert::P_ENUM_VALUE["default"][type]);
+        value = alert::setValue(alert::P_ENUM_VALUE["default"][type], type);
+        display = alert::setDisplay(value, type);
         return;
     case alert::P_ENUM_INT:
     case alert::P_ENUM_CURRENT:
     case alert::P_ENUM_VOLTAGE:
     case alert::P_ENUM_DECUPLE:
     case alert::P_ENUM_DECUPLE_DOUBLE:
-        setValue(0);
+        value = alert::setValue(0, type);
+        display = alert::setDisplay(value, type);
         return;
     case alert::P_ENUM_FLOAT:
-        setValue(0.0f);
+        value = alert::setValue(0.0f, type);
+        display = alert::setDisplay(value, type);
         return;
     }
 }

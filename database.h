@@ -14,7 +14,6 @@ class msgAmp;
 class msgCntlFreq;
 class msgCntlDist;
 class msgCntlAmp;
-class alertRecord;
 
 class database : public QObject
 {
@@ -27,7 +26,6 @@ public:
     friend database &operator<< (database &db, const msgAmp &msg);
     friend database &operator<< (database &db, const msgFreq &msg);
     friend database &operator<< (database &db, const msgDist &msg);
-    friend database &operator<< (database &db, const alertRecord &alert);
     friend database &operator<< (database &db, const msgCntlAmp &msg);
     friend database &operator<< (database &db, const msgCntlFreq &msg);
     friend database &operator<< (database &db, const msgCntlDist &msg);
@@ -42,6 +40,10 @@ public:
         DB_TBL_DIST_DATA, DB_TBL_DIST_ALERT, DB_TBL_DIST_OPER,
         DB_TBL_MSG_ALERT };
     enum DB_RET { DB_RET_SUCCESS };
+
+    bool setAlert(const database::DB_TBL dbTable, const int device, const int type,
+                      const QString field, const QVariant value, const QVariant normal_value = 0);
+    bool setAlert(const int type, const QString text, const int device = 0);
 
 private:
     bool createTable();
@@ -102,7 +104,8 @@ private:
                            {"Device", "INTEGER"}, {"Time", "DATETIME"}, {"Attenuation_Mode", "INTEGER"},
                            {"Power", "INTEGER"}, {"Gain", "INTEGER"}, {"Serial_Id", "INTEGER"}}},
         {DB_TBL_MSG_ALERT, {{"Id", "INTEGER", "UNIQUE", "PRIMARY KEY", "AUTOINCREMENT"},
-                            {"Time", "DATETIME"}, {"Alert", "TEXT"}}}};
+                            {"Time", "DATETIME"}, {"Alert", "TEXT"}, {"Type", "INTEGER"},
+                            {"Emergence", "INTEGER"}, {"Device", "INTEGER"}}}};
 
     inline static const QHash<DB_TBL, QStringList> DB_INDEXES = {
         {DB_TBL_FREQ_DATA, {"Device", "Time"}},

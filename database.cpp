@@ -180,20 +180,35 @@ database &operator<< (database &db, const msgCntlAmp &msg)
     return db;
 }
 
-database &operator<< (database &db, const alertRecord &alert)
+bool database::setAlert(const database::DB_TBL dbTable, const int device, const int type,
+                  const QString field, const QVariant value, const QVariant normal_value)
 {
-    db.dbModel->setTable(db.DB_TABLES[alert.dbTable]);
-    QSqlRecord r = db.dbModel->record();
-    r.setValue("Device", alert.device);
+    dbModel->setTable(DB_TABLES[dbTable]);
+    QSqlRecord r = dbModel->record();
+    r.setValue("Device", device);
     r.setValue("Time", QDateTime::currentDateTime());
-    r.setValue("Type", alert.type);
-    r.setValue("Field", alert.field);
-    r.setValue("Value", alert.value);
-    r.setValue("Normal_Value", alert.normal_value);
-    r.setValue("Emergence", (alert.type != alert::P_ALERT_GOOD));
-    qDebug() << r;
-    if (!db.dbModel->insertRecord(-1, r))
-        qDebug() << db.dbModel->lastError();
+    r.setValue("Type", type);
+    r.setValue("Field", field);
+    r.setValue("Value", value);
+    r.setValue("Normal_Value", normal_value);
+    r.setValue("Emergence", (type != alert::P_ALERT_GOOD));
+    if (!dbModel->insertRecord(-1, r))
+        qDebug() << dbModel->lastError();
 
-    return db;
+    return true;
+}
+
+bool database::setAlert(const int type, const QString text, const int device)
+{
+    dbModel->setTable(DB_TABLES[DB_TBL_MSG_ALERT]);
+    QSqlRecord r = dbModel->record();
+    r.setValue("Device", device);
+    r.setValue("Time", QDateTime::currentDateTime());
+    r.setValue("Type", type);
+    r.setValue("Alert", text);
+    r.setValue("Emergence", (type != alert::P_ALERT_GOOD));
+    if (!dbModel->insertRecord(-1, r))
+        qDebug() << dbModel->lastError();
+
+    return true;
 }

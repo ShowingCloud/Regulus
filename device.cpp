@@ -15,8 +15,7 @@ device::device(const QHash<QString, deviceVar*> var, const database::DB_TBL devT
     while (v != var.constEnd()) {
         connect(v.value(), &deviceVar::sendAlert, this, [=]
                 (const alert::P_ALERT type, const QVariant value, const QVariant normal_value){
-            alertRecord record(type, value, normal_value, v.key(), dId, devTable);
-            staticDB << record;
+            staticDB.setAlert(devTable, dId, type, v.key(), value, normal_value);
         });
         v++;
     }
