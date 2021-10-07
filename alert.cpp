@@ -55,6 +55,8 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
             alert::prepareAlert(P_ALERT_BAD, val, P_NOR_NORMAL, parent);
             return P_NOR_OTHERS;
         }
+        alert::prepareAlert(P_ALERT_BAD, val, P_NOR_NORMAL, parent);
+        return P_NOR_ABNORMAL;
     case P_ENUM_LOCK:
         switch (val.value<P_LOCK>()) {
         case P_LOCK_LOCKED:
@@ -70,6 +72,8 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
             alert::prepareAlert(P_ALERT_BAD, val, P_LOCK_LOCKED, parent);
             return P_NOR_OTHERS;
         }
+        alert::prepareAlert(P_ALERT_BAD, val, P_LOCK_LOCKED, parent);
+        return P_NOR_ABNORMAL;
     case P_ENUM_HSK:
         switch (val.value<P_HSK>()) {
         case P_HSK_SUCCESS:
@@ -82,6 +86,8 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
             alert::prepareAlert(P_ALERT_BAD, val, P_HSK_SUCCESS, parent);
             return P_NOR_OTHERS;
         }
+        alert::prepareAlert(P_ALERT_BAD, val, P_HSK_SUCCESS, parent);
+        return P_NOR_ABNORMAL;
     case P_ENUM_MS:
     case P_ENUM_ATTEN:
     case P_ENUM_CH:
@@ -103,6 +109,8 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
             alert::prepareAlert(P_ALERT_BAD, val, P_STAT_NORMAL, parent);
             return P_NOR_OTHERS;
         }
+        alert::prepareAlert(P_ALERT_BAD, val, P_STAT_NORMAL, parent);
+        return P_NOR_ABNORMAL;
     case P_ENUM_VOLTAGE:
         if (val.value<int>() > 15) {
             alert::prepareAlert(P_ALERT_UPPER, val, 15, parent);

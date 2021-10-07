@@ -179,10 +179,10 @@ protected:
     };
 
     int dId = 0;
-    int devTable = 0;
+    const QHash<QString, deviceVar *> var;
+    const int devTable = 0;
     serial *lastSerial = nullptr;
     QDateTime lastseen = QDateTime();
-    const QHash<QString, deviceVar *> var;
     QString timerStr = tr("No data");
 
     inline bool stateGood(const QString v) const
