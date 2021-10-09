@@ -14,6 +14,9 @@ class msgAmp;
 class msgCntlFreq;
 class msgCntlDist;
 class msgCntlAmp;
+class devFreq;
+class devDist;
+class devAmp;
 
 class database : public QObject
 {
@@ -23,12 +26,15 @@ public:
     explicit database(QObject *parent = nullptr);
     ~database() override;
 
-    friend database &operator<< (database &db, const msgAmp &msg);
     friend database &operator<< (database &db, const msgFreq &msg);
     friend database &operator<< (database &db, const msgDist &msg);
-    friend database &operator<< (database &db, const msgCntlAmp &msg);
+    friend database &operator<< (database &db, const msgAmp &msg);
     friend database &operator<< (database &db, const msgCntlFreq &msg);
     friend database &operator<< (database &db, const msgCntlDist &msg);
+    friend database &operator<< (database &db, const msgCntlAmp &msg);
+    friend const database &operator>> (const database &db, devFreq &dev);
+    friend const database &operator>> (const database &db, devDist &dev);
+    friend const database &operator>> (const database &db, devAmp &dev);
 
     enum DB_TBL { DB_TBL_AMP_DATA, DB_TBL_AMP_ALERT, DB_TBL_AMP_OPER,
          DB_TBL_FREQ_DATA, DB_TBL_FREQ_ALERT, DB_TBL_FREQ_OPER,
@@ -124,6 +130,6 @@ signals:
 public slots:
 };
 
-inline static database staticDB = database();
+extern database staticDB;
 
 #endif // DATABASE_H

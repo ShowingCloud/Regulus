@@ -10,6 +10,8 @@
 #include "protocol.h"
 #include "device.h"
 
+database staticDB = database();
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);

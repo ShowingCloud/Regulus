@@ -184,6 +184,7 @@ protected:
     serial *lastSerial = nullptr;
     QDateTime lastseen = QDateTime();
     QString timerStr = tr("No data");
+    QList<QStringList> dbView = QList<QStringList>();
 
     inline bool stateGood(const QString v) const
     {
