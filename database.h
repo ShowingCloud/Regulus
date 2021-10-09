@@ -14,6 +14,7 @@ class msgAmp;
 class msgCntlFreq;
 class msgCntlDist;
 class msgCntlAmp;
+class device;
 class devFreq;
 class devDist;
 class devAmp;
@@ -32,6 +33,7 @@ public:
     friend database &operator<< (database &db, const msgCntlFreq &msg);
     friend database &operator<< (database &db, const msgCntlDist &msg);
     friend database &operator<< (database &db, const msgCntlAmp &msg);
+    friend const database &operator>> (const database &db, device &dev);
     friend const database &operator>> (const database &db, devFreq &dev);
     friend const database &operator>> (const database &db, devDist &dev);
     friend const database &operator>> (const database &db, devAmp &dev);
@@ -130,6 +132,6 @@ signals:
 public slots:
 };
 
-extern database staticDB;
+extern database globalDB;
 
 #endif // DATABASE_H

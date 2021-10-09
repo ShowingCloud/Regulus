@@ -83,7 +83,7 @@ public slots:
 
     inline void alertTimeout() const
     {
-        staticDB.setAlert(static_cast<database::DB_TBL>(devTable), dId, alert::P_ALERT_TIMEOUT_NOFIELD, "", this->getLastseen());
+        globalDB.setAlert(static_cast<database::DB_TBL>(devTable), dId, alert::P_ALERT_TIMEOUT_NOFIELD, "", this->getLastseen());
     }
 
     inline const QString showDisplay(const QString itemName) const
@@ -235,6 +235,7 @@ public:
 
     friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
     friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
+    friend const database &operator>> (const database &db, devFreq &dev);
 
 public slots:
     void createCntlMsg() const override;
@@ -258,6 +259,7 @@ public:
 
     friend devDist &operator<< (devDist &dev, const msgDist &m);
     friend const devDist &operator>> (const devDist &dev, msgCntlDist &m);
+    friend const database &operator>> (const database &db, devDist &dev);
 
 public slots:
     void createCntlMsg() const override;
@@ -286,6 +288,7 @@ public:
 
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
+    friend const database &operator>> (const database &db, devAmp &dev);
 
 public slots:
     void createCntlMsg() const override;

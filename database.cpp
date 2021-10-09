@@ -212,3 +212,7 @@ bool database::setAlert(const int type, const QString text, const int device)
 
     return true;
 }
+
+const database &operator>> (const database &db, devFreq &dev);
+const database &operator>> (const database &db, devDist &dev);
+const database &operator>> (const database &db, devAmp &dev);

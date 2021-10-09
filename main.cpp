@@ -10,7 +10,7 @@
 #include "protocol.h"
 #include "device.h"
 
-database staticDB = database();
+database globalDB = database();
 
 int main(int argc, char *argv[])
 {
