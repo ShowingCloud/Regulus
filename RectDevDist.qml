@@ -1,10 +1,11 @@
-import QtQuick 2.11
+import QtQuick 2.15
 import QtQuick.Extras 1.4
 
 import rdss.alert 1.0
 
 Item {
     property QtObject devDist
+    property alias showTimeout: txtTimeout.visible
     property alias ind: ind
 
     StatusIndicator {
@@ -16,6 +17,31 @@ Item {
         Component.onCompleted: devDist.gotData.connect(function() {
             active = true
             color = devDist.showIndicatorColor()
+        })
+    }
+
+    Rectangle {
+        id: txtTimeout
+        anchors.left: ind.right
+        anchors.leftMargin: marginIndicators
+        y: defaultBorderWidth
+        height: rackFreqBoxDistHeight - 2 * defaultBorderWidth
+        width: rackFreqBoxWidth - 2 * marginIndicators - ind.width - defaultBorderWidth
+        z: 1
+        visible: false
+
+        Text {
+            anchors.fill: parent
+            text: qsTr("Connection timeout")
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+            horizontalAlignment: Text.AlignLeft
+            font.pixelSize: defaultLabelFontSize
+            color: Alert.MAP_COLOR["ABNORMAL"]
+        }
+
+        Component.onCompleted: devDist.gotData.connect(function() {
+            visible = false
         })
     }
 

@@ -1,4 +1,4 @@
-import QtQuick 2.11
+import QtQuick 2.15
 import QtQuick.Extras 1.4
 
 import rdss.alert 1.0
@@ -6,6 +6,7 @@ import rdss.alert 1.0
 Item {
     property QtObject devAmp
     property alias ind: ind
+    property alias showTimeout: txtTimeout.visible
     property bool devIsMaster: false
 
     StatusIndicator {
@@ -17,6 +18,31 @@ Item {
         Component.onCompleted: devAmp.gotData.connect(function() {
             active = true
             color = devAmp.showIndicatorColor()
+        })
+    }
+
+    Rectangle {
+        id: txtTimeout
+        anchors.left: ind.right
+        anchors.leftMargin: marginIndicators
+        y: defaultBorderWidth
+        height: rackAmpBoxHeight - 2 * defaultBorderWidth
+        width: rackAmpBoxWidth - 2 * marginIndicators - ind.width - defaultBorderWidth
+        z: 1
+        visible: false
+
+        Text {
+            anchors.fill: parent
+            text: qsTr("Connection timeout")
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+            horizontalAlignment: Text.AlignLeft
+            font.pixelSize: defaultLabelFontSize
+            color: Alert.MAP_COLOR["ABNORMAL"]
+        }
+
+        Component.onCompleted: devAmp.gotData.connect(function() {
+            visible = false
         })
     }
 

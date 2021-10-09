@@ -1,4 +1,4 @@
-import QtQuick 2.11
+import QtQuick 2.15
 import QtQuick.Extras 1.4
 
 import rdss.device 1.0
@@ -81,6 +81,7 @@ Item {
                     objWinDist.communicationColorValue = colorValue
                 if (devDist.timedout()) {
                     devDist.alertTimeout()
+                    rect.showTimeout = true
                     if (rect.ind.active)
                         rect.ind.color = Alert.MAP_COLOR["ABNORMAL"]
                 }
