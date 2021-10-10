@@ -348,4 +348,16 @@ void alertRecordModel::initialize(const QString dbTable, const int masterId, con
     });
 
     endResetModel();
+
+    this->masterId = masterId;
+    this->slaveId = slaveId;
 }
+
+#if 0
+void alertRecordModel::addAlert(const QStringList alert)
+{
+    beginInsertRows();
+
+    endInsertRows();
+}
+#endif

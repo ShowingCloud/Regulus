@@ -209,13 +209,13 @@ public:
             return record[index.row()][index.column()];
         case Qt::ForegroundRole:
             return QColor(record[index.row()][4]);
-        case Qt::TextAlignmentRole:
+        case Qt::TextAlignmentRole: {
             static int alignments[] = { Qt::AlignHCenter, Qt::AlignHCenter, Qt::AlignHCenter, Qt::AlignLeft };
             return alignments[index.column()];
-        case Qt::SizeHintRole:
+        } case Qt::SizeHintRole: {
             static int columnWidths[] = { 150, 200, 150, 800 };
             return columnWidths[index.column()];
-        default:
+        } default:
             break;
         }
         return QVariant();
@@ -238,11 +238,14 @@ public:
         };
     }
 
+    void addAlert(const QStringList alert);
+
 public slots:
     void initialize(const QString dbTable, const int masterId, const int slaveId = -1);
 
 private:
     QList<QStringList> record;
+    int masterId = -1, slaveId = -1;
 };
 
 class deviceVar : public QObject
