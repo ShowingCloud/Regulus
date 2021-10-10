@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QHash>
-#include <qqml.h>
+#include <QtQml>
 #include <QAbstractTableModel>
 
 class deviceVar;
@@ -180,7 +180,9 @@ Q_DECLARE_METATYPE(alert::P_COLOR)
 class alertRecordModel : public QAbstractTableModel
 {
     Q_OBJECT
+#if QT_VERSION > QT_VERSION_CHECK(5, 15, 0)
     QML_ELEMENT
+#endif
 
 public:
     inline int rowCount(const QModelIndex & = QModelIndex()) const override {
