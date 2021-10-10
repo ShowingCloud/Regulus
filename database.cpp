@@ -250,7 +250,8 @@ const database &operator>> (const database &db, QList<QStringList> &str)
                 case alert::P_ALERT_TIMEOUT:
                 case alert::P_ALERT_TIMEOUT_NOFIELD:
                     return getAlertStr(type, 0) + ", " + getAlertStr(type, 1) + ": "
-                        + (r.value("Value").toInt() == -1 ? getAlertStr(type, 2) : getAlertStr(type, 3));
+                        + (r.value("Value").toInt() == -1 ? getAlertStr(type, 2)
+                            : QString::number(r.value("Value").toInt()) + getAlertStr(type, 3));
                 case alert::P_ALERT_OTHERS:
                 case alert::P_ALERT_OTHERS_NOFIELD:
                 case alert::P_ALERT_NODATA:
