@@ -7,6 +7,7 @@
 #include <QDateTime>
 #include <numeric>
 #include <iso646.h>
+#include <QDebug>
 
 class msg;
 class msgFreq;
