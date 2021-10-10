@@ -217,16 +217,48 @@ const database &operator>> (const database &db, QList<QStringList> &str)
 {
     db.dbModel->setTable(db.setDBTable);
     db.dbModel->setFilter("Device=" + QString::number(db.setDeviceId));
-    db.dbModel->setSort(1, Qt::DescendingOrder);
+    db.dbModel->setSort(1, Qt::AscendingOrder);
     db.dbModel->select();
 
     for (int i = 0; i < 10; ++i) {
         QSqlRecord r = db.dbModel->record(i);
         QStringList s = {
             device::name(r.value("device").toInt()) + "#" + QString::number(r.value("device").toInt()),
+
             r.value("Time").toDateTime().toString(Qt::ISODate),
-            r.value("Field").toString(),
-            "Some error"};
+
+            (static_cast<alert::P_ALERT>(r.value("Type").toInt() == alert::P_ALERT_TIMEOUT_NOFIELD
+                or static_cast<alert::P_ALERT>(r.value("Type").toInt() == alert::P_ALERT_OTHERS_NOFIELD))
+                ? ""
+                : r.value("Field").toString()),
+
+            [=](){
+                const auto getAlertStr = [](const alert::P_ALERT type, const int n) {
+                    return QObject::tr(alert::STR_ALERT[type][n].toUtf8()); };
+
+                alert::P_ALERT type = static_cast<alert::P_ALERT>(r.value("Type").toInt());
+                switch (type)
+                {
+                case alert::P_ALERT_GOOD:
+                    return (QObject::tr("Restored normal") + (", ") + getAlertStr(type, 0)
+                        + QObject::tr(": ") + r.value("Value").toString());
+                case alert::P_ALERT_LOWER:
+                case alert::P_ALERT_UPPER:
+                case alert::P_ALERT_BAD:
+                    return getAlertStr(type, 0) + ", " + getAlertStr(type, 1) + ": " + r.value("Value").toString();
+                case alert::P_ALERT_TIMEOUT:
+                case alert::P_ALERT_TIMEOUT_NOFIELD:
+                    return getAlertStr(type, 0) + ", " + getAlertStr(type, 1) + ": "
+                        + (r.value("Value").toInt() == -1 ? getAlertStr(type, 2) : getAlertStr(type, 3));
+                case alert::P_ALERT_OTHERS:
+                case alert::P_ALERT_OTHERS_NOFIELD:
+                case alert::P_ALERT_NODATA:
+                    return getAlertStr(type, 0);
+                }
+
+                return QObject::tr("No content");
+            }()};
+
         str << s;
     }
 

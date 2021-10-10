@@ -66,7 +66,12 @@ public:
                            QT_TR_NOOP("Last seen"),
                            QT_TR_NOOP("Never"),
                            QT_TR_NOOP("seconds before")}},
-        {P_ALERT_OTHERS, {QT_TR_NOOP("Other alert")}}
+        {P_ALERT_TIMEOUT_NOFIELD, {QT_TR_NOOP("Timeout"),
+                           QT_TR_NOOP("Last seen"),
+                           QT_TR_NOOP("Never"),
+                           QT_TR_NOOP("seconds before")}},
+        {P_ALERT_OTHERS, {QT_TR_NOOP("Other alert")}},
+        {P_ALERT_OTHERS_NOFIELD, {QT_TR_NOOP("Other alert")}}
     };
 
     static inline const QVariantHash EnumMap2VariantHash (const QHash<QVariant, QString> enumMap) {
