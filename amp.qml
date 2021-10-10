@@ -37,6 +37,7 @@ Window {
             masterRefreshData()
             slaveRefreshData()
             buttonReset.clicked()
+            rectHistory.model.initialize("amp_alert", devAmpMaster.dId, devAmpSlave.dId)
         })
     }
 

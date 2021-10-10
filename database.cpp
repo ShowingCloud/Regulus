@@ -213,6 +213,22 @@ bool database::setAlert(const int type, const QString text, const int device)
     return true;
 }
 
-const database &operator>> (const database &db, devFreq &dev);
-const database &operator>> (const database &db, devDist &dev);
-const database &operator>> (const database &db, devAmp &dev);
+const database &operator>> (const database &db, QList<QStringList> &str)
+{
+    db.dbModel->setTable(db.setDBTable);
+    db.dbModel->setFilter("Device=" + QString::number(db.setDeviceId));
+    db.dbModel->setSort(1, Qt::DescendingOrder);
+    db.dbModel->select();
+
+    for (int i = 0; i < 10; ++i) {
+        QSqlRecord r = db.dbModel->record(i);
+        QStringList s = {
+            device::name(r.value("device").toInt()) + "#" + QString::number(r.value("device").toInt()),
+            r.value("Time").toDateTime().toString(Qt::ISODate),
+            r.value("Field").toString(),
+            "Some error"};
+        str << s;
+    }
+
+    return db;
+}

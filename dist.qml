@@ -31,6 +31,7 @@ Window {
             dev.gotData.connect(refreshData)
             refreshData()
             buttonReset.clicked();
+            rectHistory.model.initialize("dist_alert", devDist.dId)
         })
     }
 

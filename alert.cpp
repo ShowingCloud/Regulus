@@ -318,3 +318,22 @@ const QString deviceVar::getColor(bool allowHolding) const
     qDebug() << "Shouldn't get here";
     return QString();
 }
+
+void alertRecordModel::initialize(const QString dbTable, const int masterId, const int slaveId)
+{
+    beginResetModel();
+
+    record = QList<QStringList>();
+    globalDB << databaseSetter(dbTable, masterId);
+    globalDB >> record;
+    if (slaveId != -1) {
+        globalDB << databaseSetter(dbTable, slaveId);
+        globalDB >> record;
+    }
+
+    std::sort(record.begin(), record.end(), [](const QStringList &v1, const QStringList &v2){
+        return v1[1] < v2[1]; // Comparing timestamp field
+    });
+
+    endResetModel();
+}

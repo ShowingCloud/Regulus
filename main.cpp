@@ -33,6 +33,13 @@ int main(int argc, char *argv[])
         alert *ret = new alert();
         return ret;
     });
+    qmlRegisterSingletonType<alertRecordModel>("rdss.alert", 1, 0, "AlertRecordModel", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
+        Q_UNUSED(engine)
+        Q_UNUSED(scriptEngine)
+
+        alertRecordModel *ret = new alertRecordModel();
+        return ret;
+    });
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

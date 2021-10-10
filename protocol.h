@@ -72,8 +72,7 @@ public:
     friend const msgDownlink &operator>> (const msgDownlink &m, QByteArray &data);
     friend msgDownlink &operator<< (msgDownlink &m, const QByteArray &data);
 
-    inline void setDeviceId(quint8 dId)
-    {
+    inline void setDeviceId(quint8 dId) {
         deviceId = dId;
     }
 

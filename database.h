@@ -18,6 +18,7 @@ class device;
 class devFreq;
 class devDist;
 class devAmp;
+class databaseSetter;
 
 class database : public QObject
 {
@@ -33,10 +34,8 @@ public:
     friend database &operator<< (database &db, const msgCntlFreq &msg);
     friend database &operator<< (database &db, const msgCntlDist &msg);
     friend database &operator<< (database &db, const msgCntlAmp &msg);
-    friend const database &operator>> (const database &db, device &dev);
-    friend const database &operator>> (const database &db, devFreq &dev);
-    friend const database &operator>> (const database &db, devDist &dev);
-    friend const database &operator>> (const database &db, devAmp &dev);
+    friend database &operator<< (database &db, const databaseSetter &setter);
+    friend const database &operator>> (const database &db, QList<QStringList> &str);
 
     enum DB_TBL { DB_TBL_AMP_DATA, DB_TBL_AMP_ALERT, DB_TBL_AMP_OPER,
          DB_TBL_FREQ_DATA, DB_TBL_FREQ_ALERT, DB_TBL_FREQ_OPER,
@@ -59,6 +58,8 @@ private:
     QSqlDatabase db = QSqlDatabase();
     QSqlTableModel *dbModel;
     QSqlQuery *dbQuery;
+    QString setDBTable = QString();
+    int setDeviceId = -1;
 
     inline const static QString filename = "history.db";
     inline const static QString username = "logusr";
@@ -133,5 +134,22 @@ public slots:
 };
 
 extern database globalDB;
+
+class databaseSetter
+{
+public:
+    explicit databaseSetter(const QString dbTable, const int deviceId)
+        : dbTable(dbTable), deviceId(deviceId) {}
+
+    inline friend database &operator<< (database &db, const databaseSetter &setter) {
+        db.setDBTable = setter.dbTable;
+        db.setDeviceId = setter.deviceId;
+        return db;
+    }
+
+private:
+    const QString dbTable = QString();
+    const int deviceId = -1;
+};
 
 #endif // DATABASE_H

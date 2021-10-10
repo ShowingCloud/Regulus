@@ -15,6 +15,7 @@ class msgCntlAmp;
 class serial : public QObject
 {
     Q_OBJECT
+
 public:
     explicit serial(const QSerialPortInfo &serialportinfo, QObject *parent = nullptr);
     ~serial() override;
@@ -26,13 +27,11 @@ public:
     friend serial &operator<< (serial &s, const msgCntlAmp &m);
     friend const serial &operator>> (const serial &s, msg &m);
 
-    inline bool timedout() const
-    {
+    inline bool timedout() const {
         return QDateTime::currentDateTime().secsTo(lastseen) <= - serial::timeout;
     }
 
-    inline bool has(const QSerialPortInfo &info) const
-    {
+    inline bool has(const QSerialPortInfo &info) const {
         return serialport->portName() == info.portName();
     }
 

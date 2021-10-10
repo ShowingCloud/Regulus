@@ -36,6 +36,7 @@ class device : public QObject
     Q_PROPERTY(QString      str         MEMBER  str      NOTIFY gotData)
     Q_PROPERTY(QDateTime    lastseen    MEMBER  lastseen NOTIFY gotData)
     Q_PROPERTY(QString      timerStr    MEMBER  timerStr NOTIFY gotData)
+
 public:
     explicit device(const QHash<QString, deviceVar *> var, const database::DB_TBL devTable, QObject *parent = nullptr);
 
@@ -45,14 +46,12 @@ public:
 
     inline static QList<device *> deviceList = {};
 
-    inline const QString trConcat(const QList<std::string> str) const
-    {
+    inline static const QString trConcat(const QList<std::string> str) {
         return std::accumulate(begin(str), end(str), QString(), [](QString ret, const std::string s)
                 -> QString { return ret += tr(s.c_str()); });
     }
 
-    template <class T> static void updateDevice(const T &m)
-    {
+    template <class T> static void updateDevice(const T &m) {
         for (device *d : device::deviceList)
             *d << m;
     }
@@ -65,29 +64,28 @@ public slots:
     virtual void createCntlMsg() const = 0;
     virtual const QString showIndicatorColor() const = 0;
 
-    inline const QString name() const
-    {
-        return trConcat(device::idName[dId]);
+    inline const QString name() const {
+        return device::trConcat(device::idName[dId]);
     }
 
-    inline bool timedout() const
-    {
+    inline static const QString name(const int dId) {
+        return device::trConcat(device::idName[dId]);
+    }
+
+    inline bool timedout() const {
         return lastseen == QDateTime()
                 or QDateTime::currentDateTime().secsTo(lastseen) <= - alert::timeout;
     }
 
-    inline qint64 getLastseen() const
-    {
+    inline qint64 getLastseen() const {
         return (lastseen == QDateTime()) ? -1 : - QDateTime::currentDateTime().secsTo(lastseen);
     }
 
-    inline void alertTimeout() const
-    {
+    inline void alertTimeout() const {
         globalDB.setAlert(static_cast<database::DB_TBL>(devTable), dId, alert::P_ALERT_TIMEOUT_NOFIELD, "", this->getLastseen());
     }
 
-    inline const QString showDisplay(const QString itemName) const
-    {
+    inline const QString showDisplay(const QString itemName) const {
         if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return QString();
@@ -95,8 +93,7 @@ public slots:
         return var[itemName.toUtf8()]->display;
     }
 
-    inline const QString showColor(const QString itemName, bool allowHolding = true) const
-    {
+    inline const QString showColor(const QString itemName, bool allowHolding = true) const {
         if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return QString();
@@ -110,8 +107,7 @@ public slots:
         return var[itemName.toUtf8()]->getColor(allowHolding);
     }
 
-    inline const QVariant getValue(const QString itemName) const
-    {
+    inline const QVariant getValue(const QString itemName) const {
         if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return QVariant();
@@ -119,8 +115,7 @@ public slots:
         return var[itemName.toUtf8()]->getValue();
     }
 
-    inline void setHold(const QString itemName)
-    {
+    inline void setHold(const QString itemName) {
         if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return;
@@ -129,8 +124,7 @@ public slots:
         var[itemName.toUtf8()]->v_hold = var[itemName.toUtf8()]->value;
     }
 
-    inline void releaseHold(const QString itemName)
-    {
+    inline void releaseHold(const QString itemName) {
         if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return;
@@ -140,8 +134,7 @@ public slots:
         // The above line is for displaying
     }
 
-    inline void submitHold(const QString itemName) /* not in use */
-    {
+    inline void submitHold(const QString itemName) { /* not in use */
         if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return;
@@ -150,8 +143,7 @@ public slots:
         var[itemName.toUtf8()]->holding = false;
     }
 
-    inline void holdValue(const QString itemName, const QVariant val)
-    {
+    inline void holdValue(const QString itemName, const QVariant val) {
         if (!var.contains(itemName.toUtf8())) {
             qDebug() << "Missing item " << itemName;
             return;
@@ -184,10 +176,8 @@ protected:
     serial *lastSerial = nullptr;
     QDateTime lastseen = QDateTime();
     QString timerStr = tr("No data");
-    QList<QStringList> dbView = QList<QStringList>();
 
-    inline bool stateGood(const QString v) const
-    {
+    inline bool stateGood(const QString v) const {
         if (!var.contains(v.toUtf8())) {
             qDebug() << "Missing item " << v;
             return false;
@@ -201,8 +191,7 @@ private:
     protocol *query;
     protocol *cntl;
 
-    inline static void push(device *dev)
-    {
+    inline static void push(device *dev) {
         device::deviceList << dev;
     }
 };
@@ -235,7 +224,6 @@ public:
 
     friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
     friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
-    friend const database &operator>> (const database &db, devFreq &dev);
 
 public slots:
     void createCntlMsg() const override;
@@ -259,7 +247,6 @@ public:
 
     friend devDist &operator<< (devDist &dev, const msgDist &m);
     friend const devDist &operator>> (const devDist &dev, msgCntlDist &m);
-    friend const database &operator>> (const database &db, devDist &dev);
 
 public slots:
     void createCntlMsg() const override;
@@ -288,7 +275,6 @@ public:
 
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
-    friend const database &operator>> (const database &db, devAmp &dev);
 
 public slots:
     void createCntlMsg() const override;

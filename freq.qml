@@ -39,6 +39,7 @@ Window {
             masterRefreshData()
             slaveRefreshData()
             buttonReset.clicked()
+            rectHistory.model.initialize("freq_alert", devFreqMaster.dId, devFreqSlave.dId)
         })
     }
 

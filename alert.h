@@ -3,7 +3,8 @@
 
 #include <QObject>
 #include <QHash>
-#include <QDebug>
+#include <qqml.h>
+#include <QAbstractTableModel>
 
 class deviceVar;
 
@@ -68,8 +69,7 @@ public:
         {P_ALERT_OTHERS, {QT_TR_NOOP("Other alert")}}
     };
 
-    static inline const QVariantHash EnumMap2VariantHash (const QHash<QVariant, QString> enumMap)
-    {
+    static inline const QVariantHash EnumMap2VariantHash (const QHash<QVariant, QString> enumMap) {
         QVariantHash ret;
         QHashIterator<QVariant, QString> i(enumMap);
         while (i.hasNext()) {
@@ -176,6 +176,38 @@ Q_DECLARE_METATYPE(alert::P_STAT)
 Q_DECLARE_METATYPE(alert::P_CH)
 Q_DECLARE_METATYPE(alert::P_ENUM)
 Q_DECLARE_METATYPE(alert::P_COLOR)
+
+class alertRecordModel : public QAbstractTableModel
+{
+    Q_OBJECT
+    QML_ELEMENT
+
+public:
+    inline int rowCount(const QModelIndex & = QModelIndex()) const override {
+        return record.length();
+    }
+
+    inline int columnCount(const QModelIndex & = QModelIndex()) const override {
+        return 4;
+    }
+
+    inline QVariant data(const QModelIndex &index, int role) const override {
+        switch (role) {
+        case Qt::DisplayRole:
+            return record[index.row()][index.column()];
+        default:
+            break;
+        }
+
+        return QVariant();
+    }
+
+public slots:
+    void initialize(const QString dbTable, const int masterId, const int slaveId = -1);
+
+private:
+    QList<QStringList> record;
+};
 
 class deviceVar : public QObject
 {

@@ -1,17 +1,35 @@
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+
+import rdss.alert 1.0
 
 Item {
     id: rectHist
     property int itemWidth
     property int itemHeight : defaultHistoryAreaHeight
+    property alias model : tableview.model
 
-    TextArea {
-        id: txt
+    TableView {
+        id: tableview
+        columnSpacing: 1
+        rowSpacing: 1
         width: itemWidth
         height: itemHeight
-        wrapMode: TextEdit.Wrap
-        focus: false
-        readOnly: true
+        clip: true
+
+        model: AlertRecordModel
+
+        delegate: Rectangle {
+            implicitHeight: 50
+            implicitWidth: 200
+            border.width: 1
+
+            Text {
+                text: display
+                anchors.centerIn: parent
+            }
+        }
+
+        ScrollIndicator.vertical: ScrollIndicator {}
     }
 }
