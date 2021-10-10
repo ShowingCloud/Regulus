@@ -9,25 +9,33 @@ Item {
     property int itemHeight : defaultHistoryAreaHeight
     property alias model : tableview.model
 
+    HorizontalHeaderView {
+        id: headerview
+        syncView: tableview
+    }
+
     TableView {
         id: tableview
-        columnSpacing: 1
-        rowSpacing: 1
         width: itemWidth
-        height: itemHeight
+        height: itemHeight - headerview.height
+        anchors.top: headerview.bottom
         clip: true
 
         model: AlertRecordModel
 
         delegate: Rectangle {
-            implicitHeight: 50
-            implicitWidth: 200
+            implicitHeight: 40
+            implicitWidth: sizehint
             border.width: 1
 
             Text {
                 text: display
-                anchors.centerIn: parent
+                anchors.fill: parent
+                anchors.margins: 10
                 font.pixelSize: rectBigFontSize
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: textalignment
+                color: foreground
             }
         }
 

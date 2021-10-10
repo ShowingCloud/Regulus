@@ -25,13 +25,6 @@ class serial;
 class device : public QObject
 {
     Q_OBJECT
-    Q_ENUM(alert::P_NOR)
-    Q_ENUM(alert::P_LOCK)
-    Q_ENUM(alert::P_MS)
-    Q_ENUM(alert::P_HSK)
-    Q_ENUM(alert::P_ATTEN)
-    Q_ENUM(alert::P_STAT)
-    Q_ENUM(alert::P_CH)
     Q_PROPERTY(int          dId         MEMBER  dId      NOTIFY idSet)
     Q_PROPERTY(QString      name        READ    name     NOTIFY idSet)
     Q_PROPERTY(QString      str         MEMBER  str      NOTIFY gotData)

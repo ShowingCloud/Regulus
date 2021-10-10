@@ -1,8 +1,8 @@
 #ifndef ALERT_H
 #define ALERT_H
 
-#include <QObject>
 #include <QHash>
+#include <QColor>
 #include <QtQml>
 #include <QAbstractTableModel>
 
@@ -203,15 +203,39 @@ public:
         return 4;
     }
 
-    inline QVariant data(const QModelIndex &index, int role) const override {
+    inline QVariant data(const QModelIndex &index, const int role) const override {
         switch (role) {
         case Qt::DisplayRole:
             return record[index.row()][index.column()];
+        case Qt::ForegroundRole:
+            return QColor(record[index.row()][4]);
+        case Qt::TextAlignmentRole:
+            static int alignments[] = { Qt::AlignHCenter, Qt::AlignHCenter, Qt::AlignHCenter, Qt::AlignLeft };
+            return alignments[index.column()];
+        case Qt::SizeHintRole:
+            static int columnWidths[] = { 150, 200, 150, 800 };
+            return columnWidths[index.column()];
         default:
             break;
         }
-
         return QVariant();
+    }
+
+    inline QVariant headerData(const int section, const Qt::Orientation orientation, const int role) const override {
+        if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
+            static QStringList header = { tr("Device"), tr("Timestamp"), tr("Field"), tr("Error info") };
+            return header[section];
+        }
+        return QVariant();
+    }
+
+    inline QHash<int, QByteArray> roleNames() const override {
+        return QHash<int, QByteArray> {
+            { Qt::DisplayRole, "display" },
+            { Qt::ForegroundRole, "foreground" },
+            { Qt::TextAlignmentRole, "textalignment" },
+            { Qt::SizeHintRole, "sizehint" }
+        };
     }
 
 public slots:

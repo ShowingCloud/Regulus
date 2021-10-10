@@ -224,7 +224,10 @@ const database &operator>> (const database &db, QList<QStringList> &str)
         QSqlRecord r = db.dbModel->record(i);
         QString field = r.value("Field").value<QString>();
         alert::P_ALERT type = r.value("Type").value<alert::P_ALERT>();
-        alert::P_ENUM varType = device::findDevice(db.setDeviceId)->getVarType(field);
+
+        alert::P_ENUM varType = alert::P_ENUM_OTHERS;
+        if (type != alert::P_ALERT_TIMEOUT_NOFIELD and type != alert::P_ALERT_OTHERS_NOFIELD)
+            varType = device::findDevice(db.setDeviceId)->getVarType(field);
 
         QStringList s = {
             device::name(r.value("device").value<int>()) + "#" + QString::number(r.value("device").value<int>()),
@@ -263,7 +266,10 @@ const database &operator>> (const database &db, QList<QStringList> &str)
                 }
 
                 return QObject::tr("No content");
-            }()};
+            }(),
+
+            r.value("Emergence").value<bool>() ? "red" : "green"
+        };
 
         str << s;
     }
