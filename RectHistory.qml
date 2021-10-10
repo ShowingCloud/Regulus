@@ -27,6 +27,7 @@ Item {
             Text {
                 text: display
                 anchors.centerIn: parent
+                font.pixelSize: rectBigFontSize
             }
         }
 

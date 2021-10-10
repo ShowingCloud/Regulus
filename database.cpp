@@ -234,14 +234,14 @@ const database &operator>> (const database &db, QList<QStringList> &str)
 
             [=](){
                 const auto getAlertStr = [](const alert::P_ALERT type, const int n) {
-                    return QObject::tr(alert::STR_ALERT[type][n].toUtf8()); };
+                    return alert::tr(alert::STR_ALERT[type][n].toUtf8()); };
 
                 alert::P_ALERT type = static_cast<alert::P_ALERT>(r.value("Type").toInt());
                 switch (type)
                 {
                 case alert::P_ALERT_GOOD:
-                    return (QObject::tr("Restored normal") + (", ") + getAlertStr(type, 0)
-                        + QObject::tr(": ") + r.value("Value").toString());
+                    return (QObject::tr("Restored normal") + (", ") + getAlertStr(type, 0) + ": "
+                        + r.value("Value").toString());
                 case alert::P_ALERT_LOWER:
                 case alert::P_ALERT_UPPER:
                 case alert::P_ALERT_BAD:
