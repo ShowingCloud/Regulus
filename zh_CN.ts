@@ -25,12 +25,7 @@
         <translation>恢复正常</translation>
     </message>
     <message>
-        <location filename="database.cpp" line="244"/>
-        <source>: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="database.cpp" line="259"/>
+        <location filename="database.cpp" line="260"/>
         <source>No content</source>
         <translation>无内容</translation>
     </message>
@@ -177,7 +172,7 @@
     </message>
     <message>
         <location filename="alert.h" line="58"/>
-        <location filename="alert.h" line="64"/>
+        <location filename="alert.h" line="67"/>
         <source>Good value</source>
         <translation>正常值</translation>
     </message>
@@ -188,27 +183,34 @@
     </message>
     <message>
         <location filename="alert.h" line="60"/>
+        <location filename="alert.h" line="63"/>
+        <location filename="alert.h" line="66"/>
+        <source>Got value</source>
+        <translation>测量值</translation>
+    </message>
+    <message>
+        <location filename="alert.h" line="61"/>
         <source>Lower limit</source>
         <translation>下限值</translation>
     </message>
     <message>
-        <location filename="alert.h" line="61"/>
+        <location filename="alert.h" line="62"/>
         <source>Higher than upper limit</source>
         <translation>高于上限</translation>
     </message>
     <message>
-        <location filename="alert.h" line="62"/>
+        <location filename="alert.h" line="64"/>
         <source>Upper limit</source>
         <translation>上限值</translation>
     </message>
     <message>
-        <location filename="alert.h" line="63"/>
+        <location filename="alert.h" line="65"/>
         <source>Bad value</source>
         <translation>异常值</translation>
     </message>
     <message>
-        <location filename="alert.h" line="65"/>
-        <location filename="alert.h" line="69"/>
+        <location filename="alert.h" line="68"/>
+        <location filename="alert.h" line="72"/>
         <source>Timeout</source>
         <translation>回复超时</translation>
     </message>
@@ -217,100 +219,100 @@
         <translation type="vanished">超时时限</translation>
     </message>
     <message>
-        <location filename="alert.h" line="66"/>
-        <location filename="alert.h" line="70"/>
+        <location filename="alert.h" line="69"/>
+        <location filename="alert.h" line="73"/>
         <source>Last seen</source>
         <translation>上一条消息</translation>
     </message>
     <message>
-        <location filename="alert.h" line="67"/>
-        <location filename="alert.h" line="71"/>
+        <location filename="alert.h" line="70"/>
+        <location filename="alert.h" line="74"/>
         <source>Never</source>
         <translation>从未</translation>
     </message>
     <message>
-        <location filename="alert.h" line="68"/>
-        <location filename="alert.h" line="72"/>
+        <location filename="alert.h" line="71"/>
+        <location filename="alert.h" line="75"/>
         <source>seconds before</source>
         <translation>秒之前</translation>
     </message>
     <message>
-        <location filename="alert.h" line="73"/>
-        <location filename="alert.h" line="74"/>
+        <location filename="alert.h" line="76"/>
+        <location filename="alert.h" line="77"/>
         <source>Other alert</source>
         <translation>其他警报</translation>
     </message>
     <message>
-        <location filename="alert.h" line="96"/>
-        <location filename="alert.h" line="125"/>
+        <location filename="alert.h" line="99"/>
+        <location filename="alert.h" line="128"/>
         <source>Abnormal</source>
         <translation>异常</translation>
     </message>
     <message>
-        <location filename="alert.h" line="97"/>
-        <location filename="alert.h" line="124"/>
+        <location filename="alert.h" line="100"/>
+        <location filename="alert.h" line="127"/>
         <source>Normal</source>
         <translation>正常</translation>
     </message>
     <message>
-        <location filename="alert.h" line="98"/>
-        <location filename="alert.h" line="104"/>
+        <location filename="alert.h" line="101"/>
+        <location filename="alert.h" line="107"/>
         <source>Standby</source>
         <translation>待机</translation>
     </message>
     <message>
-        <location filename="alert.h" line="99"/>
-        <location filename="alert.h" line="105"/>
-        <location filename="alert.h" line="110"/>
-        <location filename="alert.h" line="115"/>
-        <location filename="alert.h" line="121"/>
-        <location filename="alert.h" line="126"/>
-        <location filename="alert.h" line="131"/>
+        <location filename="alert.h" line="102"/>
+        <location filename="alert.h" line="108"/>
+        <location filename="alert.h" line="113"/>
+        <location filename="alert.h" line="118"/>
+        <location filename="alert.h" line="124"/>
+        <location filename="alert.h" line="129"/>
+        <location filename="alert.h" line="134"/>
         <source>Others</source>
         <translation>其他</translation>
     </message>
     <message>
-        <location filename="alert.h" line="102"/>
+        <location filename="alert.h" line="105"/>
         <source>Unlocked</source>
         <translation>失锁</translation>
     </message>
     <message>
-        <location filename="alert.h" line="103"/>
+        <location filename="alert.h" line="106"/>
         <source>Locked</source>
         <translation>锁定</translation>
     </message>
     <message>
-        <location filename="alert.h" line="108"/>
+        <location filename="alert.h" line="111"/>
         <source>Master</source>
         <translation>主路</translation>
     </message>
     <message>
-        <location filename="alert.h" line="109"/>
+        <location filename="alert.h" line="112"/>
         <source>Slave</source>
         <translation>从路</translation>
     </message>
     <message>
-        <location filename="alert.h" line="113"/>
+        <location filename="alert.h" line="116"/>
         <source>Successful</source>
         <translation>成功</translation>
     </message>
     <message>
-        <location filename="alert.h" line="114"/>
+        <location filename="alert.h" line="117"/>
         <source>Failed</source>
         <translation>失败</translation>
     </message>
     <message>
-        <location filename="alert.h" line="118"/>
+        <location filename="alert.h" line="121"/>
         <source>Normal Attenuation</source>
         <translation>正常衰减</translation>
     </message>
     <message>
-        <location filename="alert.h" line="119"/>
+        <location filename="alert.h" line="122"/>
         <source>Constant Power</source>
         <translation>恒功率</translation>
     </message>
     <message>
-        <location filename="alert.h" line="120"/>
+        <location filename="alert.h" line="123"/>
         <source>Constant Gain</source>
         <translation>恒增益</translation>
     </message>
