@@ -32,6 +32,9 @@ const QVariant alert::setValue(const QVariant val, const P_ENUM e)
     case P_ENUM_DECUPLE_DOUBLE:
         ret = val.value<int>() / 10.0;
         break;
+    case P_ENUM_OTHERS:
+        ret = val;
+        break;
     }
 
     return ret;
@@ -133,10 +136,12 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
             alert::prepareAlert(P_ALERT_GOOD, val, parent);
             return P_NOR_NORMAL;
         }
+    case P_ENUM_OTHERS:
+        return P_NOR_ABNORMAL;
     }
 
     qDebug() << "!!! Shouldn't get here";
-    return P_NOR_NORMAL;
+    return P_NOR_ABNORMAL;
 }
 
 void alert::prepareAlert(const P_ALERT type, const QVariant value, const QVariant normal_value, deviceVar *parent)
@@ -187,6 +192,7 @@ const QString alert::setDisplay(const QVariant val, const P_ENUM e)
     case P_ENUM_INT:
     case P_ENUM_CURRENT:
     case P_ENUM_VOLTAGE:
+    case P_ENUM_OTHERS:
         v = val.toString();
         break;
     case P_ENUM_FLOAT:
@@ -255,6 +261,10 @@ deviceVar::deviceVar(const alert::P_ENUM type, QObject *parent) : QObject(parent
         value = alert::setValue(0.0f, type);
         display = alert::setDisplay(value, type);
         return;
+    case alert::P_ENUM_OTHERS:
+        value = "";
+        display = "";
+        return;
     }
 }
 
@@ -293,6 +303,8 @@ int deviceVar::getValue() const
         return static_cast<int>(ret->value<float>() * 2);
     case alert::P_ENUM_DECUPLE:
         return static_cast<int>(ret->value<float>() * 10);
+    case alert::P_ENUM_OTHERS:
+        return -1;
     }
 
     qDebug() << "Shouldn't get here";

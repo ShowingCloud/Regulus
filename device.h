@@ -57,6 +57,14 @@ public:
             *d << m;
     }
 
+    static inline device *findDevice(const int id) {
+        for (device *d : device::deviceList)
+            if (d->dId == id)
+                return d;
+
+        return nullptr;
+    }
+
 signals:
     void idSet();
     void gotData();
@@ -151,6 +159,14 @@ public slots:
         }
         var[itemName.toUtf8()]->holding = true;
         var[itemName.toUtf8()]->v_hold = val;
+    }
+
+    inline alert::P_ENUM getVarType(const QString itemName) {
+        if (!var.contains(itemName.toUtf8())) {
+            qDebug() << "Missing item " << itemName;
+            return alert::P_ENUM_OTHERS;
+        }
+        return var[itemName.toUtf8()]->type;
     }
 
 protected:

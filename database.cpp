@@ -222,36 +222,40 @@ const database &operator>> (const database &db, QList<QStringList> &str)
 
     for (int i = 0; i < 10; ++i) {
         QSqlRecord r = db.dbModel->record(i);
+        QString field = r.value("Field").value<QString>();
+        alert::P_ALERT type = r.value("Type").value<alert::P_ALERT>();
+        alert::P_ENUM varType = device::findDevice(db.setDeviceId)->getVarType(field);
+
         QStringList s = {
-            device::name(r.value("device").toInt()) + "#" + QString::number(r.value("device").toInt()),
+            device::name(r.value("device").value<int>()) + "#" + QString::number(r.value("device").value<int>()),
 
             r.value("Time").toDateTime().toString(Qt::ISODate),
 
-            (static_cast<alert::P_ALERT>(r.value("Type").toInt() == alert::P_ALERT_TIMEOUT_NOFIELD
-                or static_cast<alert::P_ALERT>(r.value("Type").toInt() == alert::P_ALERT_OTHERS_NOFIELD))
+            (type == alert::P_ALERT_TIMEOUT_NOFIELD or type == alert::P_ALERT_OTHERS_NOFIELD)
                 ? ""
-                : r.value("Field").toString()),
+                : field,
 
-            [=](){
+            [&](){
                 const auto getAlertStr = [](const alert::P_ALERT type, const int n) {
                     return alert::tr(alert::STR_ALERT[type][n].toUtf8()); };
 
-                alert::P_ALERT type = static_cast<alert::P_ALERT>(r.value("Type").toInt());
                 switch (type)
                 {
                 case alert::P_ALERT_GOOD:
                     return (QObject::tr("Restored normal") + (", ") + getAlertStr(type, 0) + ": "
-                        + r.value("Value").toString());
+                        + alert::setDisplay(r.value("Value"), varType));
                 case alert::P_ALERT_LOWER:
                 case alert::P_ALERT_UPPER:
                 case alert::P_ALERT_BAD:
-                    return getAlertStr(type, 0) + ", " + getAlertStr(type, 2) + ": " + r.value("Normal_Value").toString()
-                        + ", " + getAlertStr(type, 1) + ": " + r.value("Value").toString();
+                    return getAlertStr(type, 0) + ", " + getAlertStr(type, 2) + ": "
+                        + alert::setDisplay(r.value("Normal_Value"), varType)
+                        + ", " + getAlertStr(type, 1) + ": "
+                        + alert::setDisplay(r.value("Value"), varType);
                 case alert::P_ALERT_TIMEOUT:
                 case alert::P_ALERT_TIMEOUT_NOFIELD:
                     return getAlertStr(type, 0) + ", " + getAlertStr(type, 1) + ": "
-                        + (r.value("Value").toInt() == -1 ? getAlertStr(type, 2)
-                            : QString::number(r.value("Value").toInt()) + getAlertStr(type, 3));
+                        + (r.value("Value").value<int>() == -1 ? getAlertStr(type, 2)
+                            : QString::number(r.value("Value").value<int>()) + getAlertStr(type, 3));
                 case alert::P_ALERT_OTHERS:
                 case alert::P_ALERT_OTHERS_NOFIELD:
                 case alert::P_ALERT_NODATA:
