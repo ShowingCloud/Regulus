@@ -332,7 +332,7 @@ void alertRecordModel::initialize(const QString dbTable, const int masterId, con
     }
 
     std::sort(record.begin(), record.end(), [](const QStringList &v1, const QStringList &v2){
-        return v1[1] < v2[1]; // Comparing timestamp field
+        return v1[1] > v2[1]; // Comparing timestamp field
     });
 
     endResetModel();

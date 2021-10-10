@@ -217,7 +217,7 @@ const database &operator>> (const database &db, QList<QStringList> &str)
 {
     db.dbModel->setTable(db.setDBTable);
     db.dbModel->setFilter("Device=" + QString::number(db.setDeviceId));
-    db.dbModel->setSort(1, Qt::AscendingOrder);
+    db.dbModel->setSort(2, Qt::DescendingOrder);
     db.dbModel->select();
 
     for (int i = 0; i < 10; ++i) {
@@ -245,7 +245,8 @@ const database &operator>> (const database &db, QList<QStringList> &str)
                 case alert::P_ALERT_LOWER:
                 case alert::P_ALERT_UPPER:
                 case alert::P_ALERT_BAD:
-                    return getAlertStr(type, 0) + ", " + getAlertStr(type, 1) + ": " + r.value("Value").toString();
+                    return getAlertStr(type, 0) + ", " + getAlertStr(type, 2) + ": " + r.value("Normal_Value").toString()
+                        + ", " + getAlertStr(type, 1) + ": " + r.value("Value").toString();
                 case alert::P_ALERT_TIMEOUT:
                 case alert::P_ALERT_TIMEOUT_NOFIELD:
                     return getAlertStr(type, 0) + ", " + getAlertStr(type, 1) + ": "
