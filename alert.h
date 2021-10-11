@@ -214,10 +214,10 @@ public:
         case Qt::ForegroundRole:
             return QColor(record[index.row()][4]);
         case Qt::TextAlignmentRole: {
-            static int alignments[] = { Qt::AlignHCenter, Qt::AlignHCenter, Qt::AlignHCenter, Qt::AlignLeft };
+            static const int alignments[] = { Qt::AlignHCenter, Qt::AlignHCenter, Qt::AlignHCenter, Qt::AlignLeft };
             return alignments[index.column()];
         } case Qt::SizeHintRole: {
-            static int columnWidths[] = { 150, 200, 150, 800 };
+            static const int columnWidths[] = { 150, 200, 150, 800 };
             return columnWidths[index.column()];
         } default:
             break;
@@ -227,7 +227,7 @@ public:
 
     inline QVariant headerData(const int section, const Qt::Orientation orientation, const int role) const override {
         if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
-            static QStringList header = { tr("Device"), tr("Timestamp"), tr("Field"), tr("Error info") };
+            static const QStringList header = { tr("Device"), tr("Timestamp"), tr("Field"), tr("Error info") };
             return header[section];
         }
         return QVariant();
