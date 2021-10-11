@@ -269,7 +269,7 @@ const database &operator>> (const database &db, QList<QStringList> &str)
     db.dbModel->setSort(2, Qt::DescendingOrder);
     db.dbModel->select();
 
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < std::min(db.dbModel->rowCount(), 10); ++i) {
         QSqlRecord r = db.dbModel->record(i);
         if (r.value("Id").toString() == "") {
             return db;
