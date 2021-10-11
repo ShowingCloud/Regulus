@@ -29,6 +29,7 @@ Item {
         height: rackAmpBoxHeight - 2 * defaultBorderWidth
         width: rackAmpBoxWidth - 2 * marginIndicators - ind.width - defaultBorderWidth
         z: 1
+        opacity: .8
         visible: false
 
         Text {

@@ -48,9 +48,9 @@ public:
         DB_TBL_MSG_ALERT };
     enum DB_RET { DB_RET_SUCCESS };
 
-    bool setAlert(const database::DB_TBL dbTable, const int device, const int type,
+    bool setAlert(const database::DB_TBL dbTable, const int deviceId, const int type,
                       const QString field, const QVariant value, const QVariant normal_value = 0);
-    bool setAlert(const int type, const QString text, const int device = 0);
+    bool setAlert(const int type, const QString text, const int deviceId = 0);
 
 private:
     bool createTable();

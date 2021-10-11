@@ -1,6 +1,7 @@
 #include "database.h"
 #include "alert.h"
 #include "protocol.h"
+#include "device.h"
 
 #include <QtDebug>
 
@@ -181,12 +182,12 @@ database &operator<< (database &db, const msgCntlAmp &msg)
     return db;
 }
 
-bool database::setAlert(const database::DB_TBL dbTable, const int device, const int type,
+bool database::setAlert(const database::DB_TBL dbTable, const int deviceId, const int type,
                   const QString field, const QVariant value, const QVariant normal_value)
 {
     dbModel->setTable(DB_TABLES[dbTable]);
     QSqlRecord r = dbModel->record();
-    r.setValue("Device", device);
+    r.setValue("Device", deviceId);
     r.setValue("Time", QDateTime::currentDateTime());
     r.setValue("Type", type);
     r.setValue("Field", field);
@@ -198,17 +199,18 @@ bool database::setAlert(const database::DB_TBL dbTable, const int device, const 
 
     alert::P_ALERT alertType = static_cast<alert::P_ALERT>(type);
     alert::P_ENUM varType = alert::P_ENUM_OTHERS;
-    if (alertType != alert::P_ALERT_TIMEOUT_NOFIELD and alertType != alert::P_ALERT_OTHERS_NOFIELD)
-        varType = device::findDevice(device)->getVarType(field);
+    device *dev = device::findDevice(deviceId);
+    if (dev != nullptr and alertType != alert::P_ALERT_TIMEOUT_NOFIELD and alertType != alert::P_ALERT_OTHERS_NOFIELD)
+        varType = dev->getVarType(field);
 
     for (alertRecordModel *model : qAsConst(alertRecordModel::alertRecordModelList)) {
-        model->addAlert(device, {
-                            device::name(device) + "#" + QString::number(device),
+        model->addAlert(deviceId, {
+                            device::name(deviceId) + "#" + QString::number(deviceId),
                             QDateTime::currentDateTime().toString(Qt::ISODate),
 
                             (alertType == alert::P_ALERT_TIMEOUT_NOFIELD or alertType == alert::P_ALERT_OTHERS_NOFIELD)
                             ? ""
-                            : field,
+                            : dev->varName(field),
 
                             [=](){
                                 const auto getAlertStr = [](const alert::P_ALERT type, const int n) {
@@ -229,7 +231,8 @@ bool database::setAlert(const database::DB_TBL dbTable, const int device, const 
                                 case alert::P_ALERT_TIMEOUT_NOFIELD:
                                     return getAlertStr(alertType, 0) + ", " + getAlertStr(alertType, 1) + ": "
                                         + (value.value<int>() == -1 ? getAlertStr(alertType, 2)
-                                            : QString::number(value.value<int>()) + getAlertStr(alertType, 3));
+                                            : QString::number(value.value<int>())
+                                        + getAlertStr(alertType, 3));
                                 case alert::P_ALERT_OTHERS:
                                 case alert::P_ALERT_OTHERS_NOFIELD:
                                 case alert::P_ALERT_NODATA:
@@ -245,11 +248,11 @@ bool database::setAlert(const database::DB_TBL dbTable, const int device, const 
     return true;
 }
 
-bool database::setAlert(const int type, const QString text, const int device)
+bool database::setAlert(const int type, const QString text, const int deviceId)
 {
     dbModel->setTable(DB_TABLES[DB_TBL_MSG_ALERT]);
     QSqlRecord r = dbModel->record();
-    r.setValue("Device", device);
+    r.setValue("Device", deviceId);
     r.setValue("Time", QDateTime::currentDateTime());
     r.setValue("Type", type);
     r.setValue("Alert", text);
@@ -277,8 +280,9 @@ const database &operator>> (const database &db, QList<QStringList> &str)
         alert::P_ALERT type = r.value("Type").value<alert::P_ALERT>();
 
         alert::P_ENUM varType = alert::P_ENUM_OTHERS;
-        if (type != alert::P_ALERT_TIMEOUT_NOFIELD and type != alert::P_ALERT_OTHERS_NOFIELD)
-            varType = device::findDevice(db.setDeviceId)->getVarType(field);
+        device *dev = device::findDevice(db.setDeviceId);
+        if (dev != nullptr and type != alert::P_ALERT_TIMEOUT_NOFIELD and type != alert::P_ALERT_OTHERS_NOFIELD)
+            varType = dev->getVarType(field);
 
         QStringList s = {
             device::name(r.value("device").value<int>()) + "#" + QString::number(r.value("device").value<int>()),
@@ -287,7 +291,7 @@ const database &operator>> (const database &db, QList<QStringList> &str)
 
             (type == alert::P_ALERT_TIMEOUT_NOFIELD or type == alert::P_ALERT_OTHERS_NOFIELD)
                 ? ""
-                : field,
+                : dev->varName(field),
 
             [&](){
                 const auto getAlertStr = [](const alert::P_ALERT type, const int n) {
@@ -308,7 +312,8 @@ const database &operator>> (const database &db, QList<QStringList> &str)
                 case alert::P_ALERT_TIMEOUT_NOFIELD:
                     return getAlertStr(type, 0) + ", " + getAlertStr(type, 1) + ": "
                         + (r.value("Value").value<int>() == -1 ? getAlertStr(type, 2)
-                            : QString::number(r.value("Value").value<int>()) + getAlertStr(type, 3));
+                            : QString::number(r.value("Value").value<int>())
+                        + getAlertStr(type, 3));
                 case alert::P_ALERT_OTHERS:
                 case alert::P_ALERT_OTHERS_NOFIELD:
                 case alert::P_ALERT_NODATA:

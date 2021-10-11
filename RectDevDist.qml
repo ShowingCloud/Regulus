@@ -28,6 +28,7 @@ Item {
         height: rackFreqBoxDistHeight - 2 * defaultBorderWidth
         width: rackFreqBoxWidth - 2 * marginIndicators - ind.width - defaultBorderWidth
         z: 1
+        opacity: .8
         visible: false
 
         Text {
