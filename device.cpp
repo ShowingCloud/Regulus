@@ -7,8 +7,9 @@
 #include <QDebug>
 #include <iso646.h>
 
-device::device(const QHash<QString, deviceVar*> var, const database::DB_TBL devTable, QObject *parent)
-    : QObject(parent), var(var), devTable(devTable)
+device::device(const QHash<QString, deviceVar*> var, const QHash<QString, QStringList> str_var,
+               const database::DB_TBL devTable, QObject *parent)
+    : QObject(parent), var(var), STR_VAR(str_var), devTable(devTable)
 {
     device::push(this);
 

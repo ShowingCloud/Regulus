@@ -32,7 +32,8 @@ class device : public QObject
     Q_PROPERTY(QString      timerStr    MEMBER  timerStr NOTIFY gotData)
 
 public:
-    explicit device(const QHash<QString, deviceVar *> var, const database::DB_TBL devTable, QObject *parent = nullptr);
+    explicit device(const QHash<QString, deviceVar *> var, const QHash<QString, QStringList> str_var,
+                    const database::DB_TBL devTable, QObject *parent = nullptr);
 
     friend device &operator<< (device &dev, const msgFreq &m);
     friend device &operator<< (device &dev, const msgDist &m);
@@ -43,6 +44,10 @@ public:
     inline static const QString trConcat(const QList<std::string> str) {
         return std::accumulate(begin(str), end(str), QString(), [](QString ret, const std::string s)
                 -> QString { return ret += tr(s.c_str()); });
+    }
+    inline static const QString trConcat(const QStringList str) {
+        return std::accumulate(str.cbegin(), str.cend(), QString(), [](QString ret, const QString s)
+                -> QString { return ret += tr(s.toUtf8()); });
     }
 
     template <class T> static void updateDevice(const T &m) {
@@ -55,7 +60,7 @@ public:
             if (d->dId == id)
                 return d;
 
-        return nullptr;
+        return device::deviceList[0]; // take the first instead of nullptr
     }
 
 signals:
@@ -72,6 +77,10 @@ public slots:
 
     inline static const QString name(const int dId) {
         return device::trConcat(device::idName[dId]);
+    }
+
+    inline const QString varName(const QString var) {
+        return device::trConcat(STR_VAR[var]);
     }
 
     inline bool timedout() const {
@@ -182,6 +191,7 @@ protected:
 
     int dId = 0;
     const QHash<QString, deviceVar *> var;
+    const QHash<QString, QStringList> STR_VAR;
     const int devTable = 0;
     serial *lastSerial = nullptr;
     QDateTime lastseen = QDateTime();
@@ -230,6 +240,26 @@ public:
         {"ref_inner_2", new deviceVar(alert::P_ENUM_NOR)},
         {"handshake",   new deviceVar(alert::P_ENUM_HSK)},
         {"masterslave", new deviceVar(alert::P_ENUM_MS)}
+    }, {
+        {"atten",       {QT_TR_NOOP("Attenuation")}},
+        {"ch_a",        {"10 MHz ", QT_TR_NOOP("Ref")}},
+        {"ch_b",        {"10 MHz ", QT_TR_NOOP("Ref")}},
+        {"voltage",     {QT_TR_NOOP("Voltage")}},
+        {"current",     {QT_TR_NOOP("Current")}},
+        {"radio_stat",  {QT_TR_NOOP("Radio"), QT_TR_NOOP("Output"), "/", QT_TR_NOOP("Input")}},
+        {"mid_stat",    {QT_TR_NOOP("Mid freq"), QT_TR_NOOP("Input"), "/", QT_TR_NOOP("Output")}},
+        {"lock_a1",     {QT_TR_NOOP("Local Oscillator"), " A1"}},
+        {"lock_a2",     {QT_TR_NOOP("Local Oscillator"), " A2"}},
+        {"lock_b1",     {QT_TR_NOOP("Local Oscillator"), " B1"}},
+        {"lock_b2",     {QT_TR_NOOP("Local Oscillator"), " B2"}},
+        {"ref_10_1",    {"10 MHz ", QT_TR_NOOP("Outer Ref"), " 1"}},
+        {"ref_10_2",    {"10 MHz ", QT_TR_NOOP("Outer Ref"), " 2"}},
+        {"ref_10_3",    {"10 MHz ", QT_TR_NOOP("Outer Ref"), " 1"}},
+        {"ref_10_4",    {"10 MHz ", QT_TR_NOOP("Outer Ref"), " 2"}},
+        {"ref_inner_1", {"10 MHz ", QT_TR_NOOP("Inner Ref")}},
+        {"ref_inner_2", {"10 MHz ", QT_TR_NOOP("Inner Ref")}},
+        {"handshake",   {QT_TR_NOOP("Handshake Signal")}},
+        {"masterslave", {QT_TR_NOOP("Current State")}}
     }, database::DB_TBL_FREQ_ALERT, parent) {}
 
     friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
@@ -238,6 +268,8 @@ public:
 public slots:
     void createCntlMsg() const override;
     const QString showIndicatorColor() const override;
+
+private:
 };
 
 class devDist : public device
@@ -253,6 +285,15 @@ public:
         {"lock_10_2",   new deviceVar(alert::P_ENUM_LOCK)},
         {"lock_16_1",   new deviceVar(alert::P_ENUM_LOCK)},
         {"lock_16_2",   new deviceVar(alert::P_ENUM_LOCK)}
+    }, {
+        {"ref_10",      {QT_TR_NOOP("Outer Ref"), " 10 MHz"}},
+        {"ref_16",      {QT_TR_NOOP("Outer Ref"), " 16 MHz"}},
+        {"voltage",     {QT_TR_NOOP("Voltage")}},
+        {"current",     {QT_TR_NOOP("Current")}},
+        {"lock_10_1",   {"10 MHz ", QT_TR_NOOP("Lock"), " 1"}},
+        {"lock_10_2",   {"10 MHz ", QT_TR_NOOP("Lock"), " 2"}},
+        {"lock_16_1",   {"16 MHz ", QT_TR_NOOP("Lock"), " 1"}},
+        {"lock_16_2",   {"16 MHz ", QT_TR_NOOP("Lock"), " 2"}}
     }, database::DB_TBL_DIST_ALERT, parent) {}
 
     friend devDist &operator<< (devDist &dev, const msgDist &m);
@@ -281,7 +322,21 @@ public:
         {"load_temp",       new deviceVar(alert::P_ENUM_INT)},
         {"handshake",       new deviceVar(alert::P_ENUM_HSK)},
         {"atten_mode",      new deviceVar(alert::P_ENUM_ATTEN)}
-    }, database::DB_TBL_AMP_ALERT, parent) {}
+    }, {
+        {"power",           {QT_TR_NOOP("Power")}},
+        {"gain",            {QT_TR_NOOP("Gain")}},
+        {"atten",           {QT_TR_NOOP("Attenuation")}},
+        {"loss",            {QT_TR_NOOP("Return Loss")}},
+        {"amp_temp",        {QT_TR_NOOP("Amplifier Temperature")}},
+        {"s_stand_wave",    {QT_TR_NOOP("Stand Wave")}},
+        {"s_temp",          {QT_TR_NOOP("Temperature")}},
+        {"s_current",       {QT_TR_NOOP("Current")}},
+        {"s_voltage",       {QT_TR_NOOP("Voltage")}},
+        {"s_power",         {QT_TR_NOOP("Output Power")}},
+        {"load_temp",       {QT_TR_NOOP("Load Temperature")}},
+        {"handshake",       {QT_TR_NOOP("Handshake Signal")}},
+        {"atten_mode",      {QT_TR_NOOP("Attenuation Mode")}}
+}, database::DB_TBL_AMP_ALERT, parent) {}
 
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);

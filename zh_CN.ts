@@ -20,12 +20,12 @@
         <translation type="vanished">高功放</translation>
     </message>
     <message>
-        <location filename="database.cpp" line="243"/>
+        <location filename="database.cpp" line="297"/>
         <source>Restored normal</source>
         <translation>恢复正常</translation>
     </message>
     <message>
-        <location filename="database.cpp" line="260"/>
+        <location filename="database.cpp" line="317"/>
         <source>No content</source>
         <translation>无内容</translation>
     </message>
@@ -166,51 +166,51 @@
 <context>
     <name>alert</name>
     <message>
-        <location filename="alert.h" line="57"/>
+        <location filename="alert.h" line="58"/>
         <source>No data</source>
         <translation>无数据</translation>
     </message>
     <message>
-        <location filename="alert.h" line="58"/>
-        <location filename="alert.h" line="67"/>
+        <location filename="alert.h" line="59"/>
+        <location filename="alert.h" line="68"/>
         <source>Good value</source>
         <translation>正常值</translation>
     </message>
     <message>
-        <location filename="alert.h" line="59"/>
+        <location filename="alert.h" line="60"/>
         <source>Lower than lower limit</source>
         <translation>低于下限</translation>
     </message>
     <message>
-        <location filename="alert.h" line="60"/>
-        <location filename="alert.h" line="63"/>
-        <location filename="alert.h" line="66"/>
+        <location filename="alert.h" line="61"/>
+        <location filename="alert.h" line="64"/>
+        <location filename="alert.h" line="67"/>
         <source>Got value</source>
         <translation>测量值</translation>
     </message>
     <message>
-        <location filename="alert.h" line="61"/>
+        <location filename="alert.h" line="62"/>
         <source>Lower limit</source>
         <translation>下限值</translation>
     </message>
     <message>
-        <location filename="alert.h" line="62"/>
+        <location filename="alert.h" line="63"/>
         <source>Higher than upper limit</source>
         <translation>高于上限</translation>
     </message>
     <message>
-        <location filename="alert.h" line="64"/>
+        <location filename="alert.h" line="65"/>
         <source>Upper limit</source>
         <translation>上限值</translation>
     </message>
     <message>
-        <location filename="alert.h" line="65"/>
+        <location filename="alert.h" line="66"/>
         <source>Bad value</source>
         <translation>异常值</translation>
     </message>
     <message>
-        <location filename="alert.h" line="68"/>
-        <location filename="alert.h" line="72"/>
+        <location filename="alert.h" line="69"/>
+        <location filename="alert.h" line="73"/>
         <source>Timeout</source>
         <translation>回复超时</translation>
     </message>
@@ -219,102 +219,125 @@
         <translation type="vanished">超时时限</translation>
     </message>
     <message>
-        <location filename="alert.h" line="69"/>
-        <location filename="alert.h" line="73"/>
+        <location filename="alert.h" line="70"/>
+        <location filename="alert.h" line="74"/>
         <source>Last seen</source>
         <translation>上一条消息</translation>
     </message>
     <message>
-        <location filename="alert.h" line="70"/>
-        <location filename="alert.h" line="74"/>
+        <location filename="alert.h" line="71"/>
+        <location filename="alert.h" line="75"/>
         <source>Never</source>
         <translation>从未</translation>
     </message>
     <message>
-        <location filename="alert.h" line="71"/>
-        <location filename="alert.h" line="75"/>
+        <location filename="alert.h" line="72"/>
+        <location filename="alert.h" line="76"/>
         <source>seconds before</source>
         <translation>秒之前</translation>
     </message>
     <message>
-        <location filename="alert.h" line="76"/>
         <location filename="alert.h" line="77"/>
+        <location filename="alert.h" line="78"/>
         <source>Other alert</source>
         <translation>其他警报</translation>
     </message>
     <message>
-        <location filename="alert.h" line="99"/>
-        <location filename="alert.h" line="128"/>
+        <location filename="alert.h" line="100"/>
+        <location filename="alert.h" line="129"/>
         <source>Abnormal</source>
         <translation>异常</translation>
     </message>
     <message>
-        <location filename="alert.h" line="100"/>
-        <location filename="alert.h" line="127"/>
+        <location filename="alert.h" line="101"/>
+        <location filename="alert.h" line="128"/>
         <source>Normal</source>
         <translation>正常</translation>
     </message>
     <message>
-        <location filename="alert.h" line="101"/>
-        <location filename="alert.h" line="107"/>
+        <location filename="alert.h" line="102"/>
+        <location filename="alert.h" line="108"/>
         <source>Standby</source>
         <translation>待机</translation>
     </message>
     <message>
-        <location filename="alert.h" line="102"/>
-        <location filename="alert.h" line="108"/>
-        <location filename="alert.h" line="113"/>
-        <location filename="alert.h" line="118"/>
-        <location filename="alert.h" line="124"/>
-        <location filename="alert.h" line="129"/>
-        <location filename="alert.h" line="134"/>
+        <location filename="alert.h" line="103"/>
+        <location filename="alert.h" line="109"/>
+        <location filename="alert.h" line="114"/>
+        <location filename="alert.h" line="119"/>
+        <location filename="alert.h" line="125"/>
+        <location filename="alert.h" line="130"/>
+        <location filename="alert.h" line="135"/>
         <source>Others</source>
         <translation>其他</translation>
     </message>
     <message>
-        <location filename="alert.h" line="105"/>
+        <location filename="alert.h" line="106"/>
         <source>Unlocked</source>
         <translation>失锁</translation>
     </message>
     <message>
-        <location filename="alert.h" line="106"/>
+        <location filename="alert.h" line="107"/>
         <source>Locked</source>
         <translation>锁定</translation>
     </message>
     <message>
-        <location filename="alert.h" line="111"/>
+        <location filename="alert.h" line="112"/>
         <source>Master</source>
         <translation>主路</translation>
     </message>
     <message>
-        <location filename="alert.h" line="112"/>
+        <location filename="alert.h" line="113"/>
         <source>Slave</source>
         <translation>从路</translation>
     </message>
     <message>
-        <location filename="alert.h" line="116"/>
+        <location filename="alert.h" line="117"/>
         <source>Successful</source>
         <translation>成功</translation>
     </message>
     <message>
-        <location filename="alert.h" line="117"/>
+        <location filename="alert.h" line="118"/>
         <source>Failed</source>
         <translation>失败</translation>
     </message>
     <message>
-        <location filename="alert.h" line="121"/>
+        <location filename="alert.h" line="122"/>
         <source>Normal Attenuation</source>
         <translation>正常衰减</translation>
     </message>
     <message>
-        <location filename="alert.h" line="122"/>
+        <location filename="alert.h" line="123"/>
         <source>Constant Power</source>
         <translation>恒功率</translation>
     </message>
     <message>
-        <location filename="alert.h" line="123"/>
+        <location filename="alert.h" line="124"/>
         <source>Constant Gain</source>
         <translation>恒增益</translation>
+    </message>
+</context>
+<context>
+    <name>alertRecordModel</name>
+    <message>
+        <location filename="alert.h" line="230"/>
+        <source>Device</source>
+        <translation>设备</translation>
+    </message>
+    <message>
+        <location filename="alert.h" line="230"/>
+        <source>Timestamp</source>
+        <translation>时间戳</translation>
+    </message>
+    <message>
+        <location filename="alert.h" line="230"/>
+        <source>Field</source>
+        <translation>字段</translation>
+    </message>
+    <message>
+        <location filename="alert.h" line="230"/>
+        <source>Error info</source>
+        <translation>错误信息</translation>
     </message>
 </context>
 <context>
@@ -432,46 +455,229 @@
     </message>
 </context>
 <context>
+    <name>database</name>
+    <message>
+        <location filename="database.cpp" line="218"/>
+        <source>Restored normal</source>
+        <translation>恢复正常</translation>
+    </message>
+    <message>
+        <location filename="database.cpp" line="238"/>
+        <source>No content</source>
+        <translation>无内容</translation>
+    </message>
+</context>
+<context>
+    <name>devAmp</name>
+    <message>
+        <location filename="device.h" line="326"/>
+        <source>Power</source>
+        <translation type="unfinished">功率</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="327"/>
+        <source>Gain</source>
+        <translation type="unfinished">增益</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="328"/>
+        <source>Attenuation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device.h" line="329"/>
+        <source>Return Loss</source>
+        <translation type="unfinished">回波损耗</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="330"/>
+        <source>Amplifier Temperature</source>
+        <translation type="unfinished">功放温度</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="331"/>
+        <source>Stand Wave</source>
+        <translation type="unfinished">驻波</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="332"/>
+        <source>Temperature</source>
+        <translation type="unfinished">温度</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="333"/>
+        <source>Current</source>
+        <translation type="unfinished">电流</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="334"/>
+        <source>Voltage</source>
+        <translation type="unfinished">电压</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="335"/>
+        <source>Output Power</source>
+        <translation type="unfinished">输出功率</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="336"/>
+        <source>Load Temperature</source>
+        <translation type="unfinished">负载温度</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="337"/>
+        <source>Handshake Signal</source>
+        <translation type="unfinished">握手信号</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="338"/>
+        <source>Attenuation Mode</source>
+        <translation type="unfinished">衰减模式</translation>
+    </message>
+</context>
+<context>
+    <name>devDist</name>
+    <message>
+        <location filename="device.h" line="289"/>
+        <location filename="device.h" line="290"/>
+        <source>Outer Ref</source>
+        <translation type="unfinished">外参考</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="291"/>
+        <source>Voltage</source>
+        <translation type="unfinished">电压</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="292"/>
+        <source>Current</source>
+        <translation type="unfinished">电流</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="293"/>
+        <location filename="device.h" line="294"/>
+        <location filename="device.h" line="295"/>
+        <location filename="device.h" line="296"/>
+        <source>Lock</source>
+        <translation type="unfinished">锁定</translation>
+    </message>
+</context>
+<context>
     <name>devFreq</name>
     <message>
         <source>Normal</source>
         <translation type="vanished">正常</translation>
     </message>
+    <message>
+        <location filename="device.h" line="244"/>
+        <source>Attenuation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device.h" line="245"/>
+        <location filename="device.h" line="246"/>
+        <source>Ref</source>
+        <translation type="unfinished">参考</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="247"/>
+        <source>Voltage</source>
+        <translation type="unfinished">电压</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="248"/>
+        <source>Current</source>
+        <translation type="unfinished">电流</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="249"/>
+        <source>Radio</source>
+        <translation type="unfinished">射频</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="249"/>
+        <location filename="device.h" line="250"/>
+        <source>Output</source>
+        <translation type="unfinished">输出</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="249"/>
+        <location filename="device.h" line="250"/>
+        <source>Input</source>
+        <translation type="unfinished">输入</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="250"/>
+        <source>Mid freq</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device.h" line="251"/>
+        <location filename="device.h" line="252"/>
+        <location filename="device.h" line="253"/>
+        <location filename="device.h" line="254"/>
+        <source>Local Oscillator</source>
+        <translation type="unfinished">本振</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="255"/>
+        <location filename="device.h" line="256"/>
+        <location filename="device.h" line="257"/>
+        <location filename="device.h" line="258"/>
+        <source>Outer Ref</source>
+        <translation type="unfinished">外参考</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="259"/>
+        <location filename="device.h" line="260"/>
+        <source>Inner Ref</source>
+        <translation type="unfinished">内参</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="261"/>
+        <source>Handshake Signal</source>
+        <translation type="unfinished">握手信号</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="262"/>
+        <source>Current State</source>
+        <translation type="unfinished">当前状态</translation>
+    </message>
 </context>
 <context>
     <name>device</name>
     <message>
-        <location filename="device.h" line="158"/>
-        <location filename="device.h" line="159"/>
-        <location filename="device.h" line="160"/>
-        <location filename="device.h" line="161"/>
+        <location filename="device.h" line="176"/>
+        <location filename="device.h" line="177"/>
+        <location filename="device.h" line="178"/>
+        <location filename="device.h" line="179"/>
         <source>Down Frequency Conversion</source>
         <translation>下变频</translation>
     </message>
     <message>
-        <location filename="device.h" line="162"/>
-        <location filename="device.h" line="163"/>
-        <location filename="device.h" line="164"/>
-        <location filename="device.h" line="165"/>
+        <location filename="device.h" line="180"/>
+        <location filename="device.h" line="181"/>
+        <location filename="device.h" line="182"/>
+        <location filename="device.h" line="183"/>
         <source>Up Frequency Conversion</source>
         <translation>上变频</translation>
     </message>
     <message>
-        <location filename="device.h" line="166"/>
-        <location filename="device.h" line="167"/>
+        <location filename="device.h" line="184"/>
+        <location filename="device.h" line="185"/>
         <source>Middle Frequency Distribution</source>
         <translation>中频分配</translation>
     </message>
     <message>
-        <location filename="device.h" line="168"/>
-        <location filename="device.h" line="169"/>
-        <location filename="device.h" line="170"/>
-        <location filename="device.h" line="171"/>
+        <location filename="device.h" line="186"/>
+        <location filename="device.h" line="187"/>
+        <location filename="device.h" line="188"/>
+        <location filename="device.h" line="189"/>
         <source>High Amplification</source>
         <translation>高功放</translation>
     </message>
     <message>
-        <location filename="device.h" line="179"/>
+        <location filename="device.h" line="198"/>
         <source>No data</source>
         <translation>无数据</translation>
     </message>
