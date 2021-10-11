@@ -351,7 +351,6 @@ void alertRecordModel::initialize(const QString dbTable, const int masterId, con
 
     this->masterId = masterId;
     this->slaveId = slaveId;
-    alertRecordModelList << this;
 }
 
 void alertRecordModel::addAlert(const int deviceId, const QStringList alert)

@@ -268,6 +268,10 @@ const database &operator>> (const database &db, QList<QStringList> &str)
 
     for (int i = 0; i < 10; ++i) {
         QSqlRecord r = db.dbModel->record(i);
+        if (r.value("Id").toString() == "") {
+            return db;
+        }
+
         QString field = r.value("Field").value<QString>();
         alert::P_ALERT type = r.value("Type").value<alert::P_ALERT>();
 

@@ -195,6 +195,10 @@ class alertRecordModel : public QAbstractTableModel
 #endif
 
 public:
+    explicit alertRecordModel(QAbstractTableModel *parent = nullptr) : QAbstractTableModel(parent) {
+        alertRecordModelList << this;
+    }
+
     inline int rowCount(const QModelIndex & = QModelIndex()) const override {
         return record.length();
     }
