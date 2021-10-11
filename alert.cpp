@@ -351,13 +351,15 @@ void alertRecordModel::initialize(const QString dbTable, const int masterId, con
 
     this->masterId = masterId;
     this->slaveId = slaveId;
+    alertRecordModelList << this;
 }
 
-#if 0
-void alertRecordModel::addAlert(const QStringList alert)
+void alertRecordModel::addAlert(const int deviceId, const QStringList alert)
 {
-    beginInsertRows();
+    if (deviceId != this->masterId and deviceId != this->slaveId)
+        return;
 
+    beginInsertRows(QModelIndex(), 0, 0);
+    record.insert(0, alert);
     endInsertRows();
 }
-#endif

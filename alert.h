@@ -238,7 +238,9 @@ public:
         };
     }
 
-    void addAlert(const QStringList alert);
+    void addAlert(const int deviceId, const QStringList alert);
+
+    inline static QList<alertRecordModel *> alertRecordModelList = {};
 
 public slots:
     void initialize(const QString dbTable, const int masterId, const int slaveId = -1);

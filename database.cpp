@@ -195,6 +195,52 @@ bool database::setAlert(const database::DB_TBL dbTable, const int device, const 
     if (!dbModel->insertRecord(-1, r))
         qDebug() << dbModel->lastError();
 
+    alert::P_ALERT alertType = static_cast<alert::P_ALERT>(type);
+    alert::P_ENUM varType = alert::P_ENUM_OTHERS;
+    if (alertType != alert::P_ALERT_TIMEOUT_NOFIELD and alertType != alert::P_ALERT_OTHERS_NOFIELD)
+        varType = device::findDevice(device)->getVarType(field);
+
+    for (alertRecordModel *model : qAsConst(alertRecordModel::alertRecordModelList)) {
+        model->addAlert(device, {
+                            device::name(device) + "#" + QString::number(device),
+                            QDateTime::currentDateTime().toString(Qt::ISODate),
+
+                            (alertType == alert::P_ALERT_TIMEOUT_NOFIELD or alertType == alert::P_ALERT_OTHERS_NOFIELD)
+                            ? ""
+                            : field,
+
+                            [=](){
+                                const auto getAlertStr = [](const alert::P_ALERT type, const int n) {
+                                    return alert::tr(alert::STR_ALERT[type][n].toUtf8()); };
+
+                                switch (alertType) {
+                                case alert::P_ALERT_GOOD:
+                                    return (tr("Restored normal") + (", ") + getAlertStr(alertType, 0) + ": "
+                                        + alert::setDisplay(value, varType));
+                                case alert::P_ALERT_LOWER:
+                                case alert::P_ALERT_UPPER:
+                                case alert::P_ALERT_BAD:
+                                    return getAlertStr(alertType, 0) + ", " + getAlertStr(alertType, 2) + ": "
+                                        + alert::setDisplay(normal_value, varType)
+                                        + ", " + getAlertStr(alertType, 1) + ": "
+                                        + alert::setDisplay(value, varType);
+                                case alert::P_ALERT_TIMEOUT:
+                                case alert::P_ALERT_TIMEOUT_NOFIELD:
+                                    return getAlertStr(alertType, 0) + ", " + getAlertStr(alertType, 1) + ": "
+                                        + (value.value<int>() == -1 ? getAlertStr(alertType, 2)
+                                            : QString::number(value.value<int>()) + getAlertStr(alertType, 3));
+                                case alert::P_ALERT_OTHERS:
+                                case alert::P_ALERT_OTHERS_NOFIELD:
+                                case alert::P_ALERT_NODATA:
+                                    return getAlertStr(alertType, 0);
+                                }
+
+                                return tr("No content");
+                            }(),
+
+                            alertType == alert::P_ALERT_GOOD ? alert::STR_COLOR[alert::P_COLOR_NORMAL] : alert::STR_COLOR[alert::P_COLOR_ABNORMAL]
+                        });
+    }
     return true;
 }
 
@@ -242,8 +288,7 @@ const database &operator>> (const database &db, QList<QStringList> &str)
                 const auto getAlertStr = [](const alert::P_ALERT type, const int n) {
                     return alert::tr(alert::STR_ALERT[type][n].toUtf8()); };
 
-                switch (type)
-                {
+                switch (type) {
                 case alert::P_ALERT_GOOD:
                     return (QObject::tr("Restored normal") + (", ") + getAlertStr(type, 0) + ": "
                         + alert::setDisplay(r.value("Value"), varType));
@@ -268,7 +313,7 @@ const database &operator>> (const database &db, QList<QStringList> &str)
                 return QObject::tr("No content");
             }(),
 
-            r.value("Emergence").value<bool>() ? "red" : "green"
+            r.value("Emergence").value<bool>() ? alert::STR_COLOR[alert::P_COLOR_ABNORMAL] : alert::STR_COLOR[alert::P_COLOR_NORMAL]
         };
 
         str << s;
