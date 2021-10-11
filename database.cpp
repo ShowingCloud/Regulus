@@ -16,7 +16,6 @@ database::database(QObject *parent) : QObject(parent)
         db.setPassword(database::password);
     }
 
-    qDebug() << "Before open";
     if (!db.open()) {
         qDebug() << "Error: Failed to connect db." << db.lastError();
     }

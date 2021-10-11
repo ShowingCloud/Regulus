@@ -10,7 +10,7 @@
 #include "protocol.h"
 #include "device.h"
 
-database globalDB = database();
+database *globalDB;
 
 int main(int argc, char *argv[])
 {
@@ -21,6 +21,8 @@ int main(int argc, char *argv[])
     QTranslator translator;
     translator.load(":/i18n/zh_CN");
     app.installTranslator(&translator);
+
+    globalDB = new database();
 
     qmlRegisterType<devFreq>("rdss.device", 1, 0, "DevFreq");
     qmlRegisterType<devDist>("rdss.device", 1, 0, "DevDist");

@@ -97,7 +97,7 @@ public slots:
     }
 
     inline void alertTimeout() const {
-        globalDB.setAlert(static_cast<database::DB_TBL>(devTable), dId, alert::P_ALERT_TIMEOUT_NOFIELD, "", this->getLastseen());
+        globalDB->setAlert(static_cast<database::DB_TBL>(devTable), dId, alert::P_ALERT_TIMEOUT_NOFIELD, "", this->getLastseen());
     }
 
     inline const QString showDisplay(const QString itemName) const {

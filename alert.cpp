@@ -336,11 +336,11 @@ void alertRecordModel::initialize(const QString dbTable, const int masterId, con
     beginResetModel();
 
     record = QList<QStringList>();
-    globalDB << databaseSetter(dbTable, masterId);
-    globalDB >> record;
+    *globalDB << databaseSetter(dbTable, masterId);
+    *globalDB >> record;
     if (slaveId != -1) {
-        globalDB << databaseSetter(dbTable, slaveId);
-        globalDB >> record;
+        *globalDB << databaseSetter(dbTable, slaveId);
+        *globalDB >> record;
     }
 
     std::sort(record.begin(), record.end(), [](const QStringList &v1, const QStringList &v2){

@@ -17,7 +17,7 @@ device::device(const QHash<QString, deviceVar*> var, const QHash<QString, QStrin
     while (v != var.constEnd()) {
         connect(v.value(), &deviceVar::sendAlert, this, [=]
                 (const alert::P_ALERT type, const QVariant value, const QVariant normal_value){
-            globalDB.setAlert(devTable, dId, type, v.key(), value, normal_value);
+            globalDB->setAlert(devTable, dId, type, v.key(), value, normal_value);
         });
         v++;
     }

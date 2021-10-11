@@ -141,7 +141,7 @@ msgFreq &operator<< (msgFreq &m, const QByteArray &data)
     m.ref_inner_2 = (m.ref_4 & 0xF0) >> 4;
 
     device::updateDevice(m);
-    globalDB << m;
+    *globalDB << m;
     return m;
 }
 
@@ -161,7 +161,7 @@ msgDist &operator<< (msgDist &m, const QByteArray &data)
                       >> m.holder8 >> m.holder8 /* tailer */;
 
     device::updateDevice(m);
-    globalDB << m;
+    *globalDB << m;
     return m;
 }
 
@@ -185,7 +185,7 @@ msgAmp &operator<< (msgAmp &m, const QByteArray &data)
     m.stat_power = m.stat & 0x01;
 
     device::updateDevice(m);
-    globalDB << m;
+    *globalDB << m;
     return m;
 }
 
@@ -203,7 +203,7 @@ const msgCntlFreq &operator>> (const msgCntlFreq &m, QByteArray &data)
                                              << m.holder8 << m.tail;
     msgCntlFreq msg = m;
     msg.time = QDateTime::currentDateTime();
-    globalDB << msg;
+    *globalDB << msg;
     return m;
 }
 
@@ -214,7 +214,7 @@ const msgCntlDist &operator>> (const msgCntlDist &m, QByteArray &data)
                                              << m.holder8 << m.tail;
     msgCntlDist msg = m;
     msg.time = QDateTime::currentDateTime();
-    globalDB << m;
+    *globalDB << m;
     return m;
 }
 
@@ -224,6 +224,6 @@ const msgCntlAmp &operator>> (const msgCntlAmp &m, QByteArray &data)
                                              << m.gain << m.deviceId << m.serialId << m.tail;
     msgCntlAmp msg = m;
     msg.time = QDateTime::currentDateTime();
-    globalDB << m;
+    *globalDB << m;
     return m;
 }

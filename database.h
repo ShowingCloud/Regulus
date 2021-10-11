@@ -133,7 +133,7 @@ signals:
 public slots:
 };
 
-extern database globalDB;
+extern database *globalDB;
 
 class databaseSetter
 {
