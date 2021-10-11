@@ -69,7 +69,7 @@ Window {
         id: comboChannel
         posLeft: marginRect + rectMaster.width - widthWidget - widthWidgetLabel - 3 * marginWidget
         posTop: marginRect - marginWidget
-        txtText: qsTr("Current State")
+        txtText: devFreqMaster.varName("masterslave")
 
         Component.onCompleted: {
             comboModel = Alert.addEnum("P_MS")
@@ -130,7 +130,7 @@ Window {
             id: comboMasterAtten
             posTop: 0
             posLeft: 0
-            txtText: qsTr("Attenuation")
+            txtText: devFreqMaster.varName("atten")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -153,7 +153,7 @@ Window {
             id: comboMasterRef
             posTop: 0
             posLeft: (rectMaster.width - marginWidget) / 2
-            txtText: "10 MHz " + qsTr("Ref")
+            txtText: devFreqMaster.varName("ch_a")
 
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
@@ -172,7 +172,7 @@ Window {
             id: comboMasterVoltage
             posTop: comboMasterAtten.posBottom
             posLeft: 0
-            txtText: qsTr("Voltage")
+            txtText: devFreqMaster.varName("voltage")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -186,7 +186,7 @@ Window {
             id: comboMasterCurrent
             posTop: comboMasterAtten.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4
-            txtText: qsTr("Current")
+            txtText: devFreqMaster.varName("current")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -228,7 +228,7 @@ Window {
             id: comboMasterLOA1
             posTop: comboMasterVoltage.posBottom
             posLeft: 0
-            txtText: qsTr("Local Oscillator") + " A1"
+            txtText: devFreqMaster.varName("lock_a1")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -243,7 +243,7 @@ Window {
             id: comboMasterLOA2
             posTop: comboMasterVoltage.posBottom
             posLeft: (rectMaster.width - marginWidget) / 2
-            txtText: qsTr("Local Oscillator") + " A2"
+            txtText: devFreqMaster.varName("lock_a2")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -258,7 +258,7 @@ Window {
             id: comboMaster10Ref1
             posTop: comboMasterLOA1.posBottom
             posLeft: 0
-            txtText: "10 MHz 1"
+            txtText: devFreqMaster.varName("ref_10_1")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -272,7 +272,7 @@ Window {
             id: comboMaster10Ref2
             posTop: comboMasterLOA1.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4
-            txtText: "10 MHz 2"
+            txtText: devFreqMaster.varName("ref_10_2")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -286,7 +286,7 @@ Window {
             id: comboMaster10RefInner
             posTop: comboMasterLOA1.posBottom
             posLeft: (rectMaster.width - marginWidget) / 2
-            txtText: "10 MHz " + qsTr("Inner Ref")
+            txtText: devFreqMaster.varName("ref_inner_1")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -309,7 +309,7 @@ Window {
             id: comboMasterSignal
             posTop: comboMaster10Ref1.posBottom
             posLeft: (rectMaster.width - marginWidget) / 2
-            txtText: qsTr("Handshake Signal")
+            txtText: devFreqMaster ? devFreqMaster.varName("handshake") : qsTr("Handshake Signal")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
