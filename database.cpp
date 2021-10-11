@@ -210,7 +210,7 @@ bool database::setAlert(const database::DB_TBL dbTable, const int deviceId, cons
 
                             (alertType == alert::P_ALERT_TIMEOUT_NOFIELD or alertType == alert::P_ALERT_OTHERS_NOFIELD)
                             ? ""
-                            : dev->varName(field),
+                            : (dev == nullptr ? field : dev->varName(field)),
 
                             [=](){
                                 const auto getAlertStr = [](const alert::P_ALERT type, const int n) {
@@ -291,7 +291,7 @@ const database &operator>> (const database &db, QList<QStringList> &str)
 
             (type == alert::P_ALERT_TIMEOUT_NOFIELD or type == alert::P_ALERT_OTHERS_NOFIELD)
                 ? ""
-                : dev->varName(field),
+                : (dev == nullptr ? field : dev->varName(field)),
 
             [&](){
                 const auto getAlertStr = [](const alert::P_ALERT type, const int n) {
