@@ -67,7 +67,7 @@ Window {
         id: comboChannel
         posLeft: marginRect + rectMaster.width - widthWidget - widthWidgetLabel - 3 * marginWidget
         posTop: marginRect - marginWidget
-        txtText: qsTr("Current State")
+        txtText: devAmpMaster ? devAmpMaster.varName("masterslave") : qsTr("Current State")
 
         Component.onCompleted: {
             comboModel = Alert.addEnum("P_MS")
@@ -140,7 +140,7 @@ Window {
             id: comboMasterAttenMode
             posTop: 0
             posLeft: 0
-            txtText: qsTr("Attenuation Mode")
+            txtText: devAmpMaster ? devAmpMaster.varName("atten_mode") : qsTr("Attenuation Mode")
 
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_ATTEN")
@@ -158,7 +158,7 @@ Window {
             id: comboMasterAtten
             posTop: 0
             posLeft: (rectMaster.width - marginWidget) / 4
-            txtText: qsTr("Attenuation")
+            txtText: devAmpMaster ? devAmpMaster.varName("atten") : qsTr("Attenuation")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -181,7 +181,7 @@ Window {
             id: comboMasterPower
             posTop: 0
             posLeft: (rectMaster.width - marginWidget) / 2
-            txtText: qsTr("Power")
+            txtText: devAmpMaster ? devAmpMaster.varName("power") : qsTr("Power")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -204,7 +204,7 @@ Window {
             id: comboMasterGain
             posTop: 0
             posLeft: (rectMaster.width - marginWidget) * 3 / 4
-            txtText: qsTr("Gain")
+            txtText: devAmpMaster ? devAmpMaster.varName("gain") : qsTr("Gain")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -227,7 +227,7 @@ Window {
             id: comboMasterLoss
             posTop: comboMasterAttenMode.posBottom
             posLeft: 0
-            txtText: qsTr("Return Loss")
+            txtText: devAmpMaster ? devAmpMaster.varName("loss") : qsTr("Return Loss")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -241,7 +241,7 @@ Window {
             id: comboMasterAmpTemp
             posTop: comboMasterAttenMode.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4
-            txtText: qsTr("Amplifier Temperature")
+            txtText: devAmpMaster ? devAmpMaster.varName("amp_temp") : qsTr("Amplifier Temperature")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -255,7 +255,7 @@ Window {
             id: comboMasterStateStandWave
             posTop: comboMasterAttenMode.posBottom
             posLeft: (rectMaster.width - marginWidget) / 2
-            txtText: qsTr("Stand Wave")
+            txtText: devAmpMaster ? devAmpMaster.varName("s_stand_wave") : qsTr("Stand Wave")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -269,7 +269,7 @@ Window {
             id: comboMasterStateTemp
             posTop: comboMasterAttenMode.posBottom
             posLeft: (rectMaster.width - marginWidget) * 3 / 4
-            txtText: qsTr("Temperature")
+            txtText: devAmpMaster ? devAmpMaster.varName("s_temp") : qsTr("Temperature")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -283,7 +283,7 @@ Window {
             id: comboMasterStateCurrent
             posTop: comboMasterLoss.posBottom
             posLeft: 0
-            txtText: qsTr("Current")
+            txtText: devAmpMaster ? devAmpMaster.varName("s_current") : qsTr("Current")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -297,7 +297,7 @@ Window {
             id: comboMasterStateVoltage
             posTop: comboMasterLoss.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4
-            txtText: qsTr("Voltage")
+            txtText: devAmpMaster ? devAmpMaster.varName("s_voltage") : qsTr("Voltage")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -311,7 +311,7 @@ Window {
             id: comboMasterStateOutputPower
             posTop: comboMasterLoss.posBottom
             posLeft: (rectMaster.width - marginWidget) / 2
-            txtText: qsTr("Output Power")
+            txtText: devAmpMaster ? devAmpMaster.varName("s_power") : qsTr("Output Power")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -325,7 +325,7 @@ Window {
             id: comboMasterLoadTemp
             posTop: comboMasterLoss.posBottom
             posLeft: (rectMaster.width - marginWidget) * 3 / 4
-            txtText: qsTr("Load Temperature")
+            txtText: devAmpMaster ? devAmpMaster.varName("load_temp") : qsTr("Load Temperature")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -348,7 +348,7 @@ Window {
             id: comboMasterSignal
             posTop: comboMasterStateCurrent.posBottom
             posLeft: (rectMaster.width - marginWidget) / 2
-            txtText: qsTr("Handshake Signal")
+            txtText: devAmpMaster ? devAmpMaster.varName("handshake") : qsTr("Handshake Signal")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -391,7 +391,7 @@ Window {
             id: comboSlaveAttenMode
             posTop: 0
             posLeft: 0
-            txtText: qsTr("Attenuation Mode")
+            txtText: devAmpSlave ? devAmpSlave.varName("atten_mode") : qsTr("Attenuation Mode")
 
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_ATTEN")
@@ -409,7 +409,7 @@ Window {
             id: comboSlaveAtten
             posTop: 0
             posLeft: (rectSlave.width - marginWidget) / 4
-            txtText: qsTr("Attenuation")
+            txtText: devAmpSlave ? devAmpSlave.varName("atten") : qsTr("Attenuation")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -432,7 +432,7 @@ Window {
             id: comboSlavePower
             posTop: 0
             posLeft: (rectSlave.width - marginWidget) / 2
-            txtText: qsTr("Power")
+            txtText: devAmpSlave ? devAmpSlave.varName("power") : qsTr("Power")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -455,7 +455,7 @@ Window {
             id: comboSlaveGain
             posTop: 0
             posLeft: (rectSlave.width - marginWidget) * 3 / 4
-            txtText: qsTr("Gain")
+            txtText: devAmpSlave ? devAmpSlave.varName("gain") : qsTr("Gain")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -478,7 +478,7 @@ Window {
             id: comboSlaveLoss
             posTop: comboSlaveAttenMode.posBottom
             posLeft: 0
-            txtText: qsTr("Return Loss")
+            txtText: devAmpSlave ? devAmpSlave.varName("loss") : qsTr("Return Loss")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -492,7 +492,7 @@ Window {
             id: comboSlaveAmpTemp
             posTop: comboSlaveAttenMode.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4
-            txtText: qsTr("Amplifier Temperature")
+            txtText: devAmpSlave ? devAmpSlave.varName("amp_temp") : qsTr("Amplifier Temperature")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -506,7 +506,7 @@ Window {
             id: comboSlaveStateStandWave
             posTop: comboSlaveAttenMode.posBottom
             posLeft: (rectSlave.width - marginWidget) / 2
-            txtText: qsTr("Stand Wave")
+            txtText: devAmpSlave ? devAmpSlave.varName("s_stand_wave") : qsTr("Stand Wave")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -520,7 +520,7 @@ Window {
             id: comboSlaveStateTemp
             posTop: comboSlaveAttenMode.posBottom
             posLeft: (rectSlave.width - marginWidget) * 3 / 4
-            txtText: qsTr("Temperature")
+            txtText: devAmpSlave ? devAmpSlave.varName("s_temp") : qsTr("Temperature")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -534,7 +534,7 @@ Window {
             id: comboSlaveStateCurrent
             posTop: comboSlaveLoss.posBottom
             posLeft: 0
-            txtText: qsTr("Current")
+            txtText: devAmpSlave ? devAmpSlave.varName("s_current") : qsTr("Current")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -548,7 +548,7 @@ Window {
             id: comboSlaveStateVoltage
             posTop: comboSlaveLoss.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4
-            txtText: qsTr("Voltage")
+            txtText: devAmpSlave ? devAmpSlave.varName("s_voltage") : qsTr("Voltage")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -562,7 +562,7 @@ Window {
             id: comboSlaveStateOutputPower
             posTop: comboSlaveLoss.posBottom
             posLeft: (rectSlave.width - marginWidget) / 2
-            txtText: qsTr("Output Power")
+            txtText: devAmpSlave ? devAmpSlave.varName("s_power") : qsTr("Output Power")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -576,7 +576,7 @@ Window {
             id: comboSlaveLoadTemp
             posTop: comboSlaveLoss.posBottom
             posLeft: (rectSlave.width - marginWidget) * 3 / 4
-            txtText: qsTr("Load Temperature")
+            txtText: devAmpSlave ? devAmpSlave.varName("load_temp") : qsTr("Load Temperature")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -599,7 +599,7 @@ Window {
             id: comboSlaveSignal
             posTop: comboSlaveStateCurrent.posBottom
             posLeft: (rectSlave.width - marginWidget) / 2
-            txtText: qsTr("Handshake Signal")
+            txtText: devAmpSlave ? devAmpSlave.varName("handshake") : qsTr("Handshake Signal")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {

@@ -69,7 +69,7 @@ Window {
         id: comboChannel
         posLeft: marginRect + rectMaster.width - widthWidget - widthWidgetLabel - 3 * marginWidget
         posTop: marginRect - marginWidget
-        txtText: devFreqMaster.varName("masterslave")
+        txtText: devFreqMaster ? devFreqMaster.varName("masterslave") : qsTr("Current State")
 
         Component.onCompleted: {
             comboModel = Alert.addEnum("P_MS")
@@ -130,7 +130,7 @@ Window {
             id: comboMasterAtten
             posTop: 0
             posLeft: 0
-            txtText: devFreqMaster.varName("atten")
+            txtText: devFreqMaster ? devFreqMaster.varName("atten") : qsTr("Attenuation")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -153,7 +153,7 @@ Window {
             id: comboMasterRef
             posTop: 0
             posLeft: (rectMaster.width - marginWidget) / 2
-            txtText: devFreqMaster.varName("ch_a")
+            txtText: devFreqMaster ? devFreqMaster.varName("ch_a") : "10 MHz " + qsTr("Ref")
 
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
@@ -172,7 +172,7 @@ Window {
             id: comboMasterVoltage
             posTop: comboMasterAtten.posBottom
             posLeft: 0
-            txtText: devFreqMaster.varName("voltage")
+            txtText: devFreqMaster ? devFreqMaster.varName("voltage") : qsTr("Voltage")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -186,7 +186,7 @@ Window {
             id: comboMasterCurrent
             posTop: comboMasterAtten.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4
-            txtText: devFreqMaster.varName("current")
+            txtText: devFreqMaster ? devFreqMaster.varName("current") : qsTr("Current")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -228,7 +228,7 @@ Window {
             id: comboMasterLOA1
             posTop: comboMasterVoltage.posBottom
             posLeft: 0
-            txtText: devFreqMaster.varName("lock_a1")
+            txtText: devFreqMaster ? devFreqMaster.varName("lock_a1") : qsTr("Local Oscillator") + " A1"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -243,7 +243,7 @@ Window {
             id: comboMasterLOA2
             posTop: comboMasterVoltage.posBottom
             posLeft: (rectMaster.width - marginWidget) / 2
-            txtText: devFreqMaster.varName("lock_a2")
+            txtText: devFreqMaster ? devFreqMaster.varName("lock_a2") : qsTr("Local Oscillator") + " A2"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -258,7 +258,7 @@ Window {
             id: comboMaster10Ref1
             posTop: comboMasterLOA1.posBottom
             posLeft: 0
-            txtText: devFreqMaster.varName("ref_10_1")
+            txtText: devFreqMaster ? devFreqMaster.varName("ref_10_1") : "10 MHz 1"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -272,7 +272,7 @@ Window {
             id: comboMaster10Ref2
             posTop: comboMasterLOA1.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4
-            txtText: devFreqMaster.varName("ref_10_2")
+            txtText: devFreqMaster ? devFreqMaster.varName("ref_10_2") : "10 MHz 2"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -286,7 +286,7 @@ Window {
             id: comboMaster10RefInner
             posTop: comboMasterLOA1.posBottom
             posLeft: (rectMaster.width - marginWidget) / 2
-            txtText: devFreqMaster.varName("ref_inner_1")
+            txtText: devFreqMaster ? devFreqMaster.varName("ref_inner_1") : "10 MHz " + qsTr("Inner Ref")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -351,7 +351,7 @@ Window {
             id: comboSlaveAtten
             posTop: 0
             posLeft: 0
-            txtText: qsTr("Attenuation")
+            txtText: devFreqSlave ? devFreqSlave.varName("atten") : qsTr("Attenuation")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -374,7 +374,7 @@ Window {
             id: comboSlaveRef
             posTop: 0
             posLeft: (rectSlave.width - marginWidget) / 2
-            txtText: "10 MHz " + qsTr("Ref")
+            txtText: devFreqSlave ? devFreqSlave.varName("ch_b") : "10 MHz " + qsTr("Ref")
 
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
@@ -393,7 +393,7 @@ Window {
             id: comboSlaveVoltage
             posTop: comboSlaveAtten.posBottom
             posLeft: 0
-            txtText: qsTr("Voltage")
+            txtText: devFreqSlave ? devFreqSlave.varName("voltage") : qsTr("Voltage")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -407,7 +407,7 @@ Window {
             id: comboSlaveCurrent
             posTop: comboSlaveAtten.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4
-            txtText: qsTr("Current")
+            txtText: devFreqSlave ? devFreqSlave.varName("current") : qsTr("Current")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -449,7 +449,7 @@ Window {
             id: comboSlaveLOB1
             posTop: comboSlaveVoltage.posBottom
             posLeft: 0
-            txtText: qsTr("Local Oscillator") + " B1"
+            txtText: devFreqSlave ? devFreqSlave.varName("lock_b1") : qsTr("Local Oscillator") + " B1"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -464,7 +464,7 @@ Window {
             id: comboSlaveLOB2
             posTop: comboSlaveVoltage.posBottom
             posLeft: (rectSlave.width - marginWidget) / 2
-            txtText: qsTr("Local Oscillator") + " B2"
+            txtText: devFreqSlave ? devFreqSlave.varName("lock_b2") : qsTr("Local Oscillator") + " B2"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -479,7 +479,7 @@ Window {
             id: comboSlave10Ref1
             posTop: comboSlaveLOB1.posBottom
             posLeft: 0
-            txtText: "10 MHz 1"
+            txtText: devFreqSlave ? devFreqSlave.varName("ref_10_3") : "10 MHz 1"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -493,7 +493,7 @@ Window {
             id: comboSlave10Ref2
             posTop: comboSlaveLOB1.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4
-            txtText: "10 MHz 2"
+            txtText: devFreqSlave ? devFreqSlave.varName("ref_10_4") : "10 MHz 2"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -507,7 +507,7 @@ Window {
             id: comboSlave16RefInner
             posTop: comboSlaveLOB1.posBottom
             posLeft: (rectSlave.width - marginWidget) / 2
-            txtText: "10 MHz " + qsTr("Inner Ref")
+            txtText: devFreqSlave ? devFreqSlave.varName("ref_inner_2") : "10 MHz " + qsTr("Inner Ref")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -530,7 +530,7 @@ Window {
             id: comboSlaveSignal
             posTop: comboSlave10Ref1.posBottom
             posLeft: (rectSlave.width - marginWidget) / 2
-            txtText: qsTr("Handshake Signal")
+            txtText: devFreqSlave ? devFreqSlave.varName("handshake") : qsTr("Handshake Signal")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {

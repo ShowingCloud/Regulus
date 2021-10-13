@@ -89,7 +89,7 @@ Window {
             id: comboRef10
             posTop: 0
             posLeft: 0
-            txtText: qsTr("Outer Ref") + " 10 MHz"
+            txtText: devDist ? devDist.varName("ref_10") : qsTr("Outer Ref") + " 10 MHz"
 
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
@@ -111,7 +111,7 @@ Window {
             id: comboRef16
             posTop: 0
             posLeft: (rect.width - marginWidget) / 2
-            txtText: qsTr("Outer Ref") + " 16 MHz"
+            txtText: devDist ? devDist.varName("ref_16") : qsTr("Outer Ref") + " 16 MHz"
 
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
@@ -133,7 +133,7 @@ Window {
             id: comboVoltage
             posTop: comboRef10.posBottom
             posLeft: 0
-            txtText: qsTr("Voltage")
+            txtText: devDist ? devDist.varName("voltage") : qsTr("Voltage")
 
             Component.onCompleted: {
                 refreshData.connect(function() {
@@ -147,7 +147,7 @@ Window {
             id: comboCurrent
             posTop: comboRef10.posBottom
             posLeft: (rect.width - marginWidget) / 2
-            txtText: qsTr("Current")
+            txtText: devDist ? devDist.varName("current") : qsTr("Current")
 
             Component.onCompleted: {
                 refreshData.connect(function() {
@@ -161,7 +161,7 @@ Window {
             id: combo10Lock1
             posTop: comboVoltage.posBottom
             posLeft: 0
-            txtText: "10 MHz " + qsTr("Lock") + " 1"
+            txtText: devDist ? devDist.varName("lock_10_1") : "10 MHz " + qsTr("Lock") + " 1"
 
             Component.onCompleted: {
                 refreshData.connect(function() {
@@ -175,7 +175,7 @@ Window {
             id: combo10Lock2
             posTop: comboVoltage.posBottom
             posLeft: (rect.width - marginWidget) / 4
-            txtText: "10 MHz " + qsTr("Lock") + " 2"
+            txtText: devDist ? devDist.varName("lock_10_2") : "10 MHz " + qsTr("Lock") + " 2"
 
             Component.onCompleted: {
                 refreshData.connect(function() {
@@ -189,7 +189,7 @@ Window {
             id: combo16Lock1
             posTop: comboVoltage.posBottom
             posLeft: (rect.width - marginWidget) / 2
-            txtText: "16 MHz " + qsTr("Lock") + " 1"
+            txtText: devDist ? devDist.varName("lock_16_1") : "16 MHz " + qsTr("Lock") + " 1"
 
             Component.onCompleted: {
                 refreshData.connect(function() {
@@ -203,7 +203,7 @@ Window {
             id: combo16Lock2
             posTop: comboVoltage.posBottom
             posLeft: (rect.width - marginWidget) * 3 / 4
-            txtText: "16 MHz " + qsTr("Lock") + " 2"
+            txtText: devDist ? devDist.varName("lock_16_2") : "16 MHz " + qsTr("Lock") + " 2"
 
             Component.onCompleted: {
                 refreshData.connect(function() {

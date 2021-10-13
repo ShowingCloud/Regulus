@@ -339,7 +339,8 @@ public:
         {"s_power",         tr("Output Power")},
         {"load_temp",       tr("Load Temperature")},
         {"handshake",       tr("Handshake Signal")},
-        {"atten_mode",      tr("Attenuation Mode")}
+        {"atten_mode",      tr("Attenuation Mode")},
+        {"masterslave",     tr("Current State")}
 }, database::DB_TBL_AMP_ALERT, parent) {}
 
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
