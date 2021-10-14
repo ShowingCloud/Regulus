@@ -18,14 +18,18 @@ database::database(QObject *parent) : QObject(parent)
         db.setPassword(database::password);
     }
 
-    if (!db.open()) {
+    if (!db.open())
         qDebug() << "Error: Failed to connect db." << db.lastError();
-    }
 
     dbModel = new QSqlTableModel(this, db);
     dbQuery = new QSqlQuery(db);
 
     createTable();
+
+    logfile = new QFile(database::logFilename());
+    if (!logfile->open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
+        qDebug() << "Error: Failed to create log file." << logfile->errorString();
+    logstream = new QTextStream(logfile);
 
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, [=]() {
@@ -46,6 +50,20 @@ database::database(QObject *parent) : QObject(parent)
             dbQuery = new QSqlQuery(db);
             delete oldModel;
             delete oldQuery;
+
+            logstream->flush();
+            logfile->close();
+
+            QFile *oldfile = logfile;
+            QTextStream *oldstream = logstream;
+
+            logfile = new QFile(database::logFilename());
+            if (!logfile->open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
+                qDebug() << "Error: Failed to create log file." << logfile->errorString();
+            logstream = new QTextStream(logfile);
+
+            delete oldfile;
+            delete oldstream;
         }
     });
     timer->start(60000);

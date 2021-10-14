@@ -7,6 +7,7 @@
 #include <QSqlDatabase>
 #include <QSqlRecord>
 #include <QSqlError>
+#include <QTextStream>
 #include <QDateTime>
 #include <QDir>
 
@@ -62,6 +63,8 @@ private:
     QSqlQuery *dbQuery;
     QString setDBTable = QString();
     int setDeviceId = -1;
+    QFile *logfile;
+    QTextStream *logstream;
 
     inline static QDate date = QDate::currentDate();
 
@@ -69,6 +72,7 @@ private:
     inline const static QString filename = "history/history.db";
     inline const static QString username = "logusr";
     inline const static QString password = "password";
+    inline const static QString logfilename = "history/history.txt";
 
     inline static const QHash<DB_TBL, QString> DB_TABLES = {
         {DB_TBL_AMP_DATA, "amp_data"}, {DB_TBL_AMP_ALERT, "amp_alert"}, {DB_TBL_AMP_OPER, "amp_oper"},
@@ -133,10 +137,15 @@ private:
         {DB_TBL_AMP_OPER, {"Device", "Time"}},
         {DB_TBL_MSG_ALERT, {"Time"}}};
 
-    inline static const QString dbFilename()
-    {
+    inline static const QString dbFilename() {
         date = QDate::currentDate();
         QFileInfo file(filename);
+        return file.path() + '/' + file.baseName() + '-' + date.toString(Qt::ISODate) + '.' + file.completeSuffix();
+    }
+
+    inline static const QString logFilename() {
+        date = QDate::currentDate();
+        QFileInfo file(logfilename);
         return file.path() + '/' + file.baseName() + '-' + date.toString(Qt::ISODate) + '.' + file.completeSuffix();
     }
 
