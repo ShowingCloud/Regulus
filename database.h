@@ -7,6 +7,8 @@
 #include <QSqlDatabase>
 #include <QSqlRecord>
 #include <QSqlError>
+#include <QDateTime>
+#include <QDir>
 
 class msgFreq;
 class msgDist;
@@ -61,7 +63,10 @@ private:
     QString setDBTable = QString();
     int setDeviceId = -1;
 
-    inline const static QString filename = "history.db";
+    inline static QDate date = QDate::currentDate();
+
+    inline const static QString historyPath = "history";
+    inline const static QString filename = "history/history.db";
     inline const static QString username = "logusr";
     inline const static QString password = "password";
 
@@ -127,6 +132,13 @@ private:
         {DB_TBL_AMP_ALERT, {"Device", "Time", "Type", "Emergence"}},
         {DB_TBL_AMP_OPER, {"Device", "Time"}},
         {DB_TBL_MSG_ALERT, {"Time"}}};
+
+    inline static const QString dbFilename()
+    {
+        date = QDate::currentDate();
+        QFileInfo file(filename);
+        return file.path() + '/' + file.baseName() + '-' + date.toString(Qt::ISODate) + '.' + file.completeSuffix();
+    }
 
 signals:
 

@@ -7,11 +7,13 @@
 
 database::database(QObject *parent) : QObject(parent)
 {
+    QDir::current().mkdir(historyPath);
+
     if (QSqlDatabase::contains("qt_sql_default_connection")) {
         db = QSqlDatabase::database("qt_sql_default_connection");
     } else {
         db = QSqlDatabase::addDatabase("QSQLITE");
-        db.setDatabaseName(database::filename);
+        db.setDatabaseName(database::dbFilename());
         db.setUserName(database::username);
         db.setPassword(database::password);
     }
@@ -24,6 +26,29 @@ database::database(QObject *parent) : QObject(parent)
     dbQuery = new QSqlQuery(db);
 
     createTable();
+
+    QTimer *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, [=]() {
+        if (QDate::currentDate() != date) {
+            db.close();
+
+            db.setDatabaseName(database::dbFilename());
+            db.setUserName(database::username);
+            db.setPassword(database::password);
+
+            if (!db.open()) {
+                qDebug() << "Error: Failed to connect db." << db.lastError();
+            }
+
+            QSqlTableModel *oldModel = dbModel;
+            QSqlQuery *oldQuery = dbQuery;
+            dbModel = new QSqlTableModel(this, db);
+            dbQuery = new QSqlQuery(db);
+            delete oldModel;
+            delete oldQuery;
+        }
+    });
+    timer->start(60000);
 }
 
 database::~database()
