@@ -56,22 +56,21 @@ public:
     bool setAlert(const int type, const QString text, const int deviceId = 0);
 
 private:
+    bool prepare();
     bool createTable();
 
-    QSqlDatabase db = QSqlDatabase();
-    QSqlTableModel *dbModel;
-    QSqlQuery *dbQuery;
-    QString setDBTable = QString();
-    int setDeviceId = -1;
-    QFile *logfile;
-    QTextStream *logstream;
+    QSqlDatabase    db          = QSqlDatabase();
+    QSqlTableModel  *dbModel    = nullptr;
+    QSqlQuery       dbQuery     = QSqlQuery();
+    QString         setDBTable  = QString();
+    int             setDeviceId = -1;
+    QFile           logfile     = QFile(this);
+    QTextStream     logstream   = QTextStream();
 
     inline static QDate date = QDate::currentDate();
 
     inline const static QString historyPath = "history";
     inline const static QString filename = "history/history.db";
-    inline const static QString username = "logusr";
-    inline const static QString password = "password";
     inline const static QString logfilename = "history/history.txt";
 
     inline static const QHash<DB_TBL, QString> DB_TABLES = {

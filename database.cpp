@@ -7,63 +7,12 @@
 
 database::database(QObject *parent) : QObject(parent)
 {
-    QDir::current().mkdir(historyPath);
-
-    if (QSqlDatabase::contains("qt_sql_default_connection")) {
-        db = QSqlDatabase::database("qt_sql_default_connection");
-    } else {
-        db = QSqlDatabase::addDatabase("QSQLITE");
-        db.setDatabaseName(database::dbFilename());
-        db.setUserName(database::username);
-        db.setPassword(database::password);
-    }
-
-    if (!db.open())
-        qDebug() << "Error: Failed to connect db." << db.lastError();
-
-    dbModel = new QSqlTableModel(this, db);
-    dbQuery = new QSqlQuery(db);
-
-    createTable();
-
-    logfile = new QFile(database::logFilename());
-    if (!logfile->open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
-        qDebug() << "Error: Failed to create log file." << logfile->errorString();
-    logstream = new QTextStream(logfile);
+    prepare();
 
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, [=]() {
         if (QDate::currentDate() != date) {
-            db.close();
-
-            db.setDatabaseName(database::dbFilename());
-            db.setUserName(database::username);
-            db.setPassword(database::password);
-
-            if (!db.open()) {
-                qDebug() << "Error: Failed to connect db." << db.lastError();
-            }
-
-            QSqlTableModel *oldModel = dbModel;
-            QSqlQuery *oldQuery = dbQuery;
-            dbModel = new QSqlTableModel(this, db);
-            dbQuery = new QSqlQuery(db);
-            delete oldModel;
-            delete oldQuery;
-
-            logstream->flush();
-            logfile->close();
-
-            QFile *oldfile = logfile;
-            QTextStream *oldstream = logstream;
-
-            logfile = new QFile(database::logFilename());
-            if (!logfile->open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
-                qDebug() << "Error: Failed to create log file." << logfile->errorString();
-            logstream = new QTextStream(logfile);
-
-            delete oldfile;
-            delete oldstream;
+            prepare();
         }
     });
     timer->start(60000);
@@ -73,6 +22,43 @@ database::~database()
 {
     db.close();
     qDebug() << "Database closed.";
+    logstream.flush();
+    logfile.close();
+}
+
+bool database::prepare()
+{
+    QDir::current().mkdir(historyPath);
+
+    if (not QSqlDatabase::contains("qt_sql_default_connection")) {
+        db = QSqlDatabase::addDatabase("QSQLITE");
+    }
+
+    if (db.isOpen()) db.close();
+    db.setDatabaseName(database::dbFilename());
+    if (not db.open()) {
+        qDebug() << "Error: Failed to connect db." << db.lastError();
+        return false;
+    }
+
+    if (dbModel != nullptr) dbModel->deleteLater();
+    dbModel = new QSqlTableModel(this, db);
+    dbQuery = QSqlQuery(db);
+
+    createTable();
+
+    if (logfile.isOpen()) {
+        logstream.flush();
+        logfile.close();
+    }
+    logfile.setFileName(database::logFilename());
+    if (!logfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append)) {
+        qDebug() << "Error: Failed to create log file." << logfile.errorString();
+        return false;
+    }
+    logstream.setDevice(&logfile);
+
+    return true;
 }
 
 bool database::createTable()
@@ -81,20 +67,20 @@ bool database::createTable()
         QString q = "CREATE TABLE IF NOT EXISTS ";
         q += DB_TABLES[table] + " (";
 
-        for (const QStringList column : DB_COLUMNS[table]) {
+        for (const QStringList &column : DB_COLUMNS[table]) {
             q += column.join(" ") + ", ";
         }
         q.replace(q.length() - 2, 1, ")");
-        dbQuery->prepare(q);
-        if(!dbQuery->exec())
-            qDebug() << dbQuery->lastError();
+        dbQuery.prepare(q);
+        if(!dbQuery.exec())
+            qDebug() << dbQuery.lastError();
 
 
-        for (const QString column : DB_INDEXES[table]) {
-            dbQuery->prepare("CREATE INDEX IF NOT EXISTS " + DB_TABLES[table] + "_" + column
+        for (const QString &column : DB_INDEXES[table]) {
+            dbQuery.prepare("CREATE INDEX IF NOT EXISTS " + DB_TABLES[table] + "_" + column
                     + " ON " + DB_TABLES[table] + "(" + column + ")");
-            if(!dbQuery->exec())
-                qDebug() << dbQuery->lastError();
+            if(!dbQuery.exec())
+                qDebug() << dbQuery.lastError();
         }
     }
     return true;
