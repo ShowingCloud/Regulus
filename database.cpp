@@ -93,8 +93,8 @@ bool database::cleanUp()
     QDir dir = historyPath;
 
     for (const QFileInfo &file : dir.entryInfoList({ "*.db", "*.txt" })) {
-        if (not database::dbFilename(30).contains(file.filePath())
-                and not database::logFilename(30).contains(file.filePath()))
+        if (not database::dbFilename(historyKeepDays).contains(file.filePath())
+                and not database::logFilename(historyKeepDays).contains(file.filePath()))
             QFile(file.filePath()).remove();
     }
 

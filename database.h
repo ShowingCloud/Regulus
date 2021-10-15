@@ -73,6 +73,7 @@ private:
     inline const static QString historyPath = "history";
     inline const static QString filename = "history/history.db";
     inline const static QString logfilename = "history/history.txt";
+    inline const static int historyKeepDays = 30;
 
     inline static const QHash<DB_TBL, QString> DB_TABLES = {
         {DB_TBL_AMP_DATA, "amp_data"}, {DB_TBL_AMP_ALERT, "amp_alert"}, {DB_TBL_AMP_OPER, "amp_oper"},
