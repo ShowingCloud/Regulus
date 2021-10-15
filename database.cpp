@@ -289,7 +289,11 @@ bool database::setAlert(const database::DB_TBL dbTable, const int deviceId, cons
         model->addAlert(deviceId, alrt);
         for (const QString &str : alrt.mid(0, 4))
             logstream << str << ", ";
+#if QT_VERSION > QT_VERSION_CHECK(5, 14, 0)
         logstream << Qt::endl;
+#else
+        logstream << endl;
+#endif
     }
     return true;
 }
