@@ -58,6 +58,7 @@ public:
 private:
     bool prepare();
     bool createTable();
+    bool cleanUp();
 
     QSqlDatabase    db          = QSqlDatabase();
     QSqlTableModel  *dbModel    = nullptr;
@@ -141,11 +142,29 @@ private:
         QFileInfo file(filename);
         return file.path() + '/' + file.baseName() + '-' + date.toString(Qt::ISODate) + '.' + file.completeSuffix();
     }
+    inline static const QStringList dbFilename(const int days) {
+        QFileInfo file(filename);
+        QStringList ret = QStringList();
+        for (int i = 0; i < days; ++i)
+            ret << QString(file.path() + '/' + file.baseName() + '-'
+                           + QDate::currentDate().addDays(-i).toString(Qt::ISODate)
+                           + '.' + file.completeSuffix());
+        return ret;
+    }
 
     inline static const QString logFilename() {
         date = QDate::currentDate();
         QFileInfo file(logfilename);
         return file.path() + '/' + file.baseName() + '-' + date.toString(Qt::ISODate) + '.' + file.completeSuffix();
+    }
+    inline static const QStringList logFilename(const int days) {
+        QFileInfo file(logfilename);
+        QStringList ret = QStringList();
+        for (int i = 0; i < days; ++i)
+            ret << QString(file.path() + '/' + file.baseName() + '-'
+                           + QDate::currentDate().addDays(-i).toString(Qt::ISODate)
+                           + '.' + file.completeSuffix());
+        return ret;
     }
 
 signals:

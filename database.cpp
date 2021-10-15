@@ -58,6 +58,8 @@ bool database::prepare()
     }
     logstream.setDevice(&logfile);
 
+    cleanUp();
+
     return true;
 }
 
@@ -86,6 +88,18 @@ bool database::createTable()
     return true;
 }
 
+bool database::cleanUp()
+{
+    QDir dir = historyPath;
+
+    for (const QFileInfo &file : dir.entryInfoList({ "*.db", "*.txt" })) {
+        if (not database::dbFilename(30).contains(file.filePath())
+                and not database::logFilename(30).contains(file.filePath()))
+            QFile(file.filePath()).remove();
+    }
+
+    return true;
+}
 
 database &operator<< (database &db, const msgFreq &msg)
 {
