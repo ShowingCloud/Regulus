@@ -177,20 +177,20 @@ public slots:
 
 protected:
     static const inline QHash<int, QList<std::string>> idName = {
-        {0x04, {"C1 ", QT_TR_NOOP("Down Frequency Conversion")}},
-        {0x05, {"C1 ", QT_TR_NOOP("Down Frequency Conversion")}},
-        {0x06, {"C2 ", QT_TR_NOOP("Down Frequency Conversion")}},
-        {0x07, {"C2 ", QT_TR_NOOP("Down Frequency Conversion")}},
-        {0x00, {"C1 ", QT_TR_NOOP("Up Frequency Conversion")}},
-        {0x01, {"C1 ", QT_TR_NOOP("Up Frequency Conversion")}},
-        {0x02, {"C2 ", QT_TR_NOOP("Up Frequency Conversion")}},
-        {0x03, {"C2 ", QT_TR_NOOP("Up Frequency Conversion")}},
+        {0x04, {"C1 ", QT_TR_NOOP("Down Frequency Conversion"), QT_TR_NOOP("Master")}},
+        {0x05, {"C1 ", QT_TR_NOOP("Down Frequency Conversion"), QT_TR_NOOP("Slave")}},
+        {0x06, {"C2 ", QT_TR_NOOP("Down Frequency Conversion"), QT_TR_NOOP("Master")}},
+        {0x07, {"C2 ", QT_TR_NOOP("Down Frequency Conversion"), QT_TR_NOOP("Slave")}},
+        {0x00, {"C1 ", QT_TR_NOOP("Up Frequency Conversion"), QT_TR_NOOP("Master")}},
+        {0x01, {"C1 ", QT_TR_NOOP("Up Frequency Conversion"), QT_TR_NOOP("Slave")}},
+        {0x02, {"C2 ", QT_TR_NOOP("Up Frequency Conversion"), QT_TR_NOOP("Master")}},
+        {0x03, {"C2 ", QT_TR_NOOP("Up Frequency Conversion"), QT_TR_NOOP("Slave")}},
         {0x0A, {QT_TR_NOOP("Middle Frequency Distribution"), " A"}},
         {0x0B, {QT_TR_NOOP("Middle Frequency Distribution"), " B"}},
-        {0x0C, {"C1 ", QT_TR_NOOP("High Amplification"), " A"}},
-        {0x0D, {"C1 ", QT_TR_NOOP("High Amplification"), " B"}},
-        {0x0E, {"C2 ", QT_TR_NOOP("High Amplification"), " A"}},
-        {0x0F, {"C2 ", QT_TR_NOOP("High Amplification"), " B"}}
+        {0x0C, {"C1 ", QT_TR_NOOP("High Amplification"), " A ", QT_TR_NOOP("Master")}},
+        {0x0D, {"C1 ", QT_TR_NOOP("High Amplification"), " B ", QT_TR_NOOP("Slave")}},
+        {0x0E, {"C2 ", QT_TR_NOOP("High Amplification"), " A ", QT_TR_NOOP("Master")}},
+        {0x0F, {"C2 ", QT_TR_NOOP("High Amplification"), " B ", QT_TR_NOOP("Slave")}}
     };
 
     int dId = 0;

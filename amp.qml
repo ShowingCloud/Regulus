@@ -18,7 +18,7 @@ Window {
     visible: false
     modality: Qt.ApplicationModal
     width: rectMaster.width + 2 * marginRect
-    height: 2 * rectMaster.height + heightWidget + 4 * marginRect + marginWidget + defaultHistoryAreaHeight
+    height: 2 * rectMaster.height + heightWidget + 3 * marginRect + marginWidget
     title: qsTr("Amplification Device")
 
     property QtObject devAmpMaster: null
@@ -36,8 +36,6 @@ Window {
             devSlave.gotData.connect(slaveRefreshData)
             masterRefreshData()
             slaveRefreshData()
-            buttonReset.clicked()
-            rectHistory.model.initialize("amp_alert", devAmpMaster.dId, devAmpSlave.dId)
         })
     }
 
@@ -46,7 +44,6 @@ Window {
         this.hide()
         devAmpMaster.gotData.disconnect(masterRefreshData)
         devAmpSlave.gotData.disconnect(slaveRefreshData)
-        buttonReset.clicked()
         name.text = ""
         devAmpMaster = null
         devAmpSlave = null
@@ -63,67 +60,20 @@ Window {
         font.pixelSize: defaultLabelFontSize
     }
 
-    ComboCombo {
+    ComboText {
         id: comboChannel
         posLeft: marginRect + rectMaster.width - widthWidget - widthWidgetLabel - 3 * marginWidget
         posTop: marginRect - marginWidget
         txtText: devAmpMaster ? devAmpMaster.varName("masterslave") : qsTr("Current State")
 
         Component.onCompleted: {
-            comboModel = Alert.addEnum("P_MS")
+            //comboModel = Alert.addEnum("P_MS")
             /*
             masterRefreshData.connect(function() {
                 index = devAmpMaster.getValue("masterslave")
                 colorValue = devAmpMaster.showColor("masterslave")
             })
             */
-            clicked.connect(function(index) {
-                // TODO
-                if (index === Alert.P_MS_MASTER)
-                    devAmpMaster.createCntlMsg()
-                else if (index === Alert.P_MS_SLAVE)
-                    devAmpSlave.createCntlMsg()
-
-                buttonReset.clicked()
-            })
-        }
-    }
-
-    Button {
-        id: buttonReset
-        x: comboChannel.posLeft - marginWidget - widthWidget
-        anchors.top: name.top
-        width: widthWidget
-        height: heightWidget
-        text: qsTr("Reset")
-        font.pixelSize: defaultLabelFontSize
-
-        onClicked: {
-            forceActiveFocus()
-            devAmpMaster.releaseHold("atten_mode")
-            comboMasterAttenMode.colorValue = devAmpMaster.showColor("atten_mode")
-            comboMasterAttenMode.index = devAmpMaster.getValue("atten_mode")
-            devAmpMaster.releaseHold("atten")
-            comboMasterAtten.colorValue = devAmpMaster.showColor("atten")
-            comboMasterAtten.txtValue = devAmpMaster.showDisplay("atten") + " dB"
-            devAmpMaster.releaseHold("power")
-            comboMasterPower.colorValue = devAmpMaster.showColor("power")
-            comboMasterPower.txtValue = devAmpMaster.showDisplay("power") + " mW"
-            devAmpMaster.releaseHold("gain")
-            comboMasterGain.colorValue = devAmpMaster.showColor("gain")
-            comboMasterGain.txtValue = devAmpMaster.showDisplay("gain") + " dB"
-            devAmpSlave.releaseHold("atten_mode")
-            comboSlaveAttenMode.colorValue = devAmpSlave.showColor("atten_mode")
-            comboSlaveAttenMode.index = devAmpSlave.getValue("atten_mode")
-            devAmpSlave.releaseHold("atten")
-            comboSlaveAtten.colorValue = devAmpSlave.showColor("atten")
-            comboSlaveAtten.txtValue = devAmpSlave.showDisplay("atten") + " dB"
-            devAmpSlave.releaseHold("power")
-            comboSlavePower.colorValue = devAmpSlave.showColor("power")
-            comboSlavePower.txtValue = devAmpSlave.showDisplay("power") + " mW"
-            devAmpSlave.releaseHold("gain")
-            comboSlaveGain.colorValue = devAmpSlave.showColor("gain")
-            comboSlaveGain.txtValue = devAmpSlave.showDisplay("gain") + " dB"
         }
     }
 
@@ -136,96 +86,51 @@ Window {
         height: 4 * heightWidget + 5 * marginWidget
         border.width: defaultBorderWidth
 
-        ComboCombo {
-            id: comboMasterAttenMode
-            posTop: 0
-            posLeft: 0
-            txtText: devAmpMaster ? devAmpMaster.varName("atten_mode") : qsTr("Attenuation Mode")
-
-            Component.onCompleted: {
-                comboModel = Alert.addEnum("P_ATTEN")
-                updated.connect(function (index) {
-                    devAmpMaster.holdValue("atten_mode", index)
-                })
-                hold.connect(function() {
-                    devAmpMaster.setHold("atten_mode")
-                    colorValue = devAmpMaster.showColor("atten_mode")
-                })
-            }
-        }
-
-        ComboTextField {
+        ComboText {
             id: comboMasterAtten
             posTop: 0
-            posLeft: (rectMaster.width - marginWidget) / 4
+            posLeft: 0
             txtText: devAmpMaster ? devAmpMaster.varName("atten") : qsTr("Attenuation")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    if ((colorValue = devAmpMaster.showColor("atten")) !== Alert.MAP_COLOR["HOLDING"])
-                        txtValue = devAmpMaster.showDisplay("atten") + " dB"
-                })
-                updated.connect(function (value) {
-                    if (value !== "" && !isNaN(value))
-                        devAmpMaster.holdValue("atten", value)
-                })
-                hold.connect(function() {
-                    devAmpMaster.setHold("atten")
+                    txtValue = devAmpMaster.showDisplay("atten") + " dB"
                     colorValue = devAmpMaster.showColor("atten")
-                    txtValue = ""
                 })
             }
         }
 
-        ComboTextField {
+        ComboText {
             id: comboMasterPower
             posTop: 0
-            posLeft: (rectMaster.width - marginWidget) / 2
+            posLeft: (rectMaster.width - marginWidget) / 4
             txtText: devAmpMaster ? devAmpMaster.varName("power") : qsTr("Power")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    if ((colorValue = devAmpMaster.showColor("power")) !== Alert.MAP_COLOR["HOLDING"])
-                        txtValue = devAmpMaster.showDisplay("power") + " mW"
-                })
-                updated.connect(function (value) {
-                    if (value !== "" && !isNaN(value))
-                        devAmpMaster.holdValue("power", value)
-                })
-                hold.connect(function() {
-                    devAmpMaster.setHold("power")
+                    txtValue = devAmpMaster.showDisplay("power") + " mW"
                     colorValue = devAmpMaster.showColor("power")
-                    txtValue = ""
                 })
             }
         }
 
-        ComboTextField {
+        ComboText {
             id: comboMasterGain
             posTop: 0
-            posLeft: (rectMaster.width - marginWidget) * 3 / 4
+            posLeft: (rectMaster.width - marginWidget) / 2
             txtText: devAmpMaster ? devAmpMaster.varName("gain") : qsTr("Gain")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    if ((colorValue = devAmpMaster.showColor("gain")) !== Alert.MAP_COLOR["HOLDING"])
-                        txtValue = devAmpMaster.showDisplay("gain") + " dB"
-                })
-                updated.connect(function (value) {
-                    if (value !== "" && !isNaN(value))
-                        devAmpMaster.holdValue("gain", value)
-                })
-                hold.connect(function() {
-                    devAmpMaster.setHold("gain")
+                    txtValue = devAmpMaster.showDisplay("gain") + " dB"
                     colorValue = devAmpMaster.showColor("gain")
-                    txtValue = ""
                 })
             }
         }
 
         ComboText {
             id: comboMasterLoss
-            posTop: comboMasterAttenMode.posBottom
+            posTop: comboMasterAtten.posBottom
             posLeft: 0
             txtText: devAmpMaster ? devAmpMaster.varName("loss") : qsTr("Return Loss")
 
@@ -239,7 +144,7 @@ Window {
 
         ComboText {
             id: comboMasterAmpTemp
-            posTop: comboMasterAttenMode.posBottom
+            posTop: comboMasterAtten.posBottom
             posLeft: (rectMaster.width - marginWidget) / 4
             txtText: devAmpMaster ? devAmpMaster.varName("amp_temp") : qsTr("Amplifier Temperature")
 
@@ -253,7 +158,7 @@ Window {
 
         ComboText {
             id: comboMasterStateStandWave
-            posTop: comboMasterAttenMode.posBottom
+            posTop: comboMasterAtten.posBottom
             posLeft: (rectMaster.width - marginWidget) / 2
             txtText: devAmpMaster ? devAmpMaster.varName("s_stand_wave") : qsTr("Stand Wave")
 
@@ -267,7 +172,7 @@ Window {
 
         ComboText {
             id: comboMasterStateTemp
-            posTop: comboMasterAttenMode.posBottom
+            posTop: comboMasterAtten.posBottom
             posLeft: (rectMaster.width - marginWidget) * 3 / 4
             txtText: devAmpMaster ? devAmpMaster.varName("s_temp") : qsTr("Temperature")
 
@@ -357,25 +262,6 @@ Window {
                 })
             }
         }
-
-        Button {
-            id: buttonMasterSubmit
-            x: rectMaster.width - marginWidget - widthWidget
-            y: comboMasterStateCurrent.posBottom + marginWidget
-            width: widthWidget
-            height: heightWidget
-            text: qsTr("Submit")
-            font.pixelSize: defaultLabelFontSize
-
-            onClicked: {
-                comboMasterAttenMode.submit()
-                comboMasterAtten.submit()
-                comboMasterPower.submit()
-                comboMasterGain.submit()
-                devAmpMaster.createCntlMsg()
-                buttonReset.clicked()
-            }
-        }
     }
 
     Rectangle {
@@ -387,43 +273,16 @@ Window {
         height: rectMaster.height
         border.width: defaultBorderWidth
 
-        ComboCombo {
-            id: comboSlaveAttenMode
-            posTop: 0
-            posLeft: 0
-            txtText: devAmpSlave ? devAmpSlave.varName("atten_mode") : qsTr("Attenuation Mode")
-
-            Component.onCompleted: {
-                comboModel = Alert.addEnum("P_ATTEN")
-                updated.connect(function (index) {
-                    devAmpSlave.holdValue("atten_mode", index)
-                })
-                hold.connect(function() {
-                    devAmpSlave.setHold("atten_mode")
-                    colorValue = devAmpSlave.showColor("atten_mode")
-                })
-            }
-        }
-
-        ComboTextField {
+        ComboText {
             id: comboSlaveAtten
             posTop: 0
-            posLeft: (rectSlave.width - marginWidget) / 4
+            posLeft: 0
             txtText: devAmpSlave ? devAmpSlave.varName("atten") : qsTr("Attenuation")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    if ((colorValue = devAmpSlave.showColor("atten")) !== Alert.MAP_COLOR["HOLDING"])
-                        txtValue = devAmpSlave.showDisplay("atten") + " dB"
-                })
-                updated.connect(function (value) {
-                    if (value !== "" && !isNaN(value))
-                        devAmpSlave.holdValue("atten", value)
-                })
-                hold.connect(function() {
-                    devAmpSlave.setHold("atten")
+                    txtValue = devAmpSlave.showDisplay("atten") + " dB"
                     colorValue = devAmpSlave.showColor("atten")
-                    txtValue = ""
                 })
             }
         }
@@ -431,22 +290,13 @@ Window {
         ComboTextField {
             id: comboSlavePower
             posTop: 0
-            posLeft: (rectSlave.width - marginWidget) / 2
+            posLeft: (rectSlave.width - marginWidget) / 4
             txtText: devAmpSlave ? devAmpSlave.varName("power") : qsTr("Power")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    if ((colorValue = devAmpSlave.showColor("power")) !== Alert.MAP_COLOR["HOLDING"])
-                        txtValue = devAmpSlave.showDisplay("power") + " mW"
-                })
-                updated.connect(function (value) {
-                    if (value !== "" && !isNaN(value))
-                        devAmpSlave.holdValue("power", value)
-                })
-                hold.connect(function() {
-                    devAmpSlave.setHold("power")
+                    txtValue = devAmpSlave.showDisplay("power") + " mW"
                     colorValue = devAmpSlave.showColor("power")
-                    txtValue = ""
                 })
             }
         }
@@ -454,29 +304,20 @@ Window {
         ComboTextField {
             id: comboSlaveGain
             posTop: 0
-            posLeft: (rectSlave.width - marginWidget) * 3 / 4
+            posLeft: (rectSlave.width - marginWidget) / 2
             txtText: devAmpSlave ? devAmpSlave.varName("gain") : qsTr("Gain")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    if ((colorValue = devAmpSlave.showColor("gain")) !== Alert.MAP_COLOR["HOLDING"])
-                        txtValue = devAmpSlave.showDisplay("gain") + " dB"
-                })
-                updated.connect(function (value) {
-                    if (value !== "" && !isNaN(value))
-                        devAmpSlave.holdValue("gain", value)
-                })
-                hold.connect(function() {
-                    devAmpSlave.setHold("gain")
+                    txtValue = devAmpSlave.showDisplay("gain") + " dB"
                     colorValue = devAmpSlave.showColor("gain")
-                    txtValue = ""
                 })
             }
         }
 
         ComboText {
             id: comboSlaveLoss
-            posTop: comboSlaveAttenMode.posBottom
+            posTop: comboSlaveAtten.posBottom
             posLeft: 0
             txtText: devAmpSlave ? devAmpSlave.varName("loss") : qsTr("Return Loss")
 
@@ -490,7 +331,7 @@ Window {
 
         ComboText {
             id: comboSlaveAmpTemp
-            posTop: comboSlaveAttenMode.posBottom
+            posTop: comboSlaveAtten.posBottom
             posLeft: (rectSlave.width - marginWidget) / 4
             txtText: devAmpSlave ? devAmpSlave.varName("amp_temp") : qsTr("Amplifier Temperature")
 
@@ -504,7 +345,7 @@ Window {
 
         ComboText {
             id: comboSlaveStateStandWave
-            posTop: comboSlaveAttenMode.posBottom
+            posTop: comboSlaveAtten.posBottom
             posLeft: (rectSlave.width - marginWidget) / 2
             txtText: devAmpSlave ? devAmpSlave.varName("s_stand_wave") : qsTr("Stand Wave")
 
@@ -518,7 +359,7 @@ Window {
 
         ComboText {
             id: comboSlaveStateTemp
-            posTop: comboSlaveAttenMode.posBottom
+            posTop: comboSlaveAtten.posBottom
             posLeft: (rectSlave.width - marginWidget) * 3 / 4
             txtText: devAmpSlave ? devAmpSlave.varName("s_temp") : qsTr("Temperature")
 
@@ -608,32 +449,5 @@ Window {
                 })
             }
         }
-
-        Button {
-            id: buttonSlaveSubmit
-            x: rectSlave.width - marginWidget - widthWidget
-            y: comboSlaveStateCurrent.posBottom + marginWidget
-            width: widthWidget
-            height: heightWidget
-            text: qsTr("Submit")
-            font.pixelSize: defaultLabelFontSize
-
-            onClicked: {
-                comboSlaveAttenMode.submit()
-                comboSlaveAtten.submit()
-                comboSlavePower.submit()
-                comboSlaveGain.submit()
-                devAmpSlave.createCntlMsg()
-                buttonReset.clicked()
-            }
-        }
-    }
-
-    RectHistory {
-        id: rectHistory
-        anchors.top: rectSlave.bottom
-        anchors.topMargin: marginRect
-        anchors.left: rectSlave.left
-        itemWidth: rectMaster.width
     }
 }

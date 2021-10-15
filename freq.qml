@@ -19,7 +19,7 @@ Window {
     visible: false
     modality: Qt.ApplicationModal
     width: rectMaster.width + 2 * marginRect
-    height: 2 * rectMaster.height + heightWidget + 4 * marginRect + marginWidget + defaultHistoryAreaHeight
+    height: 2 * rectMaster.height + heightWidget + 3 * marginRect + marginWidget
     title: qsTr("Frequency Conversion Device")
 
     property QtObject devFreqMaster: null
@@ -38,8 +38,6 @@ Window {
             devSlave.gotData.connect(slaveRefreshData)
             masterRefreshData()
             slaveRefreshData()
-            buttonReset.clicked()
-            rectHistory.model.initialize("freq_alert", devFreqMaster.dId, devFreqSlave.dId)
         })
     }
 
@@ -48,7 +46,6 @@ Window {
         this.hide()
         devFreqMaster.gotData.disconnect(masterRefreshData)
         devFreqSlave.gotData.disconnect(slaveRefreshData)
-        buttonReset.clicked();
         name.text = ""
         devFreqMaster = null
         devFreqSlave = null
@@ -65,55 +62,17 @@ Window {
         font.pixelSize: defaultLabelFontSize
     }
 
-    ComboCombo {
+    ComboText {
         id: comboChannel
         posLeft: marginRect + rectMaster.width - widthWidget - widthWidgetLabel - 3 * marginWidget
         posTop: marginRect - marginWidget
         txtText: devFreqMaster ? devFreqMaster.varName("masterslave") : qsTr("Current State")
 
         Component.onCompleted: {
-            comboModel = Alert.addEnum("P_MS")
             masterRefreshData.connect(function() {
-                index = devFreqMaster.getValue("masterslave")
+                txtValue = devFreqMaster.showDisplay("masterslave")
                 colorValue = devFreqMaster.showColor("masterslave")
             })
-            clicked.connect(function(index) {
-                comboMasterAtten.submit()
-                comboMasterRef.submit()
-                comboSlaveAtten.submit()
-                comboSlaveRef.submit()
-
-                if (index === Alert.P_MS_MASTER)
-                    devFreqMaster.createCntlMsg()
-                else if (index === Alert.P_MS_SLAVE)
-                    devFreqSlave.createCntlMsg()
-
-                buttonReset.clicked()
-            })
-        }
-    }
-
-    Button {
-        id: buttonReset
-        x: comboChannel.posLeft - marginWidget - widthWidget
-        anchors.top: name.top
-        width: widthWidget
-        height: heightWidget
-        text: qsTr("Reset")
-        font.pixelSize: defaultLabelFontSize
-
-        onClicked: {
-            forceActiveFocus()
-            devFreqMaster.releaseHold("atten")
-            comboMasterAtten.colorValue = devFreqMaster.showColor("atten")
-            comboMasterAtten.txtValue = devFreqMaster.showDisplay("atten") + " dB"
-            devFreqSlave.releaseHold("atten")
-            comboSlaveAtten.colorValue = devFreqSlave.showColor("atten")
-            comboSlaveAtten.txtValue = devFreqSlave.showDisplay("atten") + " dB"
-            devFreqMaster.releaseHold("ch_a")
-            comboMasterRef.colorValue = devFreqMaster.showColor("ch_a")
-            devFreqSlave.releaseHold("ch_b")
-            comboSlaveRef.colorValue = devFreqSlave.showColor("ch_b")
         }
     }
 
@@ -126,7 +85,7 @@ Window {
         height: 5 * heightWidget + 6 * marginWidget
         border.width: defaultBorderWidth
 
-        ComboTextField {
+        ComboText {
             id: comboMasterAtten
             posTop: 0
             posLeft: 0
@@ -134,36 +93,8 @@ Window {
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    if ((colorValue = devFreqMaster.showColor("atten")) !== Alert.MAP_COLOR["HOLDING"])
-                        txtValue = devFreqMaster.showDisplay("atten") + " dB"
-                })
-                updated.connect(function (value) {
-                    if (value !== "" && !isNaN(value))
-                        devFreqMaster.holdValue("atten", value)
-                })
-                hold.connect(function() {
-                    devFreqMaster.setHold("atten")
+                    txtValue = devFreqMaster.showDisplay("atten") + " dB"
                     colorValue = devFreqMaster.showColor("atten")
-                    txtValue = ""
-                })
-            }
-        }
-
-        ComboCombo {
-            id: comboMasterRef
-            posTop: 0
-            posLeft: (rectMaster.width - marginWidget) / 2
-            txtText: devFreqMaster ? devFreqMaster.varName("ch_a") : "10 MHz " + qsTr("Ref")
-
-            Component.onCompleted: {
-                comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
-                updated.connect(function (index) {
-                    devFreqMaster.holdValue("ch_a", index)
-                    devFreqSlave.holdValue("ch_a", index)
-                })
-                hold.connect(function() {
-                    devFreqMaster.setHold("ch_a")
-                    colorValue = devFreqMaster.showColor("ch_a")
                 })
             }
         }
@@ -318,24 +249,6 @@ Window {
                 })
             }
         }
-
-        Button {
-            id: buttonMasterSubmit
-            x: rectMaster.width - marginWidget - widthWidget
-            y: comboMaster10Ref1.posBottom + marginWidget
-            width: widthWidget
-            height: heightWidget
-            text: qsTr("Submit")
-            font.pixelSize: defaultLabelFontSize
-
-            onClicked: {
-                comboMasterAtten.submit()
-                comboMasterRef.submit()
-                comboSlaveRef.submit()
-                devFreqMaster.createCntlMsg()
-                buttonReset.clicked()
-            }
-        }
     }
 
     Rectangle {
@@ -347,7 +260,7 @@ Window {
         height: rectMaster.height
         border.width: defaultBorderWidth
 
-        ComboTextField {
+        ComboText {
             id: comboSlaveAtten
             posTop: 0
             posLeft: 0
@@ -355,36 +268,8 @@ Window {
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    if ((colorValue = devFreqSlave.showColor("atten")) !== Alert.MAP_COLOR["HOLDING"])
-                        txtValue = devFreqSlave.showDisplay("atten") + " dB"
-                })
-                updated.connect(function (value) {
-                    if (value !== "" && !isNaN(value))
-                        devFreqSlave.holdValue("atten", value)
-                })
-                hold.connect(function() {
-                    devFreqSlave.setHold("atten")
+                    txtValue = devFreqSlave.showDisplay("atten") + " dB"
                     colorValue = devFreqSlave.showColor("atten")
-                    txtValue = ""
-                })
-            }
-        }
-
-        ComboCombo {
-            id: comboSlaveRef
-            posTop: 0
-            posLeft: (rectSlave.width - marginWidget) / 2
-            txtText: devFreqSlave ? devFreqSlave.varName("ch_b") : "10 MHz " + qsTr("Ref")
-
-            Component.onCompleted: {
-                comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
-                updated.connect(function (index) {
-                    devFreqMaster.holdValue("ch_b", index)
-                    devFreqSlave.holdValue("ch_b", index)
-                })
-                hold.connect(function() {
-                    devFreqSlave.setHold("ch_b")
-                    colorValue = devFreqSlave.showColor("ch_b")
                 })
             }
         }
@@ -539,31 +424,5 @@ Window {
                 })
             }
         }
-
-        Button {
-            id: buttonSlaveSubmit
-            x: rectSlave.width - marginWidget - widthWidget
-            y: comboSlave10Ref1.posBottom + marginWidget
-            width: widthWidget
-            height: heightWidget
-            text: qsTr("Submit")
-            font.pixelSize: defaultLabelFontSize
-
-            onClicked: {
-                comboSlaveAtten.submit()
-                comboSlaveRef.submit()
-                comboMasterRef.submit()
-                devFreqSlave.createCntlMsg()
-                buttonReset.clicked()
-            }
-        }
-    }
-
-    RectHistory {
-        id: rectHistory
-        anchors.top: rectSlave.bottom
-        anchors.topMargin: marginRect
-        anchors.left: rectSlave.left
-        itemWidth: rectMaster.width
     }
 }

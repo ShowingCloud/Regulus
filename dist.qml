@@ -17,7 +17,7 @@ Window {
     visible: false
     modality: Qt.ApplicationModal
     width: rect.width + 2 * marginRect
-    height: rect.height + heightWidget + 2 * marginRect + marginWidget + defaultHistoryAreaHeight
+    height: rect.height + heightWidget + 2 * marginRect + marginWidget
     title: qsTr("Frequency Distribution Device")
 
     property QtObject devDist: null
@@ -30,8 +30,6 @@ Window {
             name.text = devDist.name
             dev.gotData.connect(refreshData)
             refreshData()
-            buttonReset.clicked();
-            rectHistory.model.initialize("dist_alert", devDist.dId)
         })
     }
 
@@ -39,7 +37,6 @@ Window {
         close.accepted = false
         this.hide()
         devDist.gotData.disconnect(refreshData)
-        buttonReset.clicked()
         name.text = ""
         devDist = null
     }
@@ -55,27 +52,6 @@ Window {
         font.pixelSize: defaultLabelFontSize
     }
 
-    Button {
-        id: buttonReset
-        anchors.right: rect.right
-        anchors.rightMargin: marginWidget
-        anchors.top: name.top
-        width: widthWidget
-        height: heightWidget
-        text: qsTr("Reset")
-        font.pixelSize: defaultLabelFontSize
-
-        onClicked: {
-            forceActiveFocus()
-            devDist.releaseHold("ref_10")
-            comboRef10.colorValue = devDist.showColor("ref_10")
-            comboRef10.index = devDist.getValue("ref_10")
-            devDist.releaseHold("ref_16")
-            comboRef16.colorValue = devDist.showColor("ref_16")
-            comboRef16.index = devDist.getValue("ref_16")
-        }
-    }
-
     Rectangle {
         id: rect
         x: marginRect
@@ -85,46 +61,30 @@ Window {
         height: 4 * heightWidget + 5 * marginWidget
         border.width: defaultBorderWidth
 
-        ComboCombo {
+        ComboText {
             id: comboRef10
             posTop: 0
             posLeft: 0
             txtText: devDist ? devDist.varName("ref_10") : qsTr("Outer Ref") + " 10 MHz"
 
             Component.onCompleted: {
-                comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
-                updated.connect(function (index) {
-                    devDist.holdValue("ref_10", index)
-                })
-                hold.connect(function() {
-                    devDist.setHold("ref_10")
-                    colorValue = devDist.showColor("ref_10")
-                })
                 refreshData.connect(function() {
-                    if ((colorValue = devDist.showColor("ref_10")) !== Alert.MAP_COLOR["HOLDING"])
-                        index = devDist.getValue("ref_10")
+                    txtValue = qsTr("Channel") + devDist.showDisplay("ref_10")
+                    colorValue = devDist.showColor("ref_10")
                 })
             }
         }
 
-        ComboCombo {
+        ComboText {
             id: comboRef16
             posTop: 0
             posLeft: (rect.width - marginWidget) / 2
             txtText: devDist ? devDist.varName("ref_16") : qsTr("Outer Ref") + " 16 MHz"
 
             Component.onCompleted: {
-                comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
-                updated.connect(function (index) {
-                    devDist.holdValue("ref_16", index)
-                })
-                hold.connect(function() {
-                    devDist.setHold("ref_16")
-                    colorValue = devDist.showColor("ref_16")
-                })
                 refreshData.connect(function() {
-                    if ((colorValue = devDist.showColor("ref_16")) !== Alert.MAP_COLOR["HOLDING"])
-                        index = devDist.getValue("ref_16")
+                    txtValue = qsTr("Channel") + devDist.showDisplay("ref_16")
+                    colorValue = devDist.showColor("ref_16")
                 })
             }
         }
@@ -221,30 +181,5 @@ Window {
             fontSize: timerStringFontSize
             txtValue: devDist ? devDist.timerStr : qsTr("No data")
         }
-
-        Button {
-            id: buttonSubmit
-            x: rect.width - marginWidget - widthWidget
-            y: combo10Lock1.posBottom + marginWidget
-            width: widthWidget
-            height: heightWidget
-            text: qsTr("Submit")
-            font.pixelSize: defaultLabelFontSize
-
-            onClicked: {
-                comboRef10.submit()
-                comboRef16.submit()
-                devDist.createCntlMsg()
-                buttonReset.clicked()
-            }
-        }
-    }
-
-    RectHistory {
-        id: rectHistory
-        anchors.top: rect.bottom
-        anchors.topMargin: marginRect
-        anchors.left: rect.left
-        itemWidth: rect.width
     }
 }

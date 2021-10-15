@@ -85,7 +85,6 @@ Item {
                     objWinAmp.masterCommunicationColorValue = colorValue
                 if (devAmpMaster.timedout()) {
                     devAmpMaster.alertTimeout()
-                    rectMaster.showTimeout = true
                     if (rectMaster.ind.active)
                         rectMaster.ind.color = Alert.MAP_COLOR["ABNORMAL"]
                 }
@@ -139,7 +138,6 @@ Item {
                     objWinAmp.slaveCommunicationColorValue = colorValue
                 if (devAmpSlave.timedout()) {
                     devAmpSlave.alertTimeout()
-                    rectSlave.showTimeout = true
                     if (rectSlave.ind.active)
                         rectSlave.ind.color = Alert.MAP_COLOR["ABNORMAL"]
                 }

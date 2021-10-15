@@ -81,7 +81,6 @@ Item {
                     objWinFreq.masterCommunicationColorValue = colorValue
                 if (devFreqMaster.timedout()) {
                     devFreqMaster.alertTimeout()
-                    rectMaster.showTimeout = true
                     if (rectMaster.ind.active)
                         rectMaster.ind.color = Alert.MAP_COLOR["ABNORMAL"]
                 }
@@ -130,7 +129,6 @@ Item {
                     objWinFreq.slaveCommunicationColorValue = colorValue
                 if (devFreqSlave.timedout()) {
                     devFreqSlave.alertTimeout()
-                    rectSlave.showTimeout = true
                     if (rectSlave.ind.active)
                         rectSlave.ind.color = Alert.MAP_COLOR["ABNORMAL"]
                 }

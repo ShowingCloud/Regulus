@@ -81,7 +81,6 @@ Item {
                     objWinDist.communicationColorValue = colorValue
                 if (devDist.timedout()) {
                     devDist.alertTimeout()
-                    rect.showTimeout = true
                     if (rect.ind.active)
                         rect.ind.color = Alert.MAP_COLOR["ABNORMAL"]
                 }
