@@ -33,6 +33,7 @@ Item {
             Text {
                 id: txtId
                 anchors.fill: parent
+                anchors.margins: 2
                 text: devDist.name
                 verticalAlignment: Text.AlignVCenter
                 elide: Text.ElideRight
