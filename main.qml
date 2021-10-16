@@ -6,24 +6,18 @@ import QtQuick.Shapes 1.11
 import rdss.device 1.0
 
 Window {
-    readonly property int rackWidth: 691
-    readonly property int rackHeight: 646
+    readonly property int singleBoxWidth: 270
+    readonly property int singleBoxHeight: 73
+    readonly property int doubleBoxHeight: 98
+    readonly property int heightCircuit: doubleBoxHeight * 2 + defaultMarginAndTextWidthHeight
     readonly property int defaultBorderWidth: 2
-    readonly property int rackFreqBoxWidth: 270
-    readonly property int rackFreqBoxFreqHeight: 73
-    readonly property int rackFreqBoxDistHeight: 106
-    readonly property int rackAmpBoxWidth: 601
-    readonly property int rackAmpBoxHeight: 108
-    readonly property int serialSWWidth: 352
-    readonly property int serialSWHeight: 64
     readonly property int defaultMarginAndTextWidthHeight: 30
-    readonly property int marginRacks: 54
+    readonly property int windowLeftMargin: 60
     readonly property int marginIndicators: 10
     readonly property int defaultLabelFontSize: 20
     readonly property int rectBigFontSize: 15
     readonly property int rectSmallFontSize: 12 // 8
     readonly property int timerStringFontSize: 10
-    readonly property int defaultHistoryAreaHeight: 200
 
     property QtObject objWinFreq;
     property QtObject objWinDist;
@@ -32,7 +26,7 @@ Window {
     id: winMain
     visible: true
     width: 1550
-    height: 800
+    height: heightCircuit * 2 + singleBoxHeight * 3 + defaultMarginAndTextWidthHeight * 5
     title: qsTr("RDSS Project")
 
     Component.onCompleted: {
@@ -41,282 +35,292 @@ Window {
         objWinAmp = Qt.createComponent("qrc:/amp.qml").createObject(winMain);
     }
 
-    Rectangle {
-        id: rackFreq
-        x: marginRacks
-        y: defaultMarginAndTextWidthHeight
-        width: rackWidth
-        height: rackHeight
-        border.width: defaultBorderWidth
+    Text {
+        id: txtTitle
+        width: winMain.width
+        height: singleBoxHeight
+        text: winMain.title
+        verticalAlignment: Text.AlignVCenter
+        elide: Text.ElideRight
+        wrapMode: Text.WrapAnywhere
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: defaultLabelFontSize + 10
+    }
 
-        Text {
-            id: txtRackFreqId
-            x: 0
-            y: 0
-            width: rackWidth
-            height: defaultMarginAndTextWidthHeight
-            text: qsTr("Frequency Conversion Rack")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
+    Rectangle {
+        id: circuit1
+        x: windowLeftMargin
+        y: singleBoxHeight + defaultMarginAndTextWidthHeight
+        width: winMain.width - 2 * windowLeftMargin
+        height: heightCircuit
+        color: "#00000000"
+
+        BlockDevFreq {
+            id: blkFreqUpFreq1
+            masterId: 0x00
+            slaveId: 0x01
+            posTop: heightCircuit / 5 - doubleBoxHeight / 2
+            posLeft: circuit1.width / 5 - singleBoxWidth / 2
+            devFreqUp: true
         }
 
         BlockDevFreq {
             id: blkFreqDownFreq1
             masterId: 0x04
             slaveId: 0x05
-            posTop: txtRackFreqId.height
-            posLeft: 0
+            posTop: heightCircuit * 4 / 5 - doubleBoxHeight / 2
+            posLeft: circuit1.width * 2 / 5 - singleBoxWidth / 2
             devFreqUp: false
-        }
-
-        BlockDevFreq {
-            id: blkFreqDownFreq2
-            masterId: 0x06
-            slaveId: 0x07
-            posTop: txtRackFreqId.height
-            posLeft: blkFreqDownFreq1.posRight
-            devFreqUp: false
-        }
-
-        BlockDevFreq {
-            id: blkFreqUpFreq1
-            masterId: 0x00
-            slaveId: 0x01
-            posTop: blkFreqDownFreq1.posBottom
-            posLeft: 0
-            devFreqUp: true
-        }
-
-        BlockDevFreq {
-            id: blkFreqUpFreq2
-            masterId: 0x02
-            slaveId: 0x03
-            posTop: blkFreqDownFreq1.posBottom
-            posLeft: blkFreqUpFreq1.posRight
-            devFreqUp: true
-        }
-
-        BlockDevDist {
-            id: blkDistMidFreq1
-            deviceId: 0x0A
-            posTop: blkFreqUpFreq1.posBottom
-            posLeft: 0
-        }
-
-        BlockDevDist {
-            id: blkDistMidFreq2
-            deviceId: 0x0B
-            posTop: blkFreqUpFreq1.posBottom
-            posLeft: blkDistMidFreq1.posRight
-        }
-
-        Rectangle {
-            id: devSW1
-            anchors.left: devSerial1.left
-            anchors.top: devSerial1.bottom
-            anchors.topMargin: 2 * defaultMarginAndTextWidthHeight
-            width: serialSWWidth
-            height: serialSWHeight
-            border.width: defaultBorderWidth
-
-            StatusIndicator {
-                id: indSW1
-                x: marginIndicators
-                y: marginIndicators
-            }
-
-            Text {
-                id: txtSW1Id
-                x: 50
-                y: marginIndicators
-                height: indSW1.height
-                text: qsTr("Switch") + " 1"
-                verticalAlignment: Text.AlignVCenter
-                font.pixelSize: defaultLabelFontSize
-            }
-        }
-
-        Rectangle {
-            id: devSerial1
-            anchors.right: rackFreq.right
-            anchors.rightMargin: defaultMarginAndTextWidthHeight
-            anchors.bottom: rackFreq.bottom
-            anchors.bottomMargin: defaultMarginAndTextWidthHeight
-            width: serialSWWidth
-            height: serialSWHeight
-            border.width: defaultBorderWidth
-
-            StatusIndicator {
-                id: indSerial1
-                x: marginIndicators
-                y: marginIndicators
-            }
-
-            Text {
-                id: txtSerial1Id
-                x: 50
-                y: marginIndicators
-                height: indSerial1.height
-                text: qsTr("Serial") + " 1"
-                verticalAlignment: Text.AlignVCenter
-                font.pixelSize: defaultLabelFontSize
-            }
-        }
-    }
-
-    Rectangle {
-        id: rackAmp
-        anchors.top: rackFreq.top
-        anchors.left: rackFreq.right
-        anchors.leftMargin: marginRacks
-        width: rackWidth
-        height: rackHeight
-        border.width: defaultBorderWidth
-
-        Text {
-            id: txtRackAmpId
-            x: 0
-            y: 0
-            width: rackWidth
-            height: defaultMarginAndTextWidthHeight
-            text: qsTr("Amplification Rack")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
         }
 
         BlockDevAmp {
             id: blkAmpAmpA1
             masterId: 0x0C
             slaveId: 0x0D
-            posTop: txtRackAmpId.height
-            posLeft: 0
+            posTop: heightCircuit / 5 - doubleBoxHeight / 2
+            posLeft: circuit1.width * 3 / 5 - singleBoxWidth / 2
+        }
+
+        Shape {
+            z: -1
+
+            ShapePath {
+                strokeWidth: 5
+                strokeColor: "black"
+                fillColor: "transparent"
+
+                startX: 0
+                startY: heightCircuit / 5
+                PathLine {
+                    x: circuit1.width * 4 / 5
+                    y: heightCircuit / 5
+                }
+                PathLine {
+                    x: circuit1.width * 4 / 5
+                    y: heightCircuit * 2 / 5
+                }
+                PathLine {
+                    x: circuit1.width * 9 / 10
+                    y: heightCircuit * 2 / 5
+                }
+            }
+
+            ShapePath {
+                strokeWidth: 5
+                strokeColor: "black"
+                fillColor: "transparent"
+
+                startX: 0
+                startY: heightCircuit * 4 / 5
+                PathLine {
+                    x: circuit1.width * 4 / 5
+                    y: heightCircuit * 4 / 5
+                }
+                PathLine {
+                    x: circuit1.width * 4 / 5
+                    y: heightCircuit * 3 / 5
+                }
+                PathLine {
+                    x: circuit1.width * 9 / 10
+                    y: heightCircuit * 3 / 5
+                }
+            }
+        }
+    }
+
+    Rectangle {
+        id: circuit2
+        anchors.top: circuit1.bottom
+        anchors.topMargin: defaultMarginAndTextWidthHeight
+        anchors.left: circuit1.left
+        width: circuit1.width
+        height: heightCircuit
+        color: "#00000000"
+
+        BlockDevFreq {
+            id: blkFreqUpFreq2
+            masterId: 0x02
+            slaveId: 0x03
+            posTop: heightCircuit / 5 - doubleBoxHeight / 2
+            posLeft: circuit1.width / 5 - singleBoxWidth / 2
+            devFreqUp: true
+        }
+
+        BlockDevFreq {
+            id: blkFreqDownFreq2
+            masterId: 0x06
+            slaveId: 0x07
+            posTop: heightCircuit * 4 / 5 - doubleBoxHeight / 2
+            posLeft: circuit1.width * 2 / 5 - singleBoxWidth / 2
+            devFreqUp: false
         }
 
         BlockDevAmp {
             id: blkAmpAmpB1
             masterId: 0x0E
             slaveId: 0x0F
-            posTop: blkAmpAmpA1.posBottom
-            posLeft: 0
+            posTop: heightCircuit / 5 - doubleBoxHeight / 2
+            posLeft: circuit1.width * 3 / 5 - singleBoxWidth / 2
         }
 
-        Rectangle {
-            id: devSW2
-            anchors.left: devSerial2.left
-            anchors.top: devSerial2.bottom
-            anchors.topMargin: 2 * defaultMarginAndTextWidthHeight
-            width: serialSWWidth
-            height: serialSWHeight
-            border.width: defaultBorderWidth
+        Shape {
+            z: -1
 
-            StatusIndicator {
-                id: indSW2
-                x: marginIndicators
-                y: marginIndicators
+            ShapePath {
+                strokeWidth: 5
+                strokeColor: "black"
+                fillColor: "transparent"
+
+                startX: 0
+                startY: heightCircuit / 5
+                PathLine {
+                    x: circuit1.width * 4 / 5
+                    y: heightCircuit / 5
+                }
+                PathLine {
+                    x: circuit1.width * 4 / 5
+                    y: heightCircuit * 2 / 5
+                }
+                PathLine {
+                    x: circuit1.width * 9 / 10
+                    y: heightCircuit * 2 / 5
+                }
             }
 
-            Text {
-                id: txtSW2Id
-                x: 50
-                y: marginIndicators
-                height: indSW2.height
-                text: qsTr("Switch") + " 2"
-                verticalAlignment: Text.AlignVCenter
-                font.pixelSize: defaultLabelFontSize
-            }
-        }
+            ShapePath {
+                strokeWidth: 5
+                strokeColor: "black"
+                fillColor: "transparent"
 
-        Rectangle {
-            id: devSerial2
-            anchors.left: rackAmp.left
-            anchors.leftMargin: defaultMarginAndTextWidthHeight
-            anchors.bottom: rackAmp.bottom
-            anchors.bottomMargin: defaultMarginAndTextWidthHeight
-            width: serialSWWidth
-            height: serialSWHeight
-            border.width: defaultBorderWidth
-
-            StatusIndicator {
-                id: indSerial2
-                x: marginIndicators
-                y: marginIndicators
-            }
-
-            Text {
-                id: txtSerial2Id
-                x: 50
-                y: marginIndicators
-                height: indSerial2.height
-                text: qsTr("Serial") + " 2"
-                verticalAlignment: Text.AlignVCenter
-                font.pixelSize: defaultLabelFontSize
+                startX: 0
+                startY: heightCircuit * 4 / 5
+                PathLine {
+                    x: circuit1.width * 4 / 5
+                    y: heightCircuit * 4 / 5
+                }
+                PathLine {
+                    x: circuit1.width * 4 / 5
+                    y: heightCircuit * 3 / 5
+                }
+                PathLine {
+                    x: circuit1.width * 9 / 10
+                    y: heightCircuit * 3 / 5
+                }
             }
         }
     }
 
-    Shape {
-        anchors.verticalCenter: rackFreq.bottom
-        anchors.horizontalCenter: rackFreq.right
-        anchors.horizontalCenterOffset: marginRacks / 2
-        width: 2 * serialSWWidth + marginRacks + 2 * defaultMarginAndTextWidthHeight
-        height: 2 * serialSWHeight + 2 * defaultMarginAndTextWidthHeight
+    Rectangle {
+        id: rectAnt
+        x: windowLeftMargin + circuit1.width * 9 / 10
+        y: singleBoxHeight + defaultMarginAndTextWidthHeight + heightCircuit / 5
+        width: circuit1.width / 10
+        height: heightCircuit * 8 / 5
+        border.width: defaultBorderWidth
+        Text {
+            id: txtAnt
+            anchors.fill: parent
+            text: qsTr("Antenna")
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+            wrapMode: Text.WrapAnywhere
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: defaultLabelFontSize
+        }
+    }
 
-        ShapePath {
-            strokeWidth: 3
-            strokeColor: "black"
-            strokeStyle: ShapePath.DashLine
-            fillColor: "transparent"
+    BlockDevDist {
+        id: blkDistMidFreq1
+        deviceId: 0x0A
+        posTop: singleBoxHeight + defaultMarginAndTextWidthHeight * 3 + heightCircuit * 2
+        posLeft: windowLeftMargin + blkFreqUpFreq1.posLeft
+    }
 
-            startX: serialSWWidth / 2
-            startY: serialSWHeight
-            PathLine {
-                x: serialSWWidth / 2
-                y: serialSWHeight + 2 * defaultMarginAndTextWidthHeight
-            }
+    BlockDevDist {
+        id: blkDistMidFreq2
+        deviceId: 0x0B
+        posTop: singleBoxHeight + defaultMarginAndTextWidthHeight * 3 + heightCircuit * 2
+        posLeft: windowLeftMargin + blkAmpAmpA1.posLeft
+    }
+
+    Rectangle {
+        id: devSerial1
+        x: blkDistMidFreq1.posLeft
+        y: blkDistMidFreq1.posBottom + defaultMarginAndTextWidthHeight
+        width: singleBoxWidth
+        height: singleBoxHeight
+        border.width: defaultBorderWidth
+
+        StatusIndicator {
+            id: indSerial1
+            anchors.right: devSerial1.right
+            anchors.rightMargin: marginIndicators
+            anchors.top: devSerial1.top
+            anchors.topMargin: marginIndicators
         }
 
-        ShapePath {
-            strokeWidth: 3
-            strokeColor: "black"
-            strokeStyle: ShapePath.DashLine
-            fillColor: "transparent"
+        Text {
+            id: txtSerial1Id
+            x: marginIndicators
+            y: marginIndicators
+            height: indSerial1.height
+            text: qsTr("Serial") + " 1"
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: defaultLabelFontSize
+        }
+    }
 
-            startX: serialSWWidth + 2 * defaultMarginAndTextWidthHeight + marginRacks + serialSWWidth / 2
-            startY: serialSWHeight
-            PathLine {
-                x: serialSWWidth + 2 * defaultMarginAndTextWidthHeight + marginRacks + serialSWWidth / 2
-                y: serialSWHeight + 2 * defaultMarginAndTextWidthHeight
-            }
+    Rectangle {
+        id: devSerial2
+        x: blkDistMidFreq2.posLeft
+        y: blkDistMidFreq1.posBottom + defaultMarginAndTextWidthHeight
+        width: singleBoxWidth
+        height: singleBoxHeight
+        border.width: defaultBorderWidth
+
+        StatusIndicator {
+            id: indSerial2
+            anchors.right: devSerial2.right
+            anchors.rightMargin: marginIndicators
+            anchors.top: devSerial2.top
+            anchors.topMargin: marginIndicators
         }
 
-        ShapePath {
-            strokeWidth: 3
-            strokeColor: "black"
-            strokeStyle: ShapePath.DashLine
-            fillColor: "transparent"
+        Text {
+            id: txtSerial2Id
+            x: marginIndicators
+            y: marginIndicators
+            height: indSerial2.height
+            text: qsTr("Serial") + " 2"
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: defaultLabelFontSize
+        }
+    }
 
-            startX: serialSWWidth
-            startY: serialSWHeight + 2 * defaultMarginAndTextWidthHeight + serialSWHeight / 2 - 15
-            PathLine {
-                x: serialSWWidth + 2 * defaultMarginAndTextWidthHeight + marginRacks
-                y: serialSWHeight  + 2 * defaultMarginAndTextWidthHeight + serialSWHeight / 2 - 15
-            }
+    Rectangle {
+        id: devSW
+        x: windowLeftMargin + blkFreqDownFreq1.posLeft
+        anchors.bottom: devSerial1.bottom
+        width: singleBoxWidth
+        height: doubleBoxHeight
+        border.width: defaultBorderWidth
+
+        StatusIndicator {
+            id: indSW
+            anchors.right: devSW.right
+            anchors.rightMargin: marginIndicators
+            anchors.top: devSW.top
+            anchors.topMargin: marginIndicators
         }
 
-        ShapePath {
-            strokeWidth: 3
-            strokeColor: "black"
-            strokeStyle: ShapePath.DashLine
-            fillColor: "transparent"
-
-            startX: serialSWWidth
-            startY: serialSWHeight + 2 * defaultMarginAndTextWidthHeight + serialSWHeight / 2 + 15
-            PathLine {
-                x: serialSWWidth + 2 * defaultMarginAndTextWidthHeight + marginRacks
-                y: serialSWHeight  + 2 * defaultMarginAndTextWidthHeight + serialSWHeight / 2 + 15
-            }
+        Text {
+            id: txtSWId
+            x: marginIndicators
+            y: marginIndicators
+            height: indSW.height
+            text: qsTr("Switch")
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: defaultLabelFontSize
         }
     }
 }

@@ -47,9 +47,9 @@ public:
     static const inline QHash<P_COLOR, QString> STR_COLOR = {
         {P_COLOR_NORMAL, "green"},
         {P_COLOR_ABNORMAL, "red"},
-        {P_COLOR_STANDBY, "yellow"},
-        {P_COLOR_HOLDING, "blue"},
-        {P_COLOR_OTHERS, "black"}
+        {P_COLOR_STANDBY, "blue"},
+        {P_COLOR_HOLDING, "yellow"},
+        {P_COLOR_OTHERS, "grey"}
     };
 
     enum P_ALERT { P_ALERT_GOOD = 0, P_ALERT_NODATA, P_ALERT_LOWER, P_ALERT_UPPER, P_ALERT_BAD,

@@ -8,57 +8,58 @@ Item {
     id: blockDevDist
     property int posLeft : 0
     property int posTop : 0
-    property int posRight : dev.x + dev.width
-    property int posBottom: dev.y + dev.height
+    property int posRight : rectDev.x + rectDev.width
+    property int posBottom: rectDev.y + rectDev.height
 
     DevDist {
         id: devDist
     }
     property alias deviceId : devDist.dId
 
-    Text {
-        id: txtId
-        anchors.top: dev.top
-        anchors.topMargin: -25
-        anchors.right: dev.left
-        width: defaultMarginAndTextWidthHeight
-        height: rackFreqBoxDistHeight + 50
-        text: devDist.name
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
-        wrapMode: Text.WrapAnywhere
-        horizontalAlignment: Text.AlignHCenter
-        font.pixelSize: defaultLabelFontSize
-
-        MouseArea {
-            id: mouseId
-            anchors.fill: parent
-            onClicked: mouseClick()
-        }
-    }
-
     Rectangle {
-        id: dev
-        x: posLeft + 2 * defaultMarginAndTextWidthHeight
-        y: posTop + defaultMarginAndTextWidthHeight
-        width: rackFreqBoxWidth
-        height: rackFreqBoxDistHeight
+        id: rectDev
+        x: posLeft
+        y: posTop
+        width: singleBoxWidth
+        height: singleBoxHeight
+        border.width: defaultBorderWidth
+
+        Rectangle {
+            x: 0
+            y: 0
+            width: 50
+            height: singleBoxHeight
+            border.width: defaultBorderWidth
+            Text {
+                id: txtId
+                anchors.fill: parent
+                text: devDist.name
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
+                wrapMode: Text.WrapAnywhere
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: defaultLabelFontSize
+            }
+        }
+
         StatusIndicator {
             id: ind
-            x: marginIndicators
-            y: marginIndicators
+            anchors.right: rectDev.right
+            anchors.rightMargin: marginIndicators
+            anchors.top: rectDev.top
+            anchors.topMargin: marginIndicators
+            active: false
+
+            Component.onCompleted: devDist.gotData.connect(function() {
+                active = true
+                color = devDist.showIndicatorColor()
+            })
         }
-        border.width: defaultBorderWidth
 
         MouseArea {
             id: mouseDev
             anchors.fill: parent
             onClicked: mouseClick()
-        }
-
-        RectDevDist {
-            id: rect
-            devDist: devDist
         }
 
         Timer {
@@ -81,8 +82,8 @@ Item {
                     objWinDist.communicationColorValue = colorValue
                 if (devDist.timedout()) {
                     devDist.alertTimeout()
-                    if (rect.ind.active)
-                        rect.ind.color = Alert.MAP_COLOR["ABNORMAL"]
+                    if (ind.active)
+                        ind.color = Alert.MAP_COLOR["ABNORMAL"]
                 }
             }
         }

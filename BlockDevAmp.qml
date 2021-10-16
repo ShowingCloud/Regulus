@@ -8,8 +8,8 @@ Item {
     id: blockDevAmp
     property int posLeft : 0
     property int posTop : 0
-    property int posRight : devMaster.x + devMaster.width
-    property int posBottom: devSlave.y + devSlave.height
+    property int posRight : rectDev.x + rectDev.width
+    property int posBottom: rectDev.y + rectDev.height
 
     DevAmp {
         id: devAmpMaster
@@ -20,49 +20,64 @@ Item {
     property alias masterId : devAmpMaster.dId
     property alias slaveId : devAmpSlave.dId
 
-    Text {
-        id: txtId
-        anchors.top: devMaster.top
-        anchors.right: devMaster.left
-        width: defaultMarginAndTextWidthHeight
-        height: 2 * rackAmpBoxHeight
-        text: devAmpMaster.name
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
-        wrapMode: Text.WrapAnywhere
-        horizontalAlignment: Text.AlignHCenter
-        font.pixelSize: defaultLabelFontSize
-
-        MouseArea {
-            id: mouseId
-            anchors.fill: parent
-            onClicked: mouseClick()
-        }
-    }
-
     Rectangle {
-        id: devMaster
-        x: posLeft + 2 * defaultMarginAndTextWidthHeight
-        y: posTop + defaultMarginAndTextWidthHeight
-        width: rackAmpBoxWidth
-        height: rackAmpBoxHeight
-        StatusIndicator {
-            id: indMaster
-            x: marginIndicators
-            y: marginIndicators
-        }
+        id: rectDev
+        x: posLeft
+        y: posTop
+        width: singleBoxWidth
+        height: doubleBoxHeight
         border.width: defaultBorderWidth
 
-        MouseArea {
-            id: mouseMaster
-            anchors.fill: parent
-            onClicked: mouseClick()
+        Rectangle {
+            x: 0
+            y: 0
+            width: 50
+            height: doubleBoxHeight
+            border.width: defaultBorderWidth
+            Text {
+                id: txtId
+                anchors.fill: parent
+                text: devAmpMaster.name
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
+                wrapMode: Text.WrapAnywhere
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: defaultLabelFontSize
+            }
         }
 
-        RectDevAmp {
-            id: rectMaster
-            devAmp: devAmpMaster
-            devIsMaster: true
+        StatusIndicator {
+            id: masterInd
+            anchors.right: rectDev.right
+            anchors.rightMargin: marginIndicators
+            anchors.top: rectDev.top
+            anchors.topMargin: marginIndicators
+            active: false
+
+            Component.onCompleted: devAmpMaster.gotData.connect(function() {
+                active = true
+                color = devAmpMaster.showIndicatorColor()
+            })
+        }
+
+        StatusIndicator {
+            id: slaveInd
+            anchors.right: rectDev.right
+            anchors.rightMargin: marginIndicators
+            anchors.top: masterInd.bottom
+            anchors.topMargin: marginIndicators
+            active: false
+
+            Component.onCompleted: devAmpSlave.gotData.connect(function() {
+                active = true
+                color = devAmpSlave.showIndicatorColor()
+            })
+        }
+
+        MouseArea {
+            id: mouse
+            anchors.fill: parent
+            onClicked: mouseClick()
         }
 
         Timer {
@@ -85,37 +100,10 @@ Item {
                     objWinAmp.masterCommunicationColorValue = colorValue
                 if (devAmpMaster.timedout()) {
                     devAmpMaster.alertTimeout()
-                    if (rectMaster.ind.active)
-                        rectMaster.ind.color = Alert.MAP_COLOR["ABNORMAL"]
+                    if (masterInd.active)
+                        masterInd.color = Alert.MAP_COLOR["ABNORMAL"]
                 }
             }
-        }
-    }
-
-    Rectangle {
-        id: devSlave
-        anchors.left: devMaster.left
-        anchors.top: devMaster.bottom
-        anchors.topMargin: -defaultBorderWidth
-        width: rackAmpBoxWidth
-        height: rackAmpBoxHeight
-        StatusIndicator {
-            id: indSlave
-            x: marginIndicators
-            y: marginIndicators
-        }
-        border.width: defaultBorderWidth
-
-        MouseArea {
-            id: mouseSlave
-            anchors.fill: parent
-            onClicked: mouseClick()
-        }
-
-        RectDevAmp {
-            id: rectSlave
-            devAmp: devAmpSlave
-            devIsMaster: false
         }
 
         Timer {
@@ -138,8 +126,8 @@ Item {
                     objWinAmp.slaveCommunicationColorValue = colorValue
                 if (devAmpSlave.timedout()) {
                     devAmpSlave.alertTimeout()
-                    if (rectSlave.ind.active)
-                        rectSlave.ind.color = Alert.MAP_COLOR["ABNORMAL"]
+                    if (slaveInd.active)
+                        slaveInd.color = Alert.MAP_COLOR["ABNORMAL"]
                 }
             }
         }

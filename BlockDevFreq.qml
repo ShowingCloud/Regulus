@@ -8,8 +8,8 @@ Item {
     id: blockDevFreq
     property int posLeft : 0
     property int posTop : 0
-    property int posRight : devMaster.x + devMaster.width
-    property int posBottom : devSlave.y + devSlave.height
+    property int posRight : rectDev.x + rectDev.width
+    property int posBottom : rectDev.y + rectDev.height
     property bool devFreqUp: false
 
     DevFreq {
@@ -21,44 +21,64 @@ Item {
     property alias masterId : devFreqMaster.dId
     property alias slaveId : devFreqSlave.dId
 
-    Text {
-        id: txtId
-        anchors.top: devMaster.top
-        anchors.right: devMaster.left
-        width: defaultMarginAndTextWidthHeight
-        height: 2 * rackFreqBoxFreqHeight
-        text: devFreqMaster.name
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
-        wrapMode: Text.WrapAnywhere
-        horizontalAlignment: Text.AlignHCenter
-        font.pixelSize: defaultLabelFontSize
-
-        MouseArea {
-            id: mouseId
-            anchors.fill: parent
-            onClicked: mouseClick()
-        }
-    }
-
     Rectangle {
-        id: devMaster
-        x: posLeft + 2 * defaultMarginAndTextWidthHeight
-        y: posTop + defaultMarginAndTextWidthHeight
-        width: rackFreqBoxWidth
-        height: rackFreqBoxFreqHeight
+        id: rectDev
+        x: posLeft
+        y: posTop
+        width: singleBoxWidth
+        height: doubleBoxHeight
         border.width: defaultBorderWidth
 
-        MouseArea {
-            id: mouseMaster
-            anchors.fill: parent
-            onClicked: mouseClick()
+        Rectangle {
+            x: 0
+            y: 0
+            width: 50
+            height: doubleBoxHeight
+            border.width: defaultBorderWidth
+            Text {
+                id: txtId
+                anchors.fill: parent
+                text: devFreqMaster.name
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
+                wrapMode: Text.WrapAnywhere
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: defaultLabelFontSize
+            }
         }
 
-        RectDevFreq {
-            id: rectMaster
-            devFreq: devFreqMaster
-            devIsMaster: true
+        StatusIndicator {
+            id: masterInd
+            anchors.right: rectDev.right
+            anchors.rightMargin: marginIndicators
+            anchors.top: rectDev.top
+            anchors.topMargin: marginIndicators
+            active: false
+
+            Component.onCompleted: devFreqMaster.gotData.connect(function() {
+                active = true
+                color = devFreqMaster.showIndicatorColor()
+            })
+        }
+
+        StatusIndicator {
+            id: slaveInd
+            anchors.right: rectDev.right
+            anchors.rightMargin: marginIndicators
+            anchors.top: masterInd.bottom
+            anchors.topMargin: marginIndicators
+            active: false
+
+            Component.onCompleted: devFreqSlave.gotData.connect(function() {
+                active = true
+                color = devFreqSlave.showIndicatorColor()
+            })
+        }
+
+        MouseArea {
+            id: mouse
+            anchors.fill: parent
+            onClicked: mouseClick()
         }
 
         Timer {
@@ -81,32 +101,10 @@ Item {
                     objWinFreq.masterCommunicationColorValue = colorValue
                 if (devFreqMaster.timedout()) {
                     devFreqMaster.alertTimeout()
-                    if (rectMaster.ind.active)
-                        rectMaster.ind.color = Alert.MAP_COLOR["ABNORMAL"]
+                    if (masterInd.active)
+                        masterInd.color = Alert.MAP_COLOR["ABNORMAL"]
                 }
             }
-        }
-    }
-
-    Rectangle {
-        id: devSlave
-        anchors.left: devMaster.left
-        anchors.top: devMaster.bottom
-        anchors.topMargin: -defaultBorderWidth
-        width: rackFreqBoxWidth
-        height: rackFreqBoxFreqHeight
-        border.width: defaultBorderWidth
-
-        MouseArea {
-            id: mouseSlave
-            anchors.fill: parent
-            onClicked: mouseClick()
-        }
-
-        RectDevFreq {
-            id: rectSlave
-            devFreq: devFreqSlave
-            devIsMaster: false
         }
 
         Timer {
@@ -129,8 +127,8 @@ Item {
                     objWinFreq.slaveCommunicationColorValue = colorValue
                 if (devFreqSlave.timedout()) {
                     devFreqSlave.alertTimeout()
-                    if (rectSlave.ind.active)
-                        rectSlave.ind.color = Alert.MAP_COLOR["ABNORMAL"]
+                    if (slaveInd.active)
+                        slaveInd.color = Alert.MAP_COLOR["ABNORMAL"]
                 }
             }
         }
