@@ -36,28 +36,27 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # qt_ver: [5.15.2, 6.0.4, 6.1.2]
-        qt_ver: [5.12.11, 5.15.2]
+        qt_ver: [5.12.11, 5.15.2. 6.2.0]
         qt_target: [desktop]
         # qt_arch: [win64_msvc2019_64, win32_msvc2019, win64_msvc2017_64, win32_msvc2017, win64_mingw81, win32_mingw81, win64_mingw73, win32_mingw73]
         qt_arch: [win64_msvc2019_64, win32_msvc2019, win64_msvc2017_64, win32_msvc2017]
         exclude: 
-        - qt_ver: 5.15.2
-          qt_arch: win64_msvc2017_64
-        - qt_ver: 5.15.2
-          qt_arch: win32_msvc2017
-        - qt_ver: 5.15.2
-          qt_arch: win64_mingw73
-        - qt_ver: 5.15.2
-          qt_arch: win32_mingw73
-        - qt_ver: 5.12.11
-          qt_arch: win64_msvc2019_64
-        - qt_ver: 5.12.11
-          qt_arch: win32_msvc2019
-        - qt_ver: 5.12.11
-          qt_arch: win64_mingw81
-        - qt_ver: 5.12.11
-          qt_arch: win32_mingw81
+          - qt_ver: 5.15.2
+            qt_arch: win64_msvc2017_64
+          - qt_ver: 5.15.2
+            qt_arch: win32_msvc2017
+          - qt_ver: 5.15.2
+            qt_arch: win64_mingw73
+          - qt_ver: 5.15.2
+            qt_arch: win32_mingw73
+          - qt_ver: 5.12.11
+            qt_arch: win64_msvc2019_64
+          - qt_ver: 5.12.11
+            qt_arch: win32_msvc2019
+          - qt_ver: 5.12.11
+            qt_arch: win64_mingw81
+          - qt_ver: 5.12.11
+            qt_arch: win32_mingw81
         include:
           #- qt_arch: win64_mingw81
           #  msvc_arch: x64
@@ -75,12 +74,18 @@ jobs:
             msvc_arch: x64
           - qt_arch: win32_msvc2017
             msvc_arch: x86  
+          - qt_ver: 6.2.0
+            qt_module: "qtserialport qtserialbus"
+          - qt_ver: 5.12.11
+            qt_module: ""
+          - qt_ver: 5.15.2
+            qt_module: ""
     steps:
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
-          path: ../Qt
+          path: ${{ runner.workspace }}/Qt
           key: ${{ runner.os }}-${{ matrix.qt_ver }}-${{ matrix.qt_arch }}-QtCache
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
@@ -88,6 +93,8 @@ jobs:
           version: ${{ matrix.qt_ver }}
           target: ${{ matrix.qt_target }}
           arch: ${{ matrix.qt_arch }}
+          aqtversion: ==2.0.0
+          modules: ${{ matrix.qt_module }}
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
       - uses: actions/checkout@v1
         with:
@@ -134,20 +141,28 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # qt_ver: [5.15.2, 6.0.4, 6.1.2]
-        qt_ver: [5.15.2]
+        qt_ver: [5.12.11, 5.15.2, 6.2.0]
         os: [ubuntu-18.04, ubuntu-20.04]
+        include:
+          - qt_ver: 6.2.0
+            qt_module: "qtserialport qtserialbus"
+          - qt_ver: 5.12.11
+            qt_module: ""
+          - qt_ver: 5.15.2
+            qt_module: ""
     steps:
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
-          path: ../Qt
+          path: ${{ runner.workspace }}/Qt
           key: ${{ runner.os }}-QtCache
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_ver }}
+          aqtversion: ==2.0.0
+          modules: ${{ matrix.qt_module }}
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
       - uses: actions/checkout@v1
         with:
@@ -173,18 +188,27 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qt_ver: [5.15.2]  
+        qt_ver: [5.12.11, 5.15.2, 6.2.0]  
+        include:
+          - qt_ver: 6.2.0
+            qt_module: "qtserialport qtserialbus"
+          - qt_ver: 5.12.11
+            qt_module: ""
+          - qt_ver: 5.15.2
+            qt_module: ""
     steps:
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
-          path: ../Qt
+          path: ${{ runner.workspace }}/Qt
           key: ${{ runner.os }}-QtCache
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_ver }}
+          aqtversion: ==2.0.0
+          modules: ${{ matrix.qt_module }}
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
       - uses: actions/checkout@v1
         with:
