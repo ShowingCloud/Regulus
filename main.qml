@@ -216,7 +216,7 @@ Window {
         x: windowLeftMargin + circuit1.width * 9 / 10
         y: singleBoxHeight + defaultMarginAndTextWidthHeight + heightCircuit / 5
         width: circuit1.width / 10
-        height: heightCircuit * 8 / 5
+        height: heightCircuit * 8 / 5 + defaultMarginAndTextWidthHeight
         border.width: defaultBorderWidth
         Text {
             id: txtAnt
