@@ -27,20 +27,17 @@ int main(int argc, char *argv[])
     qmlRegisterType<devFreq>("rdss.device", 1, 0, "DevFreq");
     qmlRegisterType<devDist>("rdss.device", 1, 0, "DevDist");
     qmlRegisterType<devAmp>("rdss.device", 1, 0, "DevAmp");
+    qmlRegisterType<devNet>("rdss.device", 1, 0, "DevNet");
 
     qmlRegisterSingletonType<alert>("rdss.alert", 1, 0, "Alert", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
         Q_UNUSED(engine)
         Q_UNUSED(scriptEngine)
-
-        alert *ret = new alert();
-        return ret;
+        return new alert();
     });
     qmlRegisterSingletonType<alertRecordModel>("rdss.alert", 1, 0, "AlertRecordModel", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
         Q_UNUSED(engine)
         Q_UNUSED(scriptEngine)
-
-        alertRecordModel *ret = new alertRecordModel();
-        return ret;
+        return new alertRecordModel();
     });
 
     QQmlApplicationEngine engine;

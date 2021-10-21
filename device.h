@@ -190,7 +190,10 @@ protected:
         {0x0C, {"C1 ", QT_TR_NOOP("High Amplification"), " A"}},
         {0x0D, {"C1 ", QT_TR_NOOP("High Amplification"), " B"}},
         {0x0E, {"C2 ", QT_TR_NOOP("High Amplification"), " A"}},
-        {0x0F, {"C2 ", QT_TR_NOOP("High Amplification"), " B"}}
+        {0x0F, {"C2 ", QT_TR_NOOP("High Amplification"), " B"}},
+        {0x10, {QT_TR_NOOP("Serial to Network"), " 1"}},
+        {0x11, {QT_TR_NOOP("Serial to Network"), " 2"}},
+        {0x12, {QT_TR_NOOP("Switch")}}
     };
 
     int dId = 0;
@@ -223,6 +226,7 @@ private:
 class devFreq : public device
 {
     Q_OBJECT
+
 public:
     explicit devFreq(device *parent = nullptr) : device({
         {"atten",       new deviceVar(alert::P_ENUM_FLOAT)},
@@ -279,6 +283,7 @@ private:
 class devDist : public device
 {
     Q_OBJECT
+
 public:
     explicit devDist(device *parent = nullptr) : device({
         {"ref_10",      new deviceVar(alert::P_ENUM_CH)},
@@ -311,6 +316,7 @@ public slots:
 class devAmp : public device
 {
     Q_OBJECT
+
 public:
     explicit devAmp(device *parent = nullptr) : device({
         {"power",           new deviceVar(alert::P_ENUM_DECUPLE)},
@@ -348,6 +354,19 @@ public:
 
 public slots:
     void createCntlMsg() const override;
+    const QString showIndicatorColor() const override;
+};
+
+class devNet : public device
+{
+    Q_OBJECT
+
+public:
+    explicit devNet(QObject *parent = nullptr)
+        : device({}, {}, database::DB_TBL_OTHERS, parent) {}
+
+public slots:
+    void createCntlMsg() const override {}
     const QString showIndicatorColor() const override;
 };
 

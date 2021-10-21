@@ -199,6 +199,14 @@ const QString devAmp::showIndicatorColor() const
             return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
 }
 
+const QString devNet::showIndicatorColor() const
+{
+    if (timedout())
+        return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
+    else
+        return alert::STR_COLOR[alert::P_COLOR_NORMAL];
+}
+
 void devFreq::createCntlMsg() const
 {
     protocol *p = new protocol();

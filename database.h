@@ -43,7 +43,7 @@ public:
     enum DB_TBL { DB_TBL_AMP_DATA, DB_TBL_AMP_ALERT, DB_TBL_AMP_OPER,
          DB_TBL_FREQ_DATA, DB_TBL_FREQ_ALERT, DB_TBL_FREQ_OPER,
          DB_TBL_DIST_DATA, DB_TBL_DIST_ALERT, DB_TBL_DIST_OPER,
-         DB_TBL_MSG_ALERT };
+         DB_TBL_MSG_ALERT, DB_TBL_OTHERS };
     static const inline DB_TBL DB_TBL_ALL[] = {
         DB_TBL_AMP_DATA, DB_TBL_AMP_ALERT, DB_TBL_AMP_OPER,
         DB_TBL_FREQ_DATA, DB_TBL_FREQ_ALERT, DB_TBL_FREQ_OPER,
@@ -79,7 +79,7 @@ private:
         {DB_TBL_AMP_DATA, "amp_data"}, {DB_TBL_AMP_ALERT, "amp_alert"}, {DB_TBL_AMP_OPER, "amp_oper"},
         {DB_TBL_FREQ_DATA, "freq_data"}, {DB_TBL_FREQ_ALERT, "freq_alert"}, {DB_TBL_FREQ_OPER, "freq_oper"},
         {DB_TBL_DIST_DATA, "dist_data"}, {DB_TBL_DIST_ALERT, "dist_alert"}, {DB_TBL_DIST_OPER, "dist_oper"},
-        {DB_TBL_MSG_ALERT, "msg_alert"}};
+        {DB_TBL_MSG_ALERT, "msg_alert"}, {DB_TBL_OTHERS, "others"}};
 
     static const inline QHash<DB_TBL, QList<QStringList>> DB_COLUMNS = {
         {DB_TBL_FREQ_DATA, {{"Id", "INTEGER", "UNIQUE", "PRIMARY KEY", "AUTOINCREMENT"},

@@ -77,7 +77,6 @@ bool database::createTable()
         if(!dbQuery.exec())
             qDebug() << dbQuery.lastError();
 
-
         for (const QString &column : DB_INDEXES[table]) {
             dbQuery.prepare("CREATE INDEX IF NOT EXISTS " + DB_TABLES[table] + "_" + column
                     + " ON " + DB_TABLES[table] + "(" + column + ")");

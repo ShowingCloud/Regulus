@@ -4,6 +4,7 @@ import QtQuick.Extras 1.4
 import QtQuick.Shapes 1.11
 
 import rdss.device 1.0
+import rdss.alert 1.0
 
 Window {
     readonly property int singleBoxWidth: 270
@@ -244,18 +245,23 @@ Window {
     }
 
     Rectangle {
-        id: devSerial1
+        id: rectSerial1
         x: blkDistMidFreq1.posLeft
         y: blkDistMidFreq1.posBottom + defaultMarginAndTextWidthHeight
         width: singleBoxWidth
         height: singleBoxHeight
         border.width: defaultBorderWidth
 
+        DevNet {
+            id: devSerial1
+            dId: 0x10
+        }
+
         StatusIndicator {
             id: indSerial1
-            anchors.right: devSerial1.right
+            anchors.right: rectSerial1.right
             anchors.rightMargin: marginIndicators
-            anchors.top: devSerial1.top
+            anchors.top: rectSerial1.top
             anchors.topMargin: marginIndicators
         }
 
@@ -264,25 +270,52 @@ Window {
             x: marginIndicators
             y: marginIndicators
             height: indSerial1.height
-            text: qsTr("Serial") + " 1"
+            text: devSerial1.name
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: defaultLabelFontSize
+        }
+
+        Timer {
+            property string colorValue: Alert.MAP_COLOR["OTHERS"]
+
+            id: timerSerial1
+            interval: Alert.timeout * 1000
+            running: true
+            repeat: true
+
+            Component.onCompleted: devSerial1.gotData.connect(function() {
+                if (!devSerial1.timedout()) colorValue = Alert.MAP_COLOR["NORMAL"]
+                restart()
+            });
+            onTriggered: {
+                colorValue = devSerial1.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
+                if (devSerial1.timedout()) {
+                    devSerial1.alertTimeout()
+                    if (indSerial1.active)
+                        indSerial1.color = Alert.MAP_COLOR["ABNORMAL"]
+                }
+            }
         }
     }
 
     Rectangle {
-        id: devSerial2
+        id: rectSerial2
         x: blkDistMidFreq2.posLeft
         y: blkDistMidFreq1.posBottom + defaultMarginAndTextWidthHeight
         width: singleBoxWidth
         height: singleBoxHeight
         border.width: defaultBorderWidth
 
+        DevNet {
+            id: devSerial2
+            dId: 0x11
+        }
+
         StatusIndicator {
             id: indSerial2
-            anchors.right: devSerial2.right
+            anchors.right: rectSerial2.right
             anchors.rightMargin: marginIndicators
-            anchors.top: devSerial2.top
+            anchors.top: rectSerial2.top
             anchors.topMargin: marginIndicators
         }
 
@@ -291,25 +324,52 @@ Window {
             x: marginIndicators
             y: marginIndicators
             height: indSerial2.height
-            text: qsTr("Serial") + " 2"
+            text: devSerial2.name
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: defaultLabelFontSize
+        }
+
+        Timer {
+            property string colorValue: Alert.MAP_COLOR["OTHERS"]
+
+            id: timerSerial2
+            interval: Alert.timeout * 1000
+            running: true
+            repeat: true
+
+            Component.onCompleted: devSerial2.gotData.connect(function() {
+                if (!devSerial2.timedout()) colorValue = Alert.MAP_COLOR["NORMAL"]
+                restart()
+            });
+            onTriggered: {
+                colorValue = devSerial2.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
+                if (devSerial2.timedout()) {
+                    devSerial2.alertTimeout()
+                    if (indSerial2.active)
+                        indSerial2.color = Alert.MAP_COLOR["ABNORMAL"]
+                }
+            }
         }
     }
 
     Rectangle {
-        id: devSW
+        id: rectSW
         x: windowLeftMargin + blkFreqDownFreq1.posLeft
-        anchors.bottom: devSerial1.bottom
+        anchors.bottom: rectSerial1.bottom
         width: singleBoxWidth
         height: doubleBoxHeight
         border.width: defaultBorderWidth
 
+        DevNet {
+            id: devSW
+            dId: 0x12
+        }
+
         StatusIndicator {
             id: indSW
-            anchors.right: devSW.right
+            anchors.right: rectSW.right
             anchors.rightMargin: marginIndicators
-            anchors.top: devSW.top
+            anchors.top: rectSW.top
             anchors.topMargin: marginIndicators
         }
 
@@ -318,9 +378,31 @@ Window {
             x: marginIndicators
             y: marginIndicators
             height: indSW.height
-            text: qsTr("Switch")
+            text: devSW.name
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: defaultLabelFontSize
+        }
+
+        Timer {
+            property string colorValue: Alert.MAP_COLOR["OTHERS"]
+
+            id: timerSW
+            interval: Alert.timeout * 1000
+            running: true
+            repeat: true
+
+            Component.onCompleted: devSW.gotData.connect(function() {
+                if (!devSW.timedout()) colorValue = Alert.MAP_COLOR["NORMAL"]
+                restart()
+            });
+            onTriggered: {
+                colorValue = devSW.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
+                if (devSW.timedout()) {
+                    devSW.alertTimeout()
+                    if (indSW.active)
+                        indSW.color = Alert.MAP_COLOR["ABNORMAL"]
+                }
+            }
         }
     }
 }
