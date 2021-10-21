@@ -363,7 +363,7 @@ class devNet : public device
 
 public:
     explicit devNet(QObject *parent = nullptr)
-        : device({}, {}, database::DB_TBL_OTHERS, parent) {}
+        : device({}, {}, database::DB_TBL_NET_ALERT, parent) {}
 
 public slots:
     void createCntlMsg() const override {}

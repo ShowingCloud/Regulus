@@ -41,14 +41,15 @@ public:
     friend const database &operator>> (const database &db, QList<QStringList> &str);
 
     enum DB_TBL { DB_TBL_AMP_DATA, DB_TBL_AMP_ALERT, DB_TBL_AMP_OPER,
-         DB_TBL_FREQ_DATA, DB_TBL_FREQ_ALERT, DB_TBL_FREQ_OPER,
-         DB_TBL_DIST_DATA, DB_TBL_DIST_ALERT, DB_TBL_DIST_OPER,
-         DB_TBL_MSG_ALERT, DB_TBL_OTHERS };
+                  DB_TBL_FREQ_DATA, DB_TBL_FREQ_ALERT, DB_TBL_FREQ_OPER,
+                  DB_TBL_DIST_DATA, DB_TBL_DIST_ALERT, DB_TBL_DIST_OPER,
+                  DB_TBL_MSG_ALERT, DB_TBL_NET_ALERT, DB_TBL_PREFERENCES,
+                  DB_TBL_OTHERS };
     static const inline DB_TBL DB_TBL_ALL[] = {
         DB_TBL_AMP_DATA, DB_TBL_AMP_ALERT, DB_TBL_AMP_OPER,
         DB_TBL_FREQ_DATA, DB_TBL_FREQ_ALERT, DB_TBL_FREQ_OPER,
         DB_TBL_DIST_DATA, DB_TBL_DIST_ALERT, DB_TBL_DIST_OPER,
-        DB_TBL_MSG_ALERT };
+        DB_TBL_MSG_ALERT, DB_TBL_NET_ALERT, /*DB_TBL_PREFERENCES*/ };
     enum DB_RET { DB_RET_SUCCESS };
 
     bool setAlert(const database::DB_TBL dbTable, const int deviceId, const int type,
@@ -79,7 +80,8 @@ private:
         {DB_TBL_AMP_DATA, "amp_data"}, {DB_TBL_AMP_ALERT, "amp_alert"}, {DB_TBL_AMP_OPER, "amp_oper"},
         {DB_TBL_FREQ_DATA, "freq_data"}, {DB_TBL_FREQ_ALERT, "freq_alert"}, {DB_TBL_FREQ_OPER, "freq_oper"},
         {DB_TBL_DIST_DATA, "dist_data"}, {DB_TBL_DIST_ALERT, "dist_alert"}, {DB_TBL_DIST_OPER, "dist_oper"},
-        {DB_TBL_MSG_ALERT, "msg_alert"}, {DB_TBL_OTHERS, "others"}};
+        {DB_TBL_MSG_ALERT, "msg_alert"}, {DB_TBL_NET_ALERT, "net_alert"}, {DB_TBL_PREFERENCES, "preferences"},
+        {DB_TBL_OTHERS, "others"}};
 
     static const inline QHash<DB_TBL, QList<QStringList>> DB_COLUMNS = {
         {DB_TBL_FREQ_DATA, {{"Id", "INTEGER", "UNIQUE", "PRIMARY KEY", "AUTOINCREMENT"},
@@ -124,7 +126,11 @@ private:
                            {"Power", "INTEGER"}, {"Gain", "INTEGER"}, {"Serial_Id", "INTEGER"}}},
         {DB_TBL_MSG_ALERT, {{"Id", "INTEGER", "UNIQUE", "PRIMARY KEY", "AUTOINCREMENT"},
                             {"Time", "DATETIME"}, {"Alert", "TEXT"}, {"Type", "INTEGER"},
-                            {"Emergence", "INTEGER"}, {"Device", "INTEGER"}}}};
+                            {"Emergence", "INTEGER"}, {"Device", "INTEGER"}}},
+        {DB_TBL_NET_ALERT, {{"Id", "INTEGER", "UNIQUE", "PRIMARY KEY", "AUTOINCREMENT"},
+                            {"Device", "INTEGER"}, {"Time", "DATETIME"}, {"Type", "INTEGER"},
+                            {"Field", "TEXT"}, {"Value", "INTEGER"}, {"Normal_Value", "INTEGER"},
+                            {"Emergence", "INTEGER"}}}};
 
     inline static const QHash<DB_TBL, QStringList> DB_INDEXES = {
         {DB_TBL_FREQ_DATA, {"Device", "Time"}},
@@ -136,7 +142,8 @@ private:
         {DB_TBL_AMP_DATA, {"Device", "Time"}},
         {DB_TBL_AMP_ALERT, {"Device", "Time", "Type", "Emergence"}},
         {DB_TBL_AMP_OPER, {"Device", "Time"}},
-        {DB_TBL_MSG_ALERT, {"Time"}}};
+        {DB_TBL_MSG_ALERT, {"Time"}},
+        {DB_TBL_NET_ALERT, {"Device", "Time", "Type", "Emergence"}}};
 
     inline static const QString dbFilename() {
         date = QDate::currentDate();

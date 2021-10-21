@@ -244,56 +244,57 @@ bool database::setAlert(const database::DB_TBL dbTable, const int deviceId, cons
     if (dev != nullptr and alertType != alert::P_ALERT_TIMEOUT_NOFIELD and alertType != alert::P_ALERT_OTHERS_NOFIELD)
         varType = dev->getVarType(field);
 
-    for (alertRecordModel *model : qAsConst(alertRecordModel::alertRecordModelList)) {
-        QStringList alrt = {
-            device::name(deviceId) + "#" + QString::number(deviceId),
-            QDateTime::currentDateTime().toString(Qt::ISODate),
+    QStringList alrt = {
+        device::name(deviceId) + " #" + QString::number(deviceId),
+        QDateTime::currentDateTime().toString(Qt::ISODate),
 
-            (alertType == alert::P_ALERT_TIMEOUT_NOFIELD or alertType == alert::P_ALERT_OTHERS_NOFIELD)
-            ? ""
-            : (dev == nullptr ? field : dev->varName(field)),
+        (alertType == alert::P_ALERT_TIMEOUT_NOFIELD or alertType == alert::P_ALERT_OTHERS_NOFIELD)
+        ? ""
+        : (dev == nullptr ? field : dev->varName(field)),
 
-            [=](){
-                const auto getAlertStr = [](const alert::P_ALERT type, const int n) {
-                    return alert::tr(alert::STR_ALERT[type][n].toUtf8()); };
+        [=](){
+            const auto getAlertStr = [](const alert::P_ALERT type, const int n) {
+                return alert::tr(alert::STR_ALERT[type][n].toUtf8()); };
 
-                switch (alertType) {
-                case alert::P_ALERT_GOOD:
-                    return (tr("Restored normal") + (", ") + getAlertStr(alertType, 0) + ": "
-                        + alert::setDisplay(value, varType));
-                case alert::P_ALERT_LOWER:
-                case alert::P_ALERT_UPPER:
-                case alert::P_ALERT_BAD:
-                    return getAlertStr(alertType, 0) + ", " + getAlertStr(alertType, 2) + ": "
-                        + alert::setDisplay(normal_value, varType)
-                        + ", " + getAlertStr(alertType, 1) + ": "
-                        + alert::setDisplay(value, varType);
-                case alert::P_ALERT_TIMEOUT:
-                case alert::P_ALERT_TIMEOUT_NOFIELD:
-                    return getAlertStr(alertType, 0) + ", " + getAlertStr(alertType, 1) + ": "
-                        + (value.value<int>() == -1 ? getAlertStr(alertType, 2)
-                            : QString::number(value.value<int>())
-                        + getAlertStr(alertType, 3));
-                case alert::P_ALERT_OTHERS:
-                case alert::P_ALERT_OTHERS_NOFIELD:
-                case alert::P_ALERT_NODATA:
-                    return getAlertStr(alertType, 0);
-                }
+            switch (alertType) {
+            case alert::P_ALERT_GOOD:
+                return (tr("Restored normal") + (", ") + getAlertStr(alertType, 0) + ": "
+                    + alert::setDisplay(value, varType));
+            case alert::P_ALERT_LOWER:
+            case alert::P_ALERT_UPPER:
+            case alert::P_ALERT_BAD:
+                return getAlertStr(alertType, 0) + ", " + getAlertStr(alertType, 2) + ": "
+                    + alert::setDisplay(normal_value, varType)
+                    + ", " + getAlertStr(alertType, 1) + ": "
+                    + alert::setDisplay(value, varType);
+            case alert::P_ALERT_TIMEOUT:
+            case alert::P_ALERT_TIMEOUT_NOFIELD:
+                return getAlertStr(alertType, 0) + ", " + getAlertStr(alertType, 1) + ": "
+                    + (value.value<int>() == -1 ? getAlertStr(alertType, 2)
+                        : QString::number(value.value<int>())
+                    + getAlertStr(alertType, 3));
+            case alert::P_ALERT_OTHERS:
+            case alert::P_ALERT_OTHERS_NOFIELD:
+            case alert::P_ALERT_NODATA:
+                return getAlertStr(alertType, 0);
+            }
 
-                return tr("No content");
-            }(),
+            return tr("No content");
+        }(),
 
-            alertType == alert::P_ALERT_GOOD ? alert::STR_COLOR[alert::P_COLOR_NORMAL] : alert::STR_COLOR[alert::P_COLOR_ABNORMAL]
-        };
+        alertType == alert::P_ALERT_GOOD ? alert::STR_COLOR[alert::P_COLOR_NORMAL] : alert::STR_COLOR[alert::P_COLOR_ABNORMAL]
+    };
+
+    for (alertRecordModel *model : qAsConst(alertRecordModel::alertRecordModelList))
         model->addAlert(deviceId, alrt);
-        for (const QString &str : alrt.mid(0, 4))
-            logstream << str << ", ";
+
+    for (const QString &str : alrt.mid(0, 4))
+        logstream << str << ", ";
 #if QT_VERSION > QT_VERSION_CHECK(5, 14, 0)
-        logstream << Qt::endl;
+    logstream << Qt::endl;
 #else
-        logstream << endl;
+    logstream << endl;
 #endif
-    }
     return true;
 }
 
@@ -334,7 +335,7 @@ const database &operator>> (const database &db, QList<QStringList> &str)
             varType = dev->getVarType(field);
 
         QStringList s = {
-            device::name(r.value("device").value<int>()) + "#" + QString::number(r.value("device").value<int>()),
+            device::name(r.value("device").value<int>()) + " #" + QString::number(r.value("device").value<int>()),
 
             r.value("Time").toDateTime().toString(Qt::ISODate),
 
