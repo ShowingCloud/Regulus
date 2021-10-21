@@ -41,3 +41,5 @@ HEADERS += \
     alert.h \
     serial.h \
     device.h
+
+DEFINES += QT_NO_INFO_OUTPUT

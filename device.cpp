@@ -266,3 +266,30 @@ void devAmp::createCntlMsg() const
 
     delete q;
 }
+
+devNet::devNet(QObject *parent)
+        : device({}, {}, database::DB_TBL_NET_ALERT, parent)
+{
+    QTimer *timer = new QTimer(this);
+    QObject::connect(timer, &QTimer::timeout, [=]() {
+        QStringList params;
+#if defined(WIN32)
+        params << "-n" << "1";
+#else
+        params << "-c 1";
+#endif
+        params << ipAddr[dId];
+
+        QProcess *ping = new QProcess(this);
+        ping->start("ping", params);
+        connect(ping, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+                [=](int exitCode, QProcess::ExitStatus exitStatus){
+            Q_UNUSED(exitStatus)
+            if (exitCode == 0) {
+                lastseen = QDateTime::currentDateTime();
+                emit gotData();
+            }
+        });
+    });
+    timer->start(1000);
+}

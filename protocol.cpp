@@ -128,7 +128,7 @@ msgFreq &operator<< (msgFreq &m, const QByteArray &data)
         qDebug() << "Mulformed message";
         return m;
     }
-    //qDebug() << "Got Msg Freq" << m.deviceId << m.origin;
+    qInfo() << "Got Msg Freq" << m.deviceId << m.origin;
 
     QDataStream(data) >> m.holder8 /* header */ >> m.atten >> m.voltage
                       >> m.current >> m.radio_stat >> m.mid_stat >> m.lock_a1
@@ -152,7 +152,7 @@ msgDist &operator<< (msgDist &m, const QByteArray &data)
         qDebug() << "Mulformed message";
         return m;
     }
-    //qDebug() << "Got Msg Dist" << m.deviceId << m.origin;
+    qInfo() << "Got Msg Dist" << m.deviceId << m.origin;
 
     QDataStream(data) >> m.holder8 /* header */ >> m.ref_10 >> m.ref_16 >> m.voltage
                       >> m.current >> m.lock_10_1 >> m.lock_10_2 >> m.serialId
@@ -172,7 +172,7 @@ msgAmp &operator<< (msgAmp &m, const QByteArray &data)
         qDebug() << "Mulformed message";
         return m;
     }
-    //qDebug() << "Got Msg Amp" << m.deviceId << m.origin;
+    qInfo() << "Got Msg Amp" << m.deviceId << m.origin;
 
     QDataStream(data) >> m.holder8 /* header */ >> m.power >> m.gain >> m.atten
                       >> m.loss >> m.temp >> m.stat >> m.load_temp

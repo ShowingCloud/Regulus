@@ -362,12 +362,17 @@ class devNet : public device
     Q_OBJECT
 
 public:
-    explicit devNet(QObject *parent = nullptr)
-        : device({}, {}, database::DB_TBL_NET_ALERT, parent) {}
+    explicit devNet(QObject *parent = nullptr);
 
 public slots:
     void createCntlMsg() const override {}
     const QString showIndicatorColor() const override;
+
+private:
+    static const inline QHash<int, QString> ipAddr = {
+        {0x10, "192.168.1.1"},
+        {0x11, "8.8.8.8"},
+        {0x12, "8.8.8.7"}};
 };
 
 #endif // DEVICE_H

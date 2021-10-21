@@ -263,6 +263,11 @@ Window {
             anchors.rightMargin: marginIndicators
             anchors.top: rectSerial1.top
             anchors.topMargin: marginIndicators
+
+            Component.onCompleted: devSerial1.gotData.connect(function() {
+                active = true
+                color = devSerial1.showIndicatorColor()
+            })
         }
 
         Text {
@@ -317,6 +322,11 @@ Window {
             anchors.rightMargin: marginIndicators
             anchors.top: rectSerial2.top
             anchors.topMargin: marginIndicators
+
+            Component.onCompleted: devSerial2.gotData.connect(function() {
+                active = true
+                color = devSerial2.showIndicatorColor()
+            })
         }
 
         Text {
@@ -371,6 +381,11 @@ Window {
             anchors.rightMargin: marginIndicators
             anchors.top: rectSW.top
             anchors.topMargin: marginIndicators
+
+            Component.onCompleted: devSW.gotData.connect(function() {
+                active = true
+                color = devSW.showIndicatorColor()
+            })
         }
 
         Text {
