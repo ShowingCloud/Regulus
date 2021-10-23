@@ -214,7 +214,6 @@ protected:
 
 private:
     QString str = QString();
-
     protocol *query;
     protocol *cntl;
 
@@ -268,10 +267,12 @@ public:
         {"ref_inner_2", "10 MHz " + tr("Inner Ref")},
         {"handshake",   tr("Handshake Signal")},
         {"masterslave", tr("Current State")}
-    }, database::DB_TBL_FREQ_ALERT, parent) {}
+    }, database::DB_TBL_FREQ_ALERT, parent) { *globalDB >> *this; }
 
     friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
+    template <class T> friend database &operator<< (database &db, const T &dev);
     friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
+    template <class T> friend const database &operator>> (const database &db, T &dev);
 
 public slots:
     void createCntlMsg() const override;
@@ -303,14 +304,18 @@ public:
         {"lock_10_2",   "10 MHz " + tr("Lock") + " 2"},
         {"lock_16_1",   "16 MHz " + tr("Lock") + " 1"},
         {"lock_16_2",   "16 MHz " + tr("Lock") + " 2"}
-    }, database::DB_TBL_DIST_ALERT, parent) {}
+    }, database::DB_TBL_DIST_ALERT, parent) { *globalDB >> *this; }
 
     friend devDist &operator<< (devDist &dev, const msgDist &m);
+    template <class T> friend database &operator<< (database &db, const T &dev);
     friend const devDist &operator>> (const devDist &dev, msgCntlDist &m);
+    template <class T> friend const database &operator>> (const database &db, T &dev);
 
 public slots:
     void createCntlMsg() const override;
     const QString showIndicatorColor() const override;
+
+private:
 };
 
 class devAmp : public device
@@ -347,14 +352,18 @@ public:
         {"handshake",       tr("Handshake Signal")},
         {"atten_mode",      tr("Attenuation Mode")},
         {"masterslave",     tr("Current State")}
-}, database::DB_TBL_AMP_ALERT, parent) {}
+}, database::DB_TBL_AMP_ALERT, parent) { *globalDB >> *this; }
 
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
+    template <class T> friend database &operator<< (database &db, const T &dev);
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
+    template <class T> friend const database &operator>> (const database &db, T &dev);
 
 public slots:
     void createCntlMsg() const override;
     const QString showIndicatorColor() const override;
+
+private:
 };
 
 class devNet : public device

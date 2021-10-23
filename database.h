@@ -38,6 +38,8 @@ public:
     friend database &operator<< (database &db, const msgCntlDist &msg);
     friend database &operator<< (database &db, const msgCntlAmp &msg);
     friend database &operator<< (database &db, const databaseSetter &setter);
+    template <class T> friend database &operator<< (database &db, const T &dev);
+    template <class T> friend const database &operator>> (const database &db, T &dev);
     friend const database &operator>> (const database &db, QList<QStringList> &str);
 
     enum DB_TBL { DB_TBL_AMP_DATA, DB_TBL_AMP_ALERT, DB_TBL_AMP_OPER,
@@ -45,11 +47,11 @@ public:
                   DB_TBL_DIST_DATA, DB_TBL_DIST_ALERT, DB_TBL_DIST_OPER,
                   DB_TBL_MSG_ALERT, DB_TBL_NET_ALERT, DB_TBL_PREFERENCES,
                   DB_TBL_OTHERS };
-    static const inline DB_TBL DB_TBL_ALL[] = {
+    static const inline DB_TBL DB_TBL_ALL[] = { /* all tables in history db */
         DB_TBL_AMP_DATA, DB_TBL_AMP_ALERT, DB_TBL_AMP_OPER,
         DB_TBL_FREQ_DATA, DB_TBL_FREQ_ALERT, DB_TBL_FREQ_OPER,
         DB_TBL_DIST_DATA, DB_TBL_DIST_ALERT, DB_TBL_DIST_OPER,
-        DB_TBL_MSG_ALERT, DB_TBL_NET_ALERT, /*DB_TBL_PREFERENCES*/ };
+        DB_TBL_MSG_ALERT, DB_TBL_NET_ALERT };
     enum DB_RET { DB_RET_SUCCESS };
 
     bool setAlert(const database::DB_TBL dbTable, const int deviceId, const int type,
@@ -57,23 +59,31 @@ public:
     bool setAlert(const int type, const QString text, const int deviceId = 0);
 
 private:
-    bool prepare();
-    bool createTable();
-    bool cleanUp();
+    bool prepareHistory();
+    bool createHistoryTable();
+    bool cleanUpHistory();
+    bool preparePref();
+    bool createPrefTable();
+    const QHash<QString, QVariant> getPreferences(const int deviceId) const;
+    bool setPreferences(const int deviceId, const QString field, const QVariant value);
 
-    QSqlDatabase    db          = QSqlDatabase();
-    QSqlTableModel  *dbModel    = nullptr;
-    QSqlQuery       dbQuery     = QSqlQuery();
-    QString         setDBTable  = QString();
-    int             setDeviceId = -1;
-    QFile           logfile     = QFile(this);
-    QTextStream     logstream   = QTextStream();
+    QSqlDatabase    historyDb       = QSqlDatabase();
+    QSqlTableModel  *historyModel   = nullptr;
+    QSqlQuery       historyQuery    = QSqlQuery();
+    QSqlDatabase    prefDb          = QSqlDatabase();
+    QSqlTableModel  *prefModel      = nullptr;
+    QSqlQuery       prefQuery       = QSqlQuery();
+    QString         setDBTable      = QString();
+    int             setDeviceId     = -1;
+    QFile           logfile         = QFile(this);
+    QTextStream     logstream       = QTextStream();
 
     inline static QDate date = QDate::currentDate();
 
     inline const static QString historyPath = "history";
-    inline const static QString filename = "history/history.db";
-    inline const static QString logfilename = "history/history.txt";
+    inline const static QString historyFilename = "history/history.db";
+    inline const static QString logFilename = "history/history.txt";
+    inline const static QString prefFilename = "preferences.db";
     inline const static int historyKeepDays = 30;
 
     inline static const QHash<DB_TBL, QString> DB_TABLES = {
@@ -130,7 +140,10 @@ private:
         {DB_TBL_NET_ALERT, {{"Id", "INTEGER", "UNIQUE", "PRIMARY KEY", "AUTOINCREMENT"},
                             {"Device", "INTEGER"}, {"Time", "DATETIME"}, {"Type", "INTEGER"},
                             {"Field", "TEXT"}, {"Value", "INTEGER"}, {"Normal_Value", "INTEGER"},
-                            {"Emergence", "INTEGER"}}}};
+                            {"Emergence", "INTEGER"}}},
+        {DB_TBL_PREFERENCES, {{"Id", "INTEGER", "UNIQUE", "PRIMARY KEY", "AUTOINCREMENT"},
+                              {"Device", "INTEGER"}, {"Time", "DATETIME"}, {"Field", "TEXT"},
+                              {"Value", "INTEGER"}}}};
 
     inline static const QHash<DB_TBL, QStringList> DB_INDEXES = {
         {DB_TBL_FREQ_DATA, {"Device", "Time"}},
@@ -143,15 +156,16 @@ private:
         {DB_TBL_AMP_ALERT, {"Device", "Time", "Type", "Emergence"}},
         {DB_TBL_AMP_OPER, {"Device", "Time"}},
         {DB_TBL_MSG_ALERT, {"Time"}},
-        {DB_TBL_NET_ALERT, {"Device", "Time", "Type", "Emergence"}}};
+        {DB_TBL_NET_ALERT, {"Device", "Time", "Type", "Emergence"}},
+        {DB_TBL_NET_ALERT, {"Device", "Time", "Type"}}};
 
-    inline static const QString dbFilename() {
+    inline static const QString dbFilenames() {
         date = QDate::currentDate();
-        QFileInfo file(filename);
+        QFileInfo file(historyFilename);
         return file.path() + '/' + file.baseName() + '-' + date.toString(Qt::ISODate) + '.' + file.completeSuffix();
     }
-    inline static const QStringList dbFilename(const int days) {
-        QFileInfo file(filename);
+    inline static const QStringList dbFilenames(const int days) {
+        QFileInfo file(historyFilename);
         QStringList ret = QStringList();
         for (int i = 0; i < days; ++i)
             ret << QString(file.path() + '/' + file.baseName() + '-'
@@ -160,13 +174,13 @@ private:
         return ret;
     }
 
-    inline static const QString logFilename() {
+    inline static const QString logFilenames() {
         date = QDate::currentDate();
-        QFileInfo file(logfilename);
+        QFileInfo file(logFilename);
         return file.path() + '/' + file.baseName() + '-' + date.toString(Qt::ISODate) + '.' + file.completeSuffix();
     }
-    inline static const QStringList logFilename(const int days) {
-        QFileInfo file(logfilename);
+    inline static const QStringList logFilenames(const int days) {
+        QFileInfo file(logFilename);
         QStringList ret = QStringList();
         for (int i = 0; i < days; ++i)
             ret << QString(file.path() + '/' + file.baseName() + '-'

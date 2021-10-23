@@ -224,6 +224,7 @@ void devFreq::createCntlMsg() const
     protocol *p = new protocol();
     protocol::protocolList << p;
 
+    *globalDB << *this;
     msgCntlFreq *q = new msgCntlFreq();
     *this >> *q;
 
@@ -244,6 +245,7 @@ void devDist::createCntlMsg() const
     protocol *p = new protocol();
     protocol::protocolList << p;
 
+    *globalDB << *this;
     msgCntlDist *q = new msgCntlDist();
     *this >> *q;
 
@@ -264,6 +266,7 @@ void devAmp::createCntlMsg() const
     protocol *p = new protocol();
     protocol::protocolList << p;
 
+    *globalDB << *this;
     msgCntlAmp *q = new msgCntlAmp();
     *this >> *q;
 

@@ -7,103 +7,148 @@
 
 database::database(QObject *parent) : QObject(parent)
 {
-    prepare();
+    prepareHistory();
 
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, [=]() {
         if (QDate::currentDate() != date) {
-            prepare();
+            prepareHistory();
         }
     });
     timer->start(60000);
+
+    preparePref();
 }
 
 database::~database()
 {
-    db.close();
+    historyDb.close();
     qDebug() << "Database closed.";
     logstream.flush();
     logfile.close();
 }
 
-bool database::prepare()
+bool database::prepareHistory()
 {
     QDir::current().mkdir(historyPath);
 
-    if (not QSqlDatabase::contains("qt_sql_default_connection")) {
-        db = QSqlDatabase::addDatabase("QSQLITE");
-    }
+    if (not QSqlDatabase::contains("qt_sql_default_connection"))
+        historyDb = QSqlDatabase::addDatabase("QSQLITE", "history.db");
 
-    if (db.isOpen()) db.close();
-    db.setDatabaseName(database::dbFilename());
-    if (not db.open()) {
-        qDebug() << "Error: Failed to connect db." << db.lastError();
+    if (historyDb.isOpen()) historyDb.close();
+    historyDb.setDatabaseName(database::dbFilenames());
+    if (not historyDb.open()) {
+        qDebug() << "Error: Failed to connect history db." << historyDb.lastError();
         return false;
     }
 
-    if (dbModel != nullptr) dbModel->deleteLater();
-    dbModel = new QSqlTableModel(this, db);
-    dbQuery = QSqlQuery(db);
+    if (historyModel != nullptr) historyModel->deleteLater();
+    historyModel = new QSqlTableModel(this, historyDb);
+    historyQuery = QSqlQuery(historyDb);
 
-    createTable();
+    createHistoryTable();
 
     if (logfile.isOpen()) {
         logstream.flush();
         logfile.close();
     }
-    logfile.setFileName(database::logFilename());
+    logfile.setFileName(database::logFilenames());
     if (!logfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append)) {
         qDebug() << "Error: Failed to create log file." << logfile.errorString();
         return false;
     }
     logstream.setDevice(&logfile);
 
-    cleanUp();
+    cleanUpHistory();
 
     return true;
 }
 
-bool database::createTable()
+bool database::createHistoryTable()
 {
     for (const DB_TBL table : DB_TBL_ALL) {
         QString q = "CREATE TABLE IF NOT EXISTS ";
         q += DB_TABLES[table] + " (";
 
-        for (const QStringList &column : DB_COLUMNS[table]) {
+        for (const QStringList &column : DB_COLUMNS[table])
             q += column.join(" ") + ", ";
-        }
         q.replace(q.length() - 2, 1, ")");
-        dbQuery.prepare(q);
-        if(!dbQuery.exec())
-            qDebug() << dbQuery.lastError();
+
+        historyQuery.prepare(q);
+        if(!historyQuery.exec())
+            qDebug() << historyQuery.lastError();
 
         for (const QString &column : DB_INDEXES[table]) {
-            dbQuery.prepare("CREATE INDEX IF NOT EXISTS " + DB_TABLES[table] + "_" + column
-                    + " ON " + DB_TABLES[table] + "(" + column + ")");
-            if(!dbQuery.exec())
-                qDebug() << dbQuery.lastError();
+            historyQuery.prepare("CREATE INDEX IF NOT EXISTS " + DB_TABLES[table] + "_" + column
+                                 + " ON " + DB_TABLES[table] + "(" + column + ")");
+            if(!historyQuery.exec())
+                qDebug() << historyQuery.lastError();
         }
     }
     return true;
 }
 
-bool database::cleanUp()
+bool database::cleanUpHistory()
 {
     QDir dir = historyPath;
 
-    for (const QFileInfo &file : dir.entryInfoList({ "*.db", "*.txt" })) {
-        if (not database::dbFilename(historyKeepDays).contains(file.filePath())
-                and not database::logFilename(historyKeepDays).contains(file.filePath()))
+    for (const QFileInfo &file : dir.entryInfoList({ "*.db", "*.txt" }))
+        if (not database::dbFilenames(historyKeepDays).contains(file.filePath())
+                and not database::logFilenames(historyKeepDays).contains(file.filePath()))
             QFile(file.filePath()).remove();
+
+    return true;
+}
+
+bool database::preparePref()
+{
+    QDir::current().mkdir(historyPath);
+
+    prefDb = QSqlDatabase::addDatabase("QSQLITE", "preferences.db");
+
+    if (prefDb.isOpen()) prefDb.close();
+    prefDb.setDatabaseName(database::prefFilename);
+    if (not prefDb.open()) {
+        qDebug() << "Error: Failed to connect preferences db." << prefDb.lastError();
+        return false;
     }
 
+    prefModel = new QSqlTableModel(this, prefDb);
+    prefQuery = QSqlQuery(prefDb);
+
+    createPrefTable();
+
+    return true;
+}
+
+bool database::createPrefTable()
+{
+    DB_TBL table = DB_TBL_PREFERENCES;
+
+    QString q = "CREATE TABLE IF NOT EXISTS ";
+    q += DB_TABLES[table] + " (";
+
+    for (const QStringList &column : DB_COLUMNS[table])
+        q += column.join(" ") + ", ";
+    q.replace(q.length() - 2, 1, ")");
+
+    prefQuery.prepare(q);
+    if(!prefQuery.exec())
+        qDebug() << prefQuery.lastError();
+
+    for (const QString &column : DB_INDEXES[table]) {
+        prefQuery.prepare("CREATE INDEX IF NOT EXISTS " + DB_TABLES[table] + "_" + column
+                          + " ON " + DB_TABLES[table] + "(" + column + ")");
+        if(!prefQuery.exec())
+            qDebug() << prefQuery.lastError();
+    }
     return true;
 }
 
 database &operator<< (database &db, const msgFreq &msg)
 {
-    db.dbModel->setTable(db.DB_TABLES[db.DB_TBL_FREQ_DATA]);
-    QSqlRecord r = db.dbModel->record();
+    db.historyModel->setTable(db.DB_TABLES[db.DB_TBL_FREQ_DATA]);
+    QSqlRecord r = db.historyModel->record();
     r.setValue("Device", msg.deviceId);
     r.setValue("Time", msg.time);
     r.setValue("Attenuation", msg.atten);
@@ -124,16 +169,16 @@ database &operator<< (database &db, const msgFreq &msg)
     r.setValue("Handshake", msg.handshake);
     r.setValue("Serial_Id", msg.serialId);
     r.setValue("Master_Slave", msg.handshake);
-    if (!db.dbModel->insertRecord(-1, r))
-        qDebug() << db.dbModel->lastError();
+    if (!db.historyModel->insertRecord(-1, r))
+        qDebug() << db.historyModel->lastError();
 
     return db;
 }
 
 database &operator<< (database &db, const msgDist &msg)
 {
-    db.dbModel->setTable(db.DB_TABLES[db.DB_TBL_DIST_DATA]);
-    QSqlRecord r = db.dbModel->record();
+    db.historyModel->setTable(db.DB_TABLES[db.DB_TBL_DIST_DATA]);
+    QSqlRecord r = db.historyModel->record();
     r.setValue("Device", msg.deviceId);
     r.setValue("Time", msg.time);
     r.setValue("Ref10", msg.ref_10);
@@ -145,16 +190,16 @@ database &operator<< (database &db, const msgDist &msg)
     r.setValue("Lock16_1", msg.lock_16_1);
     r.setValue("Lock16_2", msg.lock_16_2);
     r.setValue("Serial_Id", msg.serialId);
-    if (!db.dbModel->insertRecord(-1, r))
-        qDebug() << db.dbModel->lastError();
+    if (!db.historyModel->insertRecord(-1, r))
+        qDebug() << db.historyModel->lastError();
 
     return db;
 }
 
 database &operator<< (database &db, const msgAmp &msg)
 {
-    db.dbModel->setTable(db.DB_TABLES[db.DB_TBL_AMP_DATA]);
-    QSqlRecord r = db.dbModel->record();
+    db.historyModel->setTable(db.DB_TABLES[db.DB_TBL_AMP_DATA]);
+    QSqlRecord r = db.historyModel->record();
     r.setValue("Device", msg.deviceId);
     r.setValue("Time", msg.time);
     r.setValue("Power", msg.power);
@@ -170,55 +215,55 @@ database &operator<< (database &db, const msgAmp &msg)
     r.setValue("Load_Temperature", msg.load_temp);
     r.setValue("Serial_Id", msg.serialId);
     r.setValue("Handshake", msg.handshake);
-    if (!db.dbModel->insertRecord(-1, r))
-        qDebug() << db.dbModel->lastError();
+    if (!db.historyModel->insertRecord(-1, r))
+        qDebug() << db.historyModel->lastError();
 
     return db;
 }
 
 database &operator<< (database &db, const msgCntlFreq &msg)
 {
-    db.dbModel->setTable(db.DB_TABLES[db.DB_TBL_FREQ_OPER]);
-    QSqlRecord r = db.dbModel->record();
+    db.historyModel->setTable(db.DB_TABLES[db.DB_TBL_FREQ_OPER]);
+    QSqlRecord r = db.historyModel->record();
     r.setValue("Device", msg.deviceId);
     r.setValue("Time", msg.time);
     r.setValue("Attenuation", msg.atten);
     r.setValue("Ref10_A", msg.ref_10_a);
     r.setValue("Ref10_B", msg.ref_10_b);
     r.setValue("Serial_Id", msg.serialId);
-    if (!db.dbModel->insertRecord(-1, r))
-        qDebug() << db.dbModel->lastError();
+    if (!db.historyModel->insertRecord(-1, r))
+        qDebug() << db.historyModel->lastError();
 
     return db;
 }
 
 database &operator<< (database &db, const msgCntlDist &msg)
 {
-    db.dbModel->setTable(db.DB_TABLES[db.DB_TBL_DIST_OPER]);
-    QSqlRecord r = db.dbModel->record();
+    db.historyModel->setTable(db.DB_TABLES[db.DB_TBL_DIST_OPER]);
+    QSqlRecord r = db.historyModel->record();
     r.setValue("Device", msg.deviceId);
     r.setValue("Time", msg.time);
     r.setValue("Ref10", msg.ref_10);
     r.setValue("Ref16", msg.ref_16);
     r.setValue("Serial_Id", msg.serialId);
-    if (!db.dbModel->insertRecord(-1, r))
-        qDebug() << db.dbModel->lastError();
+    if (!db.historyModel->insertRecord(-1, r))
+        qDebug() << db.historyModel->lastError();
 
     return db;
 }
 
 database &operator<< (database &db, const msgCntlAmp &msg)
 {
-    db.dbModel->setTable(db.DB_TABLES[db.DB_TBL_AMP_OPER]);
-    QSqlRecord r = db.dbModel->record();
+    db.historyModel->setTable(db.DB_TABLES[db.DB_TBL_AMP_OPER]);
+    QSqlRecord r = db.historyModel->record();
     r.setValue("Device", msg.deviceId);
     r.setValue("Time", msg.time);
     r.setValue("Attenuation_Mode", msg.atten);
     r.setValue("Power", msg.power);
     r.setValue("Gain", msg.gain);
     r.setValue("Serial_Id", msg.serialId);
-    if (!db.dbModel->insertRecord(-1, r))
-        qDebug() << db.dbModel->lastError();
+    if (!db.historyModel->insertRecord(-1, r))
+        qDebug() << db.historyModel->lastError();
 
     return db;
 }
@@ -226,8 +271,8 @@ database &operator<< (database &db, const msgCntlAmp &msg)
 bool database::setAlert(const database::DB_TBL dbTable, const int deviceId, const int type,
                   const QString field, const QVariant value, const QVariant normal_value)
 {
-    dbModel->setTable(DB_TABLES[dbTable]);
-    QSqlRecord r = dbModel->record();
+    historyModel->setTable(DB_TABLES[dbTable]);
+    QSqlRecord r = historyModel->record();
     r.setValue("Device", deviceId);
     r.setValue("Time", QDateTime::currentDateTime());
     r.setValue("Type", type);
@@ -235,8 +280,8 @@ bool database::setAlert(const database::DB_TBL dbTable, const int deviceId, cons
     r.setValue("Value", value);
     r.setValue("Normal_Value", normal_value);
     r.setValue("Emergence", (type != alert::P_ALERT_GOOD));
-    if (!dbModel->insertRecord(-1, r))
-        qDebug() << dbModel->lastError();
+    if (!historyModel->insertRecord(-1, r))
+        qDebug() << historyModel->lastError();
 
     alert::P_ALERT alertType = static_cast<alert::P_ALERT>(type);
     alert::P_ENUM varType = alert::P_ENUM_OTHERS;
@@ -300,28 +345,28 @@ bool database::setAlert(const database::DB_TBL dbTable, const int deviceId, cons
 
 bool database::setAlert(const int type, const QString text, const int deviceId)
 {
-    dbModel->setTable(DB_TABLES[DB_TBL_MSG_ALERT]);
-    QSqlRecord r = dbModel->record();
+    historyModel->setTable(DB_TABLES[DB_TBL_MSG_ALERT]);
+    QSqlRecord r = historyModel->record();
     r.setValue("Device", deviceId);
     r.setValue("Time", QDateTime::currentDateTime());
     r.setValue("Type", type);
     r.setValue("Alert", text);
     r.setValue("Emergence", (type != alert::P_ALERT_GOOD));
-    if (!dbModel->insertRecord(-1, r))
-        qDebug() << dbModel->lastError();
+    if (!historyModel->insertRecord(-1, r))
+        qDebug() << historyModel->lastError();
 
     return true;
 }
 
 const database &operator>> (const database &db, QList<QStringList> &str)
 {
-    db.dbModel->setTable(db.setDBTable);
-    db.dbModel->setFilter("Device=" + QString::number(db.setDeviceId));
-    db.dbModel->setSort(2, Qt::DescendingOrder);
-    db.dbModel->select();
+    db.historyModel->setTable(db.setDBTable);
+    db.historyModel->setFilter("Device=" + QString::number(db.setDeviceId));
+    db.historyModel->setSort(2, Qt::DescendingOrder);
+    db.historyModel->select();
 
-    for (int i = 0; i < std::min(db.dbModel->rowCount(), 10); ++i) {
-        QSqlRecord r = db.dbModel->record(i);
+    for (int i = 0; i < std::min(db.historyModel->rowCount(), 10); ++i) {
+        QSqlRecord r = db.historyModel->record(i);
         if (r.value("Id").toString() == "") {
             return db;
         }
@@ -381,3 +426,73 @@ const database &operator>> (const database &db, QList<QStringList> &str)
 
     return db;
 }
+
+const QHash<QString, QVariant> database::getPreferences(const int deviceId) const
+{
+    prefModel->setTable(DB_TABLES[DB_TBL_PREFERENCES]);
+    prefModel->setFilter("Device=" + QString::number(deviceId));
+    prefModel->setSort(2, Qt::DescendingOrder);
+    prefModel->select();
+
+    QHash<QString, QVariant> data;
+    for (int i = 0; i < prefModel->rowCount(); ++i) {
+        QSqlRecord r = prefModel->record(i);
+        data[r.value("Field").toString()] = r.value("Value");
+        qDebug() << r.value("Id");
+    }
+
+    qDebug() << data;
+
+    return data;
+}
+
+bool database::setPreferences(const int deviceId, const QString field, const QVariant value)
+{
+    prefModel->setTable(DB_TABLES[DB_TBL_PREFERENCES]);
+    prefModel->setFilter("Device=" + QString::number(deviceId)
+                         + " AND Field=" + field);
+    prefModel->setSort(2, Qt::DescendingOrder);
+    prefModel->select();
+
+    QSqlRecord r;
+    if (prefModel->rowCount() != 0)
+        r = prefModel->record(0);
+    else
+        r = prefModel->record();
+
+    r.setValue("Device", deviceId);
+    r.setValue("Time", QDateTime::currentDateTime());
+    r.setValue("Field", field);
+    r.setValue("Value", value);
+
+    bool ret;
+    if (prefModel->rowCount() != 0)
+        ret = prefModel->setRecord(0, r);
+    else
+        ret = prefModel->insertRecord(-1, r);
+
+    if (!ret) {
+        qDebug() << prefModel->lastError();
+        return false;
+    }
+
+    return true;
+}
+
+template <class T> const database &operator>> (const database &db, T &dev)
+{
+    db.getPreferences(dev.dId);
+    return db;
+}
+template const database &operator>> (const database &db, devFreq &dev);
+template const database &operator>> (const database &db, devDist &dev);
+template const database &operator>> (const database &db, devAmp &dev);
+
+template <class T> database &operator<< (database &db, const T &dev)
+{
+    db.setPreferences(dev.dId, "field", "value");
+    return db;
+}
+template database &operator<< (database &db, const devFreq &dev);
+template database &operator<< (database &db, const devDist &dev);
+template database &operator<< (database &db, const devAmp &dev);
