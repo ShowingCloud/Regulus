@@ -227,7 +227,9 @@ private:
 class devFreq : public device
 {
     Q_OBJECT
+#if QT_VERSION > QT_VERSION_CHECK(5, 15, 0)
     QML_ELEMENT
+#endif
 
 public:
     explicit devFreq(device *parent = nullptr) : device({
@@ -288,7 +290,9 @@ private:
 class devDist : public device
 {
     Q_OBJECT
+#if QT_VERSION > QT_VERSION_CHECK(5, 15, 0)
     QML_ELEMENT
+#endif
 
 public:
     explicit devDist(device *parent = nullptr) : device({
@@ -327,7 +331,9 @@ private:
 class devAmp : public device
 {
     Q_OBJECT
+#if QT_VERSION > QT_VERSION_CHECK(5, 15, 0)
     QML_ELEMENT
+#endif
 
 public:
     explicit devAmp(device *parent = nullptr) : device({
@@ -377,7 +383,9 @@ private:
 class devNet : public device
 {
     Q_OBJECT
+#if QT_VERSION > QT_VERSION_CHECK(5, 15, 0)
     QML_ELEMENT
+#endif
 
 public:
     explicit devNet(QObject *parent = nullptr);
