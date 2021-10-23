@@ -8,19 +8,16 @@
 #include <iso646.h>
 
 device::device(const QHash<QString, deviceVar*> var, const QHash<QString, QString> str_var,
-               const database::DB_TBL devTable, QObject *parent)
-    : QObject(parent), var(var), STR_VAR(str_var), devTable(devTable)
+               const database::DB_TBL devTable, QStringList prefStr, QObject *parent)
+    : QObject(parent), var(var), STR_VAR(str_var), devTable(devTable), prefStr(prefStr)
 {
     device::push(this);
 
-    QHash<QString, deviceVar *>::const_iterator v = var.constBegin();
-    while (v != var.constEnd()) {
-        connect(v.value(), &deviceVar::sendAlert, this, [=]
+    for (const QString &key : var.keys())
+        connect(var[key], &deviceVar::sendAlert, this, [=]
                 (const alert::P_ALERT type, const QVariant value, const QVariant normal_value){
-            globalDB->setAlert(devTable, dId, type, v.key(), value, normal_value);
+            globalDB->setAlert(devTable, dId, type, key, value, normal_value);
         });
-        v++;
-    }
 }
 
 device &operator<< (device &d, const msgFreq &m)
@@ -283,10 +280,9 @@ void devAmp::createCntlMsg() const
 }
 
 devNet::devNet(QObject *parent)
-        : device({}, {}, database::DB_TBL_NET_ALERT, parent)
+        : device({}, {}, database::DB_TBL_NET_ALERT, {}, parent)
 {
-    QTimer *timer = new QTimer(this);
-    QObject::connect(timer, &QTimer::timeout, [=]() {
+    connect(this, &device::idSet, [=]() {
         QStringList params;
 #if defined(WIN32)
         params << "-n" << "1";
@@ -295,16 +291,19 @@ devNet::devNet(QObject *parent)
 #endif
         params << ipAddr[dId];
 
-        QProcess *ping = new QProcess(this);
-        ping->start("ping", params);
-        connect(ping, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-                [=](int exitCode, QProcess::ExitStatus exitStatus){
-            Q_UNUSED(exitStatus)
-            if (exitCode == 0) {
-                lastseen = QDateTime::currentDateTime();
-                emit gotData();
-            }
+        QTimer *timer = new QTimer(this);
+        QObject::connect(timer, &QTimer::timeout, [=]() {
+            QProcess *ping = new QProcess(this);
+            ping->start("ping", params);
+            connect(ping, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+                    [=](int exitCode, QProcess::ExitStatus exitStatus){
+                Q_UNUSED(exitStatus)
+                if (exitCode == 0) {
+                    lastseen = QDateTime::currentDateTime();
+                    emit gotData();
+                }
+            });
         });
+        timer->start(1000);
     });
-    timer->start(1000);
 }

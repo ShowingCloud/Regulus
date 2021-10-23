@@ -438,10 +438,7 @@ const QHash<QString, QVariant> database::getPreferences(const int deviceId) cons
     for (int i = 0; i < prefModel->rowCount(); ++i) {
         QSqlRecord r = prefModel->record(i);
         data[r.value("Field").toString()] = r.value("Value");
-        qDebug() << r.value("Id");
     }
-
-    qDebug() << data;
 
     return data;
 }
@@ -450,7 +447,7 @@ bool database::setPreferences(const int deviceId, const QString field, const QVa
 {
     prefModel->setTable(DB_TABLES[DB_TBL_PREFERENCES]);
     prefModel->setFilter("Device=" + QString::number(deviceId)
-                         + " AND Field=" + field);
+                         + " AND Field=\"" + field + "\"");
     prefModel->setSort(2, Qt::DescendingOrder);
     prefModel->select();
 
@@ -481,7 +478,11 @@ bool database::setPreferences(const int deviceId, const QString field, const QVa
 
 template <class T> const database &operator>> (const database &db, T &dev)
 {
-    db.getPreferences(dev.dId);
+    QHash<QString, QVariant> data = db.getPreferences(dev.dId);
+    for (const QString pref : dev.prefStr)
+        if (data.contains(pref))
+            dev.var[pref]->setValue(data[pref]);
+
     return db;
 }
 template const database &operator>> (const database &db, devFreq &dev);
@@ -490,7 +491,10 @@ template const database &operator>> (const database &db, devAmp &dev);
 
 template <class T> database &operator<< (database &db, const T &dev)
 {
-    db.setPreferences(dev.dId, "field", "value");
+    for (const QString pref : dev.prefStr)
+        if (dev.var.contains(pref))
+            db.setPreferences(dev.dId, pref, dev.var[pref]->getValue());
+
     return db;
 }
 template database &operator<< (database &db, const devFreq &dev);

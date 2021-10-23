@@ -5,6 +5,7 @@
 #include <QList>
 #include <QHash>
 #include <QDateTime>
+#include <QtQml>
 #include <numeric>
 #include <iso646.h>
 #include <QDebug>
@@ -33,7 +34,7 @@ class device : public QObject
 
 public:
     explicit device(const QHash<QString, deviceVar *> var, const QHash<QString, QString> str_var,
-                    const database::DB_TBL devTable, QObject *parent = nullptr);
+                    const database::DB_TBL devTable, const QStringList prefStr, QObject *parent = nullptr);
 
     friend device &operator<< (device &dev, const msgFreq &m);
     friend device &operator<< (device &dev, const msgDist &m);
@@ -80,7 +81,7 @@ public slots:
     }
 
     inline const QString varName(const QString itemName) const {
-        if (!STR_VAR.contains(itemName.toUtf8())) {
+        if (!STR_VAR.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return itemName;
         }
@@ -101,78 +102,78 @@ public slots:
     }
 
     inline const QString showDisplay(const QString itemName) const {
-        if (!var.contains(itemName.toUtf8())) {
+        if (!var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return QString();
         }
-        return var[itemName.toUtf8()]->display;
+        return var[itemName]->display;
     }
 
     inline const QString showColor(const QString itemName, bool allowHolding = true) const {
-        if (!var.contains(itemName.toUtf8())) {
+        if (!var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return QString();
         }
 
-        if (var[itemName.toUtf8()]->getColor(allowHolding) == alert::STR_COLOR[alert::P_COLOR_HOLDING])
+        if (var[itemName]->getColor(allowHolding) == alert::STR_COLOR[alert::P_COLOR_HOLDING])
             return alert::STR_COLOR[alert::P_COLOR_HOLDING];
         else if (timedout())
             return alert::STR_COLOR[alert::P_COLOR_OTHERS];
 
-        return var[itemName.toUtf8()]->getColor(allowHolding);
+        return var[itemName]->getColor(allowHolding);
     }
 
     inline const QVariant getValue(const QString itemName) const {
-        if (!var.contains(itemName.toUtf8())) {
+        if (!var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return QVariant();
         }
-        return var[itemName.toUtf8()]->getValue();
+        return var[itemName]->getValue();
     }
 
     inline void setHold(const QString itemName) {
-        if (!var.contains(itemName.toUtf8())) {
+        if (!var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return;
         }
-        var[itemName.toUtf8()]->holding = true;
-        var[itemName.toUtf8()]->v_hold = var[itemName.toUtf8()]->value;
+        var[itemName]->holding = true;
+        var[itemName]->v_hold = var[itemName]->value;
     }
 
     inline void releaseHold(const QString itemName) {
-        if (!var.contains(itemName.toUtf8())) {
+        if (!var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return;
         }
-        var[itemName.toUtf8()]->holding = false;
-        // var[itemName.toUtf8()]->setValue(var[itemName.toUtf8()]->value);
+        var[itemName]->holding = false;
+        // var[itemName]->setValue(var[itemName]->value);
         // The above line is for displaying
     }
 
     inline void submitHold(const QString itemName) { /* not in use */
-        if (!var.contains(itemName.toUtf8())) {
+        if (!var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return;
         }
-        var[itemName.toUtf8()]->setValue(var[itemName.toUtf8()]->v_hold);
-        var[itemName.toUtf8()]->holding = false;
+        var[itemName]->setValue(var[itemName]->v_hold);
+        var[itemName]->holding = false;
     }
 
     inline void holdValue(const QString itemName, const QVariant val) {
-        if (!var.contains(itemName.toUtf8())) {
+        if (!var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return;
         }
-        var[itemName.toUtf8()]->holding = true;
-        var[itemName.toUtf8()]->v_hold = val;
+        var[itemName]->holding = true;
+        var[itemName]->v_hold = val;
     }
 
     inline alert::P_ENUM getVarType(const QString itemName) {
-        if (!var.contains(itemName.toUtf8())) {
+        if (!var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return alert::P_ENUM_OTHERS;
         }
-        return var[itemName.toUtf8()]->type;
+        return var[itemName]->type;
     }
 
 protected:
@@ -203,13 +204,14 @@ protected:
     serial *lastSerial = nullptr;
     QDateTime lastseen = QDateTime();
     QString timerStr = tr("No data");
+    const QStringList prefStr;
 
     inline bool stateGood(const QString v) const {
-        if (!var.contains(v.toUtf8())) {
+        if (!var.contains(v)) {
             qDebug() << "Missing item " << v;
             return false;
         }
-        return var[v.toUtf8()]->stat == alert::P_NOR_NORMAL;
+        return var[v]->stat == alert::P_NOR_NORMAL;
     }
 
 private:
@@ -225,6 +227,7 @@ private:
 class devFreq : public device
 {
     Q_OBJECT
+    QML_ELEMENT
 
 public:
     explicit devFreq(device *parent = nullptr) : device({
@@ -267,7 +270,8 @@ public:
         {"ref_inner_2", "10 MHz " + tr("Inner Ref")},
         {"handshake",   tr("Handshake Signal")},
         {"masterslave", tr("Current State")}
-    }, database::DB_TBL_FREQ_ALERT, parent) { *globalDB >> *this; }
+    }, database::DB_TBL_FREQ_ALERT,
+    {"atten", "ch_a", "ch_b"}, parent) { connect(this, &device::idSet, [=](){ *globalDB >> *this; }); }
 
     friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
     template <class T> friend database &operator<< (database &db, const T &dev);
@@ -284,6 +288,7 @@ private:
 class devDist : public device
 {
     Q_OBJECT
+    QML_ELEMENT
 
 public:
     explicit devDist(device *parent = nullptr) : device({
@@ -304,7 +309,8 @@ public:
         {"lock_10_2",   "10 MHz " + tr("Lock") + " 2"},
         {"lock_16_1",   "16 MHz " + tr("Lock") + " 1"},
         {"lock_16_2",   "16 MHz " + tr("Lock") + " 2"}
-    }, database::DB_TBL_DIST_ALERT, parent) { *globalDB >> *this; }
+    }, database::DB_TBL_DIST_ALERT,
+    {"ref_10", "ref_16"}, parent) { connect(this, &device::idSet, [=](){ *globalDB >> *this; }); }
 
     friend devDist &operator<< (devDist &dev, const msgDist &m);
     template <class T> friend database &operator<< (database &db, const T &dev);
@@ -321,6 +327,7 @@ private:
 class devAmp : public device
 {
     Q_OBJECT
+    QML_ELEMENT
 
 public:
     explicit devAmp(device *parent = nullptr) : device({
@@ -352,7 +359,8 @@ public:
         {"handshake",       tr("Handshake Signal")},
         {"atten_mode",      tr("Attenuation Mode")},
         {"masterslave",     tr("Current State")}
-}, database::DB_TBL_AMP_ALERT, parent) { *globalDB >> *this; }
+    }, database::DB_TBL_AMP_ALERT,
+    {"atten_mode", "atten", "power", "gain"}, parent) { connect(this, &device::idSet, [=](){ *globalDB >> *this; }); }
 
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
     template <class T> friend database &operator<< (database &db, const T &dev);
@@ -369,6 +377,7 @@ private:
 class devNet : public device
 {
     Q_OBJECT
+    QML_ELEMENT
 
 public:
     explicit devNet(QObject *parent = nullptr);
