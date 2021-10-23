@@ -401,4 +401,29 @@ private:
         {0x12, "8.8.8.7"}};
 };
 
+template <class T> const database &operator>> (const database &db, T &dev)
+{
+    QHash<QString, QVariant> data = db.getPreferences(dev.dId);
+    for (const QString pref : dev.prefStr)
+        if (data.contains(pref))
+            dev.var[pref]->setValue(data[pref]);
+
+    return db;
+}
+template const database &operator>> (const database &db, devFreq &dev);
+template const database &operator>> (const database &db, devDist &dev);
+template const database &operator>> (const database &db, devAmp &dev);
+
+template <class T> database &operator<< (database &db, const T &dev)
+{
+    for (const QString pref : dev.prefStr)
+        if (dev.var.contains(pref))
+            db.setPreferences(dev.dId, pref, dev.var[pref]->getValue());
+
+    return db;
+}
+template database &operator<< (database &db, const devFreq &dev);
+template database &operator<< (database &db, const devDist &dev);
+template database &operator<< (database &db, const devAmp &dev);
+
 #endif // DEVICE_H
