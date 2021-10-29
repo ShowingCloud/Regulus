@@ -295,8 +295,10 @@ devNet::devNet(QObject *parent)
         QObject::connect(timer, &QTimer::timeout, [=]() {
             QProcess *ping = new QProcess(this);
             ping->start("ping", params);
+
             connect(ping, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
                     [=](int exitCode, QProcess::ExitStatus exitStatus){
+
                 Q_UNUSED(exitStatus)
                 if (exitCode == 0) {
                     lastseen = QDateTime::currentDateTime();
@@ -304,6 +306,7 @@ devNet::devNet(QObject *parent)
                 }
             });
         });
-        timer->start(1000);
+        timer->start(0);
+        timer->setInterval(1000);
     });
 }
