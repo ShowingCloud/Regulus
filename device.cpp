@@ -96,6 +96,11 @@ devFreq &operator<< (devFreq &dev, const msgFreq &m)
     dev.var["handshake"]->setValue(m.handshake);
     dev.var["masterslave"]->setValue(m.masterslave);
 
+    if (dev.var["masterslave"]->stat == alert::P_NOR_STANDBY)
+        dev.isSlave = true;
+    else
+        dev.isSlave = false;
+
     emit dev.gotData();
     return dev;
 }
@@ -168,6 +173,8 @@ const QString devFreq::showIndicatorColor() const
 {
     if (timedout())
         return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
+    else if (isSlave)
+        return alert::STR_COLOR[alert::P_COLOR_STANDBY];
     else
         if (stateGood("atten") and stateGood("voltage") and stateGood("current")
                 and stateGood("radio_stat") and stateGood("mid_stat")

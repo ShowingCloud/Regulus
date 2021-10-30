@@ -62,20 +62,6 @@ Window {
         font.pixelSize: defaultLabelFontSize
     }
 
-    ComboText {
-        id: comboChannel
-        posLeft: marginRect + rectMaster.width - widthWidget - widthWidgetLabel - 3 * marginWidget
-        posTop: marginRect - marginWidget
-        txtText: devFreqMaster ? devFreqMaster.varName("masterslave") : qsTr("Current State")
-
-        Component.onCompleted: {
-            masterRefreshData.connect(function() {
-                txtValue = devFreqMaster.showDisplay("masterslave")
-                colorValue = devFreqMaster.showColor("masterslave")
-            })
-        }
-    }
-
     Rectangle {
         id: rectMaster
         x: marginRect
@@ -95,6 +81,20 @@ Window {
                 masterRefreshData.connect(function() {
                     txtValue = devFreqMaster.showDisplay("atten") + " dB"
                     colorValue = devFreqMaster.showColor("atten")
+                })
+            }
+        }
+
+        ComboText {
+            id: comboMasterChannel
+            posLeft: (rectMaster.width - marginWidget) * 3 / 4
+            posTop: 0
+            txtText: devFreqMaster ? devFreqMaster.varName("masterslave") : qsTr("Current State")
+
+            Component.onCompleted: {
+                masterRefreshData.connect(function() {
+                    txtValue = devFreqMaster.showDisplay("masterslave")
+                    colorValue = devFreqMaster.showColor("masterslave")
                 })
             }
         }
@@ -270,6 +270,20 @@ Window {
                 slaveRefreshData.connect(function() {
                     txtValue = devFreqSlave.showDisplay("atten") + " dB"
                     colorValue = devFreqSlave.showColor("atten")
+                })
+            }
+        }
+
+        ComboText {
+            id: comboSlaveChannel
+            posLeft: (rectSlave.width - marginWidget) * 3 / 4
+            posTop: 0
+            txtText: devFreqSlave ? devFreqSlave.varName("masterslave") : qsTr("Current State")
+
+            Component.onCompleted: {
+                slaveRefreshData.connect(function() {
+                    txtValue = devFreqSlave.showDisplay("masterslave")
+                    colorValue = devFreqSlave.showColor("masterslave")
                 })
             }
         }

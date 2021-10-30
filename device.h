@@ -119,6 +119,8 @@ public slots:
             return alert::STR_COLOR[alert::P_COLOR_HOLDING];
         else if (timedout())
             return alert::STR_COLOR[alert::P_COLOR_OTHERS];
+        else if (isSlave)
+            return alert::STR_COLOR[alert::P_COLOR_STANDBY];
 
         return var[itemName]->getColor(allowHolding);
     }
@@ -205,6 +207,7 @@ protected:
     QDateTime lastseen = QDateTime();
     QString timerStr = tr("No data");
     const QStringList prefStr;
+    bool isSlave = false;
 
     inline bool stateGood(const QString v) const {
         if (!var.contains(v)) {
