@@ -62,14 +62,14 @@ int main(int argc, char *argv[])
 #ifdef QT_DEBUG
                 s->readFakeData();
 #endif
+                timer->start(1000);
             });
             timer->start(0);
-            timer->setInterval(1000);
         }
+        searchSerialTimer->start(10000);
         qDebug() << "Serial List: " << serial::serialList;
     });
     searchSerialTimer->start(0);
-    searchSerialTimer->setInterval(10000);
 
     return app.exec();
 }

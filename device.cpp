@@ -312,8 +312,8 @@ devNet::devNet(QObject *parent)
                     emit gotData();
                 }
             });
+            timer->start(1000);
         });
         timer->start(0);
-        timer->setInterval(1000);
     });
 }
