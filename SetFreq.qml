@@ -14,6 +14,8 @@ Dialog {
     required property QtObject devFreqMaster
     required property QtObject devFreqSlave
     property alias dialogName : name.text
+    property int extendedWidthWidget : defaultWidthWidget + 2 * defaultMarginAndTextWidthHeight
+    property int extendedWidthWidgetLabel: defaultWidthWidgetLabel + 2 * defaultMarginWidget
 
     Text {
         id: name
@@ -27,10 +29,23 @@ Dialog {
     }
 
     Button {
-        id: buttonSubmit
-        x: -10 + defaultMarginRect + rect.width - defaultMarginWidget - defaultWidthWidget
+        id: buttonCancel
+        x: -10 + defaultMarginRect + rect.width - defaultMarginWidget - extendedWidthWidget
         anchors.top: name.top
-        width: defaultWidthWidget
+        width: extendedWidthWidget
+        height: defaultHeightWidget
+        text: qsTr("Cancel")
+        font.pixelSize: defaultLabelFontSize
+
+        onClicked: console.log("cancel")
+    }
+
+    Button {
+        id: buttonSubmit
+        anchors.right: buttonCancel.left
+        anchors.rightMargin: defaultMarginWidget
+        anchors.top: name.top
+        width: extendedWidthWidget
         height: defaultHeightWidget
         text: qsTr("Submit")
         font.pixelSize: defaultLabelFontSize
@@ -43,7 +58,7 @@ Dialog {
         x: -10 + defaultMarginRect
         anchors.top: name.bottom
         anchors.topMargin: defaultMarginWidget
-        width: 2 * defaultWidthWidget + 2 * defaultWidthWidgetLabel + 5 * defaultMarginWidget
+        width: 2 * extendedWidthWidget + 2 * extendedWidthWidgetLabel + 5 * defaultMarginWidget
         height: 3 * defaultHeightWidget + 4 * defaultMarginWidget
         border.width: defaultBorderWidth
 
@@ -51,6 +66,8 @@ Dialog {
             id: comboChannel
             posLeft: 0
             posTop: 0
+            widthWidget: extendedWidthWidget
+            widthWidgetLabel: extendedWidthWidgetLabel
             txtText: devFreqMaster ? devFreqMaster.varName("masterslave") : qsTr("Current State")
 
             Component.onCompleted: {
@@ -62,6 +79,10 @@ Dialog {
             id: comboMasterAtten
             posTop: comboChannel.posBottom
             posLeft: 0
+            widthWidgetLabel: extendedWidthWidgetLabel
+            widthWidget: defaultWidthWidget
+            widthPrefixSuffix: defaultMarginAndTextWidthHeight
+            txtSuffix: "dB"
             txtText: qsTr("Master") + ": " + (devFreqMaster ? devFreqMaster.varName("atten") : qsTr("Attenuation"))
         }
 
@@ -69,6 +90,8 @@ Dialog {
             id: comboMasterRef
             posTop: comboChannel.posBottom
             posLeft: (rect.width - defaultMarginWidget) / 2
+            widthWidget: extendedWidthWidget
+            widthWidgetLabel: extendedWidthWidgetLabel
             txtText: qsTr("Master") + ": " + (devFreqMaster ? devFreqMaster.varName("ch_a") : "10 MHz " + qsTr("Ref"))
 
             Component.onCompleted: {
@@ -80,6 +103,10 @@ Dialog {
             id: comboSlaveAtten
             posTop: comboMasterAtten.posBottom
             posLeft: 0
+            widthWidgetLabel: extendedWidthWidgetLabel
+            widthWidget: defaultWidthWidget
+            widthPrefixSuffix: defaultMarginAndTextWidthHeight
+            txtSuffix: "dB"
             txtText: qsTr("Slave") + ": " + (devFreqSlave ? devFreqSlave.varName("atten") : qsTr("Attenuation"))
         }
 
@@ -87,6 +114,8 @@ Dialog {
             id: comboSlaveRef
             posTop: comboMasterAtten.posBottom
             posLeft: (rect.width - defaultMarginWidget) / 2
+            widthWidget: extendedWidthWidget
+            widthWidgetLabel: extendedWidthWidgetLabel
             txtText: qsTr("Slave") + ": " + (devFreqSlave ? devFreqSlave.varName("ch_b") : "10 MHz " + qsTr("Ref"))
 
             Component.onCompleted: {

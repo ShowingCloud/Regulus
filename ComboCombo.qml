@@ -10,6 +10,8 @@ Item {
     property int posTop : 0
     property int posRight : combo.x + combo.width
     property int posBottom : combo.y + combo.height
+    property int widthWidget : defaultWidthWidget
+    property int widthWidgetLabel : defaultWidthWidgetLabel
     property alias txtText : text.text
     property alias comboModel : combo.model
     property alias index : combo.currentIndex
@@ -19,7 +21,7 @@ Item {
         x: posLeft + defaultMarginWidget
         y: posTop + defaultMarginWidget
         height: defaultHeightWidget
-        width: defaultWidthWidgetLabel
+        width: widthWidgetLabel
         text: txtText
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -33,7 +35,7 @@ Item {
         anchors.leftMargin: defaultMarginWidget
         y: posTop + defaultMarginWidget
         height: defaultHeightWidget
-        width: defaultWidthWidget
+        width: widthWidget
         font.pixelSize: defaultLabelFontSize
         currentIndex: 1
 

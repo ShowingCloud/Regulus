@@ -6,6 +6,8 @@ Item {
     property int posTop : 0
     property int posRight : rect.x + rect.width
     property int posBottom : rect.y + rect.height
+    property int widthWidget : defaultWidthWidget
+    property int widthWidgetLabel : defaultWidthWidgetLabel
     property alias txtText : text.text
     property alias txtValue : value.text
     property alias colorValue : value.color
@@ -16,7 +18,7 @@ Item {
         x: posLeft + defaultMarginWidget
         y: posTop + defaultMarginWidget
         height: defaultHeightWidget
-        width: defaultWidthWidgetLabel
+        width: widthWidgetLabel
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignHCenter
@@ -29,7 +31,7 @@ Item {
         anchors.leftMargin: defaultMarginWidget
         y: posTop + defaultMarginWidget
         height: defaultHeightWidget
-        width: defaultWidthWidget
+        width: widthWidget
         border.width: defaultBorderWidth
 
         Text {
