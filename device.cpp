@@ -302,6 +302,7 @@ devNet::devNet(QObject *parent)
         QObject::connect(timer, &QTimer::timeout, [=]() {
             if (ping) {
                 ping->kill();
+                ping->waitForFinished();
                 ping->deleteLater();
             }
             ping = new QProcess(this);
@@ -320,4 +321,13 @@ devNet::devNet(QObject *parent)
         });
         timer->start(0);
     });
+}
+
+devNet::~devNet()
+{
+    if (ping) {
+        ping->kill();
+        ping->waitForFinished();
+        ping->deleteLater();
+    }
 }

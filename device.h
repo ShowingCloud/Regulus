@@ -392,6 +392,7 @@ class devNet : public device
 
 public:
     explicit devNet(QObject *parent = nullptr);
+    ~devNet() override;
 
 public slots:
     void createCntlMsg() const override {}
