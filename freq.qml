@@ -62,6 +62,10 @@ Window {
         devFreqMaster: devFreqMaster
         devFreqSlave: devFreqSlave
         dialogName: name.text + " " + qsTr("Setting")
+        valueMasterAtten: comboMasterAtten.txtValue
+        valueMasterRef: comboMasterRef.index
+        valueSlaveAtten: comboSlaveAtten.txtValue
+        valueSlaveRef: comboSlaveRef.index
     }
     Button {
         id: setting
@@ -93,10 +97,11 @@ Window {
             posTop: 0
             posLeft: 0
             txtText: devFreqMaster ? devFreqMaster.varName("atten") : qsTr("Attenuation")
+            txtSuffix: " dB"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    txtValue = devFreqMaster.showDisplay("atten") + " dB"
+                    txtValue = devFreqMaster.showDisplay("atten")
                     colorValue = devFreqMaster.showColor("atten")
                 })
             }
@@ -121,10 +126,11 @@ Window {
             posTop: comboMasterAtten.posBottom
             posLeft: 0
             txtText: devFreqMaster ? devFreqMaster.varName("voltage") : qsTr("Voltage")
+            txtSuffix: " V"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    txtValue = devFreqMaster.showDisplay("voltage") + " V"
+                    txtValue = devFreqMaster.showDisplay("voltage")
                     colorValue = devFreqMaster.showColor("voltage")
                 })
             }
@@ -135,10 +141,11 @@ Window {
             posTop: comboMasterAtten.posBottom
             posLeft: (rectMaster.width - defaultMarginWidget) / 4
             txtText: devFreqMaster ? devFreqMaster.varName("current") : qsTr("Current")
+            txtSuffix: " mA"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    txtValue = devFreqMaster.showDisplay("current") + " mA"
+                    txtValue = devFreqMaster.showDisplay("current")
                     colorValue = devFreqMaster.showColor("current")
                 })
             }
@@ -282,10 +289,11 @@ Window {
             posTop: 0
             posLeft: 0
             txtText: devFreqSlave ? devFreqSlave.varName("atten") : qsTr("Attenuation")
+            txtSuffix: " dB"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    txtValue = devFreqSlave.showDisplay("atten") + " dB"
+                    txtValue = devFreqSlave.showDisplay("atten")
                     colorValue = devFreqSlave.showColor("atten")
                 })
             }
@@ -310,10 +318,11 @@ Window {
             posTop: comboSlaveAtten.posBottom
             posLeft: 0
             txtText: devFreqSlave ? devFreqSlave.varName("voltage") : qsTr("Voltage")
+            txtSuffix: " V"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    txtValue = devFreqSlave.showDisplay("voltage") + " V"
+                    txtValue = devFreqSlave.showDisplay("voltage")
                     colorValue = devFreqSlave.showColor("voltage")
                 })
             }
@@ -324,10 +333,11 @@ Window {
             posTop: comboSlaveAtten.posBottom
             posLeft: (rectSlave.width - defaultMarginWidget) / 4
             txtText: devFreqSlave ? devFreqSlave.varName("current") : qsTr("Current")
+            txtSuffix: " mA"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    txtValue = devFreqSlave.showDisplay("current") + " mA"
+                    txtValue = devFreqSlave.showDisplay("current")
                     colorValue = devFreqSlave.showColor("current")
                 })
             }

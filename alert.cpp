@@ -94,7 +94,7 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
     case P_ENUM_MS:
         switch (val.value<P_MS>()) {
         case P_MS_MASTER:
-            return P_NOR_ABNORMAL;
+            return P_NOR_NORMAL;
         case P_MS_SLAVE:
             return P_NOR_STANDBY;
         case P_MS_OTHERS:

@@ -86,10 +86,11 @@ Window {
             posTop: 0
             posLeft: 0
             txtText: devAmpMaster ? devAmpMaster.varName("atten") : qsTr("Attenuation")
+            txtSuffix: " dB"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    txtValue = devAmpMaster.showDisplay("atten") + " dB"
+                    txtValue = devAmpMaster.showDisplay("atten")
                     colorValue = devAmpMaster.showColor("atten")
                 })
             }
@@ -100,10 +101,11 @@ Window {
             posTop: 0
             posLeft: (rectMaster.width - defaultMarginWidget) / 4
             txtText: devAmpMaster ? devAmpMaster.varName("power") : qsTr("Power")
+            txtSuffix: " mW"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    txtValue = devAmpMaster.showDisplay("power") + " mW"
+                    txtValue = devAmpMaster.showDisplay("power")
                     colorValue = devAmpMaster.showColor("power")
                 })
             }
@@ -114,10 +116,11 @@ Window {
             posTop: 0
             posLeft: (rectMaster.width - defaultMarginWidget) / 2
             txtText: devAmpMaster ? devAmpMaster.varName("gain") : qsTr("Gain")
+            txtSuffix: " dB"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    txtValue = devAmpMaster.showDisplay("gain") + " dB"
+                    txtValue = devAmpMaster.showDisplay("gain")
                     colorValue = devAmpMaster.showColor("gain")
                 })
             }
@@ -128,10 +131,12 @@ Window {
             posTop: comboMasterAtten.posBottom
             posLeft: 0
             txtText: devAmpMaster ? devAmpMaster.varName("loss") : qsTr("Return Loss")
+            txtPrefix: "-"
+            txtSuffix: " dB"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    txtValue = "-" + devAmpMaster.showDisplay("loss") + " dB"
+                    txtValue = devAmpMaster.showDisplay("loss")
                     colorValue = devAmpMaster.showColor("loss")
                 })
             }
@@ -142,10 +147,11 @@ Window {
             posTop: comboMasterAtten.posBottom
             posLeft: (rectMaster.width - defaultMarginWidget) / 4
             txtText: devAmpMaster ? devAmpMaster.varName("amp_temp") : qsTr("Amplifier Temperature")
+            txtSuffix: " C"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    txtValue = devAmpMaster.showDisplay("amp_temp") + " C"
+                    txtValue = devAmpMaster.showDisplay("amp_temp")
                     colorValue = devAmpMaster.showColor("amp_temp")
                 })
             }
@@ -226,6 +232,7 @@ Window {
             posTop: comboMasterLoss.posBottom
             posLeft: (rectMaster.width - defaultMarginWidget) * 3 / 4
             txtText: devAmpMaster ? devAmpMaster.varName("load_temp") : qsTr("Load Temperature")
+            txtSuffix: " C"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -273,10 +280,11 @@ Window {
             posTop: 0
             posLeft: 0
             txtText: devAmpSlave ? devAmpSlave.varName("atten") : qsTr("Attenuation")
+            txtSuffix: " dB"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    txtValue = devAmpSlave.showDisplay("atten") + " dB"
+                    txtValue = devAmpSlave.showDisplay("atten")
                     colorValue = devAmpSlave.showColor("atten")
                 })
             }
@@ -287,10 +295,11 @@ Window {
             posTop: 0
             posLeft: (rectSlave.width - defaultMarginWidget) / 4
             txtText: devAmpSlave ? devAmpSlave.varName("power") : qsTr("Power")
+            txtSuffix: " mW"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    txtValue = devAmpSlave.showDisplay("power") + " mW"
+                    txtValue = devAmpSlave.showDisplay("power")
                     colorValue = devAmpSlave.showColor("power")
                 })
             }
@@ -301,10 +310,11 @@ Window {
             posTop: 0
             posLeft: (rectSlave.width - defaultMarginWidget) / 2
             txtText: devAmpSlave ? devAmpSlave.varName("gain") : qsTr("Gain")
+            txtSuffix: " dB"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    txtValue = devAmpSlave.showDisplay("gain") + " dB"
+                    txtValue = devAmpSlave.showDisplay("gain")
                     colorValue = devAmpSlave.showColor("gain")
                 })
             }
@@ -315,10 +325,12 @@ Window {
             posTop: comboSlaveAtten.posBottom
             posLeft: 0
             txtText: devAmpSlave ? devAmpSlave.varName("loss") : qsTr("Return Loss")
+            txtPrefix: "-"
+            txtSuffix: " dB"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    txtValue = "-" + devAmpSlave.showDisplay("loss") + " dB"
+                    txtValue = devAmpSlave.showDisplay("loss")
                     colorValue = devAmpSlave.showColor("loss")
                 })
             }
@@ -329,10 +341,11 @@ Window {
             posTop: comboSlaveAtten.posBottom
             posLeft: (rectSlave.width - defaultMarginWidget) / 4
             txtText: devAmpSlave ? devAmpSlave.varName("amp_temp") : qsTr("Amplifier Temperature")
+            txtSuffix: " C"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    txtValue = devAmpSlave.showDisplay("amp_temp") + " C"
+                    txtValue = devAmpSlave.showDisplay("amp_temp")
                     colorValue = devAmpSlave.showColor("amp_temp")
                 })
             }
@@ -413,6 +426,7 @@ Window {
             posTop: comboSlaveLoss.posBottom
             posLeft: (rectSlave.width - defaultMarginWidget) * 3 / 4
             txtText: devAmpSlave ? devAmpSlave.varName("load_temp") : qsTr("Load Temperature")
+            txtSuffix: " C"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {

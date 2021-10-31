@@ -9,7 +9,9 @@ Item {
     property int widthWidget : defaultWidthWidget
     property int widthWidgetLabel : defaultWidthWidgetLabel
     property alias txtText : text.text
-    property alias txtValue : value.text
+    property string txtValue
+    property string txtPrefix
+    property string txtSuffix
     property alias colorValue : value.color
     property int fontSize : defaultLabelFontSize
 
@@ -38,6 +40,7 @@ Item {
             id: value
             x: 0
             y: 0
+            text: txtPrefix + txtValue + txtSuffix
             height: rect.height
             width: rect.width
             verticalAlignment: Text.AlignVCenter

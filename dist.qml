@@ -89,10 +89,11 @@ Window {
             posTop: comboRef10.posBottom
             posLeft: 0
             txtText: devDist ? devDist.varName("voltage") : qsTr("Voltage")
+            txtSuffix: " V"
 
             Component.onCompleted: {
                 refreshData.connect(function() {
-                    txtValue = devDist.showDisplay("voltage") + " V"
+                    txtValue = devDist.showDisplay("voltage")
                     colorValue = devDist.showColor("voltage")
                 })
             }
@@ -103,10 +104,11 @@ Window {
             posTop: comboRef10.posBottom
             posLeft: (rect.width - defaultMarginWidget) / 2
             txtText: devDist ? devDist.varName("current") : qsTr("Current")
+            txtSuffix: " mA"
 
             Component.onCompleted: {
                 refreshData.connect(function() {
-                    txtValue = devDist.showDisplay("current") + " mA"
+                    txtValue = devDist.showDisplay("current")
                     colorValue = devDist.showColor("current")
                 })
             }

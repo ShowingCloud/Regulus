@@ -1,5 +1,10 @@
 #include <QDebug>
 
+#ifdef QT_DEBUG
+#include <stdlib.h>
+#include <time.h>
+#endif
+
 #include "serial.h"
 #include "protocol.h"
 
@@ -50,12 +55,17 @@ void serial::readData()
 #ifdef QT_DEBUG
 void serial::readFakeData()
 {
-    QByteArray data = QByteArray::fromHex("ff010a03040101010101010101010103011700aa");
+    int secret;
+    srand(static_cast<uint>(time(nullptr)));
+    secret = rand() % 10000 + 1;
+
+    QByteArray data = QByteArray::fromHex("ff010a03040101010101010101010103011701aa");
     buffer += data;
     lastseen = QDateTime::currentDateTime();
     msg::validateProtocol(buffer, data, this);
 
-    data = QByteArray::fromHex("ff010a03040101010101010101010102001701aa");
+    data = QByteArray::fromHex("ff" + QString::number(rand() % 10000 * 10000 + rand() % 10000).rightJustified(8, '0').toUtf8() + "0101010101010101010102001700aa");
+    //qDebug() << data.toHex();
     buffer += data;
     lastseen = QDateTime::currentDateTime();
     msg::validateProtocol(buffer, data, this);
