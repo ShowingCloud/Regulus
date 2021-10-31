@@ -6,18 +6,13 @@ import QtQuick.Window 2.15
 import rdss.alert 1.0
 
 Window {
-    readonly property int heightWidget: 30
-    readonly property int marginWidget: 15
-    readonly property int widthWidgetLabel: 150
-    readonly property int widthWidget: 150
-    readonly property int marginRect: 30
     property alias communicationColorValue: comboCommunication.colorValue
 
     id: winDist
     visible: false
     modality: Qt.ApplicationModal
-    width: rect.width + 2 * marginRect
-    height: rect.height + heightWidget + 2 * marginRect + marginWidget
+    width: rect.width + 2 * defaultMarginRect
+    height: rect.height + defaultHeightWidget + 2 * defaultMarginRect + defaultMarginWidget
     title: qsTr("Frequency Distribution Device")
 
     property QtObject devDist: null
@@ -43,10 +38,10 @@ Window {
 
     Text {
         id: name
-        x: marginRect + marginWidget
-        y: marginRect
-        height: heightWidget
-        width: 2 * widthWidget
+        x: defaultMarginRect + defaultMarginWidget
+        y: defaultMarginRect
+        height: defaultHeightWidget
+        width: 2 * defaultWidthWidget
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: defaultLabelFontSize
@@ -54,11 +49,11 @@ Window {
 
     Rectangle {
         id: rect
-        x: marginRect
+        x: defaultMarginRect
         anchors.top: name.bottom
-        anchors.topMargin: marginWidget
-        width: 4 * widthWidget + 4 * widthWidgetLabel + 9 * marginWidget
-        height: 4 * heightWidget + 5 * marginWidget
+        anchors.topMargin: defaultMarginWidget
+        width: 4 * defaultWidthWidget + 4 * defaultWidthWidgetLabel + 9 * defaultMarginWidget
+        height: 4 * defaultHeightWidget + 5 * defaultMarginWidget
         border.width: defaultBorderWidth
 
         ComboText {
@@ -78,7 +73,7 @@ Window {
         ComboText {
             id: comboRef16
             posTop: 0
-            posLeft: (rect.width - marginWidget) / 2
+            posLeft: (rect.width - defaultMarginWidget) / 2
             txtText: devDist ? devDist.varName("ref_16") : qsTr("Outer Ref") + " 16 MHz"
 
             Component.onCompleted: {
@@ -106,7 +101,7 @@ Window {
         ComboText {
             id: comboCurrent
             posTop: comboRef10.posBottom
-            posLeft: (rect.width - marginWidget) / 2
+            posLeft: (rect.width - defaultMarginWidget) / 2
             txtText: devDist ? devDist.varName("current") : qsTr("Current")
 
             Component.onCompleted: {
@@ -134,7 +129,7 @@ Window {
         ComboText {
             id: combo10Lock2
             posTop: comboVoltage.posBottom
-            posLeft: (rect.width - marginWidget) / 4
+            posLeft: (rect.width - defaultMarginWidget) / 4
             txtText: devDist ? devDist.varName("lock_10_2") : "10 MHz " + qsTr("Lock") + " 2"
 
             Component.onCompleted: {
@@ -148,7 +143,7 @@ Window {
         ComboText {
             id: combo16Lock1
             posTop: comboVoltage.posBottom
-            posLeft: (rect.width - marginWidget) / 2
+            posLeft: (rect.width - defaultMarginWidget) / 2
             txtText: devDist ? devDist.varName("lock_16_1") : "16 MHz " + qsTr("Lock") + " 1"
 
             Component.onCompleted: {
@@ -162,7 +157,7 @@ Window {
         ComboText {
             id: combo16Lock2
             posTop: comboVoltage.posBottom
-            posLeft: (rect.width - marginWidget) * 3 / 4
+            posLeft: (rect.width - defaultMarginWidget) * 3 / 4
             txtText: devDist ? devDist.varName("lock_16_2") : "16 MHz " + qsTr("Lock") + " 2"
 
             Component.onCompleted: {

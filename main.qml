@@ -15,6 +15,11 @@ Window {
     readonly property int defaultMarginAndTextWidthHeight: 30
     readonly property int windowLeftMargin: 60
     readonly property int marginIndicators: 10
+    readonly property int defaultHeightWidget: 30
+    readonly property int defaultMarginWidget: 15
+    readonly property int defaultWidthWidgetLabel: 150
+    readonly property int defaultWidthWidget: 150
+    readonly property int defaultMarginRect: 30
     readonly property int defaultLabelFontSize: 20
     readonly property int rectBigFontSize: 15
     readonly property int rectSmallFontSize: 12 // 8

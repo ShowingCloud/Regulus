@@ -6,11 +6,6 @@ import QtQuick.Window 2.15
 import rdss.alert 1.0
 
 Window {
-    readonly property int heightWidget: 30
-    readonly property int marginWidget: 15
-    readonly property int widthWidgetLabel: 150
-    readonly property int widthWidget: 150
-    readonly property int marginRect: 30
     property bool devFreqUp: false
     property alias masterCommunicationColorValue: comboMasterCommunication.colorValue
     property alias slaveCommunicationColorValue: comboSlaveCommunication.colorValue
@@ -18,8 +13,8 @@ Window {
     id: winFreq
     visible: false
     modality: Qt.ApplicationModal
-    width: rectMaster.width + 2 * marginRect
-    height: 2 * rectMaster.height + heightWidget + 3 * marginRect + marginWidget
+    width: rectMaster.width + 2 * defaultMarginRect
+    height: 2 * rectMaster.height + defaultHeightWidget + 3 * defaultMarginRect + defaultMarginWidget
     title: qsTr("Frequency Conversion Device")
 
     property QtObject devFreqMaster: null
@@ -53,22 +48,44 @@ Window {
 
     Text {
         id: name
-        x: marginRect + marginWidget
-        y: marginRect
-        height: heightWidget
-        width: 2 * widthWidget
+        x: defaultMarginRect + defaultMarginWidget
+        y: defaultMarginRect
+        height: defaultHeightWidget
+        width: 2 * defaultWidthWidget
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: defaultLabelFontSize
     }
 
+    SetFreq {
+        id: setFreq
+        devFreqMaster: devFreqMaster
+        devFreqSlave: devFreqSlave
+        dialogName: name.text + " " + qsTr("Setting")
+    }
+    Button {
+        id: setting
+        x: defaultMarginRect + rectMaster.width - defaultWidthWidget - defaultMarginWidget
+        anchors.top: name.top
+        width: defaultWidthWidget
+        height: defaultHeightWidget
+        text: qsTr("Setting")
+        font.pixelSize: defaultLabelFontSize
+
+        onClicked: {
+            setFreq.devFreqMaster = devFreqMaster
+            setFreq.devFreqSlave = devFreqSlave
+            setFreq.open()
+        }
+    }
+
     Rectangle {
         id: rectMaster
-        x: marginRect
+        x: defaultMarginRect
         anchors.top: name.bottom
-        anchors.topMargin: marginWidget
-        width: 4 * widthWidget + 4 * widthWidgetLabel + 9 * marginWidget
-        height: 5 * heightWidget + 6 * marginWidget
+        anchors.topMargin: defaultMarginWidget
+        width: 4 * defaultWidthWidget + 4 * defaultWidthWidgetLabel + 9 * defaultMarginWidget
+        height: 5 * defaultHeightWidget + 6 * defaultMarginWidget
         border.width: defaultBorderWidth
 
         ComboText {
@@ -87,7 +104,7 @@ Window {
 
         ComboText {
             id: comboMasterChannel
-            posLeft: (rectMaster.width - marginWidget) * 3 / 4
+            posLeft: (rectMaster.width - defaultMarginWidget) * 3 / 4
             posTop: 0
             txtText: devFreqMaster ? devFreqMaster.varName("masterslave") : qsTr("Current State")
 
@@ -116,7 +133,7 @@ Window {
         ComboText {
             id: comboMasterCurrent
             posTop: comboMasterAtten.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 4
+            posLeft: (rectMaster.width - defaultMarginWidget) / 4
             txtText: devFreqMaster ? devFreqMaster.varName("current") : qsTr("Current")
 
             Component.onCompleted: {
@@ -130,7 +147,7 @@ Window {
         ComboText {
             id: comboMasterRadioStat
             posTop: comboMasterAtten.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 2
+            posLeft: (rectMaster.width - defaultMarginWidget) / 2
             txtText: qsTr("Radio") + (devFreqUp ? qsTr("Output") : qsTr("Input"))
 
             Component.onCompleted: {
@@ -144,7 +161,7 @@ Window {
         ComboText {
             id: comboMasterMidStat
             posTop: comboMasterAtten.posBottom
-            posLeft: (rectMaster.width - marginWidget) * 3 / 4
+            posLeft: (rectMaster.width - defaultMarginWidget) * 3 / 4
             txtText: qsTr("Mid Freq") + (devFreqUp ? qsTr("Input") : qsTr("Output"))
 
             Component.onCompleted: {
@@ -173,7 +190,7 @@ Window {
         ComboText {
             id: comboMasterLOA2
             posTop: comboMasterVoltage.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 2
+            posLeft: (rectMaster.width - defaultMarginWidget) / 2
             txtText: devFreqMaster ? devFreqMaster.varName("lock_a2") : qsTr("Local Oscillator") + " A2"
 
             Component.onCompleted: {
@@ -202,7 +219,7 @@ Window {
         ComboText {
             id: comboMaster10Ref2
             posTop: comboMasterLOA1.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 4
+            posLeft: (rectMaster.width - defaultMarginWidget) / 4
             txtText: devFreqMaster ? devFreqMaster.varName("ref_10_2") : "10 MHz 2"
 
             Component.onCompleted: {
@@ -216,7 +233,7 @@ Window {
         ComboText {
             id: comboMaster10RefInner
             posTop: comboMasterLOA1.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 2
+            posLeft: (rectMaster.width - defaultMarginWidget) / 2
             txtText: devFreqMaster ? devFreqMaster.varName("ref_inner_1") : "10 MHz " + qsTr("Inner Ref")
 
             Component.onCompleted: {
@@ -239,7 +256,7 @@ Window {
         ComboText {
             id: comboMasterSignal
             posTop: comboMaster10Ref1.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 2
+            posLeft: (rectMaster.width - defaultMarginWidget) / 2
             txtText: devFreqMaster ? devFreqMaster.varName("handshake") : qsTr("Handshake Signal")
 
             Component.onCompleted: {
@@ -255,7 +272,7 @@ Window {
         id: rectSlave
         anchors.left: rectMaster.left
         anchors.top: rectMaster.bottom
-        anchors.topMargin: marginRect
+        anchors.topMargin: defaultMarginRect
         width: rectMaster.width
         height: rectMaster.height
         border.width: defaultBorderWidth
@@ -276,7 +293,7 @@ Window {
 
         ComboText {
             id: comboSlaveChannel
-            posLeft: (rectSlave.width - marginWidget) * 3 / 4
+            posLeft: (rectSlave.width - defaultMarginWidget) * 3 / 4
             posTop: 0
             txtText: devFreqSlave ? devFreqSlave.varName("masterslave") : qsTr("Current State")
 
@@ -305,7 +322,7 @@ Window {
         ComboText {
             id: comboSlaveCurrent
             posTop: comboSlaveAtten.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 4
+            posLeft: (rectSlave.width - defaultMarginWidget) / 4
             txtText: devFreqSlave ? devFreqSlave.varName("current") : qsTr("Current")
 
             Component.onCompleted: {
@@ -319,7 +336,7 @@ Window {
         ComboText {
             id: comboSlaveRadioStat
             posTop: comboSlaveAtten.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 2
+            posLeft: (rectSlave.width - defaultMarginWidget) / 2
             txtText: qsTr("Radio") + (devFreqUp ? qsTr("Output") : qsTr("Input"))
 
             Component.onCompleted: {
@@ -333,7 +350,7 @@ Window {
         ComboText {
             id: comboSlaveMidStat
             posTop: comboSlaveAtten.posBottom
-            posLeft: (rectSlave.width - marginWidget) * 3 / 4
+            posLeft: (rectSlave.width - defaultMarginWidget) * 3 / 4
             txtText: qsTr("Mid Freq") + (devFreqUp ? qsTr("Input") : qsTr("Output"))
 
             Component.onCompleted: {
@@ -362,7 +379,7 @@ Window {
         ComboText {
             id: comboSlaveLOB2
             posTop: comboSlaveVoltage.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 2
+            posLeft: (rectSlave.width - defaultMarginWidget) / 2
             txtText: devFreqSlave ? devFreqSlave.varName("lock_b2") : qsTr("Local Oscillator") + " B2"
 
             Component.onCompleted: {
@@ -391,7 +408,7 @@ Window {
         ComboText {
             id: comboSlave10Ref2
             posTop: comboSlaveLOB1.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 4
+            posLeft: (rectSlave.width - defaultMarginWidget) / 4
             txtText: devFreqSlave ? devFreqSlave.varName("ref_10_4") : "10 MHz 2"
 
             Component.onCompleted: {
@@ -405,7 +422,7 @@ Window {
         ComboText {
             id: comboSlave16RefInner
             posTop: comboSlaveLOB1.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 2
+            posLeft: (rectSlave.width - defaultMarginWidget) / 2
             txtText: devFreqSlave ? devFreqSlave.varName("ref_inner_2") : "10 MHz " + qsTr("Inner Ref")
 
             Component.onCompleted: {
@@ -428,7 +445,7 @@ Window {
         ComboText {
             id: comboSlaveSignal
             posTop: comboSlave10Ref1.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 2
+            posLeft: (rectSlave.width - defaultMarginWidget) / 2
             txtText: devFreqSlave ? devFreqSlave.varName("handshake") : qsTr("Handshake Signal")
 
             Component.onCompleted: {

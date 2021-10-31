@@ -12,21 +12,14 @@ Item {
     property int posBottom : combo.y + combo.height
     property alias txtText : text.text
     property alias comboModel : combo.model
-    property string colorValue : "black"
     property alias index : combo.currentIndex
-
-    signal hold()
-    signal updated(int index) /* when lost focus ie. change handed over */
-    signal changedIndex(int index) /* when change index event occurred */
-    signal clicked(int index) /* when any index was selected */
-    signal submit()
 
     Text {
         id: text
-        x: posLeft + marginWidget
-        y: posTop + marginWidget
-        height: heightWidget
-        width: widthWidgetLabel
+        x: posLeft + defaultMarginWidget
+        y: posTop + defaultMarginWidget
+        height: defaultHeightWidget
+        width: defaultWidthWidgetLabel
         text: txtText
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -37,10 +30,10 @@ Item {
     ComboBox {
         id: combo
         anchors.left: text.right
-        anchors.leftMargin: marginWidget
-        y: posTop + marginWidget
-        height: heightWidget
-        width: widthWidget
+        anchors.leftMargin: defaultMarginWidget
+        y: posTop + defaultMarginWidget
+        height: defaultHeightWidget
+        width: defaultWidthWidget
         font.pixelSize: defaultLabelFontSize
         currentIndex: 1
 
@@ -50,7 +43,6 @@ Item {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             elide: Text.ElideRight
-            color: colorValue
         }
 
         delegate: ItemDelegate {
@@ -61,22 +53,8 @@ Item {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
-                color: colorValue
             }
             highlighted: combo.highlightedIndex === index
         }
-
-        onActiveFocusChanged: {
-            if (activeFocus) {
-                blockComboCombo.hold()
-            } else {
-                blockComboCombo.updated(currentIndex)
-            }
-        }
-
-        onCurrentIndexChanged: blockComboCombo.changedIndex(currentIndex)
-        onActivated: blockComboCombo.clicked(currentIndex)
     }
-
-    onSubmit: blockComboCombo.updated(combo.currentIndex)
 }

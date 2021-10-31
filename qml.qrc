@@ -14,5 +14,6 @@
         <file>ComboTextField.qml</file>
         <file>RectDevDist.qml</file>
         <file>RectDevAmp.qml</file>
+        <file>SetFreq.qml</file>
     </qresource>
 </RCC>

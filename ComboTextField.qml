@@ -9,18 +9,13 @@ Item {
     property int posBottom : rect.y + rect.height
     property alias txtText : text.text
     property alias txtValue : value.text
-    property alias colorValue : value.color
-
-    signal hold()
-    signal updated(double value)
-    signal submit()
 
     Text {
         id: text
-        x: posLeft + marginWidget
-        y: posTop + marginWidget
-        height: heightWidget
-        width: widthWidgetLabel
+        x: posLeft + defaultMarginWidget
+        y: posTop + defaultMarginWidget
+        height: defaultHeightWidget
+        width: defaultWidthWidgetLabel
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignHCenter
@@ -30,10 +25,10 @@ Item {
     Rectangle {
         id: rect
         anchors.left: text.right
-        anchors.leftMargin: marginWidget
-        y: posTop + marginWidget
-        height: heightWidget
-        width: widthWidget
+        anchors.leftMargin: defaultMarginWidget
+        y: posTop + defaultMarginWidget
+        height: defaultHeightWidget
+        width: defaultWidthWidget
         border.width: defaultBorderWidth
 
         TextField {
@@ -46,16 +41,6 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: defaultLabelFontSize
             padding: 3 // seems good but not with the default 6
-
-            onActiveFocusChanged: {
-                if (activeFocus) {
-                    blockComboTextField.hold()
-                } else {
-                    blockComboTextField.updated(parseFloat(value.text))
-                }
-            }
         }
     }
-
-    onSubmit: blockComboTextField.updated(parseFloat(value.text))
 }

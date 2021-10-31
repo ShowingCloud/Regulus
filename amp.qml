@@ -6,19 +6,14 @@ import QtQuick.Window 2.15
 import rdss.alert 1.0
 
 Window {
-    readonly property int heightWidget: 30
-    readonly property int marginWidget: 15
-    readonly property int widthWidgetLabel: 150
-    readonly property int widthWidget: 150
-    readonly property int marginRect: 30
     property alias masterCommunicationColorValue: comboMasterCommunication.colorValue
     property alias slaveCommunicationColorValue: comboSlaveCommunication.colorValue
 
     id: winAmp
     visible: false
     modality: Qt.ApplicationModal
-    width: rectMaster.width + 2 * marginRect
-    height: 2 * rectMaster.height + heightWidget + 3 * marginRect + marginWidget
+    width: rectMaster.width + 2 * defaultMarginRect
+    height: 2 * rectMaster.height + defaultHeightWidget + 3 * defaultMarginRect + defaultMarginWidget
     title: qsTr("Amplification Device")
 
     property QtObject devAmpMaster: null
@@ -51,10 +46,10 @@ Window {
 
     Text {
         id: name
-        x: marginRect + marginWidget
-        y: marginRect
-        height: heightWidget
-        width: 2 * widthWidget
+        x: defaultMarginRect + defaultMarginWidget
+        y: defaultMarginRect
+        height: defaultHeightWidget
+        width: 2 * defaultWidthWidget
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: defaultLabelFontSize
@@ -62,8 +57,8 @@ Window {
 
     ComboText {
         id: comboChannel
-        posLeft: marginRect + rectMaster.width - widthWidget - widthWidgetLabel - 3 * marginWidget
-        posTop: marginRect - marginWidget
+        posLeft: defaultMarginRect + rectMaster.width - defaultWidthWidget - defaultWidthWidgetLabel - 3 * defaultMarginWidget
+        posTop: defaultMarginRect - defaultMarginWidget
         txtText: devAmpMaster ? devAmpMaster.varName("masterslave") : qsTr("Current State")
 
         Component.onCompleted: {
@@ -79,11 +74,11 @@ Window {
 
     Rectangle {
         id: rectMaster
-        x: marginRect
+        x: defaultMarginRect
         anchors.top: name.bottom
-        anchors.topMargin: marginWidget
-        width: 4 * widthWidget + 4 * widthWidgetLabel + 9 * marginWidget
-        height: 4 * heightWidget + 5 * marginWidget
+        anchors.topMargin: defaultMarginWidget
+        width: 4 * defaultWidthWidget + 4 * defaultWidthWidgetLabel + 9 * defaultMarginWidget
+        height: 4 * defaultHeightWidget + 5 * defaultMarginWidget
         border.width: defaultBorderWidth
 
         ComboText {
@@ -103,7 +98,7 @@ Window {
         ComboText {
             id: comboMasterPower
             posTop: 0
-            posLeft: (rectMaster.width - marginWidget) / 4
+            posLeft: (rectMaster.width - defaultMarginWidget) / 4
             txtText: devAmpMaster ? devAmpMaster.varName("power") : qsTr("Power")
 
             Component.onCompleted: {
@@ -117,7 +112,7 @@ Window {
         ComboText {
             id: comboMasterGain
             posTop: 0
-            posLeft: (rectMaster.width - marginWidget) / 2
+            posLeft: (rectMaster.width - defaultMarginWidget) / 2
             txtText: devAmpMaster ? devAmpMaster.varName("gain") : qsTr("Gain")
 
             Component.onCompleted: {
@@ -145,7 +140,7 @@ Window {
         ComboText {
             id: comboMasterAmpTemp
             posTop: comboMasterAtten.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 4
+            posLeft: (rectMaster.width - defaultMarginWidget) / 4
             txtText: devAmpMaster ? devAmpMaster.varName("amp_temp") : qsTr("Amplifier Temperature")
 
             Component.onCompleted: {
@@ -159,7 +154,7 @@ Window {
         ComboText {
             id: comboMasterStateStandWave
             posTop: comboMasterAtten.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 2
+            posLeft: (rectMaster.width - defaultMarginWidget) / 2
             txtText: devAmpMaster ? devAmpMaster.varName("s_stand_wave") : qsTr("Stand Wave")
 
             Component.onCompleted: {
@@ -173,7 +168,7 @@ Window {
         ComboText {
             id: comboMasterStateTemp
             posTop: comboMasterAtten.posBottom
-            posLeft: (rectMaster.width - marginWidget) * 3 / 4
+            posLeft: (rectMaster.width - defaultMarginWidget) * 3 / 4
             txtText: devAmpMaster ? devAmpMaster.varName("s_temp") : qsTr("Temperature")
 
             Component.onCompleted: {
@@ -201,7 +196,7 @@ Window {
         ComboText {
             id: comboMasterStateVoltage
             posTop: comboMasterLoss.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 4
+            posLeft: (rectMaster.width - defaultMarginWidget) / 4
             txtText: devAmpMaster ? devAmpMaster.varName("s_voltage") : qsTr("Voltage")
 
             Component.onCompleted: {
@@ -215,7 +210,7 @@ Window {
         ComboText {
             id: comboMasterStateOutputPower
             posTop: comboMasterLoss.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 2
+            posLeft: (rectMaster.width - defaultMarginWidget) / 2
             txtText: devAmpMaster ? devAmpMaster.varName("s_power") : qsTr("Output Power")
 
             Component.onCompleted: {
@@ -229,7 +224,7 @@ Window {
         ComboText {
             id: comboMasterLoadTemp
             posTop: comboMasterLoss.posBottom
-            posLeft: (rectMaster.width - marginWidget) * 3 / 4
+            posLeft: (rectMaster.width - defaultMarginWidget) * 3 / 4
             txtText: devAmpMaster ? devAmpMaster.varName("load_temp") : qsTr("Load Temperature")
 
             Component.onCompleted: {
@@ -252,7 +247,7 @@ Window {
         ComboText {
             id: comboMasterSignal
             posTop: comboMasterStateCurrent.posBottom
-            posLeft: (rectMaster.width - marginWidget) / 2
+            posLeft: (rectMaster.width - defaultMarginWidget) / 2
             txtText: devAmpMaster ? devAmpMaster.varName("handshake") : qsTr("Handshake Signal")
 
             Component.onCompleted: {
@@ -268,7 +263,7 @@ Window {
         id: rectSlave
         anchors.left: rectMaster.left
         anchors.top: rectMaster.bottom
-        anchors.topMargin: marginRect
+        anchors.topMargin: defaultMarginRect
         width: rectMaster.width
         height: rectMaster.height
         border.width: defaultBorderWidth
@@ -287,10 +282,10 @@ Window {
             }
         }
 
-        ComboTextField {
+        ComboText {
             id: comboSlavePower
             posTop: 0
-            posLeft: (rectSlave.width - marginWidget) / 4
+            posLeft: (rectSlave.width - defaultMarginWidget) / 4
             txtText: devAmpSlave ? devAmpSlave.varName("power") : qsTr("Power")
 
             Component.onCompleted: {
@@ -301,10 +296,10 @@ Window {
             }
         }
 
-        ComboTextField {
+        ComboText {
             id: comboSlaveGain
             posTop: 0
-            posLeft: (rectSlave.width - marginWidget) / 2
+            posLeft: (rectSlave.width - defaultMarginWidget) / 2
             txtText: devAmpSlave ? devAmpSlave.varName("gain") : qsTr("Gain")
 
             Component.onCompleted: {
@@ -332,7 +327,7 @@ Window {
         ComboText {
             id: comboSlaveAmpTemp
             posTop: comboSlaveAtten.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 4
+            posLeft: (rectSlave.width - defaultMarginWidget) / 4
             txtText: devAmpSlave ? devAmpSlave.varName("amp_temp") : qsTr("Amplifier Temperature")
 
             Component.onCompleted: {
@@ -346,7 +341,7 @@ Window {
         ComboText {
             id: comboSlaveStateStandWave
             posTop: comboSlaveAtten.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 2
+            posLeft: (rectSlave.width - defaultMarginWidget) / 2
             txtText: devAmpSlave ? devAmpSlave.varName("s_stand_wave") : qsTr("Stand Wave")
 
             Component.onCompleted: {
@@ -360,7 +355,7 @@ Window {
         ComboText {
             id: comboSlaveStateTemp
             posTop: comboSlaveAtten.posBottom
-            posLeft: (rectSlave.width - marginWidget) * 3 / 4
+            posLeft: (rectSlave.width - defaultMarginWidget) * 3 / 4
             txtText: devAmpSlave ? devAmpSlave.varName("s_temp") : qsTr("Temperature")
 
             Component.onCompleted: {
@@ -388,7 +383,7 @@ Window {
         ComboText {
             id: comboSlaveStateVoltage
             posTop: comboSlaveLoss.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 4
+            posLeft: (rectSlave.width - defaultMarginWidget) / 4
             txtText: devAmpSlave ? devAmpSlave.varName("s_voltage") : qsTr("Voltage")
 
             Component.onCompleted: {
@@ -402,7 +397,7 @@ Window {
         ComboText {
             id: comboSlaveStateOutputPower
             posTop: comboSlaveLoss.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 2
+            posLeft: (rectSlave.width - defaultMarginWidget) / 2
             txtText: devAmpSlave ? devAmpSlave.varName("s_power") : qsTr("Output Power")
 
             Component.onCompleted: {
@@ -416,7 +411,7 @@ Window {
         ComboText {
             id: comboSlaveLoadTemp
             posTop: comboSlaveLoss.posBottom
-            posLeft: (rectSlave.width - marginWidget) * 3 / 4
+            posLeft: (rectSlave.width - defaultMarginWidget) * 3 / 4
             txtText: devAmpSlave ? devAmpSlave.varName("load_temp") : qsTr("Load Temperature")
 
             Component.onCompleted: {
@@ -439,7 +434,7 @@ Window {
         ComboText {
             id: comboSlaveSignal
             posTop: comboSlaveStateCurrent.posBottom
-            posLeft: (rectSlave.width - marginWidget) / 2
+            posLeft: (rectSlave.width - defaultMarginWidget) / 2
             txtText: devAmpSlave ? devAmpSlave.varName("handshake") : qsTr("Handshake Signal")
 
             Component.onCompleted: {

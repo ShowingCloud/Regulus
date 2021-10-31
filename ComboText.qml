@@ -13,10 +13,10 @@ Item {
 
     Text {
         id: text
-        x: posLeft + marginWidget
-        y: posTop + marginWidget
-        height: heightWidget
-        width: widthWidgetLabel
+        x: posLeft + defaultMarginWidget
+        y: posTop + defaultMarginWidget
+        height: defaultHeightWidget
+        width: defaultWidthWidgetLabel
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignHCenter
@@ -26,10 +26,10 @@ Item {
     Rectangle {
         id: rect
         anchors.left: text.right
-        anchors.leftMargin: marginWidget
-        y: posTop + marginWidget
-        height: heightWidget
-        width: widthWidget
+        anchors.leftMargin: defaultMarginWidget
+        y: posTop + defaultMarginWidget
+        height: defaultHeightWidget
+        width: defaultWidthWidget
         border.width: defaultBorderWidth
 
         Text {

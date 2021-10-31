@@ -20,12 +20,12 @@
         <translation type="vanished">高功放</translation>
     </message>
     <message>
-        <location filename="database.cpp" line="351"/>
+        <location filename="database.cpp" line="397"/>
         <source>Restored normal</source>
         <translation>恢复正常</translation>
     </message>
     <message>
-        <location filename="database.cpp" line="372"/>
+        <location filename="database.cpp" line="418"/>
         <source>No content</source>
         <translation>无内容</translation>
     </message>
@@ -129,6 +129,54 @@
     <message>
         <source>mid freq</source>
         <translation type="vanished">中频</translation>
+    </message>
+</context>
+<context>
+    <name>SetFreq</name>
+    <message>
+        <location filename="SetFreq.qml" line="12"/>
+        <source>Frequency Conversion Device</source>
+        <translation>变频设备</translation>
+    </message>
+    <message>
+        <location filename="SetFreq.qml" line="35"/>
+        <source>Submit</source>
+        <translation>提交</translation>
+    </message>
+    <message>
+        <location filename="SetFreq.qml" line="54"/>
+        <source>Current State</source>
+        <translation>当前状态</translation>
+    </message>
+    <message>
+        <location filename="SetFreq.qml" line="65"/>
+        <location filename="SetFreq.qml" line="72"/>
+        <source>Master</source>
+        <translation>主路</translation>
+    </message>
+    <message>
+        <location filename="SetFreq.qml" line="65"/>
+        <location filename="SetFreq.qml" line="83"/>
+        <source>Attenuation</source>
+        <translation>衰减量</translation>
+    </message>
+    <message>
+        <location filename="SetFreq.qml" line="72"/>
+        <location filename="SetFreq.qml" line="90"/>
+        <source>Ref</source>
+        <translation>参考</translation>
+    </message>
+    <message>
+        <location filename="SetFreq.qml" line="75"/>
+        <location filename="SetFreq.qml" line="93"/>
+        <source>Channel</source>
+        <translation>通道</translation>
+    </message>
+    <message>
+        <location filename="SetFreq.qml" line="83"/>
+        <location filename="SetFreq.qml" line="90"/>
+        <source>Slave</source>
+        <translation>从路</translation>
     </message>
 </context>
 <context>
@@ -311,12 +359,12 @@
 <context>
     <name>amp</name>
     <message>
-        <location filename="amp.qml" line="22"/>
+        <location filename="amp.qml" line="17"/>
         <source>Amplification Device</source>
         <translation>功放设备</translation>
     </message>
     <message>
-        <location filename="amp.qml" line="67"/>
+        <location filename="amp.qml" line="62"/>
         <source>Current State</source>
         <translation>当前状态</translation>
     </message>
@@ -329,86 +377,86 @@
         <translation type="vanished">衰减模式</translation>
     </message>
     <message>
-        <location filename="amp.qml" line="93"/>
-        <location filename="amp.qml" line="280"/>
+        <location filename="amp.qml" line="88"/>
+        <location filename="amp.qml" line="275"/>
         <source>Attenuation</source>
         <translation>衰减量</translation>
     </message>
     <message>
-        <location filename="amp.qml" line="107"/>
-        <location filename="amp.qml" line="294"/>
+        <location filename="amp.qml" line="102"/>
+        <location filename="amp.qml" line="289"/>
         <source>Power</source>
         <translation>功率</translation>
     </message>
     <message>
-        <location filename="amp.qml" line="121"/>
-        <location filename="amp.qml" line="308"/>
+        <location filename="amp.qml" line="116"/>
+        <location filename="amp.qml" line="303"/>
         <source>Gain</source>
         <translation>增益</translation>
     </message>
     <message>
-        <location filename="amp.qml" line="135"/>
-        <location filename="amp.qml" line="322"/>
+        <location filename="amp.qml" line="130"/>
+        <location filename="amp.qml" line="317"/>
         <source>Return Loss</source>
         <translation>回波损耗</translation>
     </message>
     <message>
-        <location filename="amp.qml" line="149"/>
-        <location filename="amp.qml" line="336"/>
+        <location filename="amp.qml" line="144"/>
+        <location filename="amp.qml" line="331"/>
         <source>Amplifier Temperature</source>
         <translation>功放温度</translation>
     </message>
     <message>
-        <location filename="amp.qml" line="163"/>
-        <location filename="amp.qml" line="350"/>
+        <location filename="amp.qml" line="158"/>
+        <location filename="amp.qml" line="345"/>
         <source>Stand Wave</source>
         <translation>驻波</translation>
     </message>
     <message>
-        <location filename="amp.qml" line="177"/>
-        <location filename="amp.qml" line="364"/>
+        <location filename="amp.qml" line="172"/>
+        <location filename="amp.qml" line="359"/>
         <source>Temperature</source>
         <translation>温度</translation>
     </message>
     <message>
-        <location filename="amp.qml" line="191"/>
-        <location filename="amp.qml" line="378"/>
+        <location filename="amp.qml" line="186"/>
+        <location filename="amp.qml" line="373"/>
         <source>Current</source>
         <translation>电流</translation>
     </message>
     <message>
-        <location filename="amp.qml" line="205"/>
-        <location filename="amp.qml" line="392"/>
+        <location filename="amp.qml" line="200"/>
+        <location filename="amp.qml" line="387"/>
         <source>Voltage</source>
         <translation>电压</translation>
     </message>
     <message>
-        <location filename="amp.qml" line="219"/>
-        <location filename="amp.qml" line="406"/>
+        <location filename="amp.qml" line="214"/>
+        <location filename="amp.qml" line="401"/>
         <source>Output Power</source>
         <translation>输出功率</translation>
     </message>
     <message>
-        <location filename="amp.qml" line="233"/>
-        <location filename="amp.qml" line="420"/>
+        <location filename="amp.qml" line="228"/>
+        <location filename="amp.qml" line="415"/>
         <source>Load Temperature</source>
         <translation>负载温度</translation>
     </message>
     <message>
-        <location filename="amp.qml" line="247"/>
-        <location filename="amp.qml" line="434"/>
+        <location filename="amp.qml" line="242"/>
+        <location filename="amp.qml" line="429"/>
         <source>Network Communication</source>
         <translation>网络通信</translation>
     </message>
     <message>
-        <location filename="amp.qml" line="249"/>
-        <location filename="amp.qml" line="436"/>
+        <location filename="amp.qml" line="244"/>
+        <location filename="amp.qml" line="431"/>
         <source>No data</source>
         <translation>无数据</translation>
     </message>
     <message>
-        <location filename="amp.qml" line="256"/>
-        <location filename="amp.qml" line="443"/>
+        <location filename="amp.qml" line="251"/>
+        <location filename="amp.qml" line="438"/>
         <source>Handshake Signal</source>
         <translation>握手信号</translation>
     </message>
@@ -420,12 +468,12 @@
 <context>
     <name>database</name>
     <message>
-        <location filename="database.cpp" line="262"/>
+        <location filename="database.cpp" line="306"/>
         <source>Restored normal</source>
         <translation>恢复正常</translation>
     </message>
     <message>
-        <location filename="database.cpp" line="283"/>
+        <location filename="database.cpp" line="327"/>
         <source>No content</source>
         <translation>无内容</translation>
     </message>
@@ -433,101 +481,79 @@
 <context>
     <name>devAmp</name>
     <message>
-        <location filename="device.h" line="336"/>
         <source>Power</source>
-        <translation>功率</translation>
+        <translation type="vanished">功率</translation>
     </message>
     <message>
-        <location filename="device.h" line="337"/>
         <source>Gain</source>
-        <translation>增益</translation>
+        <translation type="vanished">增益</translation>
     </message>
     <message>
-        <location filename="device.h" line="338"/>
         <source>Attenuation</source>
-        <translation>衰减量</translation>
+        <translation type="vanished">衰减量</translation>
     </message>
     <message>
-        <location filename="device.h" line="339"/>
         <source>Return Loss</source>
-        <translation>回波损耗</translation>
+        <translation type="vanished">回波损耗</translation>
     </message>
     <message>
-        <location filename="device.h" line="340"/>
         <source>Amplifier Temperature</source>
-        <translation>功放温度</translation>
+        <translation type="vanished">功放温度</translation>
     </message>
     <message>
-        <location filename="device.h" line="341"/>
         <source>Stand Wave</source>
-        <translation>驻波</translation>
+        <translation type="vanished">驻波</translation>
     </message>
     <message>
-        <location filename="device.h" line="342"/>
         <source>Temperature</source>
-        <translation>温度</translation>
+        <translation type="vanished">温度</translation>
     </message>
     <message>
-        <location filename="device.h" line="343"/>
         <source>Current</source>
-        <translation>电流</translation>
+        <translation type="vanished">电流</translation>
     </message>
     <message>
-        <location filename="device.h" line="344"/>
         <source>Voltage</source>
-        <translation>电压</translation>
+        <translation type="vanished">电压</translation>
     </message>
     <message>
-        <location filename="device.h" line="345"/>
         <source>Output Power</source>
-        <translation>输出功率</translation>
+        <translation type="vanished">输出功率</translation>
     </message>
     <message>
-        <location filename="device.h" line="346"/>
         <source>Load Temperature</source>
-        <translation>负载温度</translation>
+        <translation type="vanished">负载温度</translation>
     </message>
     <message>
-        <location filename="device.h" line="347"/>
         <source>Handshake Signal</source>
-        <translation>握手信号</translation>
+        <translation type="vanished">握手信号</translation>
     </message>
     <message>
-        <location filename="device.h" line="348"/>
         <source>Attenuation Mode</source>
-        <translation>衰减模式</translation>
+        <translation type="vanished">衰减模式</translation>
     </message>
     <message>
-        <location filename="device.h" line="349"/>
         <source>Current State</source>
-        <translation>当前状态</translation>
+        <translation type="vanished">当前状态</translation>
     </message>
 </context>
 <context>
     <name>devDist</name>
     <message>
-        <location filename="device.h" line="298"/>
-        <location filename="device.h" line="299"/>
         <source>Outer Ref</source>
-        <translation>外参考</translation>
+        <translation type="vanished">外参考</translation>
     </message>
     <message>
-        <location filename="device.h" line="300"/>
         <source>Voltage</source>
-        <translation>电压</translation>
+        <translation type="vanished">电压</translation>
     </message>
     <message>
-        <location filename="device.h" line="301"/>
         <source>Current</source>
-        <translation>电流</translation>
+        <translation type="vanished">电流</translation>
     </message>
     <message>
-        <location filename="device.h" line="302"/>
-        <location filename="device.h" line="303"/>
-        <location filename="device.h" line="304"/>
-        <location filename="device.h" line="305"/>
         <source>Lock</source>
-        <translation>锁定</translation>
+        <translation type="vanished">锁定</translation>
     </message>
 </context>
 <context>
@@ -537,126 +563,188 @@
         <translation type="vanished">正常</translation>
     </message>
     <message>
-        <location filename="device.h" line="252"/>
+        <location filename="device.h" line="259"/>
+        <location filename="device.h" line="359"/>
         <source>Attenuation</source>
         <translation>衰减量</translation>
     </message>
     <message>
-        <location filename="device.h" line="253"/>
-        <location filename="device.h" line="254"/>
+        <location filename="device.h" line="260"/>
+        <location filename="device.h" line="261"/>
         <source>Ref</source>
         <translation>参考</translation>
     </message>
     <message>
-        <location filename="device.h" line="255"/>
+        <location filename="device.h" line="262"/>
+        <location filename="device.h" line="313"/>
+        <location filename="device.h" line="365"/>
         <source>Voltage</source>
         <translation>电压</translation>
     </message>
     <message>
-        <location filename="device.h" line="256"/>
+        <location filename="device.h" line="263"/>
+        <location filename="device.h" line="314"/>
+        <location filename="device.h" line="364"/>
         <source>Current</source>
         <translation>电流</translation>
     </message>
     <message>
-        <location filename="device.h" line="257"/>
+        <location filename="device.h" line="264"/>
         <source>Radio</source>
         <translation>射频</translation>
     </message>
     <message>
-        <location filename="device.h" line="257"/>
-        <location filename="device.h" line="258"/>
+        <location filename="device.h" line="264"/>
+        <location filename="device.h" line="265"/>
         <source>Output</source>
         <translation>输出</translation>
     </message>
     <message>
-        <location filename="device.h" line="257"/>
-        <location filename="device.h" line="258"/>
+        <location filename="device.h" line="264"/>
+        <location filename="device.h" line="265"/>
         <source>Input</source>
         <translation>输入</translation>
     </message>
     <message>
-        <location filename="device.h" line="258"/>
+        <location filename="device.h" line="265"/>
         <source>Mid freq</source>
         <translation>中频</translation>
     </message>
     <message>
-        <location filename="device.h" line="259"/>
-        <location filename="device.h" line="260"/>
-        <location filename="device.h" line="261"/>
-        <location filename="device.h" line="262"/>
+        <location filename="device.h" line="266"/>
+        <location filename="device.h" line="267"/>
+        <location filename="device.h" line="268"/>
+        <location filename="device.h" line="269"/>
         <source>Local Oscillator</source>
         <translation>本振</translation>
     </message>
     <message>
-        <location filename="device.h" line="263"/>
-        <location filename="device.h" line="264"/>
-        <location filename="device.h" line="265"/>
-        <location filename="device.h" line="266"/>
+        <location filename="device.h" line="270"/>
+        <location filename="device.h" line="271"/>
+        <location filename="device.h" line="272"/>
+        <location filename="device.h" line="273"/>
+        <location filename="device.h" line="311"/>
+        <location filename="device.h" line="312"/>
         <source>Outer Ref</source>
         <translation>外参</translation>
     </message>
     <message>
-        <location filename="device.h" line="267"/>
-        <location filename="device.h" line="268"/>
+        <location filename="device.h" line="274"/>
+        <location filename="device.h" line="275"/>
         <source>Inner Ref</source>
         <translation>内参</translation>
     </message>
     <message>
-        <location filename="device.h" line="269"/>
+        <location filename="device.h" line="276"/>
+        <location filename="device.h" line="368"/>
         <source>Handshake Signal</source>
         <translation>握手信号</translation>
     </message>
     <message>
-        <location filename="device.h" line="270"/>
+        <location filename="device.h" line="277"/>
+        <location filename="device.h" line="370"/>
         <source>Current State</source>
         <translation>当前状态</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="315"/>
+        <location filename="device.h" line="316"/>
+        <location filename="device.h" line="317"/>
+        <location filename="device.h" line="318"/>
+        <source>Lock</source>
+        <translation>锁定</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="357"/>
+        <source>Power</source>
+        <translation>功率</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="358"/>
+        <source>Gain</source>
+        <translation>增益</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="360"/>
+        <source>Return Loss</source>
+        <translation>回波损耗</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="361"/>
+        <source>Amplifier Temperature</source>
+        <translation>功放温度</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="362"/>
+        <source>Stand Wave</source>
+        <translation>驻波</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="363"/>
+        <source>Temperature</source>
+        <translation>温度</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="366"/>
+        <source>Output Power</source>
+        <translation>输出功率</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="367"/>
+        <source>Load Temperature</source>
+        <translation>负载温度</translation>
+    </message>
+    <message>
+        <location filename="device.h" line="369"/>
+        <source>Attenuation Mode</source>
+        <translation>衰减模式</translation>
     </message>
 </context>
 <context>
     <name>device</name>
     <message>
-        <location filename="device.h" line="180"/>
-        <location filename="device.h" line="181"/>
-        <location filename="device.h" line="182"/>
         <location filename="device.h" line="183"/>
+        <location filename="device.h" line="184"/>
+        <location filename="device.h" line="185"/>
+        <location filename="device.h" line="186"/>
         <source>Down Frequency Conversion</source>
         <translation>下变频</translation>
     </message>
     <message>
-        <location filename="device.h" line="184"/>
-        <location filename="device.h" line="185"/>
-        <location filename="device.h" line="186"/>
         <location filename="device.h" line="187"/>
+        <location filename="device.h" line="188"/>
+        <location filename="device.h" line="189"/>
+        <location filename="device.h" line="190"/>
         <source>Up Frequency Conversion</source>
         <translation>上变频</translation>
     </message>
     <message>
-        <location filename="device.h" line="188"/>
-        <location filename="device.h" line="189"/>
+        <location filename="device.h" line="191"/>
+        <location filename="device.h" line="192"/>
         <source>Middle Frequency Distribution</source>
         <translation>中频分配</translation>
     </message>
     <message>
-        <location filename="device.h" line="190"/>
-        <location filename="device.h" line="191"/>
-        <location filename="device.h" line="192"/>
         <location filename="device.h" line="193"/>
+        <location filename="device.h" line="194"/>
+        <location filename="device.h" line="195"/>
+        <location filename="device.h" line="196"/>
         <source>High Amplification</source>
         <translation>高功放</translation>
     </message>
     <message>
-        <location filename="device.h" line="194"/>
-        <location filename="device.h" line="195"/>
+        <location filename="device.h" line="197"/>
+        <location filename="device.h" line="198"/>
         <source>Serial to Network</source>
         <translation>串转网</translation>
     </message>
     <message>
-        <location filename="device.h" line="196"/>
+        <location filename="device.h" line="199"/>
         <source>Switch</source>
         <translation>交换机</translation>
     </message>
     <message>
-        <location filename="device.h" line="205"/>
+        <location filename="device.h" line="208"/>
         <source>No data</source>
         <translation>无数据</translation>
     </message>
@@ -668,7 +756,7 @@
 <context>
     <name>dist</name>
     <message>
-        <location filename="dist.qml" line="21"/>
+        <location filename="dist.qml" line="16"/>
         <source>Frequency Distribution Device</source>
         <translation>频率分配设备</translation>
     </message>
@@ -681,42 +769,42 @@
         <translation type="vanished">重置</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="68"/>
-        <location filename="dist.qml" line="82"/>
+        <location filename="dist.qml" line="63"/>
+        <location filename="dist.qml" line="77"/>
         <source>Outer Ref</source>
         <translation>外参考</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="72"/>
-        <location filename="dist.qml" line="86"/>
+        <location filename="dist.qml" line="67"/>
+        <location filename="dist.qml" line="81"/>
         <source>Channel</source>
         <translation>通道</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="96"/>
+        <location filename="dist.qml" line="91"/>
         <source>Voltage</source>
         <translation>电压</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="110"/>
+        <location filename="dist.qml" line="105"/>
         <source>Current</source>
         <translation>电流</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="124"/>
-        <location filename="dist.qml" line="138"/>
-        <location filename="dist.qml" line="152"/>
-        <location filename="dist.qml" line="166"/>
+        <location filename="dist.qml" line="119"/>
+        <location filename="dist.qml" line="133"/>
+        <location filename="dist.qml" line="147"/>
+        <location filename="dist.qml" line="161"/>
         <source>Lock</source>
         <translation>锁定</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="180"/>
+        <location filename="dist.qml" line="175"/>
         <source>Network Communication</source>
         <translation>网络通信</translation>
     </message>
     <message>
-        <location filename="dist.qml" line="182"/>
+        <location filename="dist.qml" line="177"/>
         <source>No data</source>
         <translation>无数据</translation>
     </message>
@@ -732,58 +820,65 @@
 <context>
     <name>freq</name>
     <message>
-        <location filename="freq.qml" line="23"/>
+        <location filename="freq.qml" line="18"/>
         <source>Frequency Conversion Device</source>
         <translation>变频设备</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="69"/>
+        <location filename="freq.qml" line="64"/>
+        <location filename="freq.qml" line="72"/>
+        <source>Setting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="freq.qml" line="109"/>
+        <location filename="freq.qml" line="298"/>
         <source>Current State</source>
         <translation>当前状态</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="134"/>
-        <location filename="freq.qml" line="309"/>
+        <location filename="freq.qml" line="151"/>
+        <location filename="freq.qml" line="340"/>
         <source>Radio</source>
         <translation>射频</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="134"/>
-        <location filename="freq.qml" line="148"/>
-        <location filename="freq.qml" line="309"/>
-        <location filename="freq.qml" line="323"/>
+        <location filename="freq.qml" line="151"/>
+        <location filename="freq.qml" line="165"/>
+        <location filename="freq.qml" line="340"/>
+        <location filename="freq.qml" line="354"/>
         <source>Output</source>
         <translation>输出</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="134"/>
-        <location filename="freq.qml" line="148"/>
-        <location filename="freq.qml" line="309"/>
-        <location filename="freq.qml" line="323"/>
+        <location filename="freq.qml" line="151"/>
+        <location filename="freq.qml" line="165"/>
+        <location filename="freq.qml" line="340"/>
+        <location filename="freq.qml" line="354"/>
         <source>Input</source>
         <translation>输入</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="148"/>
-        <location filename="freq.qml" line="323"/>
+        <location filename="freq.qml" line="165"/>
+        <location filename="freq.qml" line="354"/>
         <source>Mid Freq</source>
         <translation>中频</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="234"/>
-        <location filename="freq.qml" line="409"/>
+        <location filename="freq.qml" line="251"/>
+        <location filename="freq.qml" line="440"/>
         <source>Network Communication</source>
         <translation>网络通信</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="236"/>
-        <location filename="freq.qml" line="411"/>
+        <location filename="freq.qml" line="253"/>
+        <location filename="freq.qml" line="442"/>
         <source>No data</source>
         <translation>无数据</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="243"/>
-        <location filename="freq.qml" line="418"/>
+        <location filename="freq.qml" line="260"/>
+        <location filename="freq.qml" line="449"/>
         <source>Handshake Signal</source>
         <translation>握手信号</translation>
     </message>
@@ -796,8 +891,8 @@
         <translation type="vanished">重置</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="92"/>
-        <location filename="freq.qml" line="267"/>
+        <location filename="freq.qml" line="95"/>
+        <location filename="freq.qml" line="284"/>
         <source>Attenuation</source>
         <translation>衰减量</translation>
     </message>
@@ -810,14 +905,14 @@
         <translation type="vanished">通道</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="106"/>
-        <location filename="freq.qml" line="281"/>
+        <location filename="freq.qml" line="123"/>
+        <location filename="freq.qml" line="312"/>
         <source>Voltage</source>
         <translation>电压</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="120"/>
-        <location filename="freq.qml" line="295"/>
+        <location filename="freq.qml" line="137"/>
+        <location filename="freq.qml" line="326"/>
         <source>Current</source>
         <translation>电流</translation>
     </message>
@@ -830,14 +925,14 @@
         <translation type="vanished">中频输入</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="162"/>
-        <location filename="freq.qml" line="337"/>
+        <location filename="freq.qml" line="179"/>
+        <location filename="freq.qml" line="368"/>
         <source>Local Oscillator</source>
         <translation>本振</translation>
     </message>
     <message>
-        <location filename="freq.qml" line="220"/>
-        <location filename="freq.qml" line="395"/>
+        <location filename="freq.qml" line="237"/>
+        <location filename="freq.qml" line="426"/>
         <source>Inner Ref</source>
         <translation>内参</translation>
     </message>
@@ -853,12 +948,12 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="main.qml" line="31"/>
+        <location filename="main.qml" line="36"/>
         <source>RDSS Project</source>
         <translation>RDSS 项目</translation>
     </message>
     <message>
-        <location filename="main.qml" line="224"/>
+        <location filename="main.qml" line="229"/>
         <source>Antenna</source>
         <translation>天线</translation>
     </message>
