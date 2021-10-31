@@ -42,7 +42,7 @@ bool database::prepareHistory()
         return false;
     }
 
-    if (historyModel != nullptr) historyModel->deleteLater();
+    if (historyModel) historyModel->deleteLater();
     historyModel = new QSqlTableModel(this, historyDb);
     historyQuery = QSqlQuery(historyDb);
 
@@ -286,7 +286,7 @@ bool database::setAlert(const database::DB_TBL dbTable, const int deviceId, cons
     alert::P_ALERT alertType = static_cast<alert::P_ALERT>(type);
     alert::P_ENUM varType = alert::P_ENUM_OTHERS;
     device *dev = device::findDevice(deviceId);
-    if (dev != nullptr and alertType != alert::P_ALERT_TIMEOUT_NOFIELD and alertType != alert::P_ALERT_OTHERS_NOFIELD)
+    if (dev and alertType != alert::P_ALERT_TIMEOUT_NOFIELD and alertType != alert::P_ALERT_OTHERS_NOFIELD)
         varType = dev->getVarType(field);
 
     QStringList alrt = {
@@ -295,7 +295,7 @@ bool database::setAlert(const database::DB_TBL dbTable, const int deviceId, cons
 
         (alertType == alert::P_ALERT_TIMEOUT_NOFIELD or alertType == alert::P_ALERT_OTHERS_NOFIELD)
         ? ""
-        : (dev == nullptr ? field : dev->varName(field)),
+        : (dev ? dev->varName(field) : field),
 
         [=](){
             const auto getAlertStr = [](const alert::P_ALERT type, const int n) {
@@ -376,7 +376,7 @@ const database &operator>> (const database &db, QList<QStringList> &str)
 
         alert::P_ENUM varType = alert::P_ENUM_OTHERS;
         device *dev = device::findDevice(db.setDeviceId);
-        if (dev != nullptr and type != alert::P_ALERT_TIMEOUT_NOFIELD and type != alert::P_ALERT_OTHERS_NOFIELD)
+        if (dev and type != alert::P_ALERT_TIMEOUT_NOFIELD and type != alert::P_ALERT_OTHERS_NOFIELD)
             varType = dev->getVarType(field);
 
         QStringList s = {
@@ -386,7 +386,7 @@ const database &operator>> (const database &db, QList<QStringList> &str)
 
             (type == alert::P_ALERT_TIMEOUT_NOFIELD or type == alert::P_ALERT_OTHERS_NOFIELD)
                 ? ""
-                : (dev == nullptr ? field : dev->varName(field)),
+                : (dev ? dev->varName(field) : field),
 
             [&](){
                 const auto getAlertStr = [](const alert::P_ALERT type, const int n) {

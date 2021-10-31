@@ -300,7 +300,11 @@ devNet::devNet(QObject *parent)
 
         QTimer *timer = new QTimer(this);
         QObject::connect(timer, &QTimer::timeout, [=]() {
-            QProcess *ping = new QProcess(this);
+            if (ping) {
+                ping->kill();
+                ping->deleteLater();
+            }
+            ping = new QProcess(this);
             ping->start("ping", params);
 
             connect(ping, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),

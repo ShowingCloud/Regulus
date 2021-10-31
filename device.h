@@ -402,6 +402,7 @@ private:
         {0x10, "192.168.1.1"},
         {0x11, "8.8.8.8"},
         {0x12, "8.8.8.7"}};
+    QProcess *ping = nullptr;
 };
 
 template <class T> const database &operator>> (const database &db, T &dev)
