@@ -11,11 +11,13 @@ Dialog {
     standardButtons: Dialog.NoButton
     title: qsTr("Frequency Conversion Device")
 
+    property int extendedWidthWidget : defaultWidthWidget + 2 * defaultMarginAndTextWidthHeight
+    property int extendedWidthWidgetLabel: defaultWidthWidgetLabel + 2 * defaultMarginWidget
+    property bool channelMaster: true
+
     required property QtObject devFreqMaster
     required property QtObject devFreqSlave
     property alias dialogName : name.text
-    property int extendedWidthWidget : defaultWidthWidget + 2 * defaultMarginAndTextWidthHeight
-    property int extendedWidthWidgetLabel: defaultWidthWidgetLabel + 2 * defaultMarginWidget
     property alias valueChannel : comboChannel.index
     property alias valueMasterAtten : comboMasterAtten.txtValue
     property alias valueMasterRef : comboMasterRef.index
@@ -55,7 +57,25 @@ Dialog {
         text: qsTr("Submit")
         font.pixelSize: defaultLabelFontSize
 
-        onClicked: devFreqMaster.createCntlMsg()
+        onClicked: {
+            if (channelMaster) {
+                devFreqMaster.holdValue("ch_a", comboMasterRef.index)
+                devFreqMaster.holdValue("ch_b", comboSlaveRef.index)
+                devFreqMaster.holdValue("atten", comboMasterAtten.txtValue)
+                devFreqMaster.createCntlMsg()
+                devFreqMaster.releaseHold("ch_a")
+                devFreqMaster.releaseHold("ch_b")
+                devFreqMaster.releaseHold("atten")
+            } else {
+                devFreqSlave.holdValue("ch_a", comboMasterRef.index)
+                devFreqSlave.holdValue("ch_b", comboSlaveRef.index)
+                devFreqSlave.holdValue("atten", comboSlaveAtten.txtValue)
+                devFreqSlave.createCntlMsg()
+                devFreqSlave.releaseHold("ch_a")
+                devFreqSlave.releaseHold("ch_b")
+                devFreqSlave.releaseHold("atten")
+            }
+        }
     }
 
     Rectangle {
@@ -77,6 +97,12 @@ Dialog {
 
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_MS")
+            }
+            onChangedIndex: {
+                if (index === Alert.P_MS_MASTER)
+                    channelMaster = true
+                else if (index === Alert.P_MS_SLAVE)
+                    channelMaster = false
             }
         }
 

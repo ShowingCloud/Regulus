@@ -16,6 +16,24 @@ Item {
     property alias comboModel : combo.model
     property alias index : combo.currentIndex
 
+    signal changedIndex(int index)
+
+    Rectangle {
+        id: disabler
+        x: posLeft + defaultMarginWidget
+        y: posTop + defaultMarginWidget
+        height: defaultHeightWidget
+        width: widthWidgetLabel + defaultMarginWidget + widthWidget
+        color: "gray"
+        z: -1
+
+        MouseArea {
+            id: mouseDev
+            anchors.fill: parent
+            onClicked: console.log("clicked")
+        }
+    }
+
     Text {
         id: text
         x: posLeft + defaultMarginWidget
@@ -58,5 +76,6 @@ Item {
             }
             highlighted: combo.highlightedIndex === index
         }
+        onCurrentIndexChanged: blockComboCombo.changedIndex(currentIndex)
     }
 }
