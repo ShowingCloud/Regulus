@@ -81,7 +81,7 @@ public slots:
     }
 
     inline const QString varName(const QString itemName) const {
-        if (!STR_VAR.contains(itemName)) {
+        if (not STR_VAR.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return itemName;
         }
@@ -102,7 +102,7 @@ public slots:
     }
 
     inline const QString showDisplay(const QString itemName) const {
-        if (!var.contains(itemName)) {
+        if (not var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return QString();
         }
@@ -110,7 +110,7 @@ public slots:
     }
 
     inline const QString showColor(const QString itemName, bool allowHolding = true) const {
-        if (!var.contains(itemName)) {
+        if (not var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return QString();
         }
@@ -126,7 +126,7 @@ public slots:
     }
 
     inline const QVariant getValue(const QString itemName) const {
-        if (!var.contains(itemName)) {
+        if (not var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return QVariant();
         }
@@ -134,7 +134,7 @@ public slots:
     }
 
     inline void setHold(const QString itemName) {
-        if (!var.contains(itemName)) {
+        if (not var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return;
         }
@@ -143,7 +143,7 @@ public slots:
     }
 
     inline void releaseHold(const QString itemName) {
-        if (!var.contains(itemName)) {
+        if (not var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return;
         }
@@ -153,7 +153,7 @@ public slots:
     }
 
     inline void submitHold(const QString itemName) { /* not in use */
-        if (!var.contains(itemName)) {
+        if (not var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return;
         }
@@ -162,7 +162,7 @@ public slots:
     }
 
     inline void holdValue(const QString itemName, const QVariant val) {
-        if (!var.contains(itemName)) {
+        if (not var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return;
         }
@@ -171,7 +171,7 @@ public slots:
     }
 
     inline alert::P_ENUM getVarType(const QString itemName) {
-        if (!var.contains(itemName)) {
+        if (not var.contains(itemName)) {
             qDebug() << "Missing item " << itemName;
             return alert::P_ENUM_OTHERS;
         }
@@ -202,15 +202,15 @@ protected:
     int dId = 0;
     const QHash<QString, deviceVar *> var;
     const QHash<QString, QString> STR_VAR;
+    const QStringList prefStr;
+    bool isSlave = false;
     const int devTable = 0;
     serial *lastSerial = nullptr;
     QDateTime lastseen = QDateTime();
     QString timerStr = tr("No data");
-    const QStringList prefStr;
-    bool isSlave = false;
 
     inline bool stateGood(const QString v) const {
-        if (!var.contains(v)) {
+        if (not var.contains(v)) {
             qDebug() << "Missing item " << v;
             return false;
         }
@@ -352,7 +352,8 @@ public:
         {"s_power",         new deviceVar(alert::P_ENUM_STAT)},
         {"load_temp",       new deviceVar(alert::P_ENUM_INT)},
         {"handshake",       new deviceVar(alert::P_ENUM_HSK)},
-        {"atten_mode",      new deviceVar(alert::P_ENUM_ATTEN)}
+        {"atten_mode",      new deviceVar(alert::P_ENUM_ATTEN)},
+        {"masterslave",     new deviceVar(alert::P_ENUM_MS)}
     }, {
         {"power",           tr("Power")},
         {"gain",            tr("Gain")},

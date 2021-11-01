@@ -55,20 +55,30 @@ Window {
         font.pixelSize: defaultLabelFontSize
     }
 
-    ComboText {
-        id: comboChannel
-        posLeft: defaultMarginRect + rectMaster.width - defaultWidthWidget - defaultWidthWidgetLabel - 3 * defaultMarginWidget
-        posTop: defaultMarginRect - defaultMarginWidget
-        txtText: devAmpMaster ? devAmpMaster.varName("masterslave") : qsTr("Current State")
+    SetAmp {
+        id: setAmp
+        devAmpMaster: devAmpMaster
+        devAmpSlave: devAmpSlave
+        dialogName: name.text + " " + qsTr("Setting")
+    }
+    Button {
+        id: setting
+        x: defaultMarginRect + rectMaster.width - defaultWidthWidget - defaultMarginWidget
+        anchors.top: name.top
+        width: defaultWidthWidget
+        height: defaultHeightWidget
+        text: qsTr("Setting")
+        font.pixelSize: defaultLabelFontSize
 
-        Component.onCompleted: {
-            //comboModel = Alert.addEnum("P_MS")
-            /*
-            masterRefreshData.connect(function() {
-                index = devAmpMaster.getValue("masterslave")
-                colorValue = devAmpMaster.showColor("masterslave")
-            })
-            */
+        onClicked: {
+            setAmp.devAmpMaster = devAmpMaster
+            setAmp.devAmpSlave = devAmpSlave
+            setAmp.valueChannel = devAmpMaster.getValue("masterslave")
+            //setAmp.valueMasterAtten = comboMasterAtten.txtValue
+            //setAmp.valueMasterRef = comboMasterRef.index
+            //setAmp.valueSlaveAtten = comboSlaveAtten.txtValue
+            //setAmp.valueSlaveRef = comboSlaveRef.index
+            setAmp.open()
         }
     }
 
@@ -122,6 +132,20 @@ Window {
                 masterRefreshData.connect(function() {
                     txtValue = devAmpMaster.showDisplay("gain")
                     colorValue = devAmpMaster.showColor("gain")
+                })
+            }
+        }
+
+        ComboText {
+            id: comboMasterChannel
+            posLeft: (rectMaster.width - defaultMarginWidget) * 3 / 4
+            posTop: 0
+            txtText: devAmpMaster ? devAmpMaster.varName("masterslave") : qsTr("Current State")
+
+            Component.onCompleted: {
+                masterRefreshData.connect(function() {
+                    txtValue = devAmpMaster.showDisplay("masterslave")
+                    colorValue = devAmpMaster.showColor("masterslave")
                 })
             }
         }
@@ -316,6 +340,20 @@ Window {
                 slaveRefreshData.connect(function() {
                     txtValue = devAmpSlave.showDisplay("gain")
                     colorValue = devAmpSlave.showColor("gain")
+                })
+            }
+        }
+
+        ComboText {
+            id: comboSlaveChannel
+            posLeft: (rectSlave.width - defaultMarginWidget) * 3 / 4
+            posTop: 0
+            txtText: devAmpSlave ? devAmpSlave.varName("masterslave") : qsTr("Current State")
+
+            Component.onCompleted: {
+                slaveRefreshData.connect(function() {
+                    txtValue = devAmpSlave.showDisplay("masterslave")
+                    colorValue = devAmpSlave.showColor("masterslave")
                 })
             }
         }
