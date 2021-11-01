@@ -106,6 +106,23 @@ Dialog {
             }
         }
 
+        Rectangle {
+            id: masterDisabler
+            x: 0
+            y: comboChannel.posBottom
+            height: defaultHeightWidget + 2 * defaultMarginWidget
+            width: rect.width
+            color: "black"
+            opacity: 0.8
+            z: 10
+            visible: !channelMaster
+
+            MouseArea {
+                id: masterMouseDev
+                anchors.fill: parent
+            }
+        }
+
         ComboTextField {
             id: comboMasterAtten
             posTop: comboChannel.posBottom
@@ -127,6 +144,23 @@ Dialog {
 
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
+            }
+        }
+
+        Rectangle {
+            id: slaveDisabler
+            x: 0
+            y: comboMasterAtten.posBottom
+            height: defaultHeightWidget + 2 * defaultMarginWidget
+            width: rect.width
+            color: "black"
+            opacity: 0.8
+            z: 10
+            visible: channelMaster
+
+            MouseArea {
+                id: slaveMouseDev
+                anchors.fill: parent
             }
         }
 

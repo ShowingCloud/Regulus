@@ -18,24 +18,6 @@ Item {
 
     signal changedIndex(int index)
 
-    Rectangle {
-        id: disabler
-        x: posLeft + defaultMarginWidget
-        y: posTop + defaultMarginWidget
-        height: defaultHeightWidget
-        width: widthWidgetLabel + defaultMarginWidget + widthWidget
-        color: "gray"
-        opacity: 0.2
-        z: 10
-        visible: false
-
-        MouseArea {
-            id: mouseDev
-            anchors.fill: parent
-            onClicked: console.log("clicked")
-        }
-    }
-
     Text {
         id: text
         x: posLeft + defaultMarginWidget

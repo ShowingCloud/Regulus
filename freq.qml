@@ -75,6 +75,7 @@ Window {
         onClicked: {
             setFreq.devFreqMaster = devFreqMaster
             setFreq.devFreqSlave = devFreqSlave
+            setFreq.valueChannel = devFreqMaster.getValue("masterslave")
             setFreq.valueMasterAtten = comboMasterAtten.txtValue
             setFreq.valueMasterRef = comboMasterRef.index
             setFreq.valueSlaveAtten = comboSlaveAtten.txtValue

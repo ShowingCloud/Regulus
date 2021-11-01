@@ -52,9 +52,6 @@ serial::~serial()
 
 void serial::readData()
 {
-    if (not serialport->isOpen())
-        return;
-
     QByteArray data = serialport->readAll();
     buffer += data;
     lastseen = QDateTime::currentDateTime();

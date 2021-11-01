@@ -5,8 +5,8 @@ Item {
     id: blockComboTextField
     property int posLeft : 0
     property int posTop : 0
-    property int posRight : rect.x + rect.width
-    property int posBottom : rect.y + rect.height
+    property int posRight : suffix.x + suffix.width
+    property int posBottom : suffix.y + suffix.height
     property int widthWidget : defaultWidthWidget
     property int widthWidgetLabel : defaultWidthWidgetLabel
     property int widthPrefixSuffix : 0
@@ -27,46 +27,38 @@ Item {
         font.pixelSize: defaultLabelFontSize
     }
 
-    Rectangle {
-        id: rect
+    Text {
+        id: prefix
         anchors.left: text.right
         anchors.leftMargin: defaultMarginWidget
         y: posTop + defaultMarginWidget
         height: defaultHeightWidget
+        width: widthPrefixSuffix
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: defaultLabelFontSize
+    }
+
+    TextField {
+        id: value
+        anchors.left: prefix.right
+        y: posTop + defaultMarginWidget
+        height: defaultHeightWidget
         width: widthWidget
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: defaultLabelFontSize
+        padding: 3 // seems good but not with the default 6
+    }
 
-        Text {
-            id: prefix
-            x: 0
-            y: 0
-            height: rect.height
-            width: widthPrefixSuffix
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
-        }
-
-        TextField {
-            id: value
-            x: 0
-            anchors.left: prefix.right
-            height: rect.height
-            width: rect.width
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
-            padding: 3 // seems good but not with the default 6
-        }
-
-        Text {
-            id: suffix
-            x: 0
-            anchors.left: value.right
-            height: rect.height
-            width: widthPrefixSuffix
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: defaultLabelFontSize
-        }
+    Text {
+        id: suffix
+        anchors.left: value.right
+        y: posTop + defaultMarginWidget
+        height: defaultHeightWidget
+        width: widthPrefixSuffix
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: defaultLabelFontSize
     }
 }
