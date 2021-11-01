@@ -577,78 +577,78 @@
     <name>devAmp</name>
     <message>
         <source>Power</source>
-        <translation type="vanished">功率</translation>
+        <translation>功率</translation>
     </message>
     <message>
         <source>Gain</source>
-        <translation type="vanished">增益</translation>
+        <translation>增益</translation>
     </message>
     <message>
         <source>Attenuation</source>
-        <translation type="vanished">衰减量</translation>
+        <translation>衰减量</translation>
     </message>
     <message>
         <source>Return Loss</source>
-        <translation type="vanished">回波损耗</translation>
+        <translation>回波损耗</translation>
     </message>
     <message>
         <source>Amplifier Temperature</source>
-        <translation type="vanished">功放温度</translation>
+        <translation>功放温度</translation>
     </message>
     <message>
         <source>Stand Wave</source>
-        <translation type="vanished">驻波</translation>
+        <translation>驻波</translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation type="vanished">温度</translation>
+        <translation>温度</translation>
     </message>
     <message>
         <source>Current</source>
-        <translation type="vanished">电流</translation>
+        <translation>电流</translation>
     </message>
     <message>
         <source>Voltage</source>
-        <translation type="vanished">电压</translation>
+        <translation>电压</translation>
     </message>
     <message>
         <source>Output Power</source>
-        <translation type="vanished">输出功率</translation>
+        <translation>输出功率</translation>
     </message>
     <message>
         <source>Load Temperature</source>
-        <translation type="vanished">负载温度</translation>
+        <translation>负载温度</translation>
     </message>
     <message>
         <source>Handshake Signal</source>
-        <translation type="vanished">握手信号</translation>
+        <translation>握手信号</translation>
     </message>
     <message>
         <source>Attenuation Mode</source>
-        <translation type="vanished">衰减模式</translation>
+        <translation>衰减模式</translation>
     </message>
     <message>
         <source>Current State</source>
-        <translation type="vanished">当前状态</translation>
+        <translation>当前状态</translation>
     </message>
 </context>
 <context>
     <name>devDist</name>
     <message>
         <source>Outer Ref</source>
-        <translation type="vanished">外参考</translation>
+        <translation>外参考</translation>
     </message>
     <message>
         <source>Voltage</source>
-        <translation type="vanished">电压</translation>
+        <translation>电压</translation>
     </message>
     <message>
         <source>Current</source>
-        <translation type="vanished">电流</translation>
+        <translation>电流</translation>
     </message>
     <message>
         <source>Lock</source>
-        <translation type="vanished">锁定</translation>
+        <translation>锁定</translation>
     </message>
 </context>
 <context>
