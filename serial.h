@@ -5,6 +5,8 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QDateTime>
+#include <QThreadPool>
+#include <QRunnable>
 #include <iso646.h>
 
 class msg;
