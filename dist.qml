@@ -47,6 +47,28 @@ Window {
         font.pixelSize: defaultLabelFontSize
     }
 
+    SetDist {
+        id: setDist
+        devDist: devDist
+        dialogName: name.text + " " + qsTr("Setting")
+    }
+    Button {
+        id: setting
+        x: defaultMarginRect + rect.width - defaultWidthWidget - defaultMarginWidget
+        anchors.top: name.top
+        width: defaultWidthWidget
+        height: defaultHeightWidget
+        text: qsTr("Setting")
+        font.pixelSize: defaultLabelFontSize
+
+        onClicked: {
+            setDist.devDist = devDist
+            setDist.valueRef10 = devDist.getValue("ref_10")
+            setDist.valueRef16 = devDist.getValue("ref_16")
+            setDist.open()
+        }
+    }
+
     Rectangle {
         id: rect
         x: defaultMarginRect

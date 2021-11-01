@@ -400,9 +400,9 @@ public slots:
 
 private:
     static const inline QHash<int, QString> ipAddr = {
-        {0x10, "192.168.1.1"},
-        {0x11, "8.8.8.8"},
-        {0x12, "8.8.8.7"}};
+        {0x10, "192.168.10.250"},
+        {0x11, "192.168.10.251"},
+        {0x12, "192.168.10.253"}};
     QProcess *ping = nullptr;
 };
 

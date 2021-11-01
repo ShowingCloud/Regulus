@@ -15,5 +15,7 @@
         <file>RectDevDist.qml</file>
         <file>RectDevAmp.qml</file>
         <file>SetFreq.qml</file>
+        <file>SetDist.qml</file>
+        <file>SetAmp.qml</file>
     </qresource>
 </RCC>
