@@ -11,7 +11,7 @@ Dialog {
     standardButtons: Dialog.NoButton
     title: qsTr("Amplification Device")
 
-    property int extendedWidthWidget : defaultWidthWidget + 2 * defaultMarginAndTextWidthHeight
+    property int extendedWidthWidget : defaultWidthWidget + 2 * defaultWidthPrefixSuffix
     property int extendedWidthWidgetLabel: defaultWidthWidgetLabel + 2 * defaultMarginWidget
     property bool channelMaster: true
 
@@ -19,10 +19,14 @@ Dialog {
     required property QtObject devAmpSlave
     property alias dialogName : name.text
     property alias valueChannel : comboChannel.index
+    property alias valueMasterAttenMode : comboMasterAttenMode.index
     property alias valueMasterAtten : comboMasterAtten.txtValue
-    property alias valueMasterRef : comboMasterRef.index
+    property alias valueMasterPower : comboMasterPower.txtValue
+    property alias valueMasterGain : comboMasterGain.txtValue
+    property alias valueSlaveAttenMode : comboSlaveAttenMode.index
     property alias valueSlaveAtten : comboSlaveAtten.txtValue
-    property alias valueSlaveRef : comboSlaveRef.index
+    property alias valueSlavePower : comboSlavePower.txtValue
+    property alias valueSlaveGain : comboSlaveGain.txtValue
 
     Text {
         id: name
@@ -59,13 +63,25 @@ Dialog {
 
         onClicked: {
             if (channelMaster) {
+                devAmpMaster.holdValue("atten_mode", comboMasterAttenMode.index)
                 devAmpMaster.holdValue("atten", comboMasterAtten.txtValue)
+                devAmpMaster.holdValue("power", comboMasterPower.txtValue)
+                devAmpMaster.holdValue("gain", comboMasterGain.txtValue)
                 devAmpMaster.createCntlMsg()
+                devAmpMaster.releaseHold("atten_mode")
                 devAmpMaster.releaseHold("atten")
+                devAmpMaster.releaseHold("power")
+                devAmpMaster.releaseHold("gain")
             } else {
+                devAmpSlave.holdValue("atten_mode", comboSlaveAttenMode.index)
                 devAmpSlave.holdValue("atten", comboSlaveAtten.txtValue)
+                devAmpSlave.holdValue("power", comboSlavePower.txtValue)
+                devAmpSlave.holdValue("gain", comboSlaveGain.txtValue)
                 devAmpSlave.createCntlMsg()
+                devAmpSlave.releaseHold("atten_mode")
                 devAmpSlave.releaseHold("atten")
+                devAmpSlave.releaseHold("power")
+                devAmpSlave.releaseHold("gain")
             }
         }
     }
@@ -76,7 +92,7 @@ Dialog {
         anchors.top: name.bottom
         anchors.topMargin: defaultMarginWidget
         width: 2 * extendedWidthWidget + 2 * extendedWidthWidgetLabel + 5 * defaultMarginWidget
-        height: 3 * defaultHeightWidget + 4 * defaultMarginWidget
+        height: 5 * defaultHeightWidget + 6 * defaultMarginWidget
         border.width: defaultBorderWidth
 
         ComboCombo {
@@ -102,10 +118,10 @@ Dialog {
             id: masterDisabler
             x: 0
             y: comboChannel.posBottom
-            height: defaultHeightWidget + 2 * defaultMarginWidget
+            height: 2 * defaultHeightWidget + 3 * defaultMarginWidget
             width: rect.width
             color: "black"
-            opacity: 0.8
+            opacity: 0.5
             z: 10
             visible: !channelMaster
 
@@ -115,38 +131,60 @@ Dialog {
             }
         }
 
+        ComboCombo {
+            id: comboMasterAttenMode
+            posTop: comboChannel.posBottom
+            posLeft: 0
+            widthWidget: extendedWidthWidget
+            widthWidgetLabel: extendedWidthWidgetLabel
+            txtText: qsTr("Master") + ": " + (devAmpMaster ? devAmpMaster.varName("atten_mode") : qsTr("Attenuation Mode"))
+
+            Component.onCompleted: {
+                comboModel = Alert.addEnum("P_ATTEN")
+            }
+        }
+
         ComboTextField {
             id: comboMasterAtten
             posTop: comboChannel.posBottom
-            posLeft: 0
+            posLeft: (rect.width - defaultMarginWidget) / 2
             widthWidgetLabel: extendedWidthWidgetLabel
             widthWidget: defaultWidthWidget
-            widthPrefixSuffix: defaultMarginAndTextWidthHeight
+            widthPrefixSuffix: defaultWidthPrefixSuffix
             txtSuffix: "dB"
             txtText: qsTr("Master") + ": " + (devAmpMaster ? devAmpMaster.varName("atten") : qsTr("Attenuation"))
         }
 
-        ComboCombo {
-            id: comboMasterRef
-            posTop: comboChannel.posBottom
-            posLeft: (rect.width - defaultMarginWidget) / 2
-            widthWidget: extendedWidthWidget
+        ComboTextField {
+            id: comboMasterPower
+            posTop: comboMasterAttenMode.posBottom
+            posLeft: 0
             widthWidgetLabel: extendedWidthWidgetLabel
-            txtText: qsTr("Master") + ": " + (devAmpMaster ? devAmpMaster.varName("ch_a") : "10 MHz " + qsTr("Ref"))
+            widthWidget: defaultWidthWidget
+            widthPrefixSuffix: defaultWidthPrefixSuffix
+            txtSuffix: "mW"
+            txtText: qsTr("Master") + ": " + (devAmpMaster ? devAmpMaster.varName("power") : qsTr("Power"))
+        }
 
-            Component.onCompleted: {
-                comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
-            }
+        ComboTextField {
+            id: comboMasterGain
+            posTop: comboMasterAttenMode.posBottom
+            posLeft: (rect.width - defaultMarginWidget) / 2
+            widthWidgetLabel: extendedWidthWidgetLabel
+            widthWidget: defaultWidthWidget
+            widthPrefixSuffix: defaultWidthPrefixSuffix
+            txtSuffix: "dB"
+            txtText: qsTr("Master") + ": " + (devAmpMaster ? devAmpMaster.varName("gain") : qsTr("Gain"))
         }
 
         Rectangle {
             id: slaveDisabler
             x: 0
-            y: comboMasterAtten.posBottom
-            height: defaultHeightWidget + 2 * defaultMarginWidget
+            y: comboMasterPower.posBottom
+            height: 2 * defaultHeightWidget + 3 * defaultMarginWidget
             width: rect.width
             color: "black"
-            opacity: 0.8
+            opacity: 0.5
             z: 10
             visible: channelMaster
 
@@ -156,28 +194,51 @@ Dialog {
             }
         }
 
+        ComboCombo {
+            id: comboSlaveAttenMode
+            posTop: comboMasterPower.posBottom
+            posLeft: 0
+            widthWidget: extendedWidthWidget
+            widthWidgetLabel: extendedWidthWidgetLabel
+            txtText: qsTr("Slave") + ": " + (devAmpSlave ? devAmpSlave.varName("atten_mode") : qsTr("Attenuation Mode"))
+
+            Component.onCompleted: {
+                comboModel = Alert.addEnum("P_ATTEN")
+        }
+
+        }
         ComboTextField {
             id: comboSlaveAtten
-            posTop: comboMasterAtten.posBottom
-            posLeft: 0
+            posTop: comboMasterPower.posBottom
+            posLeft: (rect.width - defaultMarginWidget) / 2
             widthWidgetLabel: extendedWidthWidgetLabel
             widthWidget: defaultWidthWidget
-            widthPrefixSuffix: defaultMarginAndTextWidthHeight
+            widthPrefixSuffix: defaultWidthPrefixSuffix
             txtSuffix: "dB"
             txtText: qsTr("Slave") + ": " + (devAmpSlave ? devAmpSlave.varName("atten") : qsTr("Attenuation"))
         }
 
-        ComboCombo {
-            id: comboSlaveRef
-            posTop: comboMasterAtten.posBottom
-            posLeft: (rect.width - defaultMarginWidget) / 2
-            widthWidget: extendedWidthWidget
+        ComboTextField {
+            id: comboSlavePower
+            posTop: comboSlaveAttenMode.posBottom
+            posLeft: 0
             widthWidgetLabel: extendedWidthWidgetLabel
-            txtText: qsTr("Slave") + ": " + (devAmpSlave ? devAmpSlave.varName("ch_b") : "10 MHz " + qsTr("Ref"))
-
-            Component.onCompleted: {
-                comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
-            }
+            widthWidget: defaultWidthWidget
+            widthPrefixSuffix: defaultWidthPrefixSuffix
+            txtSuffix: "mW"
+            txtText: qsTr("Slave") + ": " + (devAmpSlave ? devAmpSlave.varName("power") : qsTr("Power"))
         }
+
+        ComboTextField {
+            id: comboSlaveGain
+            posTop: comboSlaveAttenMode.posBottom
+            posLeft: (rect.width - defaultMarginWidget) / 2
+            widthWidgetLabel: extendedWidthWidgetLabel
+            widthWidget: defaultWidthWidget
+            widthPrefixSuffix: defaultWidthPrefixSuffix
+            txtSuffix: "dB"
+            txtText: qsTr("Slave") + ": " + (devAmpSlave ? devAmpSlave.varName("gain") : qsTr("Gain"))
+        }
+
     }
 }

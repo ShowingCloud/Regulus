@@ -11,7 +11,7 @@ Dialog {
     standardButtons: Dialog.NoButton
     title: qsTr("Frequency Conversion Device")
 
-    property int extendedWidthWidget : defaultWidthWidget + 2 * defaultMarginAndTextWidthHeight
+    property int extendedWidthWidget : defaultWidthWidget + 2 * defaultWidthPrefixSuffix
     property int extendedWidthWidgetLabel: defaultWidthWidgetLabel + 2 * defaultMarginWidget
     property bool channelMaster: true
 
@@ -113,7 +113,7 @@ Dialog {
             height: defaultHeightWidget + 2 * defaultMarginWidget
             width: rect.width
             color: "black"
-            opacity: 0.8
+            opacity: 0.5
             z: 10
             visible: !channelMaster
 
@@ -129,7 +129,7 @@ Dialog {
             posLeft: 0
             widthWidgetLabel: extendedWidthWidgetLabel
             widthWidget: defaultWidthWidget
-            widthPrefixSuffix: defaultMarginAndTextWidthHeight
+            widthPrefixSuffix: defaultWidthPrefixSuffix
             txtSuffix: "dB"
             txtText: qsTr("Master") + ": " + (devFreqMaster ? devFreqMaster.varName("atten") : qsTr("Attenuation"))
         }
@@ -154,7 +154,7 @@ Dialog {
             height: defaultHeightWidget + 2 * defaultMarginWidget
             width: rect.width
             color: "black"
-            opacity: 0.8
+            opacity: 0.5
             z: 10
             visible: channelMaster
 
@@ -170,7 +170,7 @@ Dialog {
             posLeft: 0
             widthWidgetLabel: extendedWidthWidgetLabel
             widthWidget: defaultWidthWidget
-            widthPrefixSuffix: defaultMarginAndTextWidthHeight
+            widthPrefixSuffix: defaultWidthPrefixSuffix
             txtSuffix: "dB"
             txtText: qsTr("Slave") + ": " + (devFreqSlave ? devFreqSlave.varName("atten") : qsTr("Attenuation"))
         }

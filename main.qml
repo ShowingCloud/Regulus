@@ -20,6 +20,7 @@ Window {
     readonly property int defaultWidthWidgetLabel: 150
     readonly property int defaultWidthWidget: 150
     readonly property int defaultMarginRect: 30
+    readonly property int defaultWidthPrefixSuffix: 40
     readonly property int defaultLabelFontSize: 20
     readonly property int rectBigFontSize: 15
     readonly property int rectSmallFontSize: 12 // 8

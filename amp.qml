@@ -74,10 +74,14 @@ Window {
             setAmp.devAmpMaster = devAmpMaster
             setAmp.devAmpSlave = devAmpSlave
             setAmp.valueChannel = devAmpMaster.getValue("masterslave")
-            //setAmp.valueMasterAtten = comboMasterAtten.txtValue
-            //setAmp.valueMasterRef = comboMasterRef.index
-            //setAmp.valueSlaveAtten = comboSlaveAtten.txtValue
-            //setAmp.valueSlaveRef = comboSlaveRef.index
+            setAmp.valueMasterAttenMode = comboMasterAttenMode.index
+            setAmp.valueMasterAtten = comboMasterAtten.txtValue
+            setAmp.valueMasterPower = comboMasterPower.txtValue
+            setAmp.valueMasterGain = comboMasterGain.txtValue
+            setAmp.valueSlaveAttenMode = comboSlaveAttenMode.index
+            setAmp.valueSlaveAtten = comboSlaveAtten.txtValue
+            setAmp.valueSlavePower = comboSlavePower.txtValue
+            setAmp.valueSlaveGain = comboSlaveGain.txtValue
             setAmp.open()
         }
     }
@@ -90,6 +94,18 @@ Window {
         width: 4 * defaultWidthWidget + 4 * defaultWidthWidgetLabel + 9 * defaultMarginWidget
         height: 4 * defaultHeightWidget + 5 * defaultMarginWidget
         border.width: defaultBorderWidth
+
+        ComboCombo {
+            id: comboMasterAttenMode
+            posTop: 0
+            posLeft: 0
+            txtText: devAmpMaster ? devAmpMaster.varName("atten_mode") : qsTr("Attenuation Mode")
+            visible: false
+
+            Component.onCompleted: {
+                comboModel = Alert.addEnum("P_ATTEN")
+            }
+        }
 
         ComboText {
             id: comboMasterAtten
@@ -298,6 +314,18 @@ Window {
         width: rectMaster.width
         height: rectMaster.height
         border.width: defaultBorderWidth
+
+        ComboCombo {
+            id: comboSlaveAttenMode
+            posTop: 0
+            posLeft: 0
+            txtText: devAmpSlave ? devAmpSlave.varName("atten_mode") : qsTr("Attenuation Mode")
+            visible: false
+
+            Component.onCompleted: {
+                comboModel = Alert.addEnum("P_ATTEN")
+            }
+        }
 
         ComboText {
             id: comboSlaveAtten
