@@ -16,6 +16,11 @@ Dialog {
     property alias dialogName : name.text
     property int extendedWidthWidget : defaultWidthWidget + 2 * defaultMarginAndTextWidthHeight
     property int extendedWidthWidgetLabel: defaultWidthWidgetLabel + 2 * defaultMarginWidget
+    property alias valueChannel : comboChannel.index
+    property alias valueMasterAtten : comboMasterAtten.txtValue
+    property alias valueMasterRef : comboMasterRef.index
+    property alias valueSlaveAtten : comboSlaveAtten.txtValue
+    property alias valueSlaveRef : comboSlaveRef.index
 
     Text {
         id: name
@@ -37,7 +42,7 @@ Dialog {
         text: qsTr("Cancel")
         font.pixelSize: defaultLabelFontSize
 
-        onClicked: console.log("cancel")
+        onClicked: winSetFreq.close()
     }
 
     Button {
@@ -50,7 +55,7 @@ Dialog {
         text: qsTr("Submit")
         font.pixelSize: defaultLabelFontSize
 
-        onClicked: console.log(devFreqMaster)
+        onClicked: devFreqMaster.createCntlMsg()
     }
 
     Rectangle {

@@ -62,10 +62,6 @@ Window {
         devFreqMaster: devFreqMaster
         devFreqSlave: devFreqSlave
         dialogName: name.text + " " + qsTr("Setting")
-        valueMasterAtten: comboMasterAtten.txtValue
-        valueMasterRef: comboMasterRef.index
-        valueSlaveAtten: comboSlaveAtten.txtValue
-        valueSlaveRef: comboSlaveRef.index
     }
     Button {
         id: setting
@@ -79,6 +75,10 @@ Window {
         onClicked: {
             setFreq.devFreqMaster = devFreqMaster
             setFreq.devFreqSlave = devFreqSlave
+            setFreq.valueMasterAtten = comboMasterAtten.txtValue
+            setFreq.valueMasterRef = comboMasterRef.index
+            setFreq.valueSlaveAtten = comboSlaveAtten.txtValue
+            setFreq.valueSlaveRef = comboSlaveRef.index
             setFreq.open()
         }
     }
@@ -104,6 +104,18 @@ Window {
                     txtValue = devFreqMaster.showDisplay("atten")
                     colorValue = devFreqMaster.showColor("atten")
                 })
+            }
+        }
+
+        ComboCombo {
+            id: comboMasterRef
+            posTop: 0
+            posLeft: (rectMaster.width - defaultMarginWidget) / 2
+            txtText: devFreqMaster ? devFreqMaster.varName("ch_a") : "10 MHz " + qsTr("Ref")
+            visible: false
+
+            Component.onCompleted: {
+                comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
             }
         }
 
@@ -310,6 +322,18 @@ Window {
                     txtValue = devFreqSlave.showDisplay("masterslave")
                     colorValue = devFreqSlave.showColor("masterslave")
                 })
+            }
+        }
+
+        ComboCombo {
+            id: comboSlaveRef
+            posTop: 0
+            posLeft: (rectSlave.width - defaultMarginWidget) / 2
+            txtText: devFreqSlave ? devFreqSlave.varName("ch_b") : "10 MHz " + qsTr("Ref")
+            visible: false
+
+            Component.onCompleted: {
+                comboModel = Alert.addEnum("P_CH", qsTr("Channel") + " ")
             }
         }
 

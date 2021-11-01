@@ -100,6 +100,7 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
         case P_MS_OTHERS:
             return P_NOR_OTHERS;
         }
+        return P_NOR_ABNORMAL;
     case P_ENUM_ATTEN:
     case P_ENUM_CH:
     case P_ENUM_INT:
