@@ -141,7 +141,7 @@
     <message>
         <location filename="SetFreq.qml" line="42"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="SetFreq.qml" line="55"/>
@@ -833,7 +833,7 @@
         <location filename="freq.qml" line="64"/>
         <location filename="freq.qml" line="72"/>
         <source>Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>设置</translation>
     </message>
     <message>
         <location filename="freq.qml" line="126"/>
