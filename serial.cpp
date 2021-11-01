@@ -17,12 +17,7 @@ serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject
     serialport->setStopBits(serial::stopbits);
     serialport->setFlowControl(serial::flowcontrol);
 
-    if (serialport->open(QIODevice::ReadWrite)) {
-        qDebug() << "Serial port opened.";
-    } else {
-        qDebug() << "Serial port open failed" << serialport->error();
-    }
-
+    openPort();
     connect(serialport, &QSerialPort::readyRead, this, &serial::readData);
 
 #ifdef QT_DEBUG
@@ -31,6 +26,20 @@ serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject
     lastseen = QDateTime::currentDateTime();
     msg::validateProtocol(buffer, data, this);
 #endif
+}
+
+void serial::openPort()
+{
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+    QThreadPool::globalInstance()->start(new FunctionRunnable([&](){
+#else
+    QThreadPool::globalInstance()->start(([&](){
+#endif
+        if (serialport->open(QIODevice::ReadWrite))
+            qDebug() << "Serial port opened.";
+        else
+            qDebug() << "Serial port open failed" << serialport->error();
+    }));
 }
 
 serial::~serial()
@@ -55,9 +64,7 @@ void serial::readData()
 #ifdef QT_DEBUG
 void serial::readFakeData()
 {
-    int secret;
     srand(static_cast<uint>(time(nullptr)));
-    secret = rand() % 10000 + 1;
 
     QByteArray data = QByteArray::fromHex("ff010a03040101010101010101010103011701aa");
     buffer += data;

@@ -27,12 +27,23 @@ public:
     friend serial &operator<< (serial &s, const msgCntlAmp &m);
     friend const serial &operator>> (const serial &s, msg &m);
 
+    void openPort();
+
     inline bool timedout() const {
         return QDateTime::currentDateTime().secsTo(lastseen) <= - serial::timeout;
     }
 
     inline bool has(const QSerialPortInfo &info) const {
         return serialport->portName() == info.portName();
+    }
+
+    inline bool hasThenOpen(const QSerialPortInfo &info) {
+        if (serialport->portName() == info.portName()) {
+            if (not serialport->isOpen())
+                openPort();
+            return true;
+        } else
+            return false;
     }
 
     inline const static enum QSerialPort::BaudRate baudrate = QSerialPort::Baud115200;
@@ -60,5 +71,18 @@ public slots:
     void readFakeData();
 #endif
 };
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+class FunctionRunnable : public QRunnable
+{
+    std::function<void()> m_functionToRun;
+
+public:
+    FunctionRunnable(std::function<void()> functionToRun) : m_functionToRun(functionToRun) {}
+    inline void run() override {
+        m_functionToRun();
+    }
+};
+#endif
 
 #endif // SERIAL_H

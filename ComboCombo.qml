@@ -25,7 +25,9 @@ Item {
         height: defaultHeightWidget
         width: widthWidgetLabel + defaultMarginWidget + widthWidget
         color: "gray"
-        z: -1
+        opacity: 0.2
+        z: 10
+        visible: false
 
         MouseArea {
             id: mouseDev
