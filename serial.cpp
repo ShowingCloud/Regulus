@@ -70,27 +70,24 @@ void serial::readData()
 void serial::readFakeData()
 {
     srand(static_cast<uint>(time(nullptr)));
+    QByteArray buffer;
 
     QByteArray data = QByteArray::fromHex("ff010a03040101010101010101010103011701aa");
-    buffer += data;
-    lastseen = QDateTime::currentDateTime();
-    msg::validateProtocol(buffer, data, this);
+    buffer = data;
+    msg::validateProtocol(buffer, data, nullptr);
 
     data = QByteArray::fromHex("ff" + QString::number(rand() % 10000 * 10000 + rand() % 10000).rightJustified(8, '0').toUtf8() + "0101010101010101010102001700aa");
     //qDebug() << data.toHex();
-    buffer += data;
-    lastseen = QDateTime::currentDateTime();
-    msg::validateProtocol(buffer, data, this);
+    buffer = data;
+    msg::validateProtocol(buffer, data, nullptr);
 
     data = QByteArray::fromHex("ff01000a04050001010001010101010A001701aa");
-    buffer += data;
-    lastseen = QDateTime::currentDateTime();
-    msg::validateProtocol(buffer, data, this);
+    buffer = data;
+    msg::validateProtocol(buffer, data, nullptr);
 
     data = QByteArray::fromHex("ff00010202030301040105060601070E001701aa");
-    buffer += data;
-    lastseen = QDateTime::currentDateTime();
-    msg::validateProtocol(buffer, data, this);
+    buffer = data;
+    msg::validateProtocol(buffer, data, nullptr);
 }
 #endif
 

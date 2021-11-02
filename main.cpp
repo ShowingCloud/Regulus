@@ -55,21 +55,22 @@ int main(int argc, char *argv[])
 
             serial *s = new serial(serialportinfo);
             serial::serialList << s;
-
-            QTimer *timer = new QTimer(&app);
-            QObject::connect(timer, &QTimer::timeout, [=]() {
-                protocol::createQueryMsg(*s);
-#ifdef QT_DEBUG
-                s->readFakeData();
-#endif
-                timer->start(1000);
-            });
-            timer->start(0);
         }
         searchSerialTimer->start(10000);
         qDebug() << "Serial List: " << serial::serialList;
     });
     searchSerialTimer->start(0);
+
+    QTimer *timer = new QTimer(&app);
+    QObject::connect(timer, &QTimer::timeout, [=]() {
+        for (serial *s : qAsConst(serial::serialList))
+            protocol::createQueryMsg(*s);
+#ifdef QT_DEBUG
+        serial::readFakeData();
+#endif
+        timer->start(1000);
+    });
+    timer->start(0);
 
     return app.exec();
 }

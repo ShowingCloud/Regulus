@@ -31,6 +31,9 @@ public:
     friend const serial &operator>> (const serial &s, msg &m);
 
     void openPort();
+#ifdef QT_DEBUG
+    static void readFakeData();
+#endif
 
     inline bool timedout() const {
         return QDateTime::currentDateTime().secsTo(lastseen) <= - serial::timeout;
@@ -70,9 +73,6 @@ signals:
 
 public slots:
     void readData();
-#ifdef QT_DEBUG
-    void readFakeData();
-#endif
 };
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
