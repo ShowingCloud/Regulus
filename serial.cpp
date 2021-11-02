@@ -31,23 +31,22 @@ serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject
 
 void serial::openPort()
 {
-/*
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QThreadPool::globalInstance()->start(new FunctionRunnable([&](){
-#else
-    QThreadPool::globalInstance()->start(([&](){
-#endif
-*/
-    QThread *thread = QThread::create(([&](){
+    if (openingThread) {
+        if (openingThread->isRunning())
+            return;
+        openingThread->deleteLater();
+    }
+
+    openingThread = QThread::create([&](){
         if (serialport->open(QIODevice::ReadWrite))
             qDebug() << "Serial port opened.";
         else
             qDebug() << "Serial port open failed" << serialport->error();
         serialport->moveToThread(QApplication::instance()->thread());
-    }));
+    });
     serialport->setParent(nullptr);
-    serialport->moveToThread(thread);
-    thread->start();
+    serialport->moveToThread(openingThread);
+    openingThread->start();
 }
 
 serial::~serial()

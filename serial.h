@@ -64,6 +64,7 @@ private:
     void writeData(const QByteArray &data) const;
 
     QSerialPort *serialport = new QSerialPort(this);
+    QThread *openingThread = nullptr;
     QDateTime lastseen;
     QByteArray buffer = "";
     inline const static int timeout = 10;
@@ -74,18 +75,5 @@ signals:
 public slots:
     void readData();
 };
-
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-class FunctionRunnable : public QRunnable
-{
-    std::function<void()> m_functionToRun;
-
-public:
-    FunctionRunnable(std::function<void()> functionToRun) : m_functionToRun(functionToRun) {}
-    inline void run() override {
-        m_functionToRun();
-    }
-};
-#endif
 
 #endif // SERIAL_H
