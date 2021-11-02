@@ -47,14 +47,15 @@ int main(int argc, char *argv[])
 
     QTimer *searchSerialTimer = new QTimer(&app);
     QObject::connect(searchSerialTimer, &QTimer::timeout, [&]() {
-        for (const QSerialPortInfo &serialportinfo : QSerialPortInfo::availablePorts())
-        {
-            for (serial *inlist : qAsConst(serial::serialList))
-                if (inlist->hasThenOpen(serialportinfo))
-                    return;
+        for (const QSerialPortInfo &serialportinfo : QSerialPortInfo::availablePorts()) {
+            [&]() {
+                for (serial *inlist : qAsConst(serial::serialList))
+                    if (inlist->hasThenOpen(serialportinfo))
+                        return;
 
-            serial *s = new serial(serialportinfo);
-            serial::serialList << s;
+                serial *s = new serial(serialportinfo);
+                serial::serialList << s;
+            }();
         }
         searchSerialTimer->start(10000);
         qDebug() << "Serial List: " << serial::serialList;
