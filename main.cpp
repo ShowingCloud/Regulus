@@ -45,12 +45,14 @@ int main(int argc, char *argv[])
     if (engine.rootObjects().isEmpty())
         return -1;
 
+    for (QSerialPortInfo info : QSerialPortInfo::availablePorts())
+        qDebug() << info.description();
     QTimer *searchSerialTimer = new QTimer(&app);
     QObject::connect(searchSerialTimer, &QTimer::timeout, [&]() {
         for (const QSerialPortInfo &serialportinfo : QSerialPortInfo::availablePorts()) {
             [&]() {
                 for (serial *inlist : qAsConst(serial::serialList))
-                    if (inlist->hasThenOpen(serialportinfo))
+                    if (inlist->has(serialportinfo))
                         return;
 
                 serial *s = new serial(serialportinfo);
