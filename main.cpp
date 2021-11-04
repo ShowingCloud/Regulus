@@ -45,8 +45,6 @@ int main(int argc, char *argv[])
     if (engine.rootObjects().isEmpty())
         return -1;
 
-    for (QSerialPortInfo info : QSerialPortInfo::availablePorts())
-        qDebug() << info.description();
     QTimer *searchSerialTimer = new QTimer(&app);
     QObject::connect(searchSerialTimer, &QTimer::timeout, [&]() {
         for (const QSerialPortInfo &serialportinfo : QSerialPortInfo::availablePorts()) {
