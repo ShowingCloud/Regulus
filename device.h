@@ -31,6 +31,7 @@ class device : public QObject
     Q_PROPERTY(QString      str         MEMBER  str      NOTIFY gotData)
     Q_PROPERTY(QDateTime    lastseen    MEMBER  lastseen NOTIFY gotData)
     Q_PROPERTY(QString      timerStr    MEMBER  timerStr NOTIFY gotData)
+    Q_PROPERTY(bool         isSlave     MEMBER  isSlave)
 
 public:
     explicit device(const QHash<QString, deviceVar *> var, const QHash<QString, QString> str_var,
@@ -119,7 +120,7 @@ public slots:
             return alert::STR_COLOR[alert::P_COLOR_HOLDING];
         else if (timedout())
             return alert::STR_COLOR[alert::P_COLOR_OTHERS];
-        else if (isSlave)
+        else if (isStandby)
             return alert::STR_COLOR[alert::P_COLOR_STANDBY];
 
         return var[itemName]->getColor(allowHolding);
@@ -203,7 +204,7 @@ protected:
     const QHash<QString, deviceVar *> var;
     const QHash<QString, QString> STR_VAR;
     const QStringList prefStr;
-    bool isSlave = false;
+    bool isSlave = false, isStandby = false;
     const int devTable = 0;
     serial *lastSerial = nullptr;
     QDateTime lastseen = QDateTime();
@@ -254,7 +255,7 @@ public:
         {"ref_inner_1", new deviceVar(alert::P_ENUM_NOR)},
         {"ref_inner_2", new deviceVar(alert::P_ENUM_NOR)},
         {"handshake",   new deviceVar(alert::P_ENUM_HSK)},
-        {"masterslave", new deviceVar(alert::P_ENUM_MS)}
+        {"masterslave", new deviceVar(alert::P_ENUM_NOR)}
     }, {
         {"atten",       tr("Attenuation")},
         {"ch_a",        "10 MHz " + tr("Ref")},
@@ -353,7 +354,7 @@ public:
         {"load_temp",       new deviceVar(alert::P_ENUM_INT)},
         {"handshake",       new deviceVar(alert::P_ENUM_HSK)},
         {"atten_mode",      new deviceVar(alert::P_ENUM_ATTEN)},
-        {"masterslave",     new deviceVar(alert::P_ENUM_MS)}
+        {"masterslave",     new deviceVar(alert::P_ENUM_NOR)}
     }, {
         {"power",           tr("Power")},
         {"gain",            tr("Gain")},

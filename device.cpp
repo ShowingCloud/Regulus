@@ -94,12 +94,14 @@ devFreq &operator<< (devFreq &dev, const msgFreq &m)
     dev.var["ref_inner_1"]->setValue(m.ref_inner_1);
     dev.var["ref_inner_2"]->setValue(m.ref_inner_2);
     dev.var["handshake"]->setValue(m.handshake);
-    dev.var["masterslave"]->setValue(m.masterslave);
 
-    if (dev.var["masterslave"]->stat == alert::P_NOR_STANDBY)
-        dev.isSlave = true;
-    else
-        dev.isSlave = false;
+    if (m.masterslave == static_cast<int>(dev.isSlave)) {
+        dev.var["masterslave"]->setValue(alert::P_NOR_NORMAL);
+        dev.isStandby = false;
+    } else {
+        dev.var["masterslave"]->setValue(alert::P_NOR_STANDBY);
+        dev.isStandby = true;
+    }
 
     emit dev.gotData();
     return dev;
@@ -173,7 +175,7 @@ const QString devFreq::showIndicatorColor() const
 {
     if (timedout())
         return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
-    else if (isSlave)
+    else if (isStandby)
         return alert::STR_COLOR[alert::P_COLOR_STANDBY];
     else
         if (stateGood("atten") and stateGood("voltage") and stateGood("current")
@@ -195,7 +197,7 @@ const QString devDist::showIndicatorColor() const
         if (stateGood("ref_10") and stateGood("ref_16") and stateGood("voltage")
                 and stateGood("current")
                 and (stateGood("lock_10_1") or stateGood("lock_10_2")
-                     or stateGood("lock_10_3") or stateGood("lock_10_4")))
+                     or stateGood("lock_16_1") or stateGood("lock_16_2")))
             return alert::STR_COLOR[alert::P_COLOR_NORMAL];
         else
             return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];

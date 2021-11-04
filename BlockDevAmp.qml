@@ -13,9 +13,11 @@ Item {
 
     DevAmp {
         id: devAmpMaster
+        isSlave: false
     }
     DevAmp {
         id: devAmpSlave
+        isSlave: true
     }
     property alias masterId : devAmpMaster.dId
     property alias slaveId : devAmpSlave.dId

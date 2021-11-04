@@ -52,15 +52,15 @@ int main(int argc, char *argv[])
         for (const QSerialPortInfo &serialportinfo : QSerialPortInfo::availablePorts()) {
             [&]() {
                 for (serial *inlist : qAsConst(serial::serialList))
-                    if (inlist->has(serialportinfo))
+                    if (inlist->hasThenOpen(serialportinfo))
                         return;
 
                 serial *s = new serial(serialportinfo);
                 serial::serialList << s;
+                qDebug() << "Serial List: " << serial::serialList;
             }();
         }
         searchSerialTimer->start(10000);
-        qDebug() << "Serial List: " << serial::serialList;
     });
     searchSerialTimer->start(0);
 

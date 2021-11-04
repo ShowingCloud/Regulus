@@ -19,7 +19,6 @@ serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject
     serialport->setFlowControl(serial::flowcontrol);
 
     openPort();
-    connect(serialport, &QSerialPort::readyRead, this, &serial::readData);
 
 #ifdef QT_DEBUG
     QByteArray data = QByteArray::fromHex("ff010a03040101010101010101010105001701aa");
@@ -31,23 +30,12 @@ serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject
 
 void serial::openPort()
 {
-/*    if (openingThread) {
-        if (openingThread->isRunning())
-            return;
-        openingThread->deleteLater();
-    }
-
-    openingThread = QThread::create([&](){
-*/        if (serialport->open(QIODevice::ReadWrite))
-            qDebug() << "Serial port opened.";
-        else
-            qDebug() << "Serial port open failed" << serialport->error();
-/*        serialport->moveToThread(QApplication::instance()->thread());
-    });
-    serialport->setParent(nullptr);
-    serialport->moveToThread(openingThread);
-    openingThread->start();
-*/}
+    if (serialport->open(QIODevice::ReadWrite)) {
+        qDebug() << "Serial port opened.";
+        connect(serialport, &QSerialPort::readyRead, this, &serial::readData);
+    } else
+        qDebug() << "Serial port open failed" << serialport->error();
+}
 
 serial::~serial()
 {
@@ -71,7 +59,7 @@ void serial::readFakeData()
     srand(static_cast<uint>(time(nullptr)));
     QByteArray buffer;
 
-    QByteArray data = QByteArray::fromHex("ff010a03040101010101010101010103011701aa");
+    QByteArray data = QByteArray::fromHex("ff010a03040101010101010101010103011700aa");
     buffer = data;
     msg::validateProtocol(buffer, data, nullptr);
 

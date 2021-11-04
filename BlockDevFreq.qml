@@ -14,9 +14,11 @@ Item {
 
     DevFreq {
         id: devFreqMaster
+        isSlave: false
     }
     DevFreq {
         id: devFreqSlave
+        isSlave: true
     }
     property alias masterId : devFreqMaster.dId
     property alias slaveId : devFreqSlave.dId
