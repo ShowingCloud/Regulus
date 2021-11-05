@@ -34,7 +34,7 @@ Window {
     visible: true
     width: 1550
     height: heightCircuit * 2 + singleBoxHeight * 3 + defaultMarginAndTextWidthHeight * 5
-    title: qsTr("RDSS Project")
+    title: qsTr("RDSS System Host Control Software")
 
     Component.onCompleted: {
         objWinFreq = Qt.createComponent("qrc:/freq.qml").createObject(winMain);
