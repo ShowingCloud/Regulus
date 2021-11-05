@@ -17,12 +17,10 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &
             m->serialport = s;
             if (buffer.length() == msgUplink::mlen) {
                 *m << buffer;
-                msg::unknownmsgList << m;
                 buffer = QByteArray();
                 return VAL_PASS;
             } else {
                 *m << buffer.mid(head, msgUplink::mlen);
-                msg::unknownmsgList << m;
                 buffer.remove(head, msgUplink::mlen);
                 // TODO: log
                 return VAL_REMAINS;
@@ -51,7 +49,6 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &
             msg *m = new msg();
             m->serialport = s;
             *m << input.mid(head, msgUplink::mlen);
-            msg::unknownmsgList << m;
             return VAL_USEINPUT;
         }
     }

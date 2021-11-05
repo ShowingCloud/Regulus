@@ -30,8 +30,6 @@ public:
     inline const static int header = 0xff;
     inline const static int tailer = 0xaa;
 
-    inline static QList<msg *> unknownmsgList = {};
-
 protected:
     const quint8 head = msg::header;
     const quint8 tail = msg::tailer;
