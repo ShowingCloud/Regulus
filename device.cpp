@@ -13,10 +13,10 @@ device::device(const QHash<QString, deviceVar*> var, const QHash<QString, QStrin
 {
     device::push(this);
 
-    for (const QString &key : var.keys())
-        connect(var[key], &deviceVar::sendAlert, this, [=]
+    for (QHash<QString, deviceVar *>::const_iterator i = var.constBegin(); i != var.constEnd(); ++i)
+        connect(i.value(), &deviceVar::sendAlert, this, [=]
                 (const alert::P_ALERT type, const QVariant value, const QVariant normal_value){
-            globalDB->setAlert(devTable, dId, type, key, value, normal_value);
+            globalDB->setAlert(devTable, dId, type, i.key(), value, normal_value);
         });
 }
 
@@ -234,7 +234,7 @@ void devFreq::createCntlMsg() const
     msgCntlFreq *q = new msgCntlFreq();
     *this >> *q;
 
-    if (lastSerial and QDateTime::currentDateTime().secsTo(lastseen) < 3) {
+    if (lastSerial and QDateTime::currentDateTime().secsTo(lastseen) > -3) {
         qDebug() << "create msg: sending one";
         *lastSerial << *q;
     } else {
@@ -255,7 +255,7 @@ void devDist::createCntlMsg() const
     msgCntlDist *q = new msgCntlDist();
     *this >> *q;
 
-    if (lastSerial and QDateTime::currentDateTime().secsTo(lastseen) < 3) {
+    if (lastSerial and QDateTime::currentDateTime().secsTo(lastseen) > -3) {
         qDebug() << "create msg: sending one";
         *lastSerial << *q;
     } else {
@@ -276,7 +276,7 @@ void devAmp::createCntlMsg() const
     msgCntlAmp *q = new msgCntlAmp();
     *this >> *q;
 
-    if (lastSerial and QDateTime::currentDateTime().secsTo(lastseen) < 3) {
+    if (lastSerial and QDateTime::currentDateTime().secsTo(lastseen) > -3) {
         qDebug() << "create msg: sending one";
         *lastSerial << *q;
     } else {
@@ -301,7 +301,7 @@ devNet::devNet(QObject *parent)
         params << ipAddr[dId];
 
         QTimer *timer = new QTimer(this);
-        QObject::connect(timer, &QTimer::timeout, [=]() {
+        QObject::connect(timer, &QTimer::timeout, this, [=]() {
             if (ping) {
                 ping->kill();
                 ping->waitForFinished();

@@ -203,9 +203,9 @@ protected:
     int dId = 0;
     const QHash<QString, deviceVar *> var;
     const QHash<QString, QString> STR_VAR;
+    const int devTable = 0;
     const QStringList prefStr;
     bool isSlave = false, isStandby = false;
-    const int devTable = 0;
     serial *lastSerial = nullptr;
     QDateTime lastseen = QDateTime();
     QString timerStr = tr("No data");

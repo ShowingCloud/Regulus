@@ -46,19 +46,24 @@ int main(int argc, char *argv[])
         return -1;
 
     QTimer *searchSerialTimer = new QTimer(&app);
-    QObject::connect(searchSerialTimer, &QTimer::timeout, [&]() {
-        for (const QSerialPortInfo &serialportinfo : QSerialPortInfo::availablePorts()) {
+    QObject::connect(searchSerialTimer, &QTimer::timeout, &app, [&]() {
+        qInfo() << "Traversing serial ports";
+        const QList<QSerialPortInfo> ports = QSerialPortInfo::availablePorts();
+
+        for (QList<QSerialPortInfo>::const_iterator serialportinfo = ports.constBegin();
+             serialportinfo != ports.constEnd(); ++serialportinfo) {
             [&]() {
+                qInfo() << "One serial port";
                 for (serial *inlist : qAsConst(serial::serialList))
-                    if (inlist->hasThenOpen(serialportinfo))
+                    if (inlist->hasThenOpen(*serialportinfo))
                         return;
 
-                serial *s = new serial(serialportinfo);
+                serial *s = new serial(*serialportinfo);
                 serial::serialList << s;
-                qDebug() << "Serial List: " << serial::serialList;
+                qInfo() << "Serial List: " << serial::serialList;
             }();
         }
-        searchSerialTimer->start(10000);
+        searchSerialTimer->start(20000);
     });
     searchSerialTimer->start(0);
 

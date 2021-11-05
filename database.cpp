@@ -92,10 +92,11 @@ bool database::cleanUpHistory()
 {
     QDir dir = historyPath;
 
-    for (const QFileInfo &file : dir.entryInfoList({ "*.db", "*.txt" }))
-        if (not database::dbFilenames(historyKeepDays).contains(file.filePath())
-                and not database::logFilenames(historyKeepDays).contains(file.filePath()))
-            QFile(file.filePath()).remove();
+    const QFileInfoList filelist = dir.entryInfoList({ "*.db", "*.txt" });
+    for (QFileInfoList::const_iterator file = filelist.constBegin(); file != filelist.constEnd(); ++file)
+        if (not database::dbFilenames(historyKeepDays).contains((*file).filePath())
+                and not database::logFilenames(historyKeepDays).contains((*file).filePath()))
+            QFile((*file).filePath()).remove();
 
     return true;
 }
@@ -333,8 +334,9 @@ bool database::setAlert(const database::DB_TBL dbTable, const int deviceId, cons
     for (alertRecordModel *model : qAsConst(alertRecordModel::alertRecordModelList))
         model->addAlert(deviceId, alrt);
 
-    for (const QString &str : alrt.mid(0, 4))
-        logstream << str << ", ";
+    const QStringList alertContent = alrt.mid(0, 4);
+    for (QStringList::const_iterator str = alertContent.constBegin(); str != alertContent.constEnd(); ++str)
+        logstream << (*str).toLocal8Bit().constData() << ", ";
 #if QT_VERSION > QT_VERSION_CHECK(5, 14, 0)
     logstream << Qt::endl;
 #else
