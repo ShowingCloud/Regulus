@@ -80,17 +80,15 @@ void serial::readFakeData()
 
 void serial::writeData(const QByteArray &data) const
 {
-    if (not serialport->isOpen())
+    if (not serialport->isOpen()) {
+        qDebug() << "Write Data: Serial port not open: " << serialport;
         return;
-
+    }
     serialport->write(data);
 }
 
 serial &operator<< (serial &s, const msgQuery &m)
 {
-    if (not s.serialport->isOpen())
-        return s;
-
     QByteArray data;
     m >> data;
 
@@ -103,9 +101,6 @@ serial &operator<< (serial &s, const msgQuery &m)
 
 serial &operator<< (serial &s, const msgCntlFreq &m)
 {
-    if (not s.serialport->isOpen())
-        return s;
-
     QByteArray data;
     m >> data;
 
@@ -118,9 +113,6 @@ serial &operator<< (serial &s, const msgCntlFreq &m)
 
 serial &operator<< (serial &s, const msgCntlDist &m)
 {
-    if (not s.serialport->isOpen())
-        return s;
-
     QByteArray data;
     m >> data;
 
@@ -133,9 +125,6 @@ serial &operator<< (serial &s, const msgCntlDist &m)
 
 serial &operator<< (serial &s, const msgCntlAmp &m)
 {
-    if (not s.serialport->isOpen())
-        return s;
-
     QByteArray data;
     m >> data;
 
@@ -148,9 +137,6 @@ serial &operator<< (serial &s, const msgCntlAmp &m)
 
 serial &operator<< (serial &s, const msg &m)
 {
-    if (not s.serialport->isOpen())
-        return s;
-
     QByteArray data;
     m >> data;
     s.writeData(data);
@@ -160,9 +146,6 @@ serial &operator<< (serial &s, const msg &m)
 const serial &operator>> (const serial &s, msg &m)
 {
     Q_UNUSED(m)
-
-    if (not s.serialport->isOpen())
-        return s;
 
     qDebug() << "!!! not processing";
     return s;
