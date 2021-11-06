@@ -86,6 +86,7 @@ void serial::writeData(const QByteArray &data) const
         return;
     }
     serialport->write(data);
+    qDebug() << "Serial port wrote";
 }
 
 serial &operator<< (serial &s, const msgQuery &m)

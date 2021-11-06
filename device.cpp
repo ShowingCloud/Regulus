@@ -311,7 +311,7 @@ devNet::devNet(QObject *parent)
             ping->start("ping", params);
 
             connect(ping, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-                    [=](int exitCode, QProcess::ExitStatus exitStatus){
+                    this, [=](int exitCode, QProcess::ExitStatus exitStatus){
 
                 Q_UNUSED(exitStatus)
                 if (exitCode == 0) {
