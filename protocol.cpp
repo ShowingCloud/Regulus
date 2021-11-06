@@ -17,11 +17,13 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &
             m->serialport = s;
             if (buffer.length() == msgUplink::mlen) {
                 *m << buffer;
+                delete m;
                 buffer = QByteArray();
                 return VAL_PASS;
             } else {
                 *m << buffer.mid(head, msgUplink::mlen);
                 buffer.remove(head, msgUplink::mlen);
+                delete m;
                 // TODO: log
                 return VAL_REMAINS;
             }
@@ -49,6 +51,7 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &
             msg *m = new msg();
             m->serialport = s;
             *m << input.mid(head, msgUplink::mlen);
+            delete m;
             return VAL_USEINPUT;
         }
     }
@@ -95,21 +98,21 @@ msg &operator<< (msg &m, const QByteArray &data)
 
     switch (msg::idProto[u.deviceId]) {
     case msg::PROTO_FREQ: {
-        msgFreq *s = new msgFreq(u);
-        *s << data;
-        return *s;
+        msgFreq s = msgFreq(u);
+        s << data;
+        break;
     } case msg::PROTO_DIST: {
-        msgDist *s = new msgDist(u);
-        *s << data;
-        return *s;
+        msgDist s = msgDist(u);
+        s << data;
+        break;
     } case msg::PROTO_AMP: {
-        msgAmp *s = new msgAmp(u);
-        *s << data;
-        return *s;
+        msgAmp s = msgAmp(u);
+        s << data;
+        break;
     } default:
         qDebug() << "unknown device id";
-        return *new msgUplink(m);
     }
+    return m;
 }
 
 msgUplink &operator<< (msgUplink &m, const QByteArray &data)
@@ -125,7 +128,7 @@ msgFreq &operator<< (msgFreq &m, const QByteArray &data)
         qDebug() << "Mulformed message";
         return m;
     }
-    qInfo() << "Got Msg Freq" << m.deviceId << m.origin;
+    qInfo() << "Got Msg Freq" << m.deviceId << m.origin.toHex();
 
     QDataStream(data) >> m.holder8 /* header */ >> m.atten >> m.voltage
                       >> m.current >> m.radio_stat >> m.mid_stat >> m.lock_a1
@@ -149,7 +152,7 @@ msgDist &operator<< (msgDist &m, const QByteArray &data)
         qDebug() << "Mulformed message";
         return m;
     }
-    qInfo() << "Got Msg Dist" << m.deviceId << m.origin;
+    qInfo() << "Got Msg Dist" << m.deviceId << m.origin.toHex();
 
     QDataStream(data) >> m.holder8 /* header */ >> m.ref_10 >> m.ref_16 >> m.voltage
                       >> m.current >> m.lock_10_1 >> m.lock_10_2 >> m.serialId
@@ -169,7 +172,7 @@ msgAmp &operator<< (msgAmp &m, const QByteArray &data)
         qDebug() << "Mulformed message";
         return m;
     }
-    qInfo() << "Got Msg Amp" << m.deviceId << m.origin;
+    qInfo() << "Got Msg Amp" << m.deviceId << m.origin.toHex();
 
     QDataStream(data) >> m.holder8 /* header */ >> m.power >> m.gain >> m.atten
                       >> m.loss >> m.temp >> m.stat >> m.load_temp

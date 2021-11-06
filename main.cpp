@@ -53,7 +53,6 @@ int main(int argc, char *argv[])
         for (QList<QSerialPortInfo>::const_iterator serialportinfo = ports.constBegin();
              serialportinfo != ports.constEnd(); ++serialportinfo) {
             [&]() {
-                qInfo() << "One serial port";
                 for (serial *inlist : qAsConst(serial::serialList))
                     if (inlist->hasThenOpen(*serialportinfo))
                         return;

@@ -53,12 +53,12 @@ public:
     }
 
     template <class T> static void updateDevice(const T &m) {
-        for (device *d : device::deviceList)
+        for (device *d : qAsConst(device::deviceList))
             *d << m;
     }
 
     static inline device *findDevice(const int id) {
-        for (device *d : device::deviceList)
+        for (device *d : qAsConst(device::deviceList))
             if (d->dId == id)
                 return d;
 
