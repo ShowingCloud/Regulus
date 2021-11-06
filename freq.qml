@@ -75,11 +75,16 @@ Window {
         onClicked: {
             setFreq.devFreqMaster = devFreqMaster
             setFreq.devFreqSlave = devFreqSlave
-            setFreq.valueChannel = devFreqMaster.getValue("masterslave")
             setFreq.valueMasterAtten = comboMasterAtten.txtValue
             setFreq.valueMasterRef = comboMasterRef.index
             setFreq.valueSlaveAtten = comboSlaveAtten.txtValue
             setFreq.valueSlaveRef = comboSlaveRef.index
+
+            if (devFreqMaster.getValue("masterslave") === Alert.P_NOR_NORMAL)
+                setFreq.valueChannel = Alert.P_MS_MASTER
+            else
+                setFreq.valueChannel = Alert.P_MS_SLAVE
+
             setFreq.open()
         }
     }
