@@ -13,10 +13,10 @@ device::device(const QHash<QString, deviceVar*> var, const QHash<QString, QStrin
 {
     device::push(this);
 
-    for (QHash<QString, deviceVar *>::const_iterator i = var.constBegin(); i != var.constEnd(); ++i)
-        connect(i.value(), &deviceVar::sendAlert, this, [=]
+    for (const QString &key : var.keys())
+        connect(var[key], &deviceVar::sendAlert, this, [=]
                 (const alert::P_ALERT type, const QVariant value, const QVariant normal_value){
-            globalDB->setAlert(devTable, dId, type, i.key(), value, normal_value);
+            globalDB->setAlert(devTable, dId, type, key, value, normal_value);
         });
 }
 
@@ -291,9 +291,9 @@ void devAmp::createCntlMsg() const
 devNet::devNet(QObject *parent)
         : device({}, {}, database::DB_TBL_NET_ALERT, {}, parent)
 {
-    connect(this, &device::idSet, [=]() {
+    connect(this, &device::idSet, this, [=]() {
         QStringList params;
-#if defined(WIN32)
+#ifdef Q_OS_WIN
         params << "-n" << "1";
 #else
         params << "-c 1";
@@ -314,6 +314,7 @@ devNet::devNet(QObject *parent)
                     this, [=](int exitCode, QProcess::ExitStatus exitStatus){
 
                 Q_UNUSED(exitStatus)
+                qDebug() << "ping: " << exitCode << ping->readAllStandardOutput();
                 if (exitCode == 0) {
                     lastseen = QDateTime::currentDateTime();
                     emit gotData();

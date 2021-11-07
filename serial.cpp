@@ -18,7 +18,14 @@ serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject
     serialport->setStopBits(serial::stopbits);
     serialport->setFlowControl(serial::flowcontrol);
 
-    openPort();
+    thread = new serialThread();
+    thread->parent = this;
+    serialport->moveToThread(thread);
+    thread->serialport = serialport;
+    connect(thread, &serialThread::finished, thread, &QThread::deleteLater);
+    connect(thread, &serialThread::finished, serialport, &QSerialPort::close);
+    connect(thread, &serialThread::finished, serialport, &QSerialPort::deleteLater);
+    thread->start();
 
 #ifdef QT_DEBUG
     QByteArray data = QByteArray::fromHex("ff010a03040101010101010101010105001701aa");
@@ -28,21 +35,31 @@ serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject
 #endif
 }
 
-void serial::openPort()
+void serialThread::run()
 {
-    if (serialport->open(QIODevice::ReadWrite)) {
-        qDebug() << "Serial port opened.";
-        connect(serialport, &QSerialPort::readyRead, this, &serial::readData);
-    } else
-        qDebug() << "Serial port open failed" << serialport->error();
+    QTimer *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, [=]() {
+        if (serialport->open(QIODevice::ReadWrite)) {
+            qDebug() << "Serial port opened.";
+            connect(serialport, &QSerialPort::readyRead, parent, &serial::readData);
+            connect(parent, &serial::writeSerial, serialport, [=](const QByteArray &data){
+                serialport->write(data);
+            });
+        } else
+            qDebug() << "Serial port open failed" << serialport->error();
+
+        timer->start(10000);
+    });
+    timer->start(0);
+
+    exec();
 }
 
 serial::~serial()
 {
-    if (serialport->isOpen())
-        serialport->close();
+    thread->quit();
+    thread->wait();
     qDebug() << "Serial port closed.";
-    delete serialport;
 }
 
 void serial::readData()
@@ -78,15 +95,9 @@ void serial::readFakeData()
 }
 #endif
 
-void serial::writeData(const QByteArray &data) const
+void serial::writeData(const QByteArray &data)
 {
-    if (not serialport->isOpen()) {
-        qDebug() << "Write Data: Serial port not open: " << serialport
-                 << serialport->portName();
-        return;
-    }
-    serialport->write(data);
-    qDebug() << "Serial port wrote";
+    emit writeSerial(data);
 }
 
 serial &operator<< (serial &s, const msgQuery &m)

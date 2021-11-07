@@ -14,6 +14,7 @@ class msgQuery;
 class msgCntlFreq;
 class msgCntlDist;
 class msgCntlAmp;
+class serialThread;
 
 class serial : public QObject
 {
@@ -30,7 +31,6 @@ public:
     friend serial &operator<< (serial &s, const msgCntlAmp &m);
     friend const serial &operator>> (const serial &s, msg &m);
 
-    void openPort();
 #ifdef QT_DEBUG
     static void readFakeData();
 #endif
@@ -43,15 +43,6 @@ public:
         return serialport->portName() == info.portName();
     }
 
-    inline bool hasThenOpen(const QSerialPortInfo &info) {
-        if (serialport->portName() == info.portName()) {
-            if (not serialport->isOpen())
-                openPort();
-            return true;
-        } else
-            return false;
-    }
-
     inline const static enum QSerialPort::BaudRate baudrate = QSerialPort::Baud115200;
     inline const static enum QSerialPort::DataBits databits = QSerialPort::Data8;
     inline const static enum QSerialPort::Parity parity = QSerialPort::NoParity;
@@ -61,19 +52,34 @@ public:
     inline static QList<serial *> serialList = QList<serial *>();
 
 private:
-    void writeData(const QByteArray &data) const;
+    void writeData(const QByteArray &data);
 
-    QSerialPort *serialport = new QSerialPort(this);
-    QThread *openingThread = nullptr;
     QDateTime lastseen;
     QByteArray buffer = "";
     inline const static int timeout = 10;
     int serialno = 0;
+    serialThread *thread;
+    QSerialPort *serialport = new QSerialPort();
 
 signals:
+    void openSerial();
+    void writeSerial(const QByteArray &data);
 
 public slots:
     void readData();
+};
+
+class serialThread : public QThread
+{
+    Q_OBJECT
+
+    void run() override;
+
+    friend class serial;
+
+private:
+    QSerialPort *serialport;
+    serial *parent;
 };
 
 #endif // SERIAL_H

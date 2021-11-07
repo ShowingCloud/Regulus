@@ -33,6 +33,7 @@ const QVariant alert::setValue(const QVariant val, const P_ENUM e)
         ret = val.value<int>() / 10.0;
         break;
     case P_ENUM_OTHERS:
+        Q_UNREACHABLE();
         ret = val;
         break;
     }
@@ -58,8 +59,7 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
             alert::prepareAlert(P_ALERT_BAD, val, P_NOR_NORMAL, parent);
             return P_NOR_OTHERS;
         }
-        alert::prepareAlert(P_ALERT_BAD, val, P_NOR_NORMAL, parent);
-        return P_NOR_ABNORMAL;
+        Q_UNREACHABLE();
     case P_ENUM_LOCK:
         switch (val.value<P_LOCK>()) {
         case P_LOCK_LOCKED:
@@ -75,8 +75,7 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
             alert::prepareAlert(P_ALERT_BAD, val, P_LOCK_LOCKED, parent);
             return P_NOR_OTHERS;
         }
-        alert::prepareAlert(P_ALERT_BAD, val, P_LOCK_LOCKED, parent);
-        return P_NOR_ABNORMAL;
+        Q_UNREACHABLE();
     case P_ENUM_HSK:
         switch (val.value<P_HSK>()) {
         case P_HSK_SUCCESS:
@@ -89,8 +88,7 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
             alert::prepareAlert(P_ALERT_BAD, val, P_HSK_SUCCESS, parent);
             return P_NOR_OTHERS;
         }
-        alert::prepareAlert(P_ALERT_BAD, val, P_HSK_SUCCESS, parent);
-        return P_NOR_ABNORMAL;
+        Q_UNREACHABLE();
     case P_ENUM_MS:
         return P_NOR_NORMAL;
     case P_ENUM_ATTEN:
@@ -113,8 +111,7 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
             alert::prepareAlert(P_ALERT_BAD, val, P_STAT_NORMAL, parent);
             return P_NOR_OTHERS;
         }
-        alert::prepareAlert(P_ALERT_BAD, val, P_STAT_NORMAL, parent);
-        return P_NOR_ABNORMAL;
+        Q_UNREACHABLE();
     case P_ENUM_VOLTAGE:
         if (val.value<int>() > 15) {
             alert::prepareAlert(P_ALERT_UPPER, val, 15, parent);
@@ -138,9 +135,11 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
             return P_NOR_NORMAL;
         }
     case P_ENUM_OTHERS:
+        Q_UNREACHABLE();
         return P_NOR_ABNORMAL;
     }
 
+    Q_UNREACHABLE();
     qDebug() << "!!! Shouldn't get here";
     return P_NOR_ABNORMAL;
 }
@@ -155,7 +154,7 @@ void alert::prepareAlert(const P_ALERT type, const QVariant value, const QVarian
 
 void alert::prepareAlert(const P_ALERT type, const QVariant value, deviceVar *parent)
 {
-    if (type == P_ALERT_GOOD) {
+    if (Q_LIKELY(type == P_ALERT_GOOD)) {
         if (parent->stat_alert != type) {
             emit parent->sendAlert(type, value);
             parent->stat_alert = type;
@@ -210,7 +209,7 @@ const QStringList alert::addEnum(const QString e, const QString add)
 {
     alert alrt;
     const QMetaObject *metaObj = alrt.metaObject();
-    QMetaEnum enumType = metaObj->enumerator(metaObj->indexOfEnumerator(e.toUtf8()));
+    const QMetaEnum enumType = metaObj->enumerator(metaObj->indexOfEnumerator(e.toUtf8()));
 
     QStringList list;
 
@@ -231,9 +230,8 @@ const QStringList alert::addEnum(const QString e, const QString add)
         strFunc = [](const int x) { return STR_CH[static_cast<P_CH>(x)].toUtf8(); };
 
     for (int i = 0; i < enumType.keyCount() - 1; ++i) /* omitting the last _OTHERS item */
-    {
         list << (add + tr(strFunc(i)));
-    }
+
     return list;
 }
 
@@ -263,6 +261,7 @@ deviceVar::deviceVar(const alert::P_ENUM type, QObject *parent) : QObject(parent
         display = alert::setDisplay(value, type);
         return;
     case alert::P_ENUM_OTHERS:
+        Q_UNREACHABLE();
         value = "";
         display = "";
         return;
@@ -271,7 +270,7 @@ deviceVar::deviceVar(const alert::P_ENUM type, QObject *parent) : QObject(parent
 
 void deviceVar::setValue(const QVariant v)
 {
-    if (not holding) {
+    if (Q_LIKELY(not holding)) {
         value = alert::setValue(v, type);
         stat = alert::setState(value, type, this);
         display = alert::setDisplay(value, type);
@@ -282,7 +281,7 @@ void deviceVar::setValue(const QVariant v)
 int deviceVar::getValue() const
 {
     const QVariant *ret;
-    if (holding)
+    if (Q_UNLIKELY(holding))
         ret = &v_hold;
     else
         ret = &value;
@@ -308,13 +307,14 @@ int deviceVar::getValue() const
         return -1;
     }
 
+    Q_UNREACHABLE();
     qDebug() << "Shouldn't get here";
     return -1;
 }
 
 const QString deviceVar::getColor(bool allowHolding) const
 {
-    if (holding && allowHolding)
+    if (Q_UNLIKELY(holding && allowHolding))
         return alert::STR_COLOR[alert::P_COLOR_HOLDING];
 
     switch (stat) {
@@ -328,6 +328,7 @@ const QString deviceVar::getColor(bool allowHolding) const
         return alert::STR_COLOR[alert::P_COLOR_OTHERS];
     }
 
+    Q_UNREACHABLE();
     qDebug() << "Shouldn't get here";
     return QString();
 }

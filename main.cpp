@@ -45,26 +45,22 @@ int main(int argc, char *argv[])
     if (engine.rootObjects().isEmpty())
         return -1;
 
-//    QTimer *searchSerialTimer = new QTimer(&app);
-//    QObject::connect(searchSerialTimer, &QTimer::timeout, &app, [&]() {
-//        qInfo() << "Traversing serial ports";
-    const QList<QSerialPortInfo> ports = QSerialPortInfo::availablePorts();
+    QTimer *searchSerialTimer = new QTimer(&app);
+    QObject::connect(searchSerialTimer, &QTimer::timeout, &app, [&]() {
+        qInfo() << "Traversing serial ports";
+        for (const auto &serialportinfo : QSerialPortInfo::availablePorts())
+            [&]() {
+                for (serial *inlist : qAsConst(serial::serialList))
+                    if (inlist->has(serialportinfo))
+                        return;
 
-    for (QList<QSerialPortInfo>::const_iterator serialportinfo = ports.constBegin();
-         serialportinfo != ports.constEnd(); ++serialportinfo) {
-        [&]() {
-            for (serial *inlist : qAsConst(serial::serialList))
-                if (inlist->hasThenOpen(*serialportinfo))
-                    return;
-
-            serial *s = new serial(*serialportinfo);
-            serial::serialList << s;
-            qInfo() << "Serial List: " << serial::serialList;
-        }();
-    }
-//        searchSerialTimer->start(20000);
-//    });
-//    searchSerialTimer->start(0);
+                serial *s = new serial(serialportinfo);
+                serial::serialList << s;
+                qInfo() << "Serial List: " << serial::serialList;
+            }();
+        searchSerialTimer->start(10000);
+    });
+    searchSerialTimer->start(0);
 
     QTimer *timer = new QTimer(&app);
     QObject::connect(timer, &QTimer::timeout, [=]() {

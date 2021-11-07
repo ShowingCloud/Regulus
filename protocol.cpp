@@ -214,7 +214,7 @@ const msgCntlDist &operator>> (const msgCntlDist &m, QByteArray &data)
                                              << m.holder8 << m.tail;
     msgCntlDist msg = m;
     msg.time = QDateTime::currentDateTime();
-    *globalDB << m;
+    *globalDB << msg;
     return m;
 }
 
@@ -224,6 +224,6 @@ const msgCntlAmp &operator>> (const msgCntlAmp &m, QByteArray &data)
                                              << m.gain << m.deviceId << m.serialId << m.tail;
     msgCntlAmp msg = m;
     msg.time = QDateTime::currentDateTime();
-    *globalDB << m;
+    *globalDB << msg;
     return m;
 }
