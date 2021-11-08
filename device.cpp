@@ -28,7 +28,7 @@ device &operator<< (device &d, const msgFreq &m)
         dev.str = m.origin;
         dev.lastSerial = m.serialport;
 
-        if (Q_UNLIKELY(dev.timedout())) {
+        if (Q_UNLIKELY(dev.timedout()) and not dev.isSlave) {
             dev.lastseen = QDateTime::currentDateTime();
             dev.createCntlMsg();
         } else
