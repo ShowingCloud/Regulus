@@ -20,7 +20,7 @@ serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject
     serialport->setFlowControl(serial::flowcontrol);
 
     thread = new serialThread();
-    thread->serial = this;
+    thread->serialInstance = this;
     serialport->moveToThread(thread);
     thread->serialport = serialport;
     connect(thread, &serialThread::finished, thread, &QThread::deleteLater);
@@ -43,8 +43,8 @@ void serialThread::run()
     connect(timer, &QTimer::timeout, [=]() {
         if (serialport->open(QIODevice::ReadWrite)) {
             qDebug() << "Serial port opened.";
-            connect(serialport, &QSerialPort::readyRead, serial, &serial::readData);
-            connect(serial, &serial::writeSerial, serialport, [=](const QByteArray &data){
+            connect(serialport, &QSerialPort::readyRead, serialInstance, &serial::readData);
+            connect(serialInstance, &serial::writeSerial, serialport, [=](const QByteArray &data){
                 serialport->write(data);
             });
         } else {
