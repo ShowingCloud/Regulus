@@ -79,7 +79,7 @@ class serialThread : public QThread
 
 private:
     QSerialPort *serialport;
-    serial *parent;
+    serial *serial;
 };
 
 #endif // SERIAL_H

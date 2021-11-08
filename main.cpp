@@ -73,5 +73,11 @@ int main(int argc, char *argv[])
     });
     timer->start(0);
 
-    return app.exec();
+    int ret = app.exec();
+    for (serial *s : qAsConst(serial::serialList))
+        delete s;
+    timer->deleteLater();
+    searchSerialTimer->deleteLater();
+    delete globalDB;
+    return ret;
 }

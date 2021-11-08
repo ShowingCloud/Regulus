@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QSerialPortInfo>
 #include <QDebug>
 
 #ifdef QT_DEBUG
@@ -19,7 +20,7 @@ serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject
     serialport->setFlowControl(serial::flowcontrol);
 
     thread = new serialThread();
-    thread->parent = this;
+    thread->serial = this;
     serialport->moveToThread(thread);
     thread->serialport = serialport;
     connect(thread, &serialThread::finished, thread, &QThread::deleteLater);
@@ -37,22 +38,24 @@ serial::serial(const QSerialPortInfo &serialportinfo, QObject *parent) : QObject
 
 void serialThread::run()
 {
-    QTimer *timer = new QTimer(this);
+    QTimer *timer = new QTimer(serialport);
+    timer->setSingleShot(true);
     connect(timer, &QTimer::timeout, [=]() {
         if (serialport->open(QIODevice::ReadWrite)) {
             qDebug() << "Serial port opened.";
-            connect(serialport, &QSerialPort::readyRead, parent, &serial::readData);
-            connect(parent, &serial::writeSerial, serialport, [=](const QByteArray &data){
+            connect(serialport, &QSerialPort::readyRead, serial, &serial::readData);
+            connect(serial, &serial::writeSerial, serialport, [=](const QByteArray &data){
                 serialport->write(data);
             });
-        } else
+        } else {
             qDebug() << "Serial port open failed" << serialport->error();
-
-        timer->start(10000);
+            timer->start(10000);
+        }
     });
     timer->start(0);
 
     exec();
+    timer->deleteLater();
 }
 
 serial::~serial()
