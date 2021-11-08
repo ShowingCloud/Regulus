@@ -28,9 +28,12 @@ device &operator<< (device &d, const msgFreq &m)
         dev.str = m.origin;
         dev.lastSerial = m.serialport;
 
-        if (dev.timedout())
+        if (Q_UNLIKELY(dev.timedout())) {
+            dev.lastseen = QDateTime::currentDateTime();
             dev.createCntlMsg();
-        dev.lastseen = QDateTime::currentDateTime();
+        } else
+            dev.lastseen = QDateTime::currentDateTime();
+
         dev.timerStr = dev.lastseen.toString(Qt::ISODate) + " #" + QString::number(m.serialId);
 
         dev << m;
@@ -46,9 +49,12 @@ device &operator<< (device &d, const msgDist &m)
         dev.str = m.origin;
         dev.lastSerial = m.serialport;
 
-        if (dev.timedout())
+        if (Q_UNLIKELY(dev.timedout())) {
+            dev.lastseen = QDateTime::currentDateTime();
             dev.createCntlMsg();
-        dev.lastseen = QDateTime::currentDateTime();
+        } else
+            dev.lastseen = QDateTime::currentDateTime();
+
         dev.timerStr = dev.lastseen.toString(Qt::ISODate) + " #" + QString::number(m.serialId);
 
         dev << m;
@@ -64,9 +70,12 @@ device &operator<< (device &d, const msgAmp &m)
         dev.str = m.origin;
         dev.lastSerial = m.serialport;
 
-        if (dev.timedout())
+        if (Q_UNLIKELY(dev.timedout())) {
+            dev.lastseen = QDateTime::currentDateTime();
             dev.createCntlMsg();
-        dev.lastseen = QDateTime::currentDateTime();
+        } else
+            dev.lastseen = QDateTime::currentDateTime();
+
         dev.timerStr = dev.lastseen.toString(Qt::ISODate) + " #" + QString::number(m.serialId);
 
         dev << m;
