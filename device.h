@@ -93,11 +93,11 @@ public slots:
 
     inline bool timedout() const {
         return lastseen == QDateTime()
-                or QDateTime::currentDateTime().secsTo(lastseen) <= - alert::timeout;
+                or lastseen.secsTo(QDateTime::currentDateTime()) > alert::timeout;
     }
 
     inline qint64 getLastseen() const {
-        return (lastseen == QDateTime()) ? -1 : - QDateTime::currentDateTime().secsTo(lastseen);
+        return (lastseen == QDateTime()) ? -1 : lastseen.secsTo(QDateTime::currentDateTime());
     }
 
     inline void alertTimeout() const {

@@ -265,7 +265,7 @@ void devFreq::createCntlMsg() const
     msgCntlFreq *q = new msgCntlFreq();
     *this >> *q;
 
-    if (lastSerial and QDateTime::currentDateTime().secsTo(lastseen) > -3) {
+    if (lastSerial and lastseen.secsTo(QDateTime::currentDateTime()) <= 3) {
         qDebug() << "create msg: sending one" << dId;
         *lastSerial << *q;
     } else {
@@ -286,7 +286,7 @@ void devDist::createCntlMsg() const
     msgCntlDist *q = new msgCntlDist();
     *this >> *q;
 
-    if (lastSerial and QDateTime::currentDateTime().secsTo(lastseen) > -3) {
+    if (lastSerial and lastseen.secsTo(QDateTime::currentDateTime()) <= 3) {
         qDebug() << "create msg: sending one" << dId;
         *lastSerial << *q;
     } else {
@@ -307,7 +307,7 @@ void devAmp::createCntlMsg() const
     msgCntlAmp *q = new msgCntlAmp();
     *this >> *q;
 
-    if (lastSerial and QDateTime::currentDateTime().secsTo(lastseen) > -3) {
+    if (lastSerial and lastseen.secsTo(QDateTime::currentDateTime()) <= 3) {
         qDebug() << "create msg: sending one" << dId;
         *lastSerial << *q;
     } else {
@@ -332,7 +332,7 @@ devNet::devNet(QObject *parent)
         params << ipAddr[dId];
 
         QTimer *timer = new QTimer(this);
-        QObject::connect(timer, &QTimer::timeout, this, [=]() {
+        connect(timer, &QTimer::timeout, this, [=]() {
             if (ping) {
                 ping->kill();
                 ping->waitForFinished();

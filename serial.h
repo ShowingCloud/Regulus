@@ -36,7 +36,7 @@ public:
 #endif
 
     inline bool timedout() const {
-        return QDateTime::currentDateTime().secsTo(lastseen) <= - serial::timeout;
+        return lastseen.secsTo(QDateTime::currentDateTime()) > serial::timeout;
     }
 
     inline bool has(const QSerialPortInfo &info) const {
