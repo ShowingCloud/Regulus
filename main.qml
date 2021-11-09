@@ -287,19 +287,13 @@ Window {
         }
 
         Timer {
-            property string colorValue: Alert.MAP_COLOR["OTHERS"]
-
             id: timerSerial1
             interval: Alert.timeout * 1000
             running: true
             repeat: true
 
-            Component.onCompleted: devSerial1.gotData.connect(function() {
-                if (!devSerial1.timedout()) colorValue = Alert.MAP_COLOR["NORMAL"]
-                restart()
-            });
+            Component.onCompleted: devSerial1.gotData.connect(restart)
             onTriggered: {
-                colorValue = devSerial1.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
                 if (devSerial1.timedout()) {
                     devSerial1.alertTimeout()
                     if (indSerial1.active)
@@ -346,19 +340,13 @@ Window {
         }
 
         Timer {
-            property string colorValue: Alert.MAP_COLOR["OTHERS"]
-
             id: timerSerial2
             interval: Alert.timeout * 1000
             running: true
             repeat: true
 
-            Component.onCompleted: devSerial2.gotData.connect(function() {
-                if (!devSerial2.timedout()) colorValue = Alert.MAP_COLOR["NORMAL"]
-                restart()
-            });
+            Component.onCompleted: devSerial2.gotData.connect(restart)
             onTriggered: {
-                colorValue = devSerial2.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
                 if (devSerial2.timedout()) {
                     devSerial2.alertTimeout()
                     if (indSerial2.active)
@@ -405,19 +393,13 @@ Window {
         }
 
         Timer {
-            property string colorValue: Alert.MAP_COLOR["OTHERS"]
-
             id: timerSW
             interval: Alert.timeout * 1000
             running: true
             repeat: true
 
-            Component.onCompleted: devSW.gotData.connect(function() {
-                if (!devSW.timedout()) colorValue = Alert.MAP_COLOR["NORMAL"]
-                restart()
-            });
+            Component.onCompleted: devSW.gotData.connect(restart)
             onTriggered: {
-                colorValue = devSW.timedout() ? Alert.MAP_COLOR["ABNORMAL"] : Alert.MAP_COLOR["NORMAL"]
                 if (devSW.timedout()) {
                     devSW.alertTimeout()
                     if (indSW.active)
