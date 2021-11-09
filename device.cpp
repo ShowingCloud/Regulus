@@ -325,14 +325,16 @@ devNet::devNet(QObject *parent)
     connect(this, &device::idSet, this, [=]() {
         QStringList params;
 #ifdef Q_OS_WIN
-        params << "-n" << "1";
+        params << "-n" << "1" << "-w" << "900";
 #else
-        params << "-c 1";
+        params << "-c" << "1" << "-W" << "0.9";
 #endif
         params << ipAddr[dId];
 
         QTimer *timer = new QTimer(this);
         connect(timer, &QTimer::timeout, this, [=]() {
+            timer->start(1000);
+
             if (ping) {
                 ping->kill();
                 ping->waitForFinished();
@@ -350,7 +352,6 @@ devNet::devNet(QObject *parent)
                     emit gotData();
                 }
             });
-            timer->start(1000);
         });
         timer->start(0);
     });
