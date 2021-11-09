@@ -62,6 +62,8 @@ Dialog {
                 devFreqMaster.holdValue("ch_a", comboMasterRef.index)
                 devFreqMaster.holdValue("ch_b", comboSlaveRef.index)
                 devFreqMaster.holdValue("atten", comboMasterAtten.txtValue)
+                devFreqMaster.setStandby = false
+                devFreqSlave.setStandby = true
                 devFreqMaster.createCntlMsg()
                 devFreqMaster.releaseHold("ch_a")
                 devFreqMaster.releaseHold("ch_b")
@@ -70,6 +72,8 @@ Dialog {
                 devFreqSlave.holdValue("ch_a", comboMasterRef.index)
                 devFreqSlave.holdValue("ch_b", comboSlaveRef.index)
                 devFreqSlave.holdValue("atten", comboSlaveAtten.txtValue)
+                devFreqMaster.setStandby = true
+                devFreqSlave.setStandby = false
                 devFreqSlave.createCntlMsg()
                 devFreqSlave.releaseHold("ch_a")
                 devFreqSlave.releaseHold("ch_b")

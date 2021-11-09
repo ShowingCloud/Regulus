@@ -42,4 +42,4 @@ HEADERS += \
     serial.h \
     device.h
 
-#DEFINES += QT_NO_INFO_OUTPUT
+DEFINES += QT_NO_INFO_OUTPUT

@@ -13,6 +13,8 @@ device::device(const QHash<QString, deviceVar*> var, const QHash<QString, QStrin
 {
     device::push(this);
 
+    connect(this, &device::idSet, [=](){ isSetStandby = getStandby(); });
+
     for (const QString &key : var.keys())
         connect(var[key], &deviceVar::sendAlert, this, [=]
                 (const alert::P_ALERT type, const QVariant value, const QVariant normal_value){
@@ -28,7 +30,7 @@ device &operator<< (device &d, const msgFreq &m)
         dev.str = m.origin;
         dev.lastSerial = m.serialport;
 
-        if (Q_UNLIKELY(dev.timedout()) and not dev.isStandby) {
+        if (Q_UNLIKELY(dev.timedout()) and not dev.isSetStandby) {
             dev.lastseen = QDateTime::currentDateTime();
             dev.createCntlMsg();
         } else
@@ -70,7 +72,7 @@ device &operator<< (device &d, const msgAmp &m)
         dev.str = m.origin;
         dev.lastSerial = m.serialport;
 
-        if (Q_UNLIKELY(dev.timedout())) {
+        if (Q_UNLIKELY(dev.timedout()) and not dev.isSetStandby) {
             dev.lastseen = QDateTime::currentDateTime();
             dev.createCntlMsg();
         } else
@@ -96,12 +98,32 @@ devFreq &operator<< (devFreq &dev, const msgFreq &m)
     dev.var["lock_a2"]->setValue(m.lock_a2);
     dev.var["lock_b1"]->setValue(m.lock_b1);
     dev.var["lock_b2"]->setValue(m.lock_b2);
-    dev.var["ref_10_1"]->setValue(m.ref_10_1);
-    dev.var["ref_10_2"]->setValue(m.ref_10_2);
-    dev.var["ref_10_3"]->setValue(m.ref_10_3);
-    dev.var["ref_10_4"]->setValue(m.ref_10_4);
-    dev.var["ref_inner_1"]->setValue(m.ref_inner_1);
-    dev.var["ref_inner_2"]->setValue(m.ref_inner_2);
+
+    if (m.ref_10_1 == alert::P_NOR_NORMAL and m.ref_select_master != 0x00)
+        dev.var["ref_10_1"]->setValue(alert::P_NOR_STANDBY);
+    else
+        dev.var["ref_10_1"]->setValue(m.ref_10_1);
+    if (m.ref_10_2 == alert::P_NOR_NORMAL and m.ref_select_master != 0x01)
+        dev.var["ref_10_2"]->setValue(alert::P_NOR_STANDBY);
+    else
+        dev.var["ref_10_2"]->setValue(m.ref_10_2);
+    if (m.ref_10_3 == alert::P_NOR_NORMAL and m.ref_select_slave != 0x00)
+        dev.var["ref_10_3"]->setValue(alert::P_NOR_STANDBY);
+    else
+        dev.var["ref_10_3"]->setValue(m.ref_10_3);
+    if (m.ref_10_4 == alert::P_NOR_NORMAL and m.ref_select_slave != 0x01)
+        dev.var["ref_10_4"]->setValue(alert::P_NOR_STANDBY);
+    else
+        dev.var["ref_10_4"]->setValue(m.ref_10_4);
+    if (m.ref_inner_1 == alert::P_NOR_NORMAL and m.ref_select_master != 0x02)
+        dev.var["ref_inner_1"]->setValue(alert::P_NOR_STANDBY);
+    else
+        dev.var["ref_inner_1"]->setValue(m.ref_inner_1);
+    if (m.ref_inner_2 == alert::P_NOR_NORMAL and m.ref_select_slave != 0x02)
+        dev.var["ref_inner_2"]->setValue(alert::P_NOR_STANDBY);
+    else
+        dev.var["ref_inner_2"]->setValue(m.ref_inner_2);
+
     dev.var["handshake"]->setValue(m.handshake);
 
     if (m.masterslave == static_cast<int>(dev.isSlave)) {
@@ -244,10 +266,10 @@ void devFreq::createCntlMsg() const
     *this >> *q;
 
     if (lastSerial and QDateTime::currentDateTime().secsTo(lastseen) > -3) {
-        qDebug() << "create msg: sending one";
+        qDebug() << "create msg: sending one" << dId;
         *lastSerial << *q;
     } else {
-        qDebug() << "create msg: sending all";
+        qDebug() << "create msg: sending all" << dId;
         for (serial *s : qAsConst(serial::serialList))
             *s << *q;
     }
@@ -265,10 +287,10 @@ void devDist::createCntlMsg() const
     *this >> *q;
 
     if (lastSerial and QDateTime::currentDateTime().secsTo(lastseen) > -3) {
-        qDebug() << "create msg: sending one";
+        qDebug() << "create msg: sending one" << dId;
         *lastSerial << *q;
     } else {
-        qDebug() << "create msg: sending all";
+        qDebug() << "create msg: sending all" << dId;
         for (serial *s : qAsConst(serial::serialList))
             *s << *q;
     }
@@ -286,10 +308,10 @@ void devAmp::createCntlMsg() const
     *this >> *q;
 
     if (lastSerial and QDateTime::currentDateTime().secsTo(lastseen) > -3) {
-        qDebug() << "create msg: sending one";
+        qDebug() << "create msg: sending one" << dId;
         *lastSerial << *q;
     } else {
-        qDebug() << "create msg: sending all";
+        qDebug() << "create msg: sending all" << dId;
         for (serial *s : qAsConst(serial::serialList))
             *s << *q;
     }
@@ -323,7 +345,6 @@ devNet::devNet(QObject *parent)
                     this, [=](int exitCode, QProcess::ExitStatus exitStatus){
 
                 Q_UNUSED(exitStatus)
-                qDebug() << "ping: " << exitCode << ping->readAllStandardOutput();
                 if (exitCode == 0) {
                     lastseen = QDateTime::currentDateTime();
                     emit gotData();

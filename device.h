@@ -26,16 +26,18 @@ class serial;
 class device : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int          dId         MEMBER  dId      NOTIFY idSet)
-    Q_PROPERTY(QString      name        READ    name     NOTIFY idSet)
-    Q_PROPERTY(QString      str         MEMBER  str      NOTIFY gotData)
-    Q_PROPERTY(QDateTime    lastseen    MEMBER  lastseen NOTIFY gotData)
-    Q_PROPERTY(QString      timerStr    MEMBER  timerStr NOTIFY gotData)
+    Q_PROPERTY(int          dId         MEMBER  dId             NOTIFY  idSet)
+    Q_PROPERTY(QString      name        READ    name            NOTIFY  idSet)
+    Q_PROPERTY(QString      str         MEMBER  str             NOTIFY  gotData)
+    Q_PROPERTY(QDateTime    lastseen    MEMBER  lastseen        NOTIFY  gotData)
+    Q_PROPERTY(QString      timerStr    MEMBER  timerStr        NOTIFY  gotData)
     Q_PROPERTY(bool         isSlave     MEMBER  isSlave)
+    Q_PROPERTY(bool         setStandby  MEMBER  isSetStandby    WRITE   setStandby)
 
 public:
     explicit device(const QHash<QString, deviceVar *> var, const QHash<QString, QString> str_var,
                     const database::DB_TBL devTable, const QStringList prefStr, QObject *parent = nullptr);
+    /* getStandby in definition */
 
     friend device &operator<< (device &dev, const msgFreq &m);
     friend device &operator<< (device &dev, const msgDist &m);
@@ -179,6 +181,15 @@ public slots:
         return var[itemName]->type;
     }
 
+    inline void setStandby(bool standby) {
+        isSetStandby = standby;
+        setDBStandby(*globalDB, *this);
+    }
+
+    inline bool getStandby() {
+        return getDBStandby(*globalDB, *this);
+    }
+
 protected:
     static const inline QHash<int, QList<std::string>> idName = {
         {0x04, {"C1 ", QT_TR_NOOP("Down Frequency Conversion")}},
@@ -205,7 +216,7 @@ protected:
     const QHash<QString, QString> STR_VAR;
     const int devTable = 0;
     const QStringList prefStr;
-    bool isSlave = false, isStandby = false;
+    bool isSlave = false, isStandby = false, isSetStandby = false;
     serial *lastSerial = nullptr;
     QDateTime lastseen = QDateTime();
     QString timerStr = tr("No data");
@@ -225,6 +236,18 @@ private:
 
     inline static void push(device *dev) {
         device::deviceList << dev;
+    }
+
+    friend inline void setDBStandby (database &db, const device &dev) {
+        db.setPreferences(dev.dId, "standby", dev.isSetStandby);
+    }
+
+    friend bool getDBStandby (const database &db, device &dev) {
+        QHash<QString, QVariant> data = db.getPreferences(dev.dId);
+        if (data.contains("standby"))
+            return data["standby"].toBool();
+        else
+            return false;
     }
 };
 
@@ -280,8 +303,8 @@ public:
     {"atten", "ch_a", "ch_b"}, parent) { connect(this, &device::idSet, [=](){ *globalDB >> *this; }); }
 
     friend devFreq &operator<< (devFreq &dev, const msgFreq &m);
-    template <class T> friend database &operator<< (database &db, const T &dev);
     friend const devFreq &operator>> (const devFreq &dev, msgCntlFreq &m);
+    template <class T> friend database &operator<< (database &db, const T &dev);
     template <class T> friend const database &operator>> (const database &db, T &dev);
 
 public slots:
@@ -321,8 +344,8 @@ public:
     {"ref_10", "ref_16"}, parent) { connect(this, &device::idSet, [=](){ *globalDB >> *this; }); }
 
     friend devDist &operator<< (devDist &dev, const msgDist &m);
-    template <class T> friend database &operator<< (database &db, const T &dev);
     friend const devDist &operator>> (const devDist &dev, msgCntlDist &m);
+    template <class T> friend database &operator<< (database &db, const T &dev);
     template <class T> friend const database &operator>> (const database &db, T &dev);
 
 public slots:
@@ -374,8 +397,8 @@ public:
     {"atten_mode", "atten", "power", "gain"}, parent) { connect(this, &device::idSet, [=](){ *globalDB >> *this; }); }
 
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
-    template <class T> friend database &operator<< (database &db, const T &dev);
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
+    template <class T> friend database &operator<< (database &db, const T &dev);
     template <class T> friend const database &operator>> (const database &db, T &dev);
 
 public slots:

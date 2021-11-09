@@ -41,6 +41,8 @@ public:
     template <class T> friend database &operator<< (database &db, const T &dev);
     template <class T> friend const database &operator>> (const database &db, T &dev);
     friend const database &operator>> (const database &db, QList<QStringList> &str);
+    friend void setDBStandby (database &db, const device &dev);
+    friend bool getDBStandby (const database &db, device &dev);
 
     enum DB_TBL { DB_TBL_AMP_DATA, DB_TBL_AMP_ALERT, DB_TBL_AMP_OPER,
                   DB_TBL_FREQ_DATA, DB_TBL_FREQ_ALERT, DB_TBL_FREQ_OPER,

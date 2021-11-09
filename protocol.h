@@ -101,7 +101,9 @@ private:
     quint8 lock_a2 = quint8();
     quint8 lock_b1 = quint8();
     quint8 lock_b2 = quint8();
+    quint8 ref_1 = quint8();
     quint8 ref_2 = quint8();
+    quint8 ref_3 = quint8();
     quint8 ref_4 = quint8();
     quint8 ref_10_1 = quint8();
     quint8 ref_10_2 = quint8();
@@ -109,6 +111,8 @@ private:
     quint8 ref_10_4 = quint8();
     quint8 ref_inner_1 = quint8();
     quint8 ref_inner_2 = quint8();
+    quint8 ref_select_master = quint8();
+    quint8 ref_select_slave = quint8();
     quint8 handshake = quint8();
     quint8 masterslave = quint8();
 };

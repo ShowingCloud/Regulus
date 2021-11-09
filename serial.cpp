@@ -1,5 +1,4 @@
 #include <QApplication>
-#include <QSerialPortInfo>
 #include <QDebug>
 
 #ifdef QT_DEBUG
@@ -110,7 +109,7 @@ serial &operator<< (serial &s, const msgQuery &m)
 
     const char sn = static_cast<char>(s.serialno++);
     data.replace(msgQuery::posSerial, 1, &sn, 1);
-    //qInfo() << "Serial writing data <msgQuery>: " << data.length() << data.toHex();
+    qInfo() << "Serial writing data <msgQuery>: " << data.length() << data.toHex();
     s.writeData(data);
     return s;
 }
