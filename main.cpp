@@ -47,7 +47,9 @@ int main(int argc, char *argv[])
 
     QTimer *searchSerialTimer = new QTimer(&app);
     QObject::connect(searchSerialTimer, &QTimer::timeout, &app, [&]() {
+        searchSerialTimer->start(10000);
         qInfo() << "Traversing serial ports";
+
         for (const auto &serialportinfo : QSerialPortInfo::availablePorts())
             [&]() {
                 for (serial *inlist : qAsConst(serial::serialList))
@@ -58,18 +60,18 @@ int main(int argc, char *argv[])
                 serial::serialList << s;
                 qInfo() << "Serial List: " << serial::serialList;
             }();
-        searchSerialTimer->start(10000);
     });
     searchSerialTimer->start(0);
 
     QTimer *timer = new QTimer(&app);
     QObject::connect(timer, &QTimer::timeout, [=]() {
+        timer->start(1000);
+
         for (serial *s : qAsConst(serial::serialList))
             protocol::createQueryMsg(*s);
 #ifdef QT_DEBUG
         serial::readFakeData();
 #endif
-        timer->start(1000);
     });
     timer->start(0);
 

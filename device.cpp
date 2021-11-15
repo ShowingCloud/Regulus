@@ -325,17 +325,19 @@ void devAmp::createCntlMsg() const
 devNet::devNet(QObject *parent)
         : device({}, {}, database::DB_TBL_NET_ALERT, {}, parent)
 {
-    connect(this, &device::idSet, this, [=]() {
+    connect(this, &device::idSet, [=]() {
         QStringList params;
 #ifdef Q_OS_WIN
-        params << "-n" << "1";
+        params << "-n" << "1" << "-w" << "900";
 #else
-        params << "-c 1";
+        params << "-c" << "1" << "-W" << "0.9";
 #endif
         params << ipAddr[dId];
 
         QTimer *timer = new QTimer(this);
         connect(timer, &QTimer::timeout, this, [=]() {
+            timer->start(1000);
+
             if (ping) {
                 ping->kill();
                 ping->waitForFinished();
@@ -345,15 +347,17 @@ devNet::devNet(QObject *parent)
             ping->start("ping", params);
 
             connect(ping, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-                    this, [=](int exitCode, QProcess::ExitStatus exitStatus){
-
+                    [=](int exitCode, QProcess::ExitStatus exitStatus){
                 Q_UNUSED(exitStatus)
+#ifdef Q_OS_WIN
+                if (exitCode == 0 and ping->readAllStandardOutput().contains("TTL=")) {
+#else
                 if (exitCode == 0) {
+#endif
                     lastseen = QDateTime::currentDateTime();
                     emit gotData();
                 }
             });
-            timer->start(1000);
         });
         timer->start(0);
     });
