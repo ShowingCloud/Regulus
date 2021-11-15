@@ -67,6 +67,8 @@ Dialog {
                 devAmpMaster.holdValue("atten", comboMasterAtten.txtValue)
                 devAmpMaster.holdValue("output_power", comboMasterPower.txtValue)
                 devAmpMaster.holdValue("gain", comboMasterGain.txtValue)
+                devAmpMaster.setStandby = true
+                devAmpSlave.setStandby = false
                 devAmpMaster.createCntlMsg()
                 devAmpMaster.releaseHold("atten_mode")
                 devAmpMaster.releaseHold("atten")
@@ -77,6 +79,8 @@ Dialog {
                 devAmpSlave.holdValue("atten", comboSlaveAtten.txtValue)
                 devAmpSlave.holdValue("output_power", comboSlavePower.txtValue)
                 devAmpSlave.holdValue("gain", comboSlaveGain.txtValue)
+                devAmpMaster.setStandby = false
+                devAmpSlave.setStandby = true
                 devAmpSlave.createCntlMsg()
                 devAmpSlave.releaseHold("atten_mode")
                 devAmpSlave.releaseHold("atten")
