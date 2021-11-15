@@ -73,7 +73,10 @@ Window {
         onClicked: {
             setAmp.devAmpMaster = devAmpMaster
             setAmp.devAmpSlave = devAmpSlave
-            setAmp.valueChannel = devAmpMaster.getValue("masterslave")
+            if (devAmpMaster.getValue("masterslave") === Alert.P_NOR_NORMAL)
+                setAmp.valueChannel = Alert.P_MS_MASTER
+            else
+                setAmp.valueChannel = Alert.P_MS_SLAVE
             setAmp.valueMasterAttenMode = comboMasterAttenMode.index
             setAmp.valueMasterAtten = comboMasterAtten.txtValue
             setAmp.valueMasterPower = comboMasterPower.txtValue
@@ -126,13 +129,13 @@ Window {
             id: comboMasterPower
             posTop: 0
             posLeft: (rectMaster.width - defaultMarginWidget) / 4
-            txtText: devAmpMaster ? devAmpMaster.varName("power") : qsTr("Power")
-            txtSuffix: " mW"
+            txtText: devAmpMaster ? devAmpMaster.varName("output_power") : qsTr("Output Power")
+            txtSuffix: " dBm"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    txtValue = devAmpMaster.showDisplay("power")
-                    colorValue = devAmpMaster.showColor("power")
+                    txtValue = devAmpMaster.showDisplay("output_power")
+                    colorValue = devAmpMaster.showColor("output_power")
                 })
             }
         }
@@ -142,7 +145,7 @@ Window {
             posTop: 0
             posLeft: (rectMaster.width - defaultMarginWidget) / 2
             txtText: devAmpMaster ? devAmpMaster.varName("gain") : qsTr("Gain")
-            txtSuffix: " dB"
+            txtSuffix: " dBm"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -170,14 +173,14 @@ Window {
             id: comboMasterLoss
             posTop: comboMasterAtten.posBottom
             posLeft: 0
-            txtText: devAmpMaster ? devAmpMaster.varName("loss") : qsTr("Return Loss")
+            txtText: devAmpMaster ? devAmpMaster.varName("input_power") : qsTr("Input Power")
             txtPrefix: "-"
-            txtSuffix: " dB"
+            txtSuffix: " dBm"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    txtValue = devAmpMaster.showDisplay("loss")
-                    colorValue = devAmpMaster.showColor("loss")
+                    txtValue = devAmpMaster.showDisplay("input_power")
+                    colorValue = devAmpMaster.showColor("input_power")
                 })
             }
         }
@@ -346,13 +349,13 @@ Window {
             id: comboSlavePower
             posTop: 0
             posLeft: (rectSlave.width - defaultMarginWidget) / 4
-            txtText: devAmpSlave ? devAmpSlave.varName("power") : qsTr("Power")
+            txtText: devAmpSlave ? devAmpSlave.varName("output_power") : qsTr("Output Power")
             txtSuffix: " mW"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    txtValue = devAmpSlave.showDisplay("power")
-                    colorValue = devAmpSlave.showColor("power")
+                    txtValue = devAmpSlave.showDisplay("output_power")
+                    colorValue = devAmpSlave.showColor("output_power")
                 })
             }
         }
@@ -390,14 +393,14 @@ Window {
             id: comboSlaveLoss
             posTop: comboSlaveAtten.posBottom
             posLeft: 0
-            txtText: devAmpSlave ? devAmpSlave.varName("loss") : qsTr("Return Loss")
+            txtText: devAmpSlave ? devAmpSlave.varName("input_power") : qsTr("Input Power")
             txtPrefix: "-"
             txtSuffix: " dB"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    txtValue = devAmpSlave.showDisplay("loss")
-                    colorValue = devAmpSlave.showColor("loss")
+                    txtValue = devAmpSlave.showDisplay("input_power")
+                    colorValue = devAmpSlave.showColor("input_power")
                 })
             }
         }

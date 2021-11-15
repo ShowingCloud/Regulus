@@ -157,10 +157,10 @@ public:
     inline const static int posSerial = 17;
 
 private:
-    quint16 power = quint16();
+    quint16 output_power = quint16();
     quint16 gain = quint16();
     quint16 atten = quint16();
-    quint16 loss = quint16();
+    quint16 input_power = quint16();
     quint16 temp = quint16();
     quint16 stat = quint16();
     quint8 stat_stand_wave = quint8();
@@ -170,6 +170,7 @@ private:
     quint8 stat_power = quint8();
     quint16 load_temp = quint16();
     quint8 handshake = quint8();
+    quint8 isactive = quint8();
 };
 
 class msgQuery : public msgDownlink
@@ -206,7 +207,7 @@ public:
 private:
     quint8 atten_mode = quint8();
     quint8 atten = quint8();
-    quint16 power = quint16();
+    quint16 output_power = quint16();
     quint16 gain = quint16();
 };
 

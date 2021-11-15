@@ -65,22 +65,22 @@ Dialog {
             if (channelMaster) {
                 devAmpMaster.holdValue("atten_mode", comboMasterAttenMode.index)
                 devAmpMaster.holdValue("atten", comboMasterAtten.txtValue)
-                devAmpMaster.holdValue("power", comboMasterPower.txtValue)
+                devAmpMaster.holdValue("output_power", comboMasterPower.txtValue)
                 devAmpMaster.holdValue("gain", comboMasterGain.txtValue)
                 devAmpMaster.createCntlMsg()
                 devAmpMaster.releaseHold("atten_mode")
                 devAmpMaster.releaseHold("atten")
-                devAmpMaster.releaseHold("power")
+                devAmpMaster.releaseHold("output_power")
                 devAmpMaster.releaseHold("gain")
             } else {
                 devAmpSlave.holdValue("atten_mode", comboSlaveAttenMode.index)
                 devAmpSlave.holdValue("atten", comboSlaveAtten.txtValue)
-                devAmpSlave.holdValue("power", comboSlavePower.txtValue)
+                devAmpSlave.holdValue("output_power", comboSlavePower.txtValue)
                 devAmpSlave.holdValue("gain", comboSlaveGain.txtValue)
                 devAmpSlave.createCntlMsg()
                 devAmpSlave.releaseHold("atten_mode")
                 devAmpSlave.releaseHold("atten")
-                devAmpSlave.releaseHold("power")
+                devAmpSlave.releaseHold("output_power")
                 devAmpSlave.releaseHold("gain")
             }
         }
@@ -162,8 +162,8 @@ Dialog {
             widthWidgetLabel: extendedWidthWidgetLabel
             widthWidget: defaultWidthWidget
             widthPrefixSuffix: defaultWidthPrefixSuffix
-            txtSuffix: "mW"
-            txtText: qsTr("Master") + ": " + (devAmpMaster ? devAmpMaster.varName("power") : qsTr("Power"))
+            txtSuffix: "dBm"
+            txtText: qsTr("Master") + ": " + (devAmpMaster ? devAmpMaster.varName("output_power") : qsTr("Output Power"))
         }
 
         ComboTextField {
@@ -173,7 +173,7 @@ Dialog {
             widthWidgetLabel: extendedWidthWidgetLabel
             widthWidget: defaultWidthWidget
             widthPrefixSuffix: defaultWidthPrefixSuffix
-            txtSuffix: "dB"
+            txtSuffix: "dBm"
             txtText: qsTr("Master") + ": " + (devAmpMaster ? devAmpMaster.varName("gain") : qsTr("Gain"))
         }
 
@@ -225,8 +225,8 @@ Dialog {
             widthWidgetLabel: extendedWidthWidgetLabel
             widthWidget: defaultWidthWidget
             widthPrefixSuffix: defaultWidthPrefixSuffix
-            txtSuffix: "mW"
-            txtText: qsTr("Slave") + ": " + (devAmpSlave ? devAmpSlave.varName("power") : qsTr("Power"))
+            txtSuffix: "dBm"
+            txtText: qsTr("Slave") + ": " + (devAmpSlave ? devAmpSlave.varName("output_power") : qsTr("Output Power"))
         }
 
         ComboTextField {
@@ -236,7 +236,7 @@ Dialog {
             widthWidgetLabel: extendedWidthWidgetLabel
             widthWidget: defaultWidthWidget
             widthPrefixSuffix: defaultWidthPrefixSuffix
-            txtSuffix: "dB"
+            txtSuffix: "dBm"
             txtText: qsTr("Slave") + ": " + (devAmpSlave ? devAmpSlave.varName("gain") : qsTr("Gain"))
         }
 

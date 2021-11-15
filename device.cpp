@@ -155,10 +155,10 @@ devDist &operator<< (devDist &dev, const msgDist &m)
 
 devAmp &operator<< (devAmp &dev, const msgAmp &m)
 {
-    dev.var["power"]->setValue(m.power);
+    dev.var["output_power"]->setValue(m.output_power);
     dev.var["gain"]->setValue(m.gain);
     dev.var["atten"]->setValue(m.atten);
-    dev.var["loss"]->setValue(m.loss);
+    dev.var["input_power"]->setValue(m.input_power);
     dev.var["amp_temp"]->setValue(m.temp);
     dev.var["load_temp"]->setValue(m.load_temp);
     dev.var["s_stand_wave"]->setValue(m.stat_stand_wave);
@@ -167,6 +167,9 @@ devAmp &operator<< (devAmp &dev, const msgAmp &m)
     dev.var["s_voltage"]->setValue(m.stat_voltage);
     dev.var["s_power"]->setValue(m.stat_power);
     dev.var["handshake"]->setValue(m.handshake);
+
+    dev.var["masterslave"]->setValue(m.isactive == 0 ? alert::P_NOR_STANDBY : alert::P_NOR_NORMAL);
+    dev.isStandby = (m.isactive == 0);
 
     emit dev.gotData();
     return dev;
@@ -195,7 +198,7 @@ const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m)
 {
     m.atten_mode = static_cast<quint8>(dev.var["atten_mode"]->getValue());
     m.atten = static_cast<quint8>(dev.var["atten"]->getValue());
-    m.power = static_cast<quint16>(dev.var["power"]->getValue());
+    m.output_power = static_cast<quint16>(dev.var["output_power"]->getValue());
     m.gain = static_cast<quint16>(dev.var["gain"]->getValue());
 
     m.setDeviceId(static_cast<quint8>(dev.dId));
@@ -239,8 +242,8 @@ const QString devAmp::showIndicatorColor() const
     if (timedout())
         return alert::STR_COLOR[alert::P_COLOR_ABNORMAL];
     else
-        if (stateGood("power") and stateGood("gain") and stateGood("atten")
-                and stateGood("loss") and stateGood("amp_temp") and stateGood("load_temp")
+        if (stateGood("output_power") and stateGood("gain") and stateGood("atten")
+                and stateGood("input_power") and stateGood("amp_temp") and stateGood("load_temp")
                 and stateGood("s_stand_wave") and stateGood("s_temp") and stateGood("s_current")
                 and stateGood("s_voltage") and stateGood("s_power") and stateGood("handshake"))
             return alert::STR_COLOR[alert::P_COLOR_NORMAL];

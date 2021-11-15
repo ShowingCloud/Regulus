@@ -30,6 +30,9 @@ const QVariant alert::setValue(const QVariant val, const P_ENUM e)
         break;
     case P_ENUM_DECUPLE:
     case P_ENUM_DECUPLE_DOUBLE:
+    case P_ENUM_GAIN:
+    case P_ENUM_INPUT_POWER:
+    case P_ENUM_OUTPUT_POWER:
         ret = val.value<int>() / 10.0;
         break;
     case P_ENUM_OTHERS:
@@ -134,6 +137,39 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
             alert::prepareAlert(P_ALERT_GOOD, val, parent);
             return P_NOR_NORMAL;
         }
+    case P_ENUM_GAIN:
+        if (val.value<double>() > 70) {
+            alert::prepareAlert(P_ALERT_UPPER, val, 70, parent);
+            return P_NOR_ABNORMAL;
+        } else if (val.value<double>() < 48) {
+            alert::prepareAlert(P_ALERT_LOWER, val, 48, parent);
+            return P_NOR_ABNORMAL;
+        } else {
+            alert::prepareAlert(P_ALERT_GOOD, val, parent);
+            return P_NOR_NORMAL;
+        }
+    case P_ENUM_INPUT_POWER:
+        if (val.value<double>() > 25) {
+            alert::prepareAlert(P_ALERT_UPPER, val, 25, parent);
+            return P_NOR_ABNORMAL;
+        } else if (val.value<double>() < 13) {
+            alert::prepareAlert(P_ALERT_LOWER, val, 13, parent);
+            return P_NOR_ABNORMAL;
+        } else {
+            alert::prepareAlert(P_ALERT_GOOD, val, parent);
+            return P_NOR_NORMAL;
+        }
+    case P_ENUM_OUTPUT_POWER:
+        if (val.value<double>() > 58.7) {
+            alert::prepareAlert(P_ALERT_UPPER, val, 58.7, parent);
+            return P_NOR_ABNORMAL;
+        } else if (val.value<double>() < 36.7) {
+            alert::prepareAlert(P_ALERT_LOWER, val, 36.7, parent);
+            return P_NOR_ABNORMAL;
+        } else {
+            alert::prepareAlert(P_ALERT_GOOD, val, parent);
+            return P_NOR_NORMAL;
+        }
     case P_ENUM_OTHERS:
         Q_UNREACHABLE();
         return P_NOR_ABNORMAL;
@@ -198,6 +234,9 @@ const QString alert::setDisplay(const QVariant val, const P_ENUM e)
     case P_ENUM_FLOAT:
     case P_ENUM_DECUPLE:
     case P_ENUM_DECUPLE_DOUBLE:
+    case P_ENUM_GAIN:
+    case P_ENUM_INPUT_POWER:
+    case P_ENUM_OUTPUT_POWER:
         v = QString::number(val.value<double>());
         break;
     }
@@ -253,6 +292,9 @@ deviceVar::deviceVar(const alert::P_ENUM type, QObject *parent) : QObject(parent
     case alert::P_ENUM_VOLTAGE:
     case alert::P_ENUM_DECUPLE:
     case alert::P_ENUM_DECUPLE_DOUBLE:
+    case alert::P_ENUM_GAIN:
+    case alert::P_ENUM_INPUT_POWER:
+    case alert::P_ENUM_OUTPUT_POWER:
         value = alert::setValue(0, type);
         display = alert::setDisplay(value, type);
         return;
@@ -300,9 +342,12 @@ int deviceVar::getValue() const
         return ret->value<int>();
     case alert::P_ENUM_FLOAT:
     case alert::P_ENUM_DECUPLE_DOUBLE:
-        return static_cast<int>(ret->value<float>() * 2);
+        return static_cast<int>(ret->value<double>() * 2);
     case alert::P_ENUM_DECUPLE:
-        return static_cast<int>(ret->value<float>() * 10);
+    case alert::P_ENUM_GAIN:
+    case alert::P_ENUM_INPUT_POWER:
+    case alert::P_ENUM_OUTPUT_POWER:
+        return static_cast<int>(ret->value<double>() * 10);
     case alert::P_ENUM_OTHERS:
         return -1;
     }

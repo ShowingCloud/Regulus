@@ -91,7 +91,11 @@ void serial::readFakeData()
     buffer = data;
     msg::validateProtocol(buffer, data, nullptr);
 
-    data = QByteArray::fromHex("ff00010202030301040105060601070E001701aa");
+    data = QByteArray::fromHex("ff" + QString::number(rand() % 10000 * 10000 + rand() % 10000).rightJustified(8, '0').toUtf8() + "030300F40105060601070E011700aa");
+    buffer = data;
+    msg::validateProtocol(buffer, data, nullptr);
+
+    data = QByteArray::fromHex("ff00010202" + QString::number(rand() % 10000 * 10000 + rand() % 10000).rightJustified(8, '0').toUtf8() + "0105060601070F001701aa");
     buffer = data;
     msg::validateProtocol(buffer, data, nullptr);
 }

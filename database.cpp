@@ -202,10 +202,10 @@ database &operator<< (database &db, const msgAmp &msg)
     QSqlRecord r = db.historyModel->record();
     r.setValue("Device", msg.deviceId);
     r.setValue("Time", msg.time);
-    r.setValue("Power", msg.power);
+    r.setValue("Output_Power", msg.output_power);
     r.setValue("Gain", msg.gain);
     r.setValue("Attenuation", msg.atten);
-    r.setValue("Loss", msg.loss);
+    r.setValue("Input_Power", msg.input_power);
     r.setValue("Temperature", msg.temp);
     r.setValue("Stat_Stand_Wave", msg.stat_stand_wave);
     r.setValue("Stat_Temperature", msg.stat_temp);
@@ -259,7 +259,7 @@ database &operator<< (database &db, const msgCntlAmp &msg)
     r.setValue("Device", msg.deviceId);
     r.setValue("Time", msg.time);
     r.setValue("Attenuation_Mode", msg.atten);
-    r.setValue("Power", msg.power);
+    r.setValue("Output_Power", msg.output_power);
     r.setValue("Gain", msg.gain);
     r.setValue("Serial_Id", msg.serialId);
     if (!db.historyModel->insertRecord(-1, r))

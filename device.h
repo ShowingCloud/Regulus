@@ -364,10 +364,10 @@ class devAmp : public device
 
 public:
     explicit devAmp(device *parent = nullptr) : device({
-        {"power",           new deviceVar(alert::P_ENUM_DECUPLE)},
-        {"gain",            new deviceVar(alert::P_ENUM_DECUPLE)},
+        {"output_power",    new deviceVar(alert::P_ENUM_OUTPUT_POWER)},
+        {"input_power",     new deviceVar(alert::P_ENUM_INPUT_POWER)},
+        {"gain",            new deviceVar(alert::P_ENUM_GAIN)},
         {"atten",           new deviceVar(alert::P_ENUM_DECUPLE_DOUBLE)},
-        {"loss",            new deviceVar(alert::P_ENUM_DECUPLE)},
         {"amp_temp",        new deviceVar(alert::P_ENUM_INT)},
         {"s_stand_wave",    new deviceVar(alert::P_ENUM_STAT)},
         {"s_temp",          new deviceVar(alert::P_ENUM_STAT)},
@@ -379,10 +379,10 @@ public:
         {"atten_mode",      new deviceVar(alert::P_ENUM_ATTEN)},
         {"masterslave",     new deviceVar(alert::P_ENUM_NOR)}
     }, {
-        {"power",           tr("Power")},
+        {"output_power",    tr("Output Power")},
+        {"input_power",     tr("Input Power")},
         {"gain",            tr("Gain")},
         {"atten",           tr("Attenuation")},
-        {"loss",            tr("Return Loss")},
         {"amp_temp",        tr("Amplifier Temperature")},
         {"s_stand_wave",    tr("Stand Wave")},
         {"s_temp",          tr("Temperature")},
@@ -394,7 +394,7 @@ public:
         {"atten_mode",      tr("Attenuation Mode")},
         {"masterslave",     tr("Current State")}
     }, database::DB_TBL_AMP_ALERT,
-    {"atten_mode", "atten", "power", "gain"}, parent) { connect(this, &device::idSet, [=](){ *globalDB >> *this; }); }
+    {"atten_mode", "atten", "output_power", "gain"}, parent) { connect(this, &device::idSet, [=](){ *globalDB >> *this; }); }
 
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
