@@ -49,6 +49,47 @@ Item {
             }
         }
 
+        Text {
+            id: txtMasterOutputPower
+            x: 60
+            anchors.top: masterInd.top
+            width: 150
+            height: masterInd.height
+            text: devAmpMaster.showDisplay("output_power") + " dBm"
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+            horizontalAlignment: Text.AlignLeft
+            font.pixelSize: defaultLabelFontSize
+
+            Component.onCompleted: {
+                devAmpMaster.gotData.connect(function() {
+                    text = devAmpMaster.showDisplay("output_power") + " dBm"
+                    color = devAmpMaster.showColor("output_power", false)
+                })
+            }
+        }
+
+
+        Text {
+            id: txtSlaveOutputPower
+            x: 60
+            anchors.top: slaveInd.top
+            width: 150
+            height: slaveInd.height
+            text: devAmpSlave.showDisplay("output_power") + " dBm"
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+            horizontalAlignment: Text.AlignLeft
+            font.pixelSize: defaultLabelFontSize
+
+            Component.onCompleted: {
+                devAmpSlave.gotData.connect(function() {
+                    text = devAmpSlave.showDisplay("output_power") + " dBm"
+                    color = devAmpSlave.showColor("output_power", false)
+                })
+            }
+        }
+
         StatusIndicator {
             id: masterInd
             anchors.right: rectDev.right
