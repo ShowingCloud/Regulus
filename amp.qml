@@ -73,14 +73,20 @@ Window {
         onClicked: {
             setAmp.devAmpMaster = devAmpMaster
             setAmp.devAmpSlave = devAmpSlave
+
             if (devAmpMaster.getValue("masterslave") === Alert.P_NOR_NORMAL)
                 setAmp.valueChannel = Alert.P_MS_MASTER
             else
                 setAmp.valueChannel = Alert.P_MS_SLAVE
+
+            setAmp.valueMasterRemote = comboMasterRemote.index
+            setAmp.valueMasterRadio = comboMasterRadio.index
             setAmp.valueMasterAttenMode = comboMasterAttenMode.index
             setAmp.valueMasterAtten = comboMasterAtten.txtValue
             setAmp.valueMasterPower = comboMasterPower.txtValue
             setAmp.valueMasterGain = comboMasterGain.txtValue
+            setAmp.valueSlaveRemote = comboSlaveRemote.index
+            setAmp.valueSlaveRadio = comboSlaveRadio.index
             setAmp.valueSlaveAttenMode = comboSlaveAttenMode.index
             setAmp.valueSlaveAtten = comboSlaveAtten.txtValue
             setAmp.valueSlavePower = comboSlavePower.txtValue
@@ -106,6 +112,7 @@ Window {
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
+                    index = devAmpMaster.getValue("remote")
                     txtValue = devAmpMaster.showDisplay("remote")
                     colorValue = devAmpMaster.showColor("remote")
                 })
@@ -120,6 +127,7 @@ Window {
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
+                    index = devAmpMaster.getValue("radio")
                     txtValue = devAmpMaster.showDisplay("radio")
                     colorValue = devAmpMaster.showColor("radio")
                 })
@@ -148,6 +156,7 @@ Window {
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
+                    index = devAmpMaster.getValue("atten_mode")
                     txtValue = devAmpMaster.showDisplay("atten_mode")
                     colorValue = devAmpMaster.showColor("atten_mode")
                 })
@@ -355,6 +364,7 @@ Window {
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
+                    index = devAmpSlave.getValue("remote")
                     txtValue = devAmpSlave.showDisplay("remote")
                     colorValue = devAmpSlave.showColor("remote")
                 })
@@ -365,10 +375,11 @@ Window {
             id: comboSlaveRadio
             posTop: 0
             posLeft: (rectSlave.width - defaultMarginWidget) / 4
-            txtText: devAmpSlave ? devAmpSlave.varName("radio") : qsTr("Radio Mode")
+            txtText: devAmpSlave ? devAmpSlave.varName("radio") : qsTr("Silent Mode")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
+                    index = devAmpSlave.getValue("radio")
                     txtValue = devAmpSlave.showDisplay("radio")
                     colorValue = devAmpSlave.showColor("radio")
                 })
@@ -397,6 +408,7 @@ Window {
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
+                    index = devAmpSlave.getValue("atten_mode")
                     txtValue = devAmpSlave.showDisplay("atten_mode")
                     colorValue = devAmpSlave.showColor("atten_mode")
                 })

@@ -19,10 +19,14 @@ Dialog {
     required property QtObject devAmpSlave
     property alias dialogName : name.text
     property alias valueChannel : comboChannel.index
+    property alias valueMasterRemote : comboMasterRemote.index
+    property alias valueMasterRadio : comboMasterRadio.index
     property alias valueMasterAttenMode : comboMasterAttenMode.index
     property alias valueMasterAtten : comboMasterAtten.txtValue
     property alias valueMasterPower : comboMasterPower.txtValue
     property alias valueMasterGain : comboMasterGain.txtValue
+    property alias valueSlaveRemote : comboSlaveRemote.index
+    property alias valueSlaveRadio : comboSlaveRadio.index
     property alias valueSlaveAttenMode : comboSlaveAttenMode.index
     property alias valueSlaveAtten : comboSlaveAtten.txtValue
     property alias valueSlavePower : comboSlavePower.txtValue
@@ -63,6 +67,8 @@ Dialog {
 
         onClicked: {
             if (channelMaster) {
+                devAmpMaster.holdValue("remote", comboMasterRemote.index)
+                devAmpMaster.holdValue("radio", comboMasterRadio.index)
                 devAmpMaster.holdValue("atten_mode", comboMasterAttenMode.index)
                 devAmpMaster.holdValue("atten", comboMasterAtten.txtValue)
                 devAmpMaster.holdValue("output_power", comboMasterPower.txtValue)
@@ -70,11 +76,15 @@ Dialog {
                 devAmpMaster.setStandby = true
                 devAmpSlave.setStandby = false
                 devAmpMaster.createCntlMsg()
+                devAmpMaster.releaseHold("remote")
+                devAmpMaster.releaseHold("radio")
                 devAmpMaster.releaseHold("atten_mode")
                 devAmpMaster.releaseHold("atten")
                 devAmpMaster.releaseHold("output_power")
                 devAmpMaster.releaseHold("gain")
             } else {
+                devAmpSlave.holdValue("remote", comboSlaveRemote.index)
+                devAmpSlave.holdValue("radio", comboSlaveRadio.index)
                 devAmpSlave.holdValue("atten_mode", comboSlaveAttenMode.index)
                 devAmpSlave.holdValue("atten", comboSlaveAtten.txtValue)
                 devAmpSlave.holdValue("output_power", comboSlavePower.txtValue)
@@ -82,6 +92,8 @@ Dialog {
                 devAmpMaster.setStandby = false
                 devAmpSlave.setStandby = true
                 devAmpSlave.createCntlMsg()
+                devAmpSlave.releaseHold("remote")
+                devAmpSlave.releaseHold("radio")
                 devAmpSlave.releaseHold("atten_mode")
                 devAmpSlave.releaseHold("atten")
                 devAmpSlave.releaseHold("output_power")
@@ -146,6 +158,17 @@ Dialog {
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_ATTEN")
             }
+            onChangedIndex: {
+                comboMasterAtten.visible = false
+                comboMasterPower.visible = false
+                comboMasterGain.visible = false
+                if (index === Alert.P_ATTEN_NORMAL)
+                    comboMasterAtten.visible = true
+                else if (index === Alert.P_ATTEN_CONSTPOWER)
+                    comboMasterPower.visible = true
+                else
+                    comboMasterGain.visible = true
+            }
         }
 
         ComboTextField {
@@ -161,8 +184,8 @@ Dialog {
 
         ComboTextField {
             id: comboMasterPower
-            posTop: comboMasterAttenMode.posBottom
-            posLeft: 0
+            posTop: comboChannel.posBottom
+            posLeft: (rect.width - defaultMarginWidget) / 2
             widthWidgetLabel: extendedWidthWidgetLabel
             widthWidget: defaultWidthWidget
             widthPrefixSuffix: defaultWidthPrefixSuffix
@@ -172,7 +195,7 @@ Dialog {
 
         ComboTextField {
             id: comboMasterGain
-            posTop: comboMasterAttenMode.posBottom
+            posTop: comboChannel.posBottom
             posLeft: (rect.width - defaultMarginWidget) / 2
             widthWidgetLabel: extendedWidthWidgetLabel
             widthWidget: defaultWidthWidget
@@ -181,10 +204,36 @@ Dialog {
             txtText: qsTr("Master") + ": " + (devAmpMaster ? devAmpMaster.varName("gain") : qsTr("Gain"))
         }
 
+        ComboCombo {
+            id: comboMasterRemote
+            posTop: comboMasterAttenMode.posBottom
+            posLeft: 0
+            widthWidgetLabel: extendedWidthWidgetLabel
+            widthWidget: extendedWidthWidget
+            txtText: qsTr("Master") + ": " + (devAmpMaster ? devAmpMaster.varName("remote") : qsTr("Remote Mode"))
+
+            Component.onCompleted: {
+                comboModel = Alert.addEnum("P_REMOTE")
+            }
+        }
+
+        ComboCombo {
+            id: comboMasterRadio
+            posTop: comboMasterAttenMode.posBottom
+            posLeft: (rect.width - defaultMarginWidget) / 2
+            widthWidgetLabel: extendedWidthWidgetLabel
+            widthWidget: extendedWidthWidget
+            txtText: qsTr("Master") + ": " + (devAmpMaster ? devAmpMaster.varName("radio") : qsTr("Silent Mode"))
+
+            Component.onCompleted: {
+                comboModel = Alert.addEnum("P_RADIO")
+            }
+        }
+
         Rectangle {
             id: slaveDisabler
             x: 0
-            y: comboMasterPower.posBottom
+            y: comboMasterRemote.posBottom
             height: 2 * defaultHeightWidget + 3 * defaultMarginWidget
             width: rect.width
             color: "black"
@@ -200,7 +249,7 @@ Dialog {
 
         ComboCombo {
             id: comboSlaveAttenMode
-            posTop: comboMasterPower.posBottom
+            posTop: comboMasterRemote.posBottom
             posLeft: 0
             widthWidget: extendedWidthWidget
             widthWidgetLabel: extendedWidthWidgetLabel
@@ -208,12 +257,23 @@ Dialog {
 
             Component.onCompleted: {
                 comboModel = Alert.addEnum("P_ATTEN")
-        }
+            }
+            onChangedIndex: {
+                comboSlaveAtten.visible = false
+                comboSlavePower.visible = false
+                comboSlaveGain.visible = false
+                if (index === Alert.P_ATTEN_NORMAL)
+                    comboSlaveAtten.visible = true
+                else if (index === Alert.P_ATTEN_CONSTPOWER)
+                    comboSlavePower.visible = true
+                else
+                    comboSlaveGain.visible = true
+            }
 
         }
         ComboTextField {
             id: comboSlaveAtten
-            posTop: comboMasterPower.posBottom
+            posTop: comboMasterRemote.posBottom
             posLeft: (rect.width - defaultMarginWidget) / 2
             widthWidgetLabel: extendedWidthWidgetLabel
             widthWidget: defaultWidthWidget
@@ -224,8 +284,8 @@ Dialog {
 
         ComboTextField {
             id: comboSlavePower
-            posTop: comboSlaveAttenMode.posBottom
-            posLeft: 0
+            posTop: comboMasterRemote.posBottom
+            posLeft: (rect.width - defaultMarginWidget) / 2
             widthWidgetLabel: extendedWidthWidgetLabel
             widthWidget: defaultWidthWidget
             widthPrefixSuffix: defaultWidthPrefixSuffix
@@ -235,7 +295,7 @@ Dialog {
 
         ComboTextField {
             id: comboSlaveGain
-            posTop: comboSlaveAttenMode.posBottom
+            posTop: comboMasterRemote.posBottom
             posLeft: (rect.width - defaultMarginWidget) / 2
             widthWidgetLabel: extendedWidthWidgetLabel
             widthWidget: defaultWidthWidget
@@ -244,5 +304,30 @@ Dialog {
             txtText: qsTr("Slave") + ": " + (devAmpSlave ? devAmpSlave.varName("gain") : qsTr("Gain"))
         }
 
+        ComboCombo {
+            id: comboSlaveRemote
+            posTop: comboSlaveAttenMode.posBottom
+            posLeft: 0
+            widthWidgetLabel: extendedWidthWidgetLabel
+            widthWidget: extendedWidthWidget
+            txtText: qsTr("Slave") + ": " + (devAmpSlave ? devAmpSlave.varName("remote") : qsTr("Remote Mode"))
+
+            Component.onCompleted: {
+                comboModel = Alert.addEnum("P_REMOTE")
+            }
+        }
+
+        ComboCombo {
+            id: comboSlaveRadio
+            posTop: comboSlaveAttenMode.posBottom
+            posLeft: (rect.width - defaultMarginWidget) / 2
+            widthWidgetLabel: extendedWidthWidgetLabel
+            widthWidget: extendedWidthWidget
+            txtText: qsTr("Slave") + ": " + (devAmpSlave ? devAmpSlave.varName("radio") : qsTr("Silent Mode"))
+
+            Component.onCompleted: {
+                comboModel = Alert.addEnum("P_RADIO")
+            }
+        }
     }
 }

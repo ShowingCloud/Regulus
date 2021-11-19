@@ -18,6 +18,8 @@ class alert : public QObject
     Q_ENUMS(P_MS)
     Q_ENUMS(P_HSK)
     Q_ENUMS(P_ATTEN)
+    Q_ENUMS(P_REMOTE)
+    Q_ENUMS(P_RADIO)
     Q_ENUMS(P_STAT)
     Q_ENUMS(P_CH)
     Q_ENUMS(P_ENUM)

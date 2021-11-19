@@ -167,6 +167,7 @@ devAmp &operator<< (devAmp &dev, const msgAmp &m)
     dev.var["s_voltage"]->setValue(m.stat_voltage);
     dev.var["s_power"]->setValue(m.stat_power);
     dev.var["handshake"]->setValue(m.handshake);
+    dev.var["atten_mode"]->setValue(m.atten_mode);
     dev.var["remote"]->setValue(m.remote);
     dev.var["radio"]->setValue(m.radio);
 

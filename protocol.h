@@ -243,7 +243,7 @@ public:
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
     friend database &operator<< (database &db, const msgCntlAmp &msg);
 
-    inline const static int posSerial = 8;
+    inline const static int posSerial = 10;
 
 private:
     quint8 atten_mode = quint8();

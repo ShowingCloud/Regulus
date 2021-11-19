@@ -13,6 +13,7 @@ Item {
     property string txtPrefix
     property string txtSuffix
     property alias colorValue : value.color
+    property int index : 0
     property int fontSize : defaultLabelFontSize
 
     Text {
