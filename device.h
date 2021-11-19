@@ -377,8 +377,8 @@ public:
         {"load_temp",       new deviceVar(alert::P_ENUM_DECUPLE)},
         {"handshake",       new deviceVar(alert::P_ENUM_HSK)},
         {"atten_mode",      new deviceVar(alert::P_ENUM_ATTEN)},
-        {"remote",          new deviceVar(alert::P_ENUM_NOR)},
-        {"radio",           new deviceVar(alert::P_ENUM_NOR)},
+        {"remote",          new deviceVar(alert::P_ENUM_REMOTE)},
+        {"radio",           new deviceVar(alert::P_ENUM_RADIO)},
         {"masterslave",     new deviceVar(alert::P_ENUM_NOR)}
     }, {
         {"output_power",    tr("Output Power")},
@@ -394,7 +394,7 @@ public:
         {"load_temp",       tr("Load Temperature")},
         {"handshake",       tr("Handshake Signal")},
         {"atten_mode",      tr("Attenuation Mode")},
-        {"remote",          tr("Rmote Mode")},
+        {"remote",          tr("Remote Mode")},
         {"radio",           tr("Silent Mode")},
         {"masterslave",     tr("Current State")}
     }, database::DB_TBL_AMP_ALERT,

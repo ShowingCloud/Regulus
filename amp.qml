@@ -95,62 +95,33 @@ Window {
         anchors.top: name.bottom
         anchors.topMargin: defaultMarginWidget
         width: 4 * defaultWidthWidget + 4 * defaultWidthWidgetLabel + 9 * defaultMarginWidget
-        height: 4 * defaultHeightWidget + 5 * defaultMarginWidget
+        height: 5 * defaultHeightWidget + 6 * defaultMarginWidget
         border.width: defaultBorderWidth
 
-        ComboCombo {
-            id: comboMasterAttenMode
-            posTop: 0
-            posLeft: 0
-            txtText: devAmpMaster ? devAmpMaster.varName("atten_mode") : qsTr("Attenuation Mode")
-            visible: false
-
-            Component.onCompleted: {
-                comboModel = Alert.addEnum("P_ATTEN")
-            }
-        }
-
         ComboText {
-            id: comboMasterAtten
+            id: comboMasterRemote
             posTop: 0
             posLeft: 0
-            txtText: devAmpMaster ? devAmpMaster.varName("atten") : qsTr("Attenuation")
-            txtSuffix: " dB"
+            txtText: devAmpMaster ? devAmpMaster.varName("remote") : qsTr("Remote Mode")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    txtValue = devAmpMaster.showDisplay("atten")
-                    colorValue = devAmpMaster.showColor("atten")
+                    txtValue = devAmpMaster.showDisplay("remote")
+                    colorValue = devAmpMaster.showColor("remote")
                 })
             }
         }
 
         ComboText {
-            id: comboMasterPower
+            id: comboMasterRadio
             posTop: 0
             posLeft: (rectMaster.width - defaultMarginWidget) / 4
-            txtText: devAmpMaster ? devAmpMaster.varName("output_power") : qsTr("Output Power")
-            txtSuffix: " dBm"
+            txtText: devAmpMaster ? devAmpMaster.varName("radio") : qsTr("Silent Mode")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
-                    txtValue = devAmpMaster.showDisplay("output_power")
-                    colorValue = devAmpMaster.showColor("output_power")
-                })
-            }
-        }
-
-        ComboText {
-            id: comboMasterGain
-            posTop: 0
-            posLeft: (rectMaster.width - defaultMarginWidget) / 2
-            txtText: devAmpMaster ? devAmpMaster.varName("gain") : qsTr("Gain")
-            txtSuffix: " dBm"
-
-            Component.onCompleted: {
-                masterRefreshData.connect(function() {
-                    txtValue = devAmpMaster.showDisplay("gain")
-                    colorValue = devAmpMaster.showColor("gain")
+                    txtValue = devAmpMaster.showDisplay("radio")
+                    colorValue = devAmpMaster.showColor("radio")
                 })
             }
         }
@@ -165,6 +136,65 @@ Window {
                 masterRefreshData.connect(function() {
                     txtValue = devAmpMaster.showDisplay("masterslave")
                     colorValue = devAmpMaster.showColor("masterslave")
+                })
+            }
+        }
+
+        ComboText {
+            id: comboMasterAttenMode
+            posTop: comboMasterRemote.posBottom
+            posLeft: 0
+            txtText: devAmpMaster ? devAmpMaster.varName("atten_mode") : qsTr("Attenuation Mode")
+
+            Component.onCompleted: {
+                masterRefreshData.connect(function() {
+                    txtValue = devAmpMaster.showDisplay("atten_mode")
+                    colorValue = devAmpMaster.showColor("atten_mode")
+                })
+            }
+        }
+
+        ComboText {
+            id: comboMasterAtten
+            posTop: comboMasterRemote.posBottom
+            posLeft: (rectMaster.width - defaultMarginWidget) / 4
+            txtText: devAmpMaster ? devAmpMaster.varName("atten") : qsTr("Attenuation")
+            txtSuffix: " dB"
+
+            Component.onCompleted: {
+                masterRefreshData.connect(function() {
+                    txtValue = devAmpMaster.showDisplay("atten")
+                    colorValue = devAmpMaster.showColor("atten")
+                })
+            }
+        }
+
+        ComboText {
+            id: comboMasterPower
+            posTop: comboMasterRemote.posBottom
+            posLeft: (rectMaster.width - defaultMarginWidget) / 2
+            txtText: devAmpMaster ? devAmpMaster.varName("output_power") : qsTr("Output Power")
+            txtSuffix: " dBm"
+
+            Component.onCompleted: {
+                masterRefreshData.connect(function() {
+                    txtValue = devAmpMaster.showDisplay("output_power")
+                    colorValue = devAmpMaster.showColor("output_power")
+                })
+            }
+        }
+
+        ComboText {
+            id: comboMasterGain
+            posTop: comboMasterRemote.posBottom
+            posLeft: (rectMaster.width - defaultMarginWidget) * 3 / 4
+            txtText: devAmpMaster ? devAmpMaster.varName("gain") : qsTr("Gain")
+            txtSuffix: " dBm"
+
+            Component.onCompleted: {
+                masterRefreshData.connect(function() {
+                    txtValue = devAmpMaster.showDisplay("gain")
+                    colorValue = devAmpMaster.showColor("gain")
                 })
             }
         }
@@ -200,9 +230,24 @@ Window {
         }
 
         ComboText {
-            id: comboMasterStateStandWave
+            id: comboMasterLoadTemp
             posTop: comboMasterAtten.posBottom
             posLeft: (rectMaster.width - defaultMarginWidget) / 2
+            txtText: devAmpMaster ? devAmpMaster.varName("load_temp") : qsTr("Load Temperature")
+            txtSuffix: " C"
+
+            Component.onCompleted: {
+                masterRefreshData.connect(function() {
+                    txtValue = devAmpMaster.showDisplay("load_temp")
+                    colorValue = devAmpMaster.showColor("load_temp")
+                })
+            }
+        }
+
+        ComboText {
+            id: comboMasterStateStandWave
+            posTop: comboMasterAtten.posBottom
+            posLeft: (rectMaster.width - defaultMarginWidget) * 3 / 4
             txtText: devAmpMaster ? devAmpMaster.varName("s_stand_wave") : qsTr("Stand Wave")
 
             Component.onCompleted: {
@@ -215,8 +260,8 @@ Window {
 
         ComboText {
             id: comboMasterStateTemp
-            posTop: comboMasterAtten.posBottom
-            posLeft: (rectMaster.width - defaultMarginWidget) * 3 / 4
+            posTop: comboMasterLoss.posBottom
+            posLeft: 0
             txtText: devAmpMaster ? devAmpMaster.varName("s_temp") : qsTr("Temperature")
 
             Component.onCompleted: {
@@ -230,7 +275,7 @@ Window {
         ComboText {
             id: comboMasterStateCurrent
             posTop: comboMasterLoss.posBottom
-            posLeft: 0
+            posLeft: (rectMaster.width - defaultMarginWidget) / 4
             txtText: devAmpMaster ? devAmpMaster.varName("s_current") : qsTr("Current")
 
             Component.onCompleted: {
@@ -244,7 +289,7 @@ Window {
         ComboText {
             id: comboMasterStateVoltage
             posTop: comboMasterLoss.posBottom
-            posLeft: (rectMaster.width - defaultMarginWidget) / 4
+            posLeft: (rectMaster.width - defaultMarginWidget) / 2
             txtText: devAmpMaster ? devAmpMaster.varName("s_voltage") : qsTr("Voltage")
 
             Component.onCompleted: {
@@ -258,28 +303,13 @@ Window {
         ComboText {
             id: comboMasterStateOutputPower
             posTop: comboMasterLoss.posBottom
-            posLeft: (rectMaster.width - defaultMarginWidget) / 2
+            posLeft: (rectMaster.width - defaultMarginWidget) * 3 / 4
             txtText: devAmpMaster ? devAmpMaster.varName("s_power") : qsTr("Output Power")
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
                     txtValue = devAmpMaster.showDisplay("s_power")
                     colorValue = devAmpMaster.showColor("s_power")
-                })
-            }
-        }
-
-        ComboText {
-            id: comboMasterLoadTemp
-            posTop: comboMasterLoss.posBottom
-            posLeft: (rectMaster.width - defaultMarginWidget) * 3 / 4
-            txtText: devAmpMaster ? devAmpMaster.varName("load_temp") : qsTr("Load Temperature")
-            txtSuffix: " C"
-
-            Component.onCompleted: {
-                masterRefreshData.connect(function() {
-                    txtValue = devAmpMaster.showDisplay("load_temp")
-                    colorValue = devAmpMaster.showColor("load_temp")
                 })
             }
         }
@@ -317,59 +347,30 @@ Window {
         height: rectMaster.height
         border.width: defaultBorderWidth
 
-        ComboCombo {
-            id: comboSlaveAttenMode
-            posTop: 0
-            posLeft: 0
-            txtText: devAmpSlave ? devAmpSlave.varName("atten_mode") : qsTr("Attenuation Mode")
-            visible: false
-
-            Component.onCompleted: {
-                comboModel = Alert.addEnum("P_ATTEN")
-            }
-        }
-
         ComboText {
-            id: comboSlaveAtten
+            id: comboSlaveRemote
             posTop: 0
             posLeft: 0
-            txtText: devAmpSlave ? devAmpSlave.varName("atten") : qsTr("Attenuation")
-            txtSuffix: " dB"
+            txtText: devAmpSlave ? devAmpSlave.varName("remote") : qsTr("Remote Mode")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    txtValue = devAmpSlave.showDisplay("atten")
-                    colorValue = devAmpSlave.showColor("atten")
+                    txtValue = devAmpSlave.showDisplay("remote")
+                    colorValue = devAmpSlave.showColor("remote")
                 })
             }
         }
 
         ComboText {
-            id: comboSlavePower
+            id: comboSlaveRadio
             posTop: 0
             posLeft: (rectSlave.width - defaultMarginWidget) / 4
-            txtText: devAmpSlave ? devAmpSlave.varName("output_power") : qsTr("Output Power")
-            txtSuffix: " mW"
+            txtText: devAmpSlave ? devAmpSlave.varName("radio") : qsTr("Radio Mode")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
-                    txtValue = devAmpSlave.showDisplay("output_power")
-                    colorValue = devAmpSlave.showColor("output_power")
-                })
-            }
-        }
-
-        ComboText {
-            id: comboSlaveGain
-            posTop: 0
-            posLeft: (rectSlave.width - defaultMarginWidget) / 2
-            txtText: devAmpSlave ? devAmpSlave.varName("gain") : qsTr("Gain")
-            txtSuffix: " dB"
-
-            Component.onCompleted: {
-                slaveRefreshData.connect(function() {
-                    txtValue = devAmpSlave.showDisplay("gain")
-                    colorValue = devAmpSlave.showColor("gain")
+                    txtValue = devAmpSlave.showDisplay("radio")
+                    colorValue = devAmpSlave.showColor("radio")
                 })
             }
         }
@@ -384,6 +385,65 @@ Window {
                 slaveRefreshData.connect(function() {
                     txtValue = devAmpSlave.showDisplay("masterslave")
                     colorValue = devAmpSlave.showColor("masterslave")
+                })
+            }
+        }
+
+        ComboText {
+            id: comboSlaveAttenMode
+            posTop: comboSlaveRemote.posBottom
+            posLeft: 0
+            txtText: devAmpSlave ? devAmpSlave.varName("atten_mode") : qsTr("Attenuation Mode")
+
+            Component.onCompleted: {
+                slaveRefreshData.connect(function() {
+                    txtValue = devAmpSlave.showDisplay("atten_mode")
+                    colorValue = devAmpSlave.showColor("atten_mode")
+                })
+            }
+        }
+
+        ComboText {
+            id: comboSlaveAtten
+            posTop: comboSlaveRemote.posBottom
+            posLeft: (rectSlave.width - defaultMarginWidget) / 4
+            txtText: devAmpSlave ? devAmpSlave.varName("atten") : qsTr("Attenuation")
+            txtSuffix: " dB"
+
+            Component.onCompleted: {
+                slaveRefreshData.connect(function() {
+                    txtValue = devAmpSlave.showDisplay("atten")
+                    colorValue = devAmpSlave.showColor("atten")
+                })
+            }
+        }
+
+        ComboText {
+            id: comboSlavePower
+            posTop: comboSlaveRemote.posBottom
+            posLeft: (rectSlave.width - defaultMarginWidget) / 2
+            txtText: devAmpSlave ? devAmpSlave.varName("output_power") : qsTr("Output Power")
+            txtSuffix: " mW"
+
+            Component.onCompleted: {
+                slaveRefreshData.connect(function() {
+                    txtValue = devAmpSlave.showDisplay("output_power")
+                    colorValue = devAmpSlave.showColor("output_power")
+                })
+            }
+        }
+
+        ComboText {
+            id: comboSlaveGain
+            posTop: comboSlaveRemote.posBottom
+            posLeft: (rectSlave.width - defaultMarginWidget) * 3 / 4
+            txtText: devAmpSlave ? devAmpSlave.varName("gain") : qsTr("Gain")
+            txtSuffix: " dB"
+
+            Component.onCompleted: {
+                slaveRefreshData.connect(function() {
+                    txtValue = devAmpSlave.showDisplay("gain")
+                    colorValue = devAmpSlave.showColor("gain")
                 })
             }
         }
@@ -419,9 +479,24 @@ Window {
         }
 
         ComboText {
-            id: comboSlaveStateStandWave
+            id: comboSlaveLoadTemp
             posTop: comboSlaveAtten.posBottom
             posLeft: (rectSlave.width - defaultMarginWidget) / 2
+            txtText: devAmpSlave ? devAmpSlave.varName("load_temp") : qsTr("Load Temperature")
+            txtSuffix: " C"
+
+            Component.onCompleted: {
+                slaveRefreshData.connect(function() {
+                    txtValue = devAmpSlave.showDisplay("load_temp")
+                    colorValue = devAmpSlave.showColor("load_temp")
+                })
+            }
+        }
+
+        ComboText {
+            id: comboSlaveStateStandWave
+            posTop: comboSlaveAtten.posBottom
+            posLeft: (rectSlave.width - defaultMarginWidget) * 3 / 4
             txtText: devAmpSlave ? devAmpSlave.varName("s_stand_wave") : qsTr("Stand Wave")
 
             Component.onCompleted: {
@@ -434,8 +509,7 @@ Window {
 
         ComboText {
             id: comboSlaveStateTemp
-            posTop: comboSlaveAtten.posBottom
-            posLeft: (rectSlave.width - defaultMarginWidget) * 3 / 4
+            posTop: comboSlaveLoss.posBottom
             txtText: devAmpSlave ? devAmpSlave.varName("s_temp") : qsTr("Temperature")
 
             Component.onCompleted: {
@@ -449,7 +523,7 @@ Window {
         ComboText {
             id: comboSlaveStateCurrent
             posTop: comboSlaveLoss.posBottom
-            posLeft: 0
+            posLeft: (rectSlave.width - defaultMarginWidget) / 4
             txtText: devAmpSlave ? devAmpSlave.varName("s_current") : qsTr("Current")
 
             Component.onCompleted: {
@@ -463,7 +537,7 @@ Window {
         ComboText {
             id: comboSlaveStateVoltage
             posTop: comboSlaveLoss.posBottom
-            posLeft: (rectSlave.width - defaultMarginWidget) / 4
+            posLeft: (rectSlave.width - defaultMarginWidget) / 2
             txtText: devAmpSlave ? devAmpSlave.varName("s_voltage") : qsTr("Voltage")
 
             Component.onCompleted: {
@@ -477,28 +551,13 @@ Window {
         ComboText {
             id: comboSlaveStateOutputPower
             posTop: comboSlaveLoss.posBottom
-            posLeft: (rectSlave.width - defaultMarginWidget) / 2
+            posLeft: (rectSlave.width - defaultMarginWidget) * 3 / 4
             txtText: devAmpSlave ? devAmpSlave.varName("s_power") : qsTr("Output Power")
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
                     txtValue = devAmpSlave.showDisplay("s_power")
                     colorValue = devAmpSlave.showColor("s_power")
-                })
-            }
-        }
-
-        ComboText {
-            id: comboSlaveLoadTemp
-            posTop: comboSlaveLoss.posBottom
-            posLeft: (rectSlave.width - defaultMarginWidget) * 3 / 4
-            txtText: devAmpSlave ? devAmpSlave.varName("load_temp") : qsTr("Load Temperature")
-            txtSuffix: " C"
-
-            Component.onCompleted: {
-                slaveRefreshData.connect(function() {
-                    txtValue = devAmpSlave.showDisplay("load_temp")
-                    colorValue = devAmpSlave.showColor("load_temp")
                 })
             }
         }

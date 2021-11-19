@@ -14,6 +14,8 @@ const QVariant alert::setValue(const QVariant val, const P_ENUM e)
     case P_ENUM_MS:
     case P_ENUM_HSK:
     case P_ENUM_ATTEN:
+    case P_ENUM_REMOTE:
+    case P_ENUM_RADIO:
     case P_ENUM_STAT:
     case P_ENUM_CH:
         ret = (val.value<int>() >= 0 and val.value<int>() < P_ENUM_VALUE["others"][e].value<int>())
@@ -95,6 +97,8 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
     case P_ENUM_MS:
         return P_NOR_NORMAL;
     case P_ENUM_ATTEN:
+    case P_ENUM_REMOTE:
+    case P_ENUM_RADIO:
     case P_ENUM_CH:
     case P_ENUM_INT:
     case P_ENUM_FLOAT:
@@ -219,6 +223,12 @@ const QString alert::setDisplay(const QVariant val, const P_ENUM e)
     case P_ENUM_ATTEN:
         v = STR_ATTEN[val.value<P_ATTEN>()];
         break;
+    case P_ENUM_REMOTE:
+        v = STR_REMOTE[val.value<P_REMOTE>()];
+        break;
+    case P_ENUM_RADIO:
+        v = STR_RADIO[val.value<P_RADIO>()];
+        break;
     case P_ENUM_STAT:
         v = STR_STAT[val.value<P_STAT>()];
         break;
@@ -263,6 +273,10 @@ const QStringList alert::addEnum(const QString e, const QString add)
         strFunc = [](const int x) { return STR_HSK[static_cast<P_HSK>(x)].toUtf8(); };
     else if (e == "P_ATTEN")
         strFunc = [](const int x) { return STR_ATTEN[static_cast<P_ATTEN>(x)].toUtf8(); };
+    else if (e == "P_REMOTE")
+        strFunc = [](const int x) { return STR_REMOTE[static_cast<P_REMOTE>(x)].toUtf8(); };
+    else if (e == "P_RADIO")
+        strFunc = [](const int x) { return STR_RADIO[static_cast<P_RADIO>(x)].toUtf8(); };
     else if (e == "P_STAT")
         strFunc = [](const int x) { return STR_STAT[static_cast<P_STAT>(x)].toUtf8(); };
     else if (e == "P_CH")
@@ -282,6 +296,8 @@ deviceVar::deviceVar(const alert::P_ENUM type, QObject *parent) : QObject(parent
     case alert::P_ENUM_MS:
     case alert::P_ENUM_HSK:
     case alert::P_ENUM_ATTEN:
+    case alert::P_ENUM_REMOTE:
+    case alert::P_ENUM_RADIO:
     case alert::P_ENUM_STAT:
     case alert::P_ENUM_CH:
         value = alert::setValue(alert::P_ENUM_VALUE["default"][type], type);
@@ -334,6 +350,8 @@ int deviceVar::getValue() const
     case alert::P_ENUM_MS:
     case alert::P_ENUM_HSK:
     case alert::P_ENUM_ATTEN:
+    case alert::P_ENUM_REMOTE:
+    case alert::P_ENUM_RADIO:
     case alert::P_ENUM_STAT:
     case alert::P_ENUM_CH:
     case alert::P_ENUM_INT:
