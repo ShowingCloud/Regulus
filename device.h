@@ -368,15 +368,17 @@ public:
         {"input_power",     new deviceVar(alert::P_ENUM_INPUT_POWER)},
         {"gain",            new deviceVar(alert::P_ENUM_GAIN)},
         {"atten",           new deviceVar(alert::P_ENUM_DECUPLE_DOUBLE)},
-        {"amp_temp",        new deviceVar(alert::P_ENUM_INT)},
+        {"amp_temp",        new deviceVar(alert::P_ENUM_DECUPLE)},
         {"s_stand_wave",    new deviceVar(alert::P_ENUM_STAT)},
         {"s_temp",          new deviceVar(alert::P_ENUM_STAT)},
         {"s_current",       new deviceVar(alert::P_ENUM_STAT)},
         {"s_voltage",       new deviceVar(alert::P_ENUM_STAT)},
         {"s_power",         new deviceVar(alert::P_ENUM_STAT)},
-        {"load_temp",       new deviceVar(alert::P_ENUM_INT)},
+        {"load_temp",       new deviceVar(alert::P_ENUM_DECUPLE)},
         {"handshake",       new deviceVar(alert::P_ENUM_HSK)},
         {"atten_mode",      new deviceVar(alert::P_ENUM_ATTEN)},
+        {"remote",          new deviceVar(alert::P_ENUM_NOR)},
+        {"radio",           new deviceVar(alert::P_ENUM_NOR)},
         {"masterslave",     new deviceVar(alert::P_ENUM_NOR)}
     }, {
         {"output_power",    tr("Output Power")},
@@ -392,9 +394,11 @@ public:
         {"load_temp",       tr("Load Temperature")},
         {"handshake",       tr("Handshake Signal")},
         {"atten_mode",      tr("Attenuation Mode")},
+        {"remote",          tr("Rmote Mode")},
+        {"radio",           tr("Silent Mode")},
         {"masterslave",     tr("Current State")}
     }, database::DB_TBL_AMP_ALERT,
-    {"atten_mode", "atten", "output_power", "gain"}, parent) { connect(this, &device::idSet, [=](){ *globalDB >> *this; }); }
+    {"atten_mode", "atten", "output_power", "gain", "remote", "radio"}, parent) { connect(this, &device::idSet, [=](){ *globalDB >> *this; }); }
 
     friend devAmp &operator<< (devAmp &dev, const msgAmp &m);
     friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);

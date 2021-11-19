@@ -162,7 +162,8 @@ private:
     quint16 atten = quint16();
     quint16 input_power = quint16();
     quint16 temp = quint16();
-    quint16 stat = quint16();
+    quint8 stat_h = quint8();
+    quint8 stat_l = quint8();
     quint8 stat_stand_wave = quint8();
     quint8 stat_temp = quint8();
     quint8 stat_current = quint8();
@@ -171,6 +172,9 @@ private:
     quint16 load_temp = quint16();
     quint8 handshake = quint8();
     quint8 isactive = quint8();
+    quint8 atten_mode = quint8();
+    quint8 remote = quint8();
+    quint8 radio = quint8();
 };
 
 class msgQuery : public msgDownlink
@@ -189,26 +193,6 @@ public:
 private:
     quint8 identify = 0x00;
     quint8 instruction = 0x01;
-};
-
-class msgCntlAmp : public msgDownlink
-{
-public:
-    explicit msgCntlAmp(msgDownlink parent) : msgDownlink(parent) {}
-    explicit msgCntlAmp() {}
-
-    friend const msgCntlAmp &operator>> (const msgCntlAmp &m, QByteArray &data);
-    friend msgCntlAmp &operator<< (msgCntlAmp &m, const QByteArray &data);
-    friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
-    friend database &operator<< (database &db, const msgCntlAmp &msg);
-
-    inline const static int posSerial = 8;
-
-private:
-    quint8 atten_mode = quint8();
-    quint8 atten = quint8();
-    quint16 output_power = quint16();
-    quint16 gain = quint16();
 };
 
 class msgCntlFreq : public msgDownlink
@@ -246,6 +230,28 @@ public:
 private:
     quint8 ref_10 = quint8();
     quint8 ref_16 = quint8();
+};
+
+class msgCntlAmp : public msgDownlink
+{
+public:
+    explicit msgCntlAmp(msgDownlink parent) : msgDownlink(parent) {}
+    explicit msgCntlAmp() {}
+
+    friend const msgCntlAmp &operator>> (const msgCntlAmp &m, QByteArray &data);
+    friend msgCntlAmp &operator<< (msgCntlAmp &m, const QByteArray &data);
+    friend const devAmp &operator>> (const devAmp &dev, msgCntlAmp &m);
+    friend database &operator<< (database &db, const msgCntlAmp &msg);
+
+    inline const static int posSerial = 8;
+
+private:
+    quint8 atten_mode = quint8();
+    quint8 atten = quint8();
+    quint16 output_power = quint16();
+    quint16 gain = quint16();
+    quint8 remote = quint8();
+    quint8 radio = quint8();
 };
 
 

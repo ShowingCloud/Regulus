@@ -179,14 +179,17 @@ msgAmp &operator<< (msgAmp &m, const QByteArray &data)
     qInfo() << "Got Msg Amp" << m.deviceId << m.origin.toHex();
 
     QDataStream(data) >> m.holder8 /* header */ >> m.output_power >> m.gain >> m.atten
-                      >> m.input_power >> m.temp >> m.stat >> m.load_temp
+                      >> m.input_power >> m.temp >> m.stat_h >> m.stat_l >> m.load_temp
                       >> m.holder8 /* device */ >> m.isactive >> m.serialId
                       >> m.handshake >> m.holder8 /* tailer */;
-    m.stat_stand_wave = (m.stat & 0x10) >> 4;
-    m.stat_temp = (m.stat & 0x08) >> 3;
-    m.stat_current = (m.stat & 0x04) >> 2;
-    m.stat_voltage = (m.stat & 0x02) >> 1;
-    m.stat_power = m.stat & 0x01;
+    m.remote = (m.stat_h & 0x08) >> 3;
+    m.radio = (m.stat_h & 0x04) >> 2;
+    m.atten_mode = m.stat_h & 0x03;
+    m.stat_stand_wave = (m.stat_l & 0x10) >> 4;
+    m.stat_temp = (m.stat_l & 0x08) >> 3;
+    m.stat_current = (m.stat_l & 0x04) >> 2;
+    m.stat_voltage = (m.stat_l & 0x02) >> 1;
+    m.stat_power = m.stat_l & 0x01;
 
     device::updateDevice(m);
     *globalDB << m;
@@ -225,7 +228,7 @@ const msgCntlDist &operator>> (const msgCntlDist &m, QByteArray &data)
 const msgCntlAmp &operator>> (const msgCntlAmp &m, QByteArray &data)
 {
     QDataStream(&data, QIODevice::WriteOnly) << m.head << m.atten_mode << m.atten << m.output_power
-                                             << m.gain << m.deviceId << m.serialId << m.tail;
+                                             << m.gain << m.deviceId << m.remote << m.radio << m.serialId << m.tail;
     msgCntlAmp msg = m;
     msg.time = QDateTime::currentDateTime();
     *globalDB << msg;

@@ -37,11 +37,13 @@ public:
     enum P_MS { P_MS_MASTER = 0, P_MS_SLAVE = 1, P_MS_OTHERS };
     enum P_HSK { P_HSK_SUCCESS = 0, P_HSK_FAILED = 1, P_HSK_OTHERS };
     enum P_ATTEN { P_ATTEN_NORMAL = 0, P_ATTEN_CONSTPOWER = 1, P_ATTEN_CONSTGAIN = 2, P_ATTEN_OTHERS };
+    enum P_REMOTE { P_REMOTE_LOCAL = 0, P_REMOTE_REMOTE = 1, P_REMOTE_OTHERS };
+    enum P_RADIO { P_RADIO_OFF = 0, P_RADIO_ON = 1, P_RADIO_OTHERS };
     enum P_STAT { P_STAT_NORMAL = 0, P_STAT_ABNORMAL = 1, P_STAT_OTHERS };
     enum P_CH { P_CH_CH1 = 0, P_CH_CH2 = 1, P_CH_OTHERS };
     enum P_ENUM { P_ENUM_NOR, P_ENUM_LOCK, P_ENUM_MS, P_ENUM_HSK, P_ENUM_ATTEN, P_ENUM_STAT, P_ENUM_CH,
                   P_ENUM_FLOAT, P_ENUM_INT, P_ENUM_VOLTAGE, P_ENUM_CURRENT, P_ENUM_DECUPLE, P_ENUM_DECUPLE_DOUBLE,
-                  P_ENUM_INPUT_POWER, P_ENUM_OUTPUT_POWER, P_ENUM_GAIN, P_ENUM_OTHERS };
+                  P_ENUM_INPUT_POWER, P_ENUM_OUTPUT_POWER, P_ENUM_GAIN, P_ENUM_REMOTE, P_ENUM_RADIO, P_ENUM_OTHERS };
 
     enum P_COLOR { P_COLOR_NORMAL, P_COLOR_ABNORMAL, P_COLOR_STANDBY, P_COLOR_HOLDING, P_COLOR_OTHERS };
     static const inline QHash<P_COLOR, QString> STR_COLOR = {
@@ -124,6 +126,16 @@ public:
         {P_ATTEN_CONSTGAIN, QT_TR_NOOP("Constant Gain")},
         {P_ATTEN_OTHERS, QT_TR_NOOP("Others")}
     };
+    static const inline QHash<P_REMOTE, QString> STR_REMOTE = {
+        {P_REMOTE_LOCAL, QT_TR_NOOP("Local")},
+        {P_REMOTE_REMOTE, QT_TR_NOOP("Remote")},
+        {P_REMOTE_OTHERS, QT_TR_NOOP("Others")}
+    };
+    static const inline QHash<P_RADIO, QString> STR_RADIO = {
+        {P_RADIO_OFF, QT_TR_NOOP("Radio Off")},
+        {P_RADIO_ON, QT_TR_NOOP("Radio On")},
+        {P_RADIO_OTHERS, QT_TR_NOOP("Others")}
+    };
     static const inline QHash<P_STAT, QString> STR_STAT = {
         {P_STAT_NORMAL, QT_TR_NOOP("Normal")},
         {P_STAT_ABNORMAL, QT_TR_NOOP("Abnormal")},
@@ -142,6 +154,8 @@ public:
             {P_ENUM_MS,     QVariant::fromValue(STR_MS)},
             {P_ENUM_HSK,    QVariant::fromValue(STR_HSK)},
             {P_ENUM_ATTEN,  QVariant::fromValue(STR_ATTEN)},
+            {P_ENUM_REMOTE, QVariant::fromValue(STR_REMOTE)},
+            {P_ENUM_RADIO,  QVariant::fromValue(STR_RADIO)},
             {P_ENUM_STAT,   QVariant::fromValue(STR_STAT)},
             {P_ENUM_CH,     QVariant::fromValue(STR_CH)}
         }}, {"others", {
@@ -150,6 +164,8 @@ public:
             {P_ENUM_MS,     P_MS_OTHERS},
             {P_ENUM_HSK,    P_HSK_OTHERS},
             {P_ENUM_ATTEN,  P_ATTEN_OTHERS},
+            {P_ENUM_REMOTE, P_REMOTE_OTHERS},
+            {P_ENUM_RADIO,  P_RADIO_OTHERS},
             {P_ENUM_STAT,   P_STAT_OTHERS},
             {P_ENUM_CH,     P_CH_OTHERS}
          }}, {"default", {
@@ -158,6 +174,8 @@ public:
             {P_ENUM_MS,     P_MS_MASTER},
             {P_ENUM_HSK,    P_HSK_SUCCESS},
             {P_ENUM_ATTEN,  P_ATTEN_NORMAL},
+            {P_ENUM_REMOTE, P_REMOTE_REMOTE},
+            {P_ENUM_RADIO,  P_RADIO_ON},
             {P_ENUM_STAT,   P_STAT_NORMAL},
             {P_ENUM_CH,     P_CH_OTHERS}
          }}
@@ -181,6 +199,8 @@ Q_DECLARE_METATYPE(alert::P_LOCK)
 Q_DECLARE_METATYPE(alert::P_MS)
 Q_DECLARE_METATYPE(alert::P_HSK)
 Q_DECLARE_METATYPE(alert::P_ATTEN)
+Q_DECLARE_METATYPE(alert::P_REMOTE)
+Q_DECLARE_METATYPE(alert::P_RADIO)
 Q_DECLARE_METATYPE(alert::P_STAT)
 Q_DECLARE_METATYPE(alert::P_CH)
 Q_DECLARE_METATYPE(alert::P_ENUM)

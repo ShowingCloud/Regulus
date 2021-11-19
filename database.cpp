@@ -162,13 +162,15 @@ database &operator<< (database &db, const msgFreq &msg)
     r.setValue("Lock_B2", msg.lock_b2);
     r.setValue("Ref10_1", msg.ref_10_1);
     r.setValue("Ref10_2", msg.ref_10_2);
+    r.setValue("Ref_Select_Master", msg.ref_select_master);
     r.setValue("Ref10_Inner_1", msg.ref_inner_1);
     r.setValue("Ref10_3", msg.ref_10_3);
     r.setValue("Ref10_4", msg.ref_10_4);
     r.setValue("Ref10_Inner_2", msg.ref_inner_2);
+    r.setValue("Ref_Select_Slave", msg.ref_select_slave);
     r.setValue("Handshake", msg.handshake);
     r.setValue("Serial_Id", msg.serialId);
-    r.setValue("Master_Slave", msg.handshake);
+    r.setValue("Master_Slave", msg.masterslave);
     if (!db.historyModel->insertRecord(-1, r))
         qDebug() << db.historyModel->lastError();
 
@@ -206,15 +208,19 @@ database &operator<< (database &db, const msgAmp &msg)
     r.setValue("Gain", msg.gain);
     r.setValue("Attenuation", msg.atten);
     r.setValue("Input_Power", msg.input_power);
-    r.setValue("Temperature", msg.temp);
+    r.setValue("Amplifier_Temperature", msg.temp);
     r.setValue("Stat_Stand_Wave", msg.stat_stand_wave);
     r.setValue("Stat_Temperature", msg.stat_temp);
     r.setValue("Stat_Current", msg.stat_current);
     r.setValue("Stat_Voltage", msg.stat_voltage);
     r.setValue("Stat_Power", msg.stat_power);
     r.setValue("Load_Temperature", msg.load_temp);
+    r.setValue("Is_Remote", msg.remote);
+    r.setValue("Is_Radio_On", msg.radio);
+    r.setValue("Atten_Mode", msg.atten_mode);
     r.setValue("Serial_Id", msg.serialId);
     r.setValue("Handshake", msg.handshake);
+    r.setValue("MasterSlave_Active", msg.isactive);
     if (!db.historyModel->insertRecord(-1, r))
         qDebug() << db.historyModel->lastError();
 
@@ -261,6 +267,8 @@ database &operator<< (database &db, const msgCntlAmp &msg)
     r.setValue("Attenuation_Mode", msg.atten);
     r.setValue("Output_Power", msg.output_power);
     r.setValue("Gain", msg.gain);
+    r.setValue("Is_Remote", msg.remote);
+    r.setValue("Is_Radio_On", msg.radio);
     r.setValue("Serial_Id", msg.serialId);
     if (!db.historyModel->insertRecord(-1, r))
         qDebug() << db.historyModel->lastError();

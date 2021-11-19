@@ -138,8 +138,8 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
             return P_NOR_NORMAL;
         }
     case P_ENUM_GAIN:
-        if (val.value<double>() > 70) {
-            alert::prepareAlert(P_ALERT_UPPER, val, 70, parent);
+        if (val.value<double>() > 76) {
+            alert::prepareAlert(P_ALERT_UPPER, val, 76, parent);
             return P_NOR_ABNORMAL;
         } else if (val.value<double>() < 48) {
             alert::prepareAlert(P_ALERT_LOWER, val, 48, parent);
@@ -149,11 +149,11 @@ alert::P_NOR alert::setState(const QVariant val, const P_ENUM e, deviceVar *pare
             return P_NOR_NORMAL;
         }
     case P_ENUM_INPUT_POWER:
-        if (val.value<double>() > 25) {
-            alert::prepareAlert(P_ALERT_UPPER, val, 25, parent);
+        if (val.value<double>() > -13) {
+            alert::prepareAlert(P_ALERT_UPPER, val, -13, parent);
             return P_NOR_ABNORMAL;
-        } else if (val.value<double>() < 13) {
-            alert::prepareAlert(P_ALERT_LOWER, val, 13, parent);
+        } else if (val.value<double>() < -25) {
+            alert::prepareAlert(P_ALERT_LOWER, val, -25, parent);
             return P_NOR_ABNORMAL;
         } else {
             alert::prepareAlert(P_ALERT_GOOD, val, parent);
