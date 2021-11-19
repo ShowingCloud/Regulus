@@ -50,41 +50,80 @@ Item {
         }
 
         Text {
-            id: txtMasterOutputPower
+            id: txtMasterInputPower
             x: 60
             anchors.top: masterInd.top
-            width: 150
+            width: 90
             height: masterInd.height
-            text: devAmpMaster.showDisplay("output_power") + " dBm"
+            text: devAmpMaster.showDisplay("input_power") + "dBm"
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignLeft
-            font.pixelSize: defaultLabelFontSize
+            font.pixelSize: rectBigFontSize
 
             Component.onCompleted: {
                 devAmpMaster.gotData.connect(function() {
-                    text = devAmpMaster.showDisplay("output_power") + " dBm"
+                    text = devAmpMaster.showDisplay("input_power") + "dBm"
+                    color = devAmpMaster.showColor("input_power", false)
+                })
+            }
+        }
+
+        Text {
+            id: txtMasterOutputPower
+            anchors.left: txtMasterInputPower.right
+            anchors.top: masterInd.top
+            width: 90
+            height: masterInd.height
+            text: devAmpMaster.showDisplay("output_power") + "dBm"
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+            horizontalAlignment: Text.AlignLeft
+            font.pixelSize: rectBigFontSize
+
+            Component.onCompleted: {
+                devAmpMaster.gotData.connect(function() {
+                    text = devAmpMaster.showDisplay("output_power") + "dBm"
                     color = devAmpMaster.showColor("output_power", false)
                 })
             }
         }
 
-
         Text {
-            id: txtSlaveOutputPower
+            id: txtSlaveInputPower
             x: 60
             anchors.top: slaveInd.top
-            width: 150
+            width: 90
             height: slaveInd.height
-            text: devAmpSlave.showDisplay("output_power") + " dBm"
+            text: devAmpSlave.showDisplay("input_power") + "dBm"
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignLeft
-            font.pixelSize: defaultLabelFontSize
+            font.pixelSize: rectBigFontSize
 
             Component.onCompleted: {
                 devAmpSlave.gotData.connect(function() {
-                    text = devAmpSlave.showDisplay("output_power") + " dBm"
+                    text = devAmpSlave.showDisplay("input_power") + "dBm"
+                    color = devAmpSlave.showColor("input_power", false)
+                })
+            }
+        }
+
+        Text {
+            id: txtSlaveOutputPower
+            anchors.left: txtSlaveInputPower.right
+            anchors.top: slaveInd.top
+            width: 90
+            height: slaveInd.height
+            text: devAmpSlave.showDisplay("output_power") + "dBm"
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+            horizontalAlignment: Text.AlignLeft
+            font.pixelSize: rectBigFontSize
+
+            Component.onCompleted: {
+                devAmpSlave.gotData.connect(function() {
+                    text = devAmpSlave.showDisplay("output_power") + "dBm"
                     color = devAmpSlave.showColor("output_power", false)
                 })
             }

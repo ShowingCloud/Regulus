@@ -174,7 +174,6 @@ Window {
             posTop: comboMasterAtten.posBottom
             posLeft: 0
             txtText: devAmpMaster ? devAmpMaster.varName("input_power") : qsTr("Input Power")
-            txtPrefix: "-"
             txtSuffix: " dBm"
 
             Component.onCompleted: {
@@ -394,8 +393,7 @@ Window {
             posTop: comboSlaveAtten.posBottom
             posLeft: 0
             txtText: devAmpSlave ? devAmpSlave.varName("input_power") : qsTr("Input Power")
-            txtPrefix: "-"
-            txtSuffix: " dB"
+            txtSuffix: " dBm"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
