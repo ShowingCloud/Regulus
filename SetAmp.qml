@@ -98,9 +98,9 @@ Dialog {
                 devAmpMaster.holdValue("remote", comboMasterRemote.index)
                 devAmpMaster.holdValue("radio", comboMasterRadio.index)
 
-                devAmpMaster.holdValue("atten", 22)
-                devAmpMaster.holdValue("output_power", 477)
-                devAmpMaster.holdValue("gain", 590)
+                devAmpMaster.holdValue("atten", 11)
+                devAmpMaster.holdValue("output_power", 47.7)
+                devAmpMaster.holdValue("gain", 59.0)
 
                 if (comboMasterAttenMode.index === Alert.P_ATTEN_NORMAL)
                     devAmpMaster.holdValue("atten", comboMasterAtten.txtValue)
@@ -113,9 +113,9 @@ Dialog {
             } else {
                 devAmpSlave.holdValue("remote", comboSlaveRemote.index)
                 devAmpSlave.holdValue("radio", comboSlaveRadio.index)
-                devAmpSlave.holdValue("atten", 22)
-                devAmpSlave.holdValue("output_power", 477)
-                devAmpSlave.holdValue("gain", 590)
+                devAmpSlave.holdValue("atten", 11)
+                devAmpSlave.holdValue("output_power", 47.7)
+                devAmpSlave.holdValue("gain", 59.0)
 
                 if (comboSlaveAttenMode.index === Alert.P_ATTEN_NORMAL)
                     devAmpSlave.holdValue("atten", comboSlaveAtten.txtValue)
