@@ -147,6 +147,8 @@ Dialog {
             widthPrefixSuffix: defaultWidthPrefixSuffix
             txtSuffix: "dB"
             txtText: qsTr("Master") + ": " + (devFreqMaster ? devFreqMaster.varName("atten") : qsTr("Attenuation"))
+            lowerLimit: 0
+            upperLimit: 30
         }
 
         ComboCombo {
@@ -188,6 +190,8 @@ Dialog {
             widthPrefixSuffix: defaultWidthPrefixSuffix
             txtSuffix: "dB"
             txtText: qsTr("Slave") + ": " + (devFreqSlave ? devFreqSlave.varName("atten") : qsTr("Attenuation"))
+            lowerLimit: 0
+            upperLimit: 30
         }
 
         ComboCombo {

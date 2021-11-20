@@ -14,6 +14,8 @@ Item {
     property alias txtValue : value.text
     property alias txtPrefix : prefix.text
     property alias txtSuffix : suffix.text
+    property double upperLimit : 1000
+    property double lowerLimit : 0
 
     Text {
         id: text
@@ -50,6 +52,13 @@ Item {
         font.pixelSize: defaultLabelFontSize
         padding: 3 // seems good but not with the default 6
         selectByMouse: true
+
+        onActiveFocusChanged: {
+            if (parseFloat(value.text) > upperLimit || parseFloat(value.text) < lowerLimit)
+                color = "red"
+            else
+                color = "black"
+        }
     }
 
     Text {

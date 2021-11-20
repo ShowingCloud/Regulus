@@ -208,6 +208,8 @@ Dialog {
             widthPrefixSuffix: defaultWidthPrefixSuffix
             txtSuffix: "dB"
             txtText: qsTr("Master") + ": " + (devAmpMaster ? devAmpMaster.varName("atten") : qsTr("Attenuation"))
+            lowerLimit: 0
+            upperLimit: 22
         }
 
         ComboTextField {
@@ -219,6 +221,8 @@ Dialog {
             widthPrefixSuffix: defaultWidthPrefixSuffix
             txtSuffix: "dBm"
             txtText: qsTr("Master") + ": " + (devAmpMaster ? devAmpMaster.varName("output_power") : qsTr("Output Power"))
+            lowerLimit: 36.7
+            upperLimit: 58.7
         }
 
         ComboTextField {
@@ -230,6 +234,8 @@ Dialog {
             widthPrefixSuffix: defaultWidthPrefixSuffix
             txtSuffix: "dBm"
             txtText: qsTr("Master") + ": " + (devAmpMaster ? devAmpMaster.varName("gain") : qsTr("Gain"))
+            lowerLimit: 48
+            upperLimit: 70
         }
 
         ComboCombo {
@@ -308,6 +314,8 @@ Dialog {
             widthPrefixSuffix: defaultWidthPrefixSuffix
             txtSuffix: "dB"
             txtText: qsTr("Slave") + ": " + (devAmpSlave ? devAmpSlave.varName("atten") : qsTr("Attenuation"))
+            lowerLimit: 0
+            upperLimit: 22
         }
 
         ComboTextField {
@@ -319,6 +327,8 @@ Dialog {
             widthPrefixSuffix: defaultWidthPrefixSuffix
             txtSuffix: "dBm"
             txtText: qsTr("Slave") + ": " + (devAmpSlave ? devAmpSlave.varName("output_power") : qsTr("Output Power"))
+            lowerLimit: 36.7
+            upperLimit: 58.7
         }
 
         ComboTextField {
@@ -330,6 +340,8 @@ Dialog {
             widthPrefixSuffix: defaultWidthPrefixSuffix
             txtSuffix: "dBm"
             txtText: qsTr("Slave") + ": " + (devAmpSlave ? devAmpSlave.varName("gain") : qsTr("Gain"))
+            lowerLimit: 48
+            upperLimit: 70
         }
 
         ComboCombo {
