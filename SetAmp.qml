@@ -55,6 +55,34 @@ Dialog {
         onClicked: winSetAmp.close()
     }
 
+    DiaConfirm {
+        id: diaConfirm
+        onAccepted: {
+            if (channelMaster) {
+                devAmpMaster.setStandby = true
+                devAmpSlave.setStandby = false
+                devAmpMaster.createCntlMsg()
+            } else {
+                devAmpMaster.setStandby = false
+                devAmpSlave.setStandby = true
+                devAmpSlave.createCntlMsg()
+            }
+        }
+        onReset: {
+            devAmpMaster.releaseHold("remote")
+            devAmpMaster.releaseHold("radio")
+            devAmpMaster.releaseHold("atten_mode")
+            devAmpMaster.releaseHold("atten")
+            devAmpMaster.releaseHold("output_power")
+            devAmpMaster.releaseHold("gain")
+            devAmpSlave.releaseHold("remote")
+            devAmpSlave.releaseHold("radio")
+            devAmpSlave.releaseHold("atten_mode")
+            devAmpSlave.releaseHold("atten")
+            devAmpSlave.releaseHold("output_power")
+            devAmpSlave.releaseHold("gain")
+        }
+    }
     Button {
         id: buttonSubmit
         anchors.right: buttonCancel.left
@@ -69,36 +97,36 @@ Dialog {
             if (channelMaster) {
                 devAmpMaster.holdValue("remote", comboMasterRemote.index)
                 devAmpMaster.holdValue("radio", comboMasterRadio.index)
+
+                devAmpMaster.holdValue("atten", 22)
+                devAmpMaster.holdValue("output_power", 477)
+                devAmpMaster.holdValue("gain", 590)
+
+                if (comboMasterAttenMode.index === Alert.P_ATTEN_NORMAL)
+                    devAmpMaster.holdValue("atten", comboMasterAtten.txtValue)
+                else if (comboMasterAttenMode.index === Alert.P_ATTEN_CONSTPOWER)
+                    devAmpMaster.holdValue("output_power", comboMasterPower.txtValue)
+                else
+                    devAmpMaster.holdValue("gain", comboMasterGain.txtValue)
+
                 devAmpMaster.holdValue("atten_mode", comboMasterAttenMode.index)
-                devAmpMaster.holdValue("atten", comboMasterAtten.txtValue)
-                devAmpMaster.holdValue("output_power", comboMasterPower.txtValue)
-                devAmpMaster.holdValue("gain", comboMasterGain.txtValue)
-                devAmpMaster.setStandby = true
-                devAmpSlave.setStandby = false
-                devAmpMaster.createCntlMsg()
-                devAmpMaster.releaseHold("remote")
-                devAmpMaster.releaseHold("radio")
-                devAmpMaster.releaseHold("atten_mode")
-                devAmpMaster.releaseHold("atten")
-                devAmpMaster.releaseHold("output_power")
-                devAmpMaster.releaseHold("gain")
             } else {
                 devAmpSlave.holdValue("remote", comboSlaveRemote.index)
                 devAmpSlave.holdValue("radio", comboSlaveRadio.index)
+                devAmpSlave.holdValue("atten", 22)
+                devAmpSlave.holdValue("output_power", 477)
+                devAmpSlave.holdValue("gain", 590)
+
+                if (comboSlaveAttenMode.index === Alert.P_ATTEN_NORMAL)
+                    devAmpSlave.holdValue("atten", comboSlaveAtten.txtValue)
+                else if (comboSlaveAttenMode.index === Alert.P_ATTEN_CONSTPOWER)
+                    devAmpSlave.holdValue("output_power", comboSlavePower.txtValue)
+                else
+                    devAmpSlave.holdValue("gain", comboSlaveGain.txtValue)
+
                 devAmpSlave.holdValue("atten_mode", comboSlaveAttenMode.index)
-                devAmpSlave.holdValue("atten", comboSlaveAtten.txtValue)
-                devAmpSlave.holdValue("output_power", comboSlavePower.txtValue)
-                devAmpSlave.holdValue("gain", comboSlaveGain.txtValue)
-                devAmpMaster.setStandby = false
-                devAmpSlave.setStandby = true
-                devAmpSlave.createCntlMsg()
-                devAmpSlave.releaseHold("remote")
-                devAmpSlave.releaseHold("radio")
-                devAmpSlave.releaseHold("atten_mode")
-                devAmpSlave.releaseHold("atten")
-                devAmpSlave.releaseHold("output_power")
-                devAmpSlave.releaseHold("gain")
             }
+            diaConfirm.open()
         }
     }
 

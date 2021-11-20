@@ -39,6 +39,14 @@ Dialog {
         onClicked: winSetDist.close()
     }
 
+    DiaConfirm {
+        id: diaConfirm
+        onAccepted: devDist.createCntlMsg()
+        onReset: {
+            devDist.releaseHold("ref_10")
+            devDist.releaseHold("ref_16")
+        }
+    }
     Button {
         id: buttonSubmit
         anchors.right: buttonCancel.left
@@ -52,9 +60,7 @@ Dialog {
         onClicked: {
             devDist.holdValue("ref_10", comboRef10.index)
             devDist.holdValue("ref_16", comboRef16.index)
-            devDist.createCntlMsg()
-            devDist.releaseHold("ref_10")
-            devDist.releaseHold("ref_16")
+            diaConfirm.open()
         }
     }
 
