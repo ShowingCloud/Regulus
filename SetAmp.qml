@@ -113,6 +113,7 @@ Dialog {
             } else {
                 devAmpSlave.holdValue("remote", comboSlaveRemote.index)
                 devAmpSlave.holdValue("radio", comboSlaveRadio.index)
+
                 devAmpSlave.holdValue("atten", 11)
                 devAmpSlave.holdValue("output_power", 47.7)
                 devAmpSlave.holdValue("gain", 59.0)
