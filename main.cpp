@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 
     QTimer *searchSerialTimer = new QTimer(&app);
     QObject::connect(searchSerialTimer, &QTimer::timeout, &app, [&]() {
-        searchSerialTimer->start(10000);
+        searchSerialTimer->start(30000);
         qInfo() << "Traversing serial ports";
 
         for (const auto &serialportinfo : QSerialPortInfo::availablePorts())

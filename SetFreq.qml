@@ -59,6 +59,7 @@ Dialog {
                 devFreqSlave.setStandby = false
                 devFreqSlave.createCntlMsg()
             }
+            reject()
         }
         onReset: {
             devFreqMaster.releaseHold("ch_a")
@@ -80,15 +81,59 @@ Dialog {
         font.pixelSize: defaultLabelFontSize
 
         onClicked: {
+            diaConfirm.reset()
+            diaConfirm.append(qsTr("Sending"), "black")
+            var text = "", color = "black", error = false
+
+            diaConfirm.open()
             if (channelMaster) {
                 devFreqMaster.holdValue("ch_a", comboMasterRef.index)
+                diaConfirm.append(comboMasterRef.txtText + ": "
+                                  + comboMasterRef.comboModel[comboMasterRef.index],
+                                  "black")
                 devFreqMaster.holdValue("ch_b", comboSlaveRef.index)
+                diaConfirm.append(comboSlaveRef.txtText + ": "
+                                  + comboSlaveRef.comboModel[comboSlaveRef.index],
+                                  "black")
                 devFreqMaster.holdValue("atten", comboMasterAtten.txtValue)
+                text = comboMasterAtten.txtText + ": " + comboMasterAtten.txtValue
+                if (parseFloat(comboMasterAtten.txtValue) > comboMasterAtten.upperLimit) {
+                    text += ", " + qsTr("Upper than limit: ") + comboMasterAtten.upperLimit
+                    color = "red"
+                    error = true
+                } else if (parseFloat(comboMasterAtten.txtValue) < comboMasterAtten.lowerLimit) {
+                    text += ", " + qsTr("Lower than limit: ") + comboMasterAtten.lowerLimit
+                    color = "red"
+                    error = true
+                }
+                diaConfirm.append(text, color)
             } else {
                 devFreqSlave.holdValue("ch_a", comboMasterRef.index)
+                diaConfirm.append(comboMasterRef.txtText + ": "
+                                  + comboMasterRef.comboModel[comboMasterRef.index],
+                                  "black")
                 devFreqSlave.holdValue("ch_b", comboSlaveRef.index)
+                diaConfirm.append(comboSlaveRef.txtText + ": "
+                                  + comboSlaveRef.comboModel[comboSlaveRef.index],
+                                  "black")
                 devFreqSlave.holdValue("atten", comboSlaveAtten.txtValue)
+                text = comboSlaveAtten.txtText + ": " + comboSlaveAtten.txtValue
+                if (parseFloat(comboSlaveAtten.txtValue) > comboSlaveAtten.upperLimit) {
+                    text += ", " + qsTr("Upper than limit: ") + comboSlaveAtten.upperLimit
+                    color = "red"
+                    error = true
+                } else if (parseFloat(comboSlaveAtten.txtValue) < comboSlaveAtten.lowerLimit) {
+                    text += ", " + qsTr("Lower than limit: ") + comboSlaveAtten.lowerLimit
+                    color = "red"
+                    error = true
+                }
+                diaConfirm.append(text, color)
             }
+            diaConfirm.standardButtons = Dialog.Cancel
+            if (error)
+                diaConfirm.append(qsTr("Not sendable due to above errors."), "red")
+            else
+                diaConfirm.standardButtons |= Dialog.Ok
             diaConfirm.open()
         }
     }

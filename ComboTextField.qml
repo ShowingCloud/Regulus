@@ -53,7 +53,7 @@ Item {
         padding: 3 // seems good but not with the default 6
         selectByMouse: true
 
-        onActiveFocusChanged: {
+        onTextChanged: {
             if (parseFloat(value.text) > upperLimit || parseFloat(value.text) < lowerLimit)
                 color = "red"
             else

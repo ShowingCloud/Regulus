@@ -41,8 +41,11 @@ Dialog {
 
     DiaConfirm {
         id: diaConfirm
-        onAccepted: devDist.createCntlMsg()
-        onReset: {
+        onAccepted: {
+            devDist.createCntlMsg()
+            rejected()
+        }
+        onRejected: {
             devDist.releaseHold("ref_10")
             devDist.releaseHold("ref_16")
         }
@@ -58,8 +61,18 @@ Dialog {
         font.pixelSize: defaultLabelFontSize
 
         onClicked: {
+            diaConfirm.reset()
+            diaConfirm.append(qsTr("Sending"), "black")
+
             devDist.holdValue("ref_10", comboRef10.index)
+            diaConfirm.append(comboRef10.txtText + ": "
+                              + comboRef10.comboModel[comboRef10.index],
+                              "black")
             devDist.holdValue("ref_16", comboRef16.index)
+            diaConfirm.append(comboRef16.txtText + ": "
+                              + comboRef16.comboModel[comboRef16.index],
+                              "black")
+            diaConfirm.standardButtons = Dialog.Ok | Dialog.Cancel
             diaConfirm.open()
         }
     }

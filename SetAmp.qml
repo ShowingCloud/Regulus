@@ -67,7 +67,7 @@ Dialog {
                 devAmpSlave.setStandby = true
                 devAmpSlave.createCntlMsg()
             }
-            close()
+            rejected()
         }
         onRejected: {
             devAmpMaster.releaseHold("remote")
@@ -82,7 +82,6 @@ Dialog {
             devAmpSlave.releaseHold("atten")
             devAmpSlave.releaseHold("output_power")
             devAmpSlave.releaseHold("gain")
-            close()
         }
     }
 
@@ -99,7 +98,7 @@ Dialog {
         onClicked: {
             diaConfirm.reset()
             diaConfirm.append(qsTr("Sending"), "black")
-            var error = false
+            var text = "", color = "black", error = false
 
             if (channelMaster) {
                 devAmpMaster.holdValue("remote", comboMasterRemote.index)
@@ -115,7 +114,6 @@ Dialog {
                 devAmpMaster.holdValue("output_power", 47.7)
                 devAmpMaster.holdValue("gain", 59.0)
 
-                var text = "", color = "black"
                 if (comboMasterAttenMode.index === Alert.P_ATTEN_NORMAL) {
                     devAmpMaster.holdValue("atten", comboMasterAtten.txtValue)
                     text = comboMasterAtten.txtText + ": " + comboMasterAtten.txtValue
@@ -161,27 +159,67 @@ Dialog {
                                   "black")
             } else {
                 devAmpSlave.holdValue("remote", comboSlaveRemote.index)
+                diaConfirm.append(comboSlaveRemote.txtText + ": "
+                                  + comboSlaveRemote.comboModel[comboSlaveRemote.index],
+                                  "black")
                 devAmpSlave.holdValue("radio", comboSlaveRadio.index)
+                diaConfirm.append(comboSlaveRadio.txtText + ": "
+                                  + comboSlaveRadio.comboModel[comboSlaveRadio.index],
+                                  "black")
 
                 devAmpSlave.holdValue("atten", 11)
                 devAmpSlave.holdValue("output_power", 47.7)
                 devAmpSlave.holdValue("gain", 59.0)
 
-                if (comboSlaveAttenMode.index === Alert.P_ATTEN_NORMAL)
+                if (comboSlaveAttenMode.index === Alert.P_ATTEN_NORMAL) {
                     devAmpSlave.holdValue("atten", comboSlaveAtten.txtValue)
-                else if (comboSlaveAttenMode.index === Alert.P_ATTEN_CONSTPOWER)
+                    text = comboSlaveAtten.txtText + ": " + comboSlaveAtten.txtValue
+                    if (parseFloat(comboSlaveAtten.txtValue) > comboSlaveAtten.upperLimit) {
+                        text += ", " + qsTr("Upper than limit: ") + comboSlaveAtten.upperLimit
+                        color = "red"
+                        error = true
+                    } else if (parseFloat(comboSlaveAtten.txtValue) < comboSlaveAtten.lowerLimit) {
+                        text += ", " + qsTr("Lower than limit: ") + comboSlaveAtten.lowerLimit
+                        color = "red"
+                        error = true
+                    }
+                } else if (comboSlaveAttenMode.index === Alert.P_ATTEN_CONSTPOWER) {
                     devAmpSlave.holdValue("output_power", comboSlavePower.txtValue)
-                else
+                    text = comboSlavePower.txtText + ": " + comboSlavePower.txtValue
+                    if (parseFloat(comboSlavePower.txtValue) > comboSlavePower.upperLimit) {
+                        text += ", " + qsTr("Upper than limit: ") + comboSlavePower.upperLimit
+                        color = "red"
+                        error = true
+                    } else if (parseFloat(comboSlavePower.txtValue) < comboSlavePower.lowerLimit) {
+                        text += ", " + qsTr("Lower than limit: ") + comboSlavePower.lowerLimit
+                        color = "red"
+                        error = true
+                    }
+                } else {
                     devAmpSlave.holdValue("gain", comboSlaveGain.txtValue)
+                    text = comboSlaveGain.txtText + ": " + comboSlaveGain.txtValue
+                    if (parseFloat(comboSlaveGain.txtValue) > comboSlaveGain.upperLimit) {
+                        text += ", " + qsTr("Upper than limit: ") + comboSlaveGain.upperLimit
+                        color = "red"
+                        error = true
+                    } else if (parseFloat(comboSlaveGain.txtValue) < comboSlaveGain.lowerLimit) {
+                        text += ", " + qsTr("Lower than limit: ") + comboSlaveGain.lowerLimit
+                        color = "red"
+                        error = true
+                    }
+                }
+                diaConfirm.append(text, color)
 
                 devAmpSlave.holdValue("atten_mode", comboSlaveAttenMode.index)
+                diaConfirm.append(comboSlaveAttenMode.txtText + ": "
+                                  + comboSlaveAttenMode.comboModel[comboSlaveAttenMode.index],
+                                  "black")
             }
             diaConfirm.standardButtons = Dialog.Cancel
-            if (error) {
+            if (error)
                 diaConfirm.append(qsTr("Not sendable due to above errors."), "red")
-            } else {
+            else
                 diaConfirm.standardButtons |= Dialog.Ok
-            }
             diaConfirm.open()
         }
     }
@@ -194,12 +232,6 @@ Dialog {
         width: 2 * extendedWidthWidget + 2 * extendedWidthWidgetLabel + 5 * defaultMarginWidget
         height: 5 * defaultHeightWidget + 6 * defaultMarginWidget
         border.width: defaultBorderWidth
-
-        MouseArea {
-            id: mouse
-            anchors.fill: parent
-            onClicked: name.focus = true
-        }
 
         ComboCombo {
             id: comboChannel
@@ -234,7 +266,6 @@ Dialog {
             MouseArea {
                 id: masterMouseDev
                 anchors.fill: parent
-                onClicked: name.focus = true
             }
         }
 
@@ -341,7 +372,6 @@ Dialog {
             MouseArea {
                 id: slaveMouseDev
                 anchors.fill: parent
-                onClicked: name.focus = true
             }
         }
 
