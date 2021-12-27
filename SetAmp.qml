@@ -67,8 +67,9 @@ Dialog {
                 devAmpSlave.setStandby = true
                 devAmpSlave.createCntlMsg()
             }
+            close()
         }
-        onReset: {
+        onRejected: {
             devAmpMaster.releaseHold("remote")
             devAmpMaster.releaseHold("radio")
             devAmpMaster.releaseHold("atten_mode")
@@ -81,8 +82,10 @@ Dialog {
             devAmpSlave.releaseHold("atten")
             devAmpSlave.releaseHold("output_power")
             devAmpSlave.releaseHold("gain")
+            close()
         }
     }
+
     Button {
         id: buttonSubmit
         anchors.right: buttonCancel.left
@@ -94,22 +97,68 @@ Dialog {
         font.pixelSize: defaultLabelFontSize
 
         onClicked: {
+            diaConfirm.reset()
+            diaConfirm.append(qsTr("Sending"), "black")
+            var error = false
+
             if (channelMaster) {
                 devAmpMaster.holdValue("remote", comboMasterRemote.index)
+                diaConfirm.append(comboMasterRemote.txtText + ": "
+                                  + comboMasterRemote.comboModel[comboMasterRemote.index],
+                                  "black")
                 devAmpMaster.holdValue("radio", comboMasterRadio.index)
+                diaConfirm.append(comboMasterRadio.txtText + ": "
+                                  + comboMasterRadio.comboModel[comboMasterRadio.index],
+                                  "black")
 
                 devAmpMaster.holdValue("atten", 11)
                 devAmpMaster.holdValue("output_power", 47.7)
                 devAmpMaster.holdValue("gain", 59.0)
 
-                if (comboMasterAttenMode.index === Alert.P_ATTEN_NORMAL)
+                var text = "", color = "black"
+                if (comboMasterAttenMode.index === Alert.P_ATTEN_NORMAL) {
                     devAmpMaster.holdValue("atten", comboMasterAtten.txtValue)
-                else if (comboMasterAttenMode.index === Alert.P_ATTEN_CONSTPOWER)
+                    text = comboMasterAtten.txtText + ": " + comboMasterAtten.txtValue
+                    if (parseFloat(comboMasterAtten.txtValue) > comboMasterAtten.upperLimit) {
+                        text += ", " + qsTr("Upper than limit: ") + comboMasterAtten.upperLimit
+                        color = "red"
+                        error = true
+                    } else if (parseFloat(comboMasterAtten.txtValue) < comboMasterAtten.lowerLimit) {
+                        text += ", " + qsTr("Lower than limit: ") + comboMasterAtten.lowerLimit
+                        color = "red"
+                        error = true
+                    }
+                } else if (comboMasterAttenMode.index === Alert.P_ATTEN_CONSTPOWER) {
                     devAmpMaster.holdValue("output_power", comboMasterPower.txtValue)
-                else
+                    text = comboMasterPower.txtText + ": " + comboMasterPower.txtValue
+                    if (parseFloat(comboMasterPower.txtValue) > comboMasterPower.upperLimit) {
+                        text += ", " + qsTr("Upper than limit: ") + comboMasterPower.upperLimit
+                        color = "red"
+                        error = true
+                    } else if (parseFloat(comboMasterPower.txtValue) < comboMasterPower.lowerLimit) {
+                        text += ", " + qsTr("Lower than limit: ") + comboMasterPower.lowerLimit
+                        color = "red"
+                        error = true
+                    }
+                } else {
                     devAmpMaster.holdValue("gain", comboMasterGain.txtValue)
+                    text = comboMasterGain.txtText + ": " + comboMasterGain.txtValue
+                    if (parseFloat(comboMasterGain.txtValue) > comboMasterGain.upperLimit) {
+                        text += ", " + qsTr("Upper than limit: ") + comboMasterGain.upperLimit
+                        color = "red"
+                        error = true
+                    } else if (parseFloat(comboMasterGain.txtValue) < comboMasterGain.lowerLimit) {
+                        text += ", " + qsTr("Lower than limit: ") + comboMasterGain.lowerLimit
+                        color = "red"
+                        error = true
+                    }
+                }
+                diaConfirm.append(text, color)
 
                 devAmpMaster.holdValue("atten_mode", comboMasterAttenMode.index)
+                diaConfirm.append(comboMasterAttenMode.txtText + ": "
+                                  + comboMasterAttenMode.comboModel[comboMasterAttenMode.index],
+                                  "black")
             } else {
                 devAmpSlave.holdValue("remote", comboSlaveRemote.index)
                 devAmpSlave.holdValue("radio", comboSlaveRadio.index)
@@ -127,6 +176,12 @@ Dialog {
 
                 devAmpSlave.holdValue("atten_mode", comboSlaveAttenMode.index)
             }
+            diaConfirm.standardButtons = Dialog.Cancel
+            if (error) {
+                diaConfirm.append(qsTr("Not sendable due to above errors."), "red")
+            } else {
+                diaConfirm.standardButtons |= Dialog.Ok
+            }
             diaConfirm.open()
         }
     }
@@ -139,6 +194,12 @@ Dialog {
         width: 2 * extendedWidthWidget + 2 * extendedWidthWidgetLabel + 5 * defaultMarginWidget
         height: 5 * defaultHeightWidget + 6 * defaultMarginWidget
         border.width: defaultBorderWidth
+
+        MouseArea {
+            id: mouse
+            anchors.fill: parent
+            onClicked: name.focus = true
+        }
 
         ComboCombo {
             id: comboChannel
@@ -173,6 +234,7 @@ Dialog {
             MouseArea {
                 id: masterMouseDev
                 anchors.fill: parent
+                onClicked: name.focus = true
             }
         }
 
@@ -279,6 +341,7 @@ Dialog {
             MouseArea {
                 id: slaveMouseDev
                 anchors.fill: parent
+                onClicked: name.focus = true
             }
         }
 

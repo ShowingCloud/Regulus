@@ -62,7 +62,6 @@ private:
     QSerialPort *serialport = new QSerialPort();
 
 signals:
-    void openSerial();
     void writeSerial(const QByteArray &data);
 
 public slots:
