@@ -41,11 +41,8 @@ Dialog {
 
     DiaConfirm {
         id: diaConfirm
-        onAccepted: {
-            devDist.createCntlMsg()
-            rejected()
-        }
-        onRejected: {
+        onAccepted: devDist.createCntlMsg()
+        onVisibilityChanged: if (!this.visible) {
             devDist.releaseHold("ref_10")
             devDist.releaseHold("ref_16")
         }

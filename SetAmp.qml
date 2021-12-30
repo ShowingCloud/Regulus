@@ -67,9 +67,8 @@ Dialog {
                 devAmpSlave.setStandby = true
                 devAmpSlave.createCntlMsg()
             }
-            rejected()
         }
-        onRejected: {
+        onVisibilityChanged: if (!this.visible) {
             devAmpMaster.releaseHold("remote")
             devAmpMaster.releaseHold("radio")
             devAmpMaster.releaseHold("atten_mode")
@@ -116,7 +115,7 @@ Dialog {
 
                 if (comboMasterAttenMode.index === Alert.P_ATTEN_NORMAL) {
                     devAmpMaster.holdValue("atten", comboMasterAtten.txtValue)
-                    text = comboMasterAtten.txtText + ": " + comboMasterAtten.txtValue
+                    text = comboMasterAtten.txtText + ": " + comboMasterAtten.txtValue + " " + comboMasterAtten.txtSuffix
                     if (parseFloat(comboMasterAtten.txtValue) > comboMasterAtten.upperLimit) {
                         text += ", " + qsTr("Upper than limit: ") + comboMasterAtten.upperLimit
                         color = "red"
@@ -128,7 +127,7 @@ Dialog {
                     }
                 } else if (comboMasterAttenMode.index === Alert.P_ATTEN_CONSTPOWER) {
                     devAmpMaster.holdValue("output_power", comboMasterPower.txtValue)
-                    text = comboMasterPower.txtText + ": " + comboMasterPower.txtValue
+                    text = comboMasterPower.txtText + ": " + comboMasterPower.txtValue + " " + comboMasterPower.txtSuffix
                     if (parseFloat(comboMasterPower.txtValue) > comboMasterPower.upperLimit) {
                         text += ", " + qsTr("Upper than limit: ") + comboMasterPower.upperLimit
                         color = "red"
@@ -140,7 +139,7 @@ Dialog {
                     }
                 } else {
                     devAmpMaster.holdValue("gain", comboMasterGain.txtValue)
-                    text = comboMasterGain.txtText + ": " + comboMasterGain.txtValue
+                    text = comboMasterGain.txtText + ": " + comboMasterGain.txtValue + " " + comboMasterGain.txtSuffix
                     if (parseFloat(comboMasterGain.txtValue) > comboMasterGain.upperLimit) {
                         text += ", " + qsTr("Upper than limit: ") + comboMasterGain.upperLimit
                         color = "red"
@@ -173,7 +172,7 @@ Dialog {
 
                 if (comboSlaveAttenMode.index === Alert.P_ATTEN_NORMAL) {
                     devAmpSlave.holdValue("atten", comboSlaveAtten.txtValue)
-                    text = comboSlaveAtten.txtText + ": " + comboSlaveAtten.txtValue
+                    text = comboSlaveAtten.txtText + ": " + comboSlaveAtten.txtValue + " " + comboSlaveAtten.txtSuffix
                     if (parseFloat(comboSlaveAtten.txtValue) > comboSlaveAtten.upperLimit) {
                         text += ", " + qsTr("Upper than limit: ") + comboSlaveAtten.upperLimit
                         color = "red"
@@ -185,7 +184,7 @@ Dialog {
                     }
                 } else if (comboSlaveAttenMode.index === Alert.P_ATTEN_CONSTPOWER) {
                     devAmpSlave.holdValue("output_power", comboSlavePower.txtValue)
-                    text = comboSlavePower.txtText + ": " + comboSlavePower.txtValue
+                    text = comboSlavePower.txtText + ": " + comboSlavePower.txtValue + " " + comboSlavePower.txtSuffix
                     if (parseFloat(comboSlavePower.txtValue) > comboSlavePower.upperLimit) {
                         text += ", " + qsTr("Upper than limit: ") + comboSlavePower.upperLimit
                         color = "red"
@@ -197,7 +196,7 @@ Dialog {
                     }
                 } else {
                     devAmpSlave.holdValue("gain", comboSlaveGain.txtValue)
-                    text = comboSlaveGain.txtText + ": " + comboSlaveGain.txtValue
+                    text = comboSlaveGain.txtText + ": " + comboSlaveGain.txtValue + " " + comboSlaveGain.txtSuffix
                     if (parseFloat(comboSlaveGain.txtValue) > comboSlaveGain.upperLimit) {
                         text += ", " + qsTr("Upper than limit: ") + comboSlaveGain.upperLimit
                         color = "red"

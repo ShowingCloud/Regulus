@@ -59,9 +59,8 @@ Dialog {
                 devFreqSlave.setStandby = false
                 devFreqSlave.createCntlMsg()
             }
-            reject()
         }
-        onReset: {
+        onVisibilityChanged: if (!this.visible) {
             devFreqMaster.releaseHold("ch_a")
             devFreqMaster.releaseHold("ch_b")
             devFreqMaster.releaseHold("atten")
@@ -92,7 +91,7 @@ Dialog {
                                   + comboMasterRef.comboModel[comboMasterRef.index],
                                   "black")
                 devFreqMaster.holdValue("atten", comboMasterAtten.txtValue)
-                text = comboMasterAtten.txtText + ": " + comboMasterAtten.txtValue
+                text = comboMasterAtten.txtText + ": " + comboMasterAtten.txtValue + " " + comboMasterAtten.txtSuffix
                 if (parseFloat(comboMasterAtten.txtValue) > comboMasterAtten.upperLimit) {
                     text += ", " + qsTr("Upper than limit: ") + comboMasterAtten.upperLimit
                     color = "red"
@@ -109,7 +108,7 @@ Dialog {
                                   + comboSlaveRef.comboModel[comboSlaveRef.index],
                                   "black")
                 devFreqSlave.holdValue("atten", comboSlaveAtten.txtValue)
-                text = comboSlaveAtten.txtText + ": " + comboSlaveAtten.txtValue
+                text = comboSlaveAtten.txtText + ": " + comboSlaveAtten.txtValue + " " + comboSlaveAtten.txtSuffix
                 if (parseFloat(comboSlaveAtten.txtValue) > comboSlaveAtten.upperLimit) {
                     text += ", " + qsTr("Upper than limit: ") + comboSlaveAtten.upperLimit
                     color = "red"
