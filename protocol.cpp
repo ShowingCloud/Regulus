@@ -31,27 +31,37 @@ msg::validateResult msg::validateProtocol(QByteArray &buffer, const QByteArray &
             tail = head + 1;
             do {
                 tail = buffer.indexOf(msg_tailer, tail);
+                if (tail == -1)
+                    break;
                 if (tail - head < msgUplink::mlen) {
                     // TODO: fill and process
                     // TODO: log
+                    buffer = QByteArray();
+                    qDebug() << "Message too short. Discarding.";
                     return VAL_TOOSHORT;
                 } else if (tail - head > msgUplink::mlen) {
                     // TODO: truncate and process
                     // TODO: log
+                    buffer = QByteArray();
+                    qDebug() << "Message too long. Discarding.";
                     return VAL_TOOLONG;
                 }
             } while (tail != -1 and tail - head < msgUplink::mlen);
+            head = tail;
         }
     } while (head != -1);
 
+    qDebug() << "Failed to identify. Trying with input buffer only.";
     if (head == -1) {
         // TODO: log buffer and input
         head = input.indexOf(msg_header, head);
-        if (input.at(head + msgUplink::mlen) == msg_tailer) {
+        if (input.length() >= head + msgUplink::mlen and input.at(head + msgUplink::mlen - 1) == msg_tailer) {
             msg *m = new msg();
             m->serialport = s;
             *m << input.mid(head, msgUplink::mlen);
             delete m;
+            buffer = QByteArray();
+            qDebug() << "Input used. Clearing buffer.";
             return VAL_USEINPUT;
         }
     }
