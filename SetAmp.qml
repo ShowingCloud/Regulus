@@ -326,7 +326,7 @@ Dialog {
             widthWidgetLabel: extendedWidthWidgetLabel
             widthWidget: defaultWidthWidget
             widthPrefixSuffix: defaultWidthPrefixSuffix
-            txtSuffix: "dBm"
+            txtSuffix: "dB"
             txtText: qsTr("Master") + ": " + (devAmpMaster ? devAmpMaster.varName("gain") : qsTr("Gain"))
             lowerLimit: 48
             upperLimit: 70
@@ -432,7 +432,7 @@ Dialog {
             widthWidgetLabel: extendedWidthWidgetLabel
             widthWidget: defaultWidthWidget
             widthPrefixSuffix: defaultWidthPrefixSuffix
-            txtSuffix: "dBm"
+            txtSuffix: "dB"
             txtText: qsTr("Slave") + ": " + (devAmpSlave ? devAmpSlave.varName("gain") : qsTr("Gain"))
             lowerLimit: 48
             upperLimit: 70

@@ -198,7 +198,7 @@ Window {
             posTop: comboMasterRemote.posBottom
             posLeft: (rectMaster.width - defaultMarginWidget) * 3 / 4
             txtText: devAmpMaster ? devAmpMaster.varName("gain") : qsTr("Gain")
-            txtSuffix: " dBm"
+            txtSuffix: " dB"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -228,7 +228,7 @@ Window {
             posTop: comboMasterAtten.posBottom
             posLeft: (rectMaster.width - defaultMarginWidget) / 4
             txtText: devAmpMaster ? devAmpMaster.varName("amp_temp") : qsTr("Amplifier Temperature")
-            txtSuffix: " C"
+            txtSuffix: "°C"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -243,7 +243,7 @@ Window {
             posTop: comboMasterAtten.posBottom
             posLeft: (rectMaster.width - defaultMarginWidget) / 2
             txtText: devAmpMaster ? devAmpMaster.varName("load_temp") : qsTr("Load Temperature")
-            txtSuffix: " C"
+            txtSuffix: "°C"
 
             Component.onCompleted: {
                 masterRefreshData.connect(function() {
@@ -435,7 +435,7 @@ Window {
             posTop: comboSlaveRemote.posBottom
             posLeft: (rectSlave.width - defaultMarginWidget) / 2
             txtText: devAmpSlave ? devAmpSlave.varName("output_power") : qsTr("Output Power")
-            txtSuffix: " mW"
+            txtSuffix: " dBm"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -480,7 +480,7 @@ Window {
             posTop: comboSlaveAtten.posBottom
             posLeft: (rectSlave.width - defaultMarginWidget) / 4
             txtText: devAmpSlave ? devAmpSlave.varName("amp_temp") : qsTr("Amplifier Temperature")
-            txtSuffix: " C"
+            txtSuffix: "°C"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {
@@ -495,7 +495,7 @@ Window {
             posTop: comboSlaveAtten.posBottom
             posLeft: (rectSlave.width - defaultMarginWidget) / 2
             txtText: devAmpSlave ? devAmpSlave.varName("load_temp") : qsTr("Load Temperature")
-            txtSuffix: " C"
+            txtSuffix: "°C"
 
             Component.onCompleted: {
                 slaveRefreshData.connect(function() {

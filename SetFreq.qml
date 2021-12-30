@@ -91,10 +91,6 @@ Dialog {
                 diaConfirm.append(comboMasterRef.txtText + ": "
                                   + comboMasterRef.comboModel[comboMasterRef.index],
                                   "black")
-                devFreqMaster.holdValue("ch_b", comboSlaveRef.index)
-                diaConfirm.append(comboSlaveRef.txtText + ": "
-                                  + comboSlaveRef.comboModel[comboSlaveRef.index],
-                                  "black")
                 devFreqMaster.holdValue("atten", comboMasterAtten.txtValue)
                 text = comboMasterAtten.txtText + ": " + comboMasterAtten.txtValue
                 if (parseFloat(comboMasterAtten.txtValue) > comboMasterAtten.upperLimit) {
@@ -108,10 +104,6 @@ Dialog {
                 }
                 diaConfirm.append(text, color)
             } else {
-                devFreqSlave.holdValue("ch_a", comboMasterRef.index)
-                diaConfirm.append(comboMasterRef.txtText + ": "
-                                  + comboMasterRef.comboModel[comboMasterRef.index],
-                                  "black")
                 devFreqSlave.holdValue("ch_b", comboSlaveRef.index)
                 diaConfirm.append(comboSlaveRef.txtText + ": "
                                   + comboSlaveRef.comboModel[comboSlaveRef.index],
