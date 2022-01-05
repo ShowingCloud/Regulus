@@ -69,16 +69,12 @@ jobs:
         include:
           - qt_arch: win64_mingw81
             msvc_arch: mingw
-            mingw_dir: mingw81_64
           - qt_arch: win32_mingw81
             msvc_arch: mingw
-            mingw_dir: mingw81_32
           - qt_arch: win64_mingw73
             msvc_arch: mingw
-            mingw_dir: mingw73_64
           - qt_arch: win32_mingw73
             msvc_arch: mingw
-            mingw_dir: mingw73_32
           - qt_arch: win64_msvc2019_64
             msvc_arch: x64
           - qt_arch: win32_msvc2019
@@ -126,9 +122,9 @@ jobs:
         if: ${{ matrix.msvc_arch == 'mingw' }}
         shell: cmd
         run: |
-          dir ..\Qt\${{ matrix.qt_ver }}\${{ matrix.mingw_dir }}\bin
+          dir "C:\Program Files\Git"
           qmake
-          ..\Qt\${{ matrix.qt_ver }}\${{ matrix.mingw_dir }}\bin\mingw32-make
+          mingw32-make
           windeployqt release/rdss.exe
       - name: Archive Release
         uses: thedoctor0/zip-release@master
