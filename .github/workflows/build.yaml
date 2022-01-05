@@ -71,18 +71,24 @@ jobs:
             msvc_arch: mingw
           - qt_arch: win32_mingw81
             msvc_arch: mingw
+            mingw_flag: -m32
           - qt_arch: win64_mingw73
             msvc_arch: mingw
           - qt_arch: win32_mingw73
             msvc_arch: mingw
+            mingw_flag: -m32
           - qt_arch: win64_msvc2019_64
             msvc_arch: x64
+            msvc_ver: 14.29
           - qt_arch: win32_msvc2019
             msvc_arch: x86
+            msvc_ver: 14.29
           - qt_arch: win64_msvc2017_64
             msvc_arch: x64
+            msvc_ver: 14.16
           - qt_arch: win32_msvc2017
             msvc_arch: x86  
+            msvc_ver: 14.16
           - qt_ver: 6.2.0
             qt_module: "qtserialport qtserialbus"
           - qt_ver: 5.12.11
@@ -114,7 +120,7 @@ jobs:
         env:
           vc_arch: ${{ matrix.msvc_arch }}
         run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch% -vcvars_ver=${{ matrix.msvc_ver }}
           qmake
           nmake
           windeployqt release/rdss.exe
@@ -122,8 +128,7 @@ jobs:
         if: ${{ matrix.msvc_arch == 'mingw' }}
         shell: cmd
         run: |
-          dir "C:\Program Files\Git\mingw64\bin"
-          dir "C:\Program Files (x86)\Microsoft Visual Studio"
+          dir C:\ProgramData\Chocolatey\lib\mingw\tools\install\mingw64\bin
           qmake
           mingw32-make
           windeployqt release/rdss.exe
