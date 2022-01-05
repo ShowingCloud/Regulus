@@ -122,7 +122,8 @@ jobs:
         if: ${{ matrix.msvc_arch == 'mingw' }}
         shell: cmd
         run: |
-          dir "C:\Program Files\Git"
+          dir "C:\Program Files\Git\mingw64\bin"
+          dir "C:\Program Files (x86)\Microsoft Visual Studio"
           qmake
           mingw32-make
           windeployqt release/rdss.exe
