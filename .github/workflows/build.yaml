@@ -69,14 +69,16 @@ jobs:
         include:
           - qt_arch: win64_mingw81
             msvc_arch: mingw
+            mingw_arch: x64
           - qt_arch: win32_mingw81
             msvc_arch: mingw
-            mingw_flag: -m32
+            mingw_arch: x86
           - qt_arch: win64_mingw73
             msvc_arch: mingw
+            mingw_arch: x64
           - qt_arch: win32_mingw73
             msvc_arch: mingw
-            mingw_flag: -m32
+            mingw_arch: x86
           - qt_arch: win64_msvc2019_64
             msvc_arch: x64
             msvc_ver: 14.29
@@ -124,11 +126,15 @@ jobs:
           qmake
           nmake
           windeployqt release/rdss.exe
+      - name: Prepare for MinGW
+        if: ${{ matrix.msvc_arch == 'mingw' }}
+        uses: egor-tensin/setup-mingw@v2
+        with:
+          platform: ${{ matrix.mingw_arch }}
       - name: Build on MinGW
         if: ${{ matrix.msvc_arch == 'mingw' }}
         shell: cmd
         run: |
-          dir C:\ProgramData\Chocolatey\lib\mingw\tools\install\mingw64\bin
           qmake
           mingw32-make
           windeployqt release/rdss.exe
