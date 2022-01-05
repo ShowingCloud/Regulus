@@ -126,6 +126,7 @@ jobs:
         if: ${{ matrix.msvc_arch == 'mingw' }}
         shell: cmd
         run: |
+          dir ..\Qt\${{ matrix.qt_ver }}\${{ matrix.mingw_dir }}\bin
           qmake
           ..\Qt\${{ matrix.qt_ver }}\${{ matrix.mingw_dir }}\bin\mingw32-make
           windeployqt release/rdss.exe
