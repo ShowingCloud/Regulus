@@ -122,9 +122,8 @@ jobs:
         if: ${{ matrix.msvc_arch == 'mingw' }}
         shell: cmd
         run: |
-          dir ${{ runner.workspace }}\Qt\${{ matrix.qt_ver }}\
           qmake
-          mingw32-make
+          ..\Qt\${{ matrix.qt_ver }}\${{ matrix.qt_arch }}\bin\mingw32-make
           windeployqt release/rdss.exe
       - name: Archive Release
         uses: thedoctor0/zip-release@master
