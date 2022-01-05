@@ -46,6 +46,10 @@ jobs:
             qt_arch: win64_msvc2017_64
           - qt_ver: 6.2.0
             qt_arch: win32_msvc2017
+          - qt_ver: 6.2.0
+            qt_arch: win64_mingw73
+          - qt_ver: 6.2.0
+            qt_arch: win32_mingw73
           - qt_ver: 5.15.2
             qt_arch: win64_msvc2017_64
           - qt_ver: 5.15.2
@@ -118,6 +122,8 @@ jobs:
         if: ${{ matrix.msvc_arch == 'mingw' }}
         shell: cmd
         run: |
+          dir C:\ProgramData\Chocolatey\lib\mingw\tools\install
+          echo %PATH%
           qmake
           mingw32-make
           windeployqt release/rdss.exe
