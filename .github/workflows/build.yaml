@@ -47,6 +47,9 @@ jobs:
           - qt_ver: 6.2.0
             qt_arch: win32_msvc2017
           - qt_ver: 6.2.0
+            qt_arch: win32_mingw81
+            # qtserialbus and qtserialport not available in aqtinstall
+          - qt_ver: 6.2.0
             qt_arch: win64_mingw73
           - qt_ver: 6.2.0
             qt_arch: win32_mingw73
